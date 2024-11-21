@@ -49,10 +49,10 @@ public class VentanaPrincipalController implements Initializable {
   @FXML
   private TextField txtUser;
 
-	@Override
-	public void initialize(URL location, ResourceBundle resources) {
-		Image img = new Image(getClass().getResourceAsStream("/Logo.png"));
-		imgLogo.setImage(img);
-		
-	}
+  @Override
+  public void initialize(URL location, ResourceBundle resources) {
+    Image img = new Image(getClass().getResourceAsStream("/Logo.png"));
+    imgLogo.setImage(img);
+
+  }
 }
