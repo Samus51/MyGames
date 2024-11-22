@@ -16,6 +16,8 @@ public class Main extends Application {
       // Cargar el archivo FXML
       FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/VentanaPrincipal.fxml"));
       BorderPane root = loader.load();
+      primaryStage.setMaximized(true);
+      primaryStage.setResizable(false);
 
       Scene scene = new Scene(root, 800, 600);
 

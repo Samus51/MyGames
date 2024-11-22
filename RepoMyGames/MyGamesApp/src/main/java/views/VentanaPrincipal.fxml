@@ -14,15 +14,16 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<BorderPane fx:id="VentanaPrincipal" stylesheets="@../../resources/styles.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane fx:id="VentanaPrincipal" prefHeight="1000.0" prefWidth="1800.0" stylesheets="@../../resources/styles.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <right>
       <AnchorPane prefHeight="649.0" prefWidth="739.0" BorderPane.alignment="CENTER">
          <children>
-            <GridPane layoutX="215.0" prefHeight="649.0" prefWidth="524.0">
+            <GridPane layoutX="-4.0" layoutY="-2.0" prefHeight="993.0" prefWidth="743.0">
               <columnConstraints>
-                <ColumnConstraints hgrow="SOMETIMES" maxWidth="435.3333740234375" minWidth="10.0" prefWidth="204.66664632161456" />
-                <ColumnConstraints hgrow="SOMETIMES" maxWidth="439.666748046875" minWidth="10.0" prefWidth="310.00002034505206" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="435.3333740234375" minWidth="10.0" prefWidth="209.99990336100257" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="439.666748046875" minWidth="10.0" prefWidth="424.3334299723307" />
                   <ColumnConstraints hgrow="SOMETIMES" maxWidth="287.0" minWidth="10.0" prefWidth="49.33341471354163" />
               </columnConstraints>
               <rowConstraints>
@@ -36,27 +37,48 @@
                   <TextField fx:id="txtPasswordClear" opacity="0.0" visible="false" GridPane.columnIndex="1" GridPane.rowIndex="4" />
                   <VBox prefHeight="200.0" prefWidth="100.0" spacing="10.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
                      <children>
-                        <Label fx:id="lblUser" alignment="BOTTOM_LEFT" contentDisplay="BOTTOM" prefHeight="124.0" prefWidth="246.0" text="Usuario" textAlignment="CENTER" textFill="WHITE" />
-                        <TextField />
+                        <Label fx:id="lblUser" alignment="BOTTOM_LEFT" contentDisplay="BOTTOM" prefHeight="124.0" prefWidth="246.0" text="Usuario" textAlignment="CENTER" textFill="WHITE">
+                           <font>
+                              <Font size="20.0" />
+                           </font></Label>
+                        <TextField>
+                           <font>
+                              <Font size="18.0" />
+                           </font></TextField>
                      </children>
                   </VBox>
                   <VBox prefHeight="200.0" prefWidth="100.0" spacing="10.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
                      <children>
-                        <Label fx:id="lblUser1" alignment="BOTTOM_LEFT" contentDisplay="BOTTOM" prefHeight="42.0" prefWidth="246.0" text="Contraseña" textAlignment="CENTER" textFill="WHITE" />
-                        <PasswordField />
+                        <Label fx:id="lblUser1" alignment="BOTTOM_LEFT" contentDisplay="BOTTOM" prefHeight="42.0" prefWidth="246.0" text="Contraseña" textAlignment="CENTER" textFill="WHITE">
+                           <font>
+                              <Font size="20.0" />
+                           </font></Label>
+                        <PasswordField>
+                           <font>
+                              <Font size="18.0" />
+                           </font></PasswordField>
                      </children>
                   </VBox>
                   <VBox prefHeight="124.0" prefWidth="275.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
                      <children>
-                        <Label alignment="CENTER" prefHeight="17.0" prefWidth="279.0" text="¿Problemas para iniciar sesión?" textFill="#503feb" />
-                        <Label alignment="CENTER" prefHeight="71.0" prefWidth="275.0" text="Crear Cuenta" textFill="#503feb" />
-                        <Button fx:id="btnLogin" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="25.0" prefWidth="281.0" text="Iniciar Sesión">
+                        <Label alignment="CENTER" prefHeight="30.0" prefWidth="514.0" text="¿Problemas para iniciar sesión?" textFill="#503feb">
+                           <font>
+                              <Font size="20.0" />
+                           </font></Label>
+                        <Label alignment="CENTER" prefHeight="71.0" prefWidth="457.0" text="Crear Cuenta" textFill="#503feb">
+                           <font>
+                              <Font size="20.0" />
+                           </font></Label>
+                        <Button fx:id="btnLogin" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="43.0" prefWidth="453.0" text="Iniciar Sesión">
                            <cursor>
                               <Cursor fx:constant="HAND" />
                            </cursor>
                            <effect>
                               <Blend />
                            </effect>
+                           <font>
+                              <Font size="20.0" />
+                           </font>
                         </Button>
                      </children>
                   </VBox>
@@ -66,11 +88,11 @@
       </AnchorPane>
    </right>
    <center>
-      <BorderPane fx:id="panelLogo" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+      <BorderPane fx:id="panelLogo" prefHeight="200.0" prefWidth="200.0" styleClass="image-view" stylesheets="@../../resources/styles.css" BorderPane.alignment="CENTER">
          <center>
-            <ImageView fx:id="imgLogo" fitHeight="200.0" fitWidth="323.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER">
+            <ImageView fx:id="imgLogo" fitHeight="214.0" fitWidth="273.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER">
                <image>
-                  <Image url="@../../resources/Logo.png" />
+                  <Image url="@/Logo.png" />
                </image>
             </ImageView>
          </center>

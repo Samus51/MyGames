@@ -5,7 +5,12 @@
     -fx-background-position: center center;
     -fx-background-repeat: no-repeat;
 }
-#OjoBlanco{
-	    -fx-background-radius: 50.0%;
-		-fx-background-position: center center;
+.image-view {
+    -fx-shape: "M 1,1 L 199,1 L 199,199 L 1,199 Z"; 
+    -fx-background-radius: 50%; 
+    -fx-clip-radius: 50%; 
+    -fx-background-image: url("file:path/to/your/image.jpg"); 
+    -fx-background-size: cover; 
+    -fx-pref-width: 200px; 
+    -fx-pref-height: 200px; 
 }
