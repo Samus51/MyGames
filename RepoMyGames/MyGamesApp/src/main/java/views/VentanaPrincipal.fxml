@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.Group?>
@@ -16,9 +15,10 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane fx:id="VentanaPrincipal" fx:controller="controllers.VentanaPrincipalController" prefHeight="1000.0" prefWidth="1800.0" stylesheets="@../../resources/styles.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane fx:id="VentanaPrincipal" prefHeight="1000.0" prefWidth="1800.0" stylesheets="@../../resources/styles.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.VentanaPrincipalController">
    <right>
       <AnchorPane prefHeight="649.0" prefWidth="739.0" BorderPane.alignment="CENTER">
          <children>
@@ -60,7 +60,10 @@
                         </Label>
                         <Group>
                            <children>
-                              <TextField fx:id="txtPasswordField" prefHeight="39.0" prefWidth="425.0" visible="false" />
+                              <TextField fx:id="txtPasswordField" prefHeight="39.0" prefWidth="425.0" visible="false">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font></TextField>
                               <PasswordField fx:id="passwordField" prefHeight="39.0" prefWidth="425.0">
                                  <font>
                                     <Font size="18.0" />
@@ -95,7 +98,14 @@
                         </Button>
                      </children>
                   </VBox>
-                  <Button mnemonicParsing="false" prefHeight="40.0" prefWidth="50.0" text="👁" textAlignment="JUSTIFY" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2" onAction="#togglePasswordVisibility">
+                  <Button fx:id="btnTogglePassword" onAction="#togglePasswordVisibility" prefHeight="40.0" prefWidth="50.0" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2">
+                     <graphic>
+                        <ImageView fx:id="imgTogglePassword" fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                            <image>
+                                <Image url="@/ojoNegro.png" />
+                            </image>
+                        </ImageView>
+                     </graphic>
                      <GridPane.margin>
                         <Insets bottom="65.0" top="10.0" />
                      </GridPane.margin>
@@ -108,10 +118,13 @@
    <center>
       <BorderPane fx:id="panelLogo" prefHeight="200.0" prefWidth="200.0" styleClass="image-view" stylesheets="@../../resources/styles.css" BorderPane.alignment="CENTER">
          <center>
-            <ImageView fx:id="imgLogo" fitHeight="214.0" fitWidth="273.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER">
+            <ImageView fx:id="imgLogo" fitHeight="214.0" fitWidth="214.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER">
                <image>
-                  <Image url="@/Logo.png" />
+                  <Image url="@/LogoMyGames.png" />
                </image>
+               <clip>
+                  <Circle fx:id="logoClip" centerX="107" centerY="107" radius="107" />
+               </clip>
             </ImageView>
          </center>
       </BorderPane>

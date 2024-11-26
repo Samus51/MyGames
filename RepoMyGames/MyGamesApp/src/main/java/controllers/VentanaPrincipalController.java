@@ -5,8 +5,10 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.shape.Circle;
 
 public class VentanaPrincipalController {
 
@@ -17,7 +19,13 @@ public class VentanaPrincipalController {
   private Button btnLogin;
 
   @FXML
+  private Button btnTogglePassword;
+
+  @FXML
   private ImageView imgLogo;
+
+  @FXML
+  private ImageView imgTogglePassword;
 
   @FXML
   private Label lblUser;
@@ -26,29 +34,37 @@ public class VentanaPrincipalController {
   private Label lblUser1;
 
   @FXML
-  private BorderPane panelLogo;
+  private Circle logoClip;
 
   @FXML
-  private TextField txtPasswordClear;
+  private BorderPane panelLogo;
 
   @FXML
   private PasswordField passwordField;
 
   @FXML
+  private TextField txtPasswordClear;
+
+  @FXML
   private TextField txtPasswordField;
 
-  // Método para alternar la visibilidad de la contraseña
+  private boolean isPasswordVisible = false;
+
   @FXML
   private void togglePasswordVisibility() {
-    // Si el PasswordField está visible, lo ocultamos y mostramos el TextField
-    if (passwordField.isVisible()) {
+    // Cambiar la visibilidad de los campos
+    isPasswordVisible = !isPasswordVisible;
+
+    if (isPasswordVisible) {
       passwordField.setVisible(false);
       txtPasswordField.setVisible(true);
       txtPasswordField.setText(passwordField.getText());
+      imgTogglePassword.setImage(new Image(getClass().getResourceAsStream("/ojoNegroTachado.png")));
     } else {
       passwordField.setVisible(true);
       txtPasswordField.setVisible(false);
       passwordField.setText(txtPasswordField.getText());
+      imgTogglePassword.setImage(new Image(getClass().getResourceAsStream("/ojoNegro.png")));
     }
   }
 }
