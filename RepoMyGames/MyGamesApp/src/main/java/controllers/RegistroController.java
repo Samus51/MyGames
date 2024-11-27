@@ -1,7 +1,12 @@
 package controllers;
 
+import java.io.IOException;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
@@ -12,6 +17,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.shape.Circle;
+import javafx.stage.Stage;
 
 public class RegistroController {
 
@@ -25,7 +31,10 @@ public class RegistroController {
   private Button btnTogglePassword;
 
   @FXML
-  private ComboBox<?> cbGenero;
+  private ComboBox<?> cbxGenero;
+
+  @FXML
+  private ImageView imgFlechaAtras;
 
   @FXML
   private ImageView imgLogo;
@@ -94,7 +103,7 @@ public class RegistroController {
         
         txtConfirmarPasswordOculto.setVisible(true);
         txtConfirmarPassword.setVisible(false);
-        txtConfirmarPasswordOculto.setText(txtPassword.getText());
+        txtConfirmarPasswordOculto.setText(txtConfirmarPassword.getText());
         
         imgTogglePassword.setImage(new Image(getClass().getResourceAsStream("/ojoNegro.png")));
       }
@@ -103,6 +112,41 @@ public class RegistroController {
     @FXML
     void btnCrearCuentaPressed(MouseEvent event) {
 
+    }
+
+    @FXML
+    void flechaAtrasPressed(MouseEvent event) {
+      try {
+        // Obtener el Stage de la ventana principal y cerrarla
+        Stage ventanaPrincipal = (Stage) ((Node) event.getSource()).getScene().getWindow();
+
+
+        // Cargar el nuevo archivo FXML (el que contiene la vista "Crear Cuenta")
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/VentanaPrincipal.fxml"));
+        BorderPane root = loader.load();
+        
+
+        // Crear una nueva escena con el root cargado
+        Scene scene = new Scene(root);
+        scene.getStylesheets().add(getClass().getResource("/styles.css").toExternalForm());
+
+        // Crear un nuevo Stage (ventana) para la "Crear Cuenta"
+        Stage nuevaVentana = new Stage();
+        nuevaVentana.setTitle("Crear Cuenta");
+        nuevaVentana.setScene(scene);
+
+        // Maximizar la ventana
+        nuevaVentana.setMaximized(true);
+        nuevaVentana.setResizable(false);
+
+        // Mostrar la nueva ventana
+        nuevaVentana.show();
+        
+        ventanaPrincipal.close();
+
+    } catch (IOException e) {
+        e.printStackTrace();
+    }
     }
 
 }

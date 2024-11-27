@@ -21,12 +21,12 @@
 <?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane fx:id="VentanaPrincipal" prefHeight="1000.0" prefWidth="1800.0" stylesheets="@../../resources/styles.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.RegistroController">
+<BorderPane fx:id="VentanaPrincipal" stylesheets="@../../resources/styles.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.RegistroController">
    <right>
       <AnchorPane prefHeight="649.0" prefWidth="739.0" BorderPane.alignment="CENTER">
          <children>
             <Pane opacity="0.46" prefHeight="1007.0" prefWidth="747.0" style="-fx-background-color: black;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-            <GridPane layoutX="-3.0" layoutY="-1.0" prefHeight="993.0" prefWidth="743.0">
+            <GridPane layoutX="-3.0" layoutY="-1.0" prefHeight="993.0" prefWidth="745.0">
               <columnConstraints>
                 <ColumnConstraints hgrow="SOMETIMES" maxWidth="435.3333740234375" minWidth="10.0" prefWidth="209.99990336100257" />
                 <ColumnConstraints hgrow="SOMETIMES" maxWidth="439.666748046875" minWidth="10.0" prefWidth="424.3334299723307" />
@@ -36,9 +36,9 @@
                 <RowConstraints fillHeight="false" maxHeight="269.3333282470703" minHeight="10.0" prefHeight="238.6666717529297" vgrow="SOMETIMES" />
                   <RowConstraints maxHeight="254.00000762939453" minHeight="10.0" prefHeight="142.3333282470703" vgrow="SOMETIMES" />
                   <RowConstraints maxHeight="403.6666717529297" minHeight="10.0" prefHeight="173.66665649414062" vgrow="SOMETIMES" />
-                <RowConstraints maxHeight="501.0000305175781" minHeight="0.0" prefHeight="42.333343505859375" vgrow="SOMETIMES" />
-                  <RowConstraints maxHeight="443.9999694824219" minHeight="10.0" prefHeight="284.66668701171875" vgrow="SOMETIMES" />
-                <RowConstraints maxHeight="428.66668701171875" minHeight="10.0" prefHeight="110.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="501.0000305175781" minHeight="0.0" prefHeight="0.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="443.9999694824219" minHeight="10.0" prefHeight="276.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="428.66668701171875" minHeight="10.0" prefHeight="162.66668701171875" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
                   <VBox alignment="BOTTOM_LEFT" prefHeight="200.0" prefWidth="100.0" spacing="10.0" GridPane.columnIndex="1">
@@ -79,7 +79,7 @@
                   </VBox>
                   <VBox prefHeight="124.0" prefWidth="275.0" GridPane.columnIndex="1" GridPane.rowIndex="5">
                      <children>
-                        <Button fx:id="btnCrearCuenta" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onMouseClicked="#btnCrearCuentaPressed" prefHeight="43.0" prefWidth="453.0" text="Crear Cuenta">
+                        <Button fx:id="btnCrearCuenta" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onMouseClicked="#btnCrearCuentaPressed" prefHeight="43.0" prefWidth="453.0" style="-fx-background-color: #5599CA; -fx-text-fill: white;" text="Crear Cuenta">
                            <cursor>
                               <Cursor fx:constant="HAND" />
                            </cursor>
@@ -92,7 +92,7 @@
                         </Button>
                      </children>
                   </VBox>
-                  <Button fx:id="btnTogglePassword" onAction="#togglePasswordVisibility" prefHeight="30.0" prefWidth="30.0" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2">
+                  <Button fx:id="btnTogglePassword" onAction="#togglePasswordVisibility" prefHeight="30.0" prefWidth="30.0" style="-fx-background-color: #504B4B;" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2">
                      <graphic>
                         <ImageView fx:id="imgTogglePassword" fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
                             <image>
@@ -111,7 +111,7 @@
                               <Font size="20.0" />
                            </font>
                         </Label>
-                        <TextField fx:id="txtEmail" alignment="CENTER">
+                        <TextField fx:id="txtEmail">
                            <font>
                               <Font size="18.0" />
                            </font>
@@ -148,7 +148,7 @@
                               <Font size="20.0" />
                            </font>
                         </Label>
-                        <ComboBox fx:id="cbGenero" prefHeight="38.0" prefWidth="425.0" />
+                        <ComboBox fx:id="cbxGenero" prefHeight="38.0" prefWidth="425.0" />
                      </children>
                   </VBox>
                </children>
@@ -168,6 +168,9 @@
                </clip>
             </ImageView>
          </center>
+         <top>
+            <ImageView fx:id="imgFlechaAtras" fitHeight="91.0" fitWidth="108.0" onMouseClicked="#flechaAtrasPressed" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="TOP_LEFT" />
+         </top>
       </BorderPane>
    </center>
 </BorderPane>

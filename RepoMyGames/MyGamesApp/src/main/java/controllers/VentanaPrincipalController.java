@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -12,6 +13,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
@@ -81,28 +83,37 @@ public class VentanaPrincipalController {
     }
   }
   
-
+  
   @FXML
   void crearCuentaPressed(MouseEvent event) {
       try {
+          // Obtener el Stage de la ventana principal y cerrarla
+          Stage ventanaPrincipal = (Stage) ((Node) event.getSource()).getScene().getWindow();
+  
+
           // Cargar el nuevo archivo FXML (el que contiene la vista "Crear Cuenta")
           FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/Registro.fxml"));
+          BorderPane root = loader.load();
           
-          // Cargar la nueva interfaz
-          BorderPane newLayout = loader.load();
+
+          // Crear una nueva escena con el root cargado
+          Scene scene = new Scene(root);
+          scene.getStylesheets().add(getClass().getResource("/styles.css").toExternalForm());
+
+          // Crear un nuevo Stage (ventana) para la "Crear Cuenta"
+          Stage nuevaVentana = new Stage();
+          nuevaVentana.setTitle("Crear Cuenta");
+          nuevaVentana.setScene(scene);
+
+          // Maximizar la ventana
+          nuevaVentana.setMaximized(true);
+          nuevaVentana.setResizable(false);
+
+          // Mostrar la nueva ventana
+          nuevaVentana.show();
           
-          // Obtener la etapa (ventana) actual y configurar la nueva escena
-          Stage stage = (Stage) VentanaPrincipal.getScene().getWindow();
-          Scene newScene = new Scene(newLayout);
-          
-          // Configurar la nueva escena
-          stage.setScene(newScene);
-          
-          // Hacer que la ventana esté en pantalla completa
-          stage.setFullScreen(true);
-          
-          // Mostrar la nueva escena
-          stage.show();
+          ventanaPrincipal.close();
+
       } catch (IOException e) {
           e.printStackTrace();
       }
