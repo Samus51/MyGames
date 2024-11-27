@@ -48,6 +48,9 @@ public class VentanaPrincipalController {
   @FXML
   private TextField txtPasswordField;
 
+  @FXML
+  private TextField txtUsuario;
+
   private boolean isPasswordVisible = false;
 
   @FXML
