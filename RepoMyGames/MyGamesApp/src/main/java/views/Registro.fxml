@@ -57,18 +57,18 @@
                   </VBox>
                   <VBox prefHeight="200.0" prefWidth="100.0" spacing="10.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
                      <children>
-                        <Label fx:id="lblUser1" alignment="BOTTOM_LEFT" contentDisplay="BOTTOM" prefHeight="42.0" prefWidth="246.0" text="Confirmar Contraseña" textAlignment="CENTER" textFill="WHITE">
+                        <Label fx:id="lblConfirmarPassword" alignment="BOTTOM_LEFT" contentDisplay="BOTTOM" prefHeight="42.0" prefWidth="246.0" text="Confirmar Contraseña" textAlignment="CENTER" textFill="WHITE">
                            <font>
                               <Font size="20.0" />
                            </font>
                         </Label>
                         <Group>
                            <children>
-                              <TextField fx:id="txtPasswordField" prefHeight="39.0" prefWidth="425.0" visible="false">
+                              <TextField fx:id="txtConfirmarPassword" prefHeight="39.0" prefWidth="425.0" visible="false">
                                  <font>
                                     <Font size="18.0" />
                                  </font></TextField>
-                              <PasswordField fx:id="passwordConfirm" prefHeight="39.0" prefWidth="425.0">
+                              <PasswordField fx:id="txtConfirmarPasswordOculto" prefHeight="39.0" prefWidth="425.0">
                                  <font>
                                     <Font size="18.0" />
                                  </font>
@@ -79,7 +79,7 @@
                   </VBox>
                   <VBox prefHeight="124.0" prefWidth="275.0" GridPane.columnIndex="1" GridPane.rowIndex="5">
                      <children>
-                        <Button fx:id="btnLogin" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="43.0" prefWidth="453.0" text="Crear Cuenta">
+                        <Button fx:id="btnCrearCuenta" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onMouseClicked="#btnCrearCuentaPressed" prefHeight="43.0" prefWidth="453.0" text="Crear Cuenta">
                            <cursor>
                               <Cursor fx:constant="HAND" />
                            </cursor>
@@ -120,19 +120,19 @@
                   </VBox>
                   <VBox prefHeight="217.0" prefWidth="425.0" spacing="10.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
                      <children>
-                        <Label fx:id="lblUser11" alignment="BOTTOM_LEFT" contentDisplay="BOTTOM" prefHeight="42.0" prefWidth="246.0" text="Contraseña" textAlignment="CENTER" textFill="WHITE">
+                        <Label fx:id="lblPassword" alignment="BOTTOM_LEFT" contentDisplay="BOTTOM" prefHeight="42.0" prefWidth="246.0" text="Contraseña" textAlignment="CENTER" textFill="WHITE">
                            <font>
                               <Font size="20.0" />
                            </font>
                         </Label>
                         <Group>
                            <children>
-                              <TextField fx:id="txtPasswordField1" prefHeight="39.0" prefWidth="425.0" visible="false">
+                              <TextField fx:id="txtPassword" prefHeight="39.0" prefWidth="425.0" visible="false">
                                  <font>
                                     <Font size="18.0" />
                                  </font>
                               </TextField>
-                              <PasswordField fx:id="passwordField" prefHeight="39.0" prefWidth="425.0">
+                              <PasswordField fx:id="txtPasswordOculto" prefHeight="39.0" prefWidth="425.0">
                                  <font>
                                     <Font size="18.0" />
                                  </font>

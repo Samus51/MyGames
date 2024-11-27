@@ -63,11 +63,11 @@
                         </Label>
                         <Group>
                            <children>
-                              <TextField fx:id="txtPasswordField" prefHeight="39.0" prefWidth="425.0" visible="false">
+                              <TextField fx:id="txtPassword" prefHeight="39.0" prefWidth="425.0" visible="false">
                                  <font>
                                     <Font size="18.0" />
                                  </font></TextField>
-                              <PasswordField fx:id="passwordField" prefHeight="39.0" prefWidth="425.0">
+                              <PasswordField fx:id="txtPasswordOculto" prefHeight="39.0" prefWidth="425.0">
                                  <font>
                                     <Font size="18.0" />
                                  </font>
@@ -83,7 +83,7 @@
                               <Font size="20.0" />
                            </font>
                         </Label>
-                        <Label alignment="CENTER" prefHeight="71.0" prefWidth="457.0" text="Crear Cuenta" textFill="#503feb">
+                        <Label fx:id="lblCrearCuenta" alignment="CENTER" onMouseClicked="#crearCuentaPressed" prefHeight="71.0" prefWidth="457.0" text="Crear Cuenta" textFill="#503feb">
                            <font>
                               <Font size="20.0" />
                            </font>
