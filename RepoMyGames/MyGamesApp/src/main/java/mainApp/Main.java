@@ -14,7 +14,7 @@ public class Main extends Application {
   public void start(Stage primaryStage) {
     try {
       // Cargar el archivo FXML
-      FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/VentanaPrincipal.fxml"));
+      FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/Registro.fxml"));
       BorderPane root = loader.load();
       primaryStage.setMaximized(true);
       primaryStage.setResizable(false);

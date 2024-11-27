@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.Group?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.Blend?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane fx:id="VentanaPrincipal" prefHeight="1000.0" prefWidth="1800.0" stylesheets="@../../resources/styles.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.RegistroController">
+   <right>
+      <AnchorPane prefHeight="649.0" prefWidth="739.0" BorderPane.alignment="CENTER">
+         <children>
+            <Pane opacity="0.46" prefHeight="1007.0" prefWidth="747.0" style="-fx-background-color: black;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+            <GridPane layoutX="-3.0" layoutY="-1.0" prefHeight="993.0" prefWidth="743.0">
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="435.3333740234375" minWidth="10.0" prefWidth="209.99990336100257" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="439.666748046875" minWidth="10.0" prefWidth="424.3334299723307" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="287.0" minWidth="10.0" prefWidth="49.33341471354163" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints fillHeight="false" maxHeight="269.3333282470703" minHeight="10.0" prefHeight="238.6666717529297" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="254.00000762939453" minHeight="10.0" prefHeight="142.3333282470703" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="403.6666717529297" minHeight="10.0" prefHeight="173.66665649414062" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="501.0000305175781" minHeight="0.0" prefHeight="42.333343505859375" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="443.9999694824219" minHeight="10.0" prefHeight="284.66668701171875" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="428.66668701171875" minHeight="10.0" prefHeight="110.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <VBox alignment="BOTTOM_LEFT" prefHeight="200.0" prefWidth="100.0" spacing="10.0" GridPane.columnIndex="1">
+                     <children>
+                        <Label fx:id="lblUser" alignment="BOTTOM_LEFT" contentDisplay="BOTTOM" prefHeight="124.0" prefWidth="246.0" text="Usuario" textAlignment="CENTER" textFill="WHITE">
+                           <font>
+                              <Font size="20.0" />
+                           </font>
+                        </Label>
+                        <TextField fx:id="txtUser">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </TextField>
+                     </children>
+                  </VBox>
+                  <VBox prefHeight="200.0" prefWidth="100.0" spacing="10.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                     <children>
+                        <Label fx:id="lblUser1" alignment="BOTTOM_LEFT" contentDisplay="BOTTOM" prefHeight="42.0" prefWidth="246.0" text="Confirmar Contraseña" textAlignment="CENTER" textFill="WHITE">
+                           <font>
+                              <Font size="20.0" />
+                           </font>
+                        </Label>
+                        <Group>
+                           <children>
+                              <TextField fx:id="txtPasswordField" prefHeight="39.0" prefWidth="425.0" visible="false">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font></TextField>
+                              <PasswordField fx:id="passwordConfirm" prefHeight="39.0" prefWidth="425.0">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                              </PasswordField>
+                           </children>
+                        </Group>
+                     </children>
+                  </VBox>
+                  <VBox prefHeight="124.0" prefWidth="275.0" GridPane.columnIndex="1" GridPane.rowIndex="5">
+                     <children>
+                        <Button fx:id="btnLogin" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="43.0" prefWidth="453.0" text="Crear Cuenta">
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                           <effect>
+                              <Blend />
+                           </effect>
+                           <font>
+                              <Font size="20.0" />
+                           </font>
+                        </Button>
+                     </children>
+                  </VBox>
+                  <Button fx:id="btnTogglePassword" onAction="#togglePasswordVisibility" prefHeight="30.0" prefWidth="30.0" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2">
+                     <graphic>
+                        <ImageView fx:id="imgTogglePassword" fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                            <image>
+                                <Image url="@/ojoNegro.png" />
+                            </image>
+                        </ImageView>
+                     </graphic>
+                     <GridPane.margin>
+                        <Insets bottom="45.0" top="10.0" />
+                     </GridPane.margin>
+                  </Button>
+                  <VBox alignment="CENTER" prefHeight="63.0" prefWidth="425.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                     <children>
+                        <Label contentDisplay="CENTER" prefHeight="17.0" prefWidth="452.0" text="Email" textFill="WHITE">
+                           <font>
+                              <Font size="20.0" />
+                           </font>
+                        </Label>
+                        <TextField fx:id="txtEmail" alignment="CENTER">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </TextField>
+                     </children>
+                  </VBox>
+                  <VBox prefHeight="217.0" prefWidth="425.0" spacing="10.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                     <children>
+                        <Label fx:id="lblUser11" alignment="BOTTOM_LEFT" contentDisplay="BOTTOM" prefHeight="42.0" prefWidth="246.0" text="Contraseña" textAlignment="CENTER" textFill="WHITE">
+                           <font>
+                              <Font size="20.0" />
+                           </font>
+                        </Label>
+                        <Group>
+                           <children>
+                              <TextField fx:id="txtPasswordField1" prefHeight="39.0" prefWidth="425.0" visible="false">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                              </TextField>
+                              <PasswordField fx:id="passwordField" prefHeight="39.0" prefWidth="425.0">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                              </PasswordField>
+                           </children>
+                        </Group>
+                     </children>
+                  </VBox>
+                  <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" spacing="10.0" GridPane.columnIndex="1" GridPane.rowIndex="4">
+                     <children>
+                        <Label fx:id="lblUser2" alignment="BOTTOM_LEFT" contentDisplay="BOTTOM" prefHeight="124.0" prefWidth="458.0" text="Géneros Preferidos" textAlignment="CENTER" textFill="WHITE">
+                           <font>
+                              <Font size="20.0" />
+                           </font>
+                        </Label>
+                        <ComboBox fx:id="cbGenero" prefHeight="38.0" prefWidth="425.0" />
+                     </children>
+                  </VBox>
+               </children>
+            </GridPane>
+         </children>
+      </AnchorPane>
+   </right>
+   <center>
+      <BorderPane fx:id="panelLogo" prefHeight="200.0" prefWidth="200.0" styleClass="image-view" stylesheets="@../../resources/styles.css" BorderPane.alignment="CENTER">
+         <center>
+            <ImageView fx:id="imgLogo" fitHeight="214.0" fitWidth="214.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER">
+               <image>
+                  <Image url="@/LogoMyGames.png" />
+               </image>
+               <clip>
+                  <Circle fx:id="logoClip" centerX="107" centerY="107" radius="107" />
+               </clip>
+            </ImageView>
+         </center>
+      </BorderPane>
+   </center>
+</BorderPane>
