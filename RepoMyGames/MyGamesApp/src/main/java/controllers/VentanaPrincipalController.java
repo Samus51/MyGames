@@ -13,10 +13,10 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 public class VentanaPrincipalController {
 
@@ -30,7 +30,13 @@ public class VentanaPrincipalController {
   private Button btnTogglePassword;
 
   @FXML
+  private ImageView imgClose;
+
+  @FXML
   private ImageView imgLogo;
+
+  @FXML
+  private ImageView imgMinimizar;
 
   @FXML
   private ImageView imgTogglePassword;
@@ -62,7 +68,6 @@ public class VentanaPrincipalController {
   @FXML
   private TextField txtUsuario;
 
-
   private boolean isPasswordVisible = false;
 
   @FXML
@@ -82,42 +87,51 @@ public class VentanaPrincipalController {
       imgTogglePassword.setImage(new Image(getClass().getResourceAsStream("/ojoNegro.png")));
     }
   }
-  
-  
+
   @FXML
   void crearCuentaPressed(MouseEvent event) {
-      try {
-          // Obtener el Stage de la ventana principal y cerrarla
-          Stage ventanaPrincipal = (Stage) ((Node) event.getSource()).getScene().getWindow();
-  
+    try {
+      // Obtener el Stage de la ventana principal y cerrarla
+      Stage ventanaPrincipal = (Stage) ((Node) event.getSource()).getScene().getWindow();
 
-          // Cargar el nuevo archivo FXML (el que contiene la vista "Crear Cuenta")
-          FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/Registro.fxml"));
-          BorderPane root = loader.load();
-          
+      // Cargar el nuevo archivo FXML (el que contiene la vista "Crear Cuenta")
+      FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/Registro.fxml"));
+      BorderPane root = loader.load();
 
-          // Crear una nueva escena con el root cargado
-          Scene scene = new Scene(root);
-          scene.getStylesheets().add(getClass().getResource("/styles.css").toExternalForm());
+      // Crear una nueva escena con el root cargado
+      Scene scene = new Scene(root);
+      scene.getStylesheets().add(getClass().getResource("/styles.css").toExternalForm());
 
-          // Crear un nuevo Stage (ventana) para la "Crear Cuenta"
-          Stage nuevaVentana = new Stage();
-          nuevaVentana.setTitle("Crear Cuenta");
-          nuevaVentana.setScene(scene);
+      // Crear un nuevo Stage (ventana) para la "Crear Cuenta"
+      Stage nuevaVentana = new Stage();
+      nuevaVentana.setTitle("Crear Cuenta");
+      nuevaVentana.setScene(scene);
 
-          // Maximizar la ventana
-          nuevaVentana.setMaximized(true);
-          nuevaVentana.setResizable(false);
+      // Maximizar la ventana
+      nuevaVentana.setMaximized(true);
+      nuevaVentana.setResizable(false);
+      nuevaVentana.initStyle(StageStyle.UNDECORATED);
 
-          // Mostrar la nueva ventana
-          nuevaVentana.show();
-          
-          ventanaPrincipal.close();
+      // Mostrar la nueva ventana
+      nuevaVentana.show();
 
-      } catch (IOException e) {
-          e.printStackTrace();
-      }
+      ventanaPrincipal.close();
+
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
   }
 
+  @FXML
+  void minimizarPressed(MouseEvent event) {
+    Stage ventanaPrincipal = (Stage) ((Node) event.getSource()).getScene().getWindow();
+    ventanaPrincipal.setIconified(true);
+  }
+
+  @FXML
+  void cerrarPressed(MouseEvent event) {
+    Stage ventanaPrincipal = (Stage) ((Node) event.getSource()).getScene().getWindow();
+    ventanaPrincipal.close();
+  }
 
 }

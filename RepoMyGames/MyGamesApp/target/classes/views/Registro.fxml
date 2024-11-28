@@ -15,6 +15,7 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
@@ -151,6 +152,29 @@
                         <ComboBox fx:id="cbxGenero" prefHeight="38.0" prefWidth="425.0" />
                      </children>
                   </VBox>
+                  <HBox prefHeight="242.0" prefWidth="110.0" spacing="25.0" GridPane.columnIndex="2">
+                     <children>
+                        <ImageView fx:id="imgMinimizar" fitHeight="20.0" fitWidth="20.0" onMouseClicked="#minimizarPressed" pickOnBounds="true" preserveRatio="true">
+                           <HBox.margin>
+                              <Insets left="40.0" />
+                           </HBox.margin>
+                           <image>
+                              <Image url="@/Minimizar.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fx:id="imgClose" fitHeight="20.0" fitWidth="20.0" onMouseClicked="#cerrarPressed" pickOnBounds="true" preserveRatio="true">
+                           <HBox.margin>
+                              <Insets />
+                           </HBox.margin>
+                           <image>
+                              <Image url="@/Cerrar.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                     <padding>
+                        <Insets top="10.0" />
+                     </padding>
+                  </HBox>
                </children>
             </GridPane>
          </children>
