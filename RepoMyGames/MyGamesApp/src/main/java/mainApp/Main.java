@@ -2,8 +2,10 @@ package mainApp;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -19,7 +21,10 @@ public class Main extends Application {
       primaryStage.setMaximized(true);
       primaryStage.setResizable(false);
 
-      Scene scene = new Scene(root, 800, 600);
+      Screen screen = Screen.getPrimary();
+      Rectangle2D bounds = screen.getVisualBounds();
+
+      Scene scene = new Scene(root, bounds.getWidth(), bounds.getHeight());
 
       // Cargar la hoja de estilos
       scene.getStylesheets().add(getClass().getResource("/styles.css").toExternalForm());
