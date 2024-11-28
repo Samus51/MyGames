@@ -7,6 +7,7 @@ import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 import java.io.IOException;
 
@@ -19,7 +20,7 @@ public class Main extends Application {
       FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/VentanaPrincipal.fxml"));
       BorderPane root = loader.load();
       primaryStage.setMaximized(true);
-      primaryStage.setResizable(false);
+      primaryStage.initStyle(StageStyle.UNDECORATED);
 
       Screen screen = Screen.getPrimary();
       Rectangle2D bounds = screen.getVisualBounds();
