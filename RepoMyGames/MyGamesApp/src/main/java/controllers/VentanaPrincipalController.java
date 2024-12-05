@@ -14,6 +14,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -132,6 +133,40 @@ public class VentanaPrincipalController {
   void cerrarPressed(MouseEvent event) {
     Stage ventanaPrincipal = (Stage) ((Node) event.getSource()).getScene().getWindow();
     ventanaPrincipal.close();
+  }
+  @FXML
+  void lblRecuperarContraseñaPressed(MouseEvent event) {
+      try {
+          // Obtener el Stage de la ventana principal
+          Stage ventanaPrincipal = (Stage) ((Node) event.getSource()).getScene().getWindow();
+
+          // Cargar el archivo FXML de la ventana de Recuperar Contraseña
+          FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/RecuperarContraseña.fxml"));
+          Pane root = loader.load();
+
+          // Crear una nueva escena con el root cargado
+          Scene scene = new Scene(root);
+          scene.getStylesheets().add(getClass().getResource("/styles.css").toExternalForm());
+
+          // Crear un nuevo Stage (ventana) para "Recuperar Contraseña"
+          Stage nuevaVentana = new Stage();
+          nuevaVentana.setTitle("Recuperar Contraseña");
+          nuevaVentana.setScene(scene);
+
+          // Maximizar la ventana
+          nuevaVentana.setMaximized(true);
+          nuevaVentana.setResizable(false);
+          nuevaVentana.initStyle(StageStyle.UNDECORATED);
+
+          // Mostrar la nueva ventana
+          nuevaVentana.show();
+
+          // Cerrar la ventana principal
+          ventanaPrincipal.close();
+
+      } catch (IOException e) {
+          e.printStackTrace();
+      }
   }
 
 }

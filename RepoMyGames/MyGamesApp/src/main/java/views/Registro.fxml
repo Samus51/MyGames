@@ -22,7 +22,7 @@
 <?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane fx:id="VentanaPrincipal" stylesheets="@../../resources/styles.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.RegistroController">
+<BorderPane fx:id="VentanaPrincipal" prefHeight="1080.0" prefWidth="1902.0" stylesheets="@../../resources/styles.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.RegistroController">
    <right>
       <AnchorPane prefHeight="649.0" prefWidth="739.0" BorderPane.alignment="CENTER">
          <children>

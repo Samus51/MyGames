@@ -79,7 +79,7 @@
                   </VBox>
                   <VBox prefHeight="124.0" prefWidth="275.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
                      <children>
-                        <Label alignment="CENTER" prefHeight="30.0" prefWidth="514.0" text="¿Problemas para iniciar sesión?" textFill="#503feb">
+                        <Label fx:id="lblRecuperarContraseña" alignment="CENTER" onMouseClicked="#lblRecuperarContraseñaPressed" prefHeight="30.0" prefWidth="514.0" text="¿Problemas para iniciar sesión?" textFill="#503feb">
                            <font>
                               <Font size="20.0" />
                            </font>

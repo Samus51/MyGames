@@ -15,3 +15,15 @@
 	-fx-background-color:#504B4B;
 	-fx-text-fill:white;
 }
+
+#paginaFondo{
+	-fx-background-image: url('fondoWeb.jpg');
+    -fx-background-size: cover;
+    -fx-background-position: center center;
+    -fx-background-repeat: no-repeat;
+	
+}
+#panelCorreo{
+	    -fx-background-position: center center;
+	
+}
