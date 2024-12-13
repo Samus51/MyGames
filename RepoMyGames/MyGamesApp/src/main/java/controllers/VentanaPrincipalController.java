@@ -1,11 +1,16 @@
 package controllers;
 
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
@@ -18,10 +23,13 @@ import javafx.scene.layout.Pane;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import jdbc.Conector;
 
 public class VentanaPrincipalController {
 
-  @FXML
+  private static final String SQL_USUARIO = "Select * from usuarios where nombre_usuario = ? and contraseña = ?";
+
+	@FXML
   private BorderPane VentanaPrincipal;
 
   @FXML
@@ -71,6 +79,39 @@ public class VentanaPrincipalController {
 
   private boolean isPasswordVisible = false;
 
+  
+  @FXML
+  void btnLoginPressed(MouseEvent event) {
+      String user = txtUsuario.getText();
+      String password = txtPassword.getText().isEmpty() ? txtPasswordOculto.getText() : txtPassword.getText();
+
+      Connection cone = Conector.conectar();
+      try (PreparedStatement st = cone.prepareStatement(SQL_USUARIO)) {
+          st.setString(1, user);
+          st.setString(2, password); 
+
+          ResultSet rs = st.executeQuery();
+
+          if (rs.next()) {
+              Alert alerta = new Alert(Alert.AlertType.CONFIRMATION);
+              alerta.setTitle("Login");
+              alerta.setContentText("Bienvenido " + user);
+              alerta.setHeaderText("Login exitoso");
+              alerta.showAndWait();
+          } else {
+              Alert alerta = new Alert(Alert.AlertType.ERROR);
+              alerta.setTitle("Login");
+              alerta.setContentText("Usuario o contraseña incorrectos");
+              alerta.setHeaderText("Error de Login");
+              alerta.showAndWait();
+          }
+      } catch (SQLException e) {
+          e.printStackTrace(); 
+      }
+  }
+
+  
+  
   @FXML
   private void togglePasswordVisibility() {
     // Cambiar la visibilidad de los campos

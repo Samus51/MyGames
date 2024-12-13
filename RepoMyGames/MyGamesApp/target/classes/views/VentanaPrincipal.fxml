@@ -89,7 +89,7 @@
                               <Font size="20.0" />
                            </font>
                         </Label>
-                        <Button fx:id="btnLogin" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="43.0" prefWidth="453.0" style="-fx-background-color: #5599CA; -fx-text-fill: white;" text="Iniciar Sesión">
+                        <Button fx:id="btnLogin" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onMouseClicked="#btnLoginPressed" prefHeight="43.0" prefWidth="453.0" style="-fx-background-color: #5599CA; -fx-text-fill: white;" text="Iniciar Sesión">
                            <cursor>
                               <Cursor fx:constant="HAND" />
                            </cursor>

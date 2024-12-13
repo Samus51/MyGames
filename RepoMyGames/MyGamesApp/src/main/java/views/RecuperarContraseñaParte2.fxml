@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<Pane fx:id="paginaFondo" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" stylesheets="@../../resources/styles.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<Pane fx:id="paginaFondo" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" stylesheets="@../../resources/styles.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.RecuperarContraseñaParte2Controller">
    <children>
       <Pane layoutX="668.0" layoutY="90.0" prefHeight="928.0" prefWidth="662.0" style="-fx-background-color: #C4C4C4;">
          <children>
@@ -29,8 +29,8 @@
                   <Font size="21.0" />
                </font>
             </Label>
-            <TextField layoutX="33.0" layoutY="353.0" prefHeight="42.0" prefWidth="547.0" style="-fx-background-color: #A7A3A3;" />
-            <Button layoutX="196.0" layoutY="780.0" mnemonicParsing="false" prefHeight="42.0" prefWidth="260.0" style="-fx-background-color: #63B4F6;" text="Enviar" textFill="WHITE">
+            <TextField fx:id="txtCodigo" layoutX="39.0" layoutY="353.0" prefHeight="42.0" prefWidth="544.0" style="-fx-background-color: #A7A3A3;" />
+            <Button fx:id="btnEnviar" layoutX="196.0" layoutY="780.0" mnemonicParsing="false" onMouseClicked="#btnEnviarPressed" prefHeight="42.0" prefWidth="260.0" style="-fx-background-color: #63B4F6;" text="Enviar" textFill="WHITE">
                <font>
                   <Font size="26.0" />
                </font>
@@ -45,7 +45,7 @@
                   <Font size="21.0" />
                </font>
             </Label>
-            <Button fx:id="btnTogglePassword" layoutX="597.0" layoutY="474.0" onAction="#togglePasswordVisibility" prefHeight="40.0" prefWidth="50.0" style="-fx-background-color: #504B4B;" textFill="#a7a3a3">
+            <Button fx:id="btnTogglePassword" layoutX="597.0" layoutY="472.0" onAction="#togglePasswordVisibility" prefHeight="40.0" prefWidth="50.0" style="-fx-background-color: #A7A3A3;" textFill="#a7a3a3">
                <graphic>
                   <ImageView fx:id="imgTogglePassword" fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -54,28 +54,28 @@
                   </ImageView>
                </graphic>
             </Button>
-            <Group layoutX="17.0" layoutY="476.0">
+            <Group layoutX="40.0" layoutY="473.0">
                <children>
-                  <TextField fx:id="txtConfirmarPassword" prefHeight="39.0" prefWidth="425.0" visible="false">
+                  <TextField fx:id="txtPassword" prefHeight="39.0" prefWidth="544.0" style="-fx-background-color: #A7A3A3;" visible="false">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </TextField>
-                  <PasswordField fx:id="txtConfirmarPasswordOculto" layoutX="21.0" prefHeight="39.0" prefWidth="539.0" style="-fx-background-color: #A7A3A3;">
+                  <PasswordField fx:id="txtPasswordOculto" prefHeight="39.0" prefWidth="541.0" style="-fx-background-color: #A7A3A3;">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </PasswordField>
                </children>
             </Group>
-            <Group layoutX="21.0" layoutY="601.0">
+            <Group layoutX="40.0" layoutY="579.0">
                <children>
-                  <TextField fx:id="txtConfirmarPassword1" prefHeight="39.0" prefWidth="425.0" visible="false">
+                  <TextField fx:id="txtConfirmarPassword" prefHeight="39.0" prefWidth="544.0" style="-fx-background-color: #A7A3A3;" visible="false">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </TextField>
-                  <PasswordField fx:id="txtConfirmarPasswordOculto1" layoutX="18.0" layoutY="-6.0" prefHeight="39.0" prefWidth="540.0" style="-fx-background-color: #A7A3A3;">
+                  <PasswordField fx:id="txtConfirmarPasswordOculto" layoutX="1.0" prefHeight="39.0" prefWidth="541.0" style="-fx-background-color: #A7A3A3;">
                      <font>
                         <Font size="18.0" />
                      </font>
@@ -84,5 +84,10 @@
             </Group>
          </children>
       </Pane>
+      <ImageView fitHeight="50.0" fitWidth="50.0" layoutX="17.0" layoutY="15.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@/flechaAtras.png" />
+         </image>
+      </ImageView>
    </children>
 </Pane>
