@@ -3,7 +3,6 @@ package controllers;
 import java.io.IOException;
 
 import javafx.animation.FadeTransition;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -22,104 +21,159 @@ import javafx.util.Duration;
 
 public class RecuperarContraseñaParte2Controller {
 
-	@FXML
-	private TextField txtCodigo;
+  @FXML
+  private TextField txtCodigo;
 
-	@FXML
-	private Button btnTogglePassword;
+  @FXML
+  private Button btnTogglePassword;
 
-	@FXML
-	private ImageView imgTogglePassword;
+  @FXML
+  private ImageView imgClose;
 
-	@FXML
-	private Pane paginaFondo;
+  @FXML
+  private ImageView imgFlechaAtras;
 
-	@FXML
-	private TextField txtConfirmarPassword;
+  @FXML
+  private ImageView imgMinimizar;
 
-	@FXML
-	private PasswordField txtConfirmarPasswordOculto;
+  @FXML
+  private ImageView imgTogglePassword;
 
-	@FXML
-	private TextField txtPassword;
+  @FXML
+  private Pane paginaFondo;
 
-	@FXML
-	private PasswordField txtPasswordOculto;
-	// Variable para controlar la visibilidad de las contraseñas
-	private boolean isPasswordVisible = false;
+  @FXML
+  private TextField txtConfirmarPassword;
 
-	@FXML
-	private void togglePasswordVisibility() {
-		// Cambiar la visibilidad de los campos
-		isPasswordVisible = !isPasswordVisible;
+  @FXML
+  private PasswordField txtConfirmarPasswordOculto;
 
-		if (isPasswordVisible) {
-			txtPasswordOculto.setVisible(false);
-			txtPassword.setVisible(true);
-			txtPassword.setText(txtPasswordOculto.getText());
+  @FXML
+  private TextField txtPassword;
 
-			txtConfirmarPasswordOculto.setVisible(false);
-			txtConfirmarPassword.setVisible(true);
-			txtConfirmarPassword.setText(txtConfirmarPasswordOculto.getText());
+  @FXML
+  private PasswordField txtPasswordOculto;
 
-			imgTogglePassword.setImage(new Image(getClass().getResourceAsStream("/ojoNegroTachado.png")));
-		} else {
-			txtPasswordOculto.setVisible(true);
-			txtPassword.setVisible(false);
-			txtPasswordOculto.setText(txtPassword.getText());
+  @FXML
+  void imgFlechaAtrasPressed(MouseEvent event) {
+    try {
+      // Obtener el Stage de la ventana actual (Recuperar Contraseña)
+      Stage ventanaRecuperarContraseña = (Stage) ((Node) event.getSource()).getScene().getWindow();
 
-			txtConfirmarPasswordOculto.setVisible(true);
-			txtConfirmarPassword.setVisible(false);
-			txtConfirmarPasswordOculto.setText(txtConfirmarPassword.getText());
+      // Cargar el archivo FXML de la ventana principal
+      FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/VentanaPrincipal.fxml"));
+      BorderPane root = loader.load();
 
-			imgTogglePassword.setImage(new Image(getClass().getResourceAsStream("/ojoNegro.png")));
-		}
-	}
+      // Crear una nueva escena con el root cargado
+      Scene scene = new Scene(root);
+      scene.getStylesheets().add(getClass().getResource("/styles.css").toExternalForm());
 
+      // Crear un nuevo Stage (ventana) para la "Ventana Principal"
+      Stage nuevaVentana = new Stage();
+      nuevaVentana.setTitle("Ventana Principal");
+      nuevaVentana.setScene(scene);
+
+      // Maximizar la ventana
+      nuevaVentana.setMaximized(true);
+      nuevaVentana.setResizable(false);
+      nuevaVentana.initStyle(StageStyle.UNDECORATED);
+
+      // Mostrar la nueva ventana
+      nuevaVentana.show();
+
+      // Cerrar la ventana actual (Recuperar Contraseña)
+      ventanaRecuperarContraseña.close();
+
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+  }
+
+  @FXML
+  void minimizarPressed(MouseEvent event) {
+    Stage ventanaPrincipal = (Stage) ((Node) event.getSource()).getScene().getWindow();
+    ventanaPrincipal.setIconified(true);
+  }
+
+  @FXML
+  void cerrarPressed(MouseEvent event) {
+    Stage ventanaPrincipal = (Stage) ((Node) event.getSource()).getScene().getWindow();
+    ventanaPrincipal.close();
+  }
+
+  // Variable para controlar la visibilidad de las contraseñas
+  private boolean isPasswordVisible = false;
+
+  @FXML
+  private void togglePasswordVisibility() {
+    // Cambiar la visibilidad de los campos
+    isPasswordVisible = !isPasswordVisible;
+
+    if (isPasswordVisible) {
+      txtPasswordOculto.setVisible(false);
+      txtPassword.setVisible(true);
+      txtPassword.setText(txtPasswordOculto.getText());
+
+      txtConfirmarPasswordOculto.setVisible(false);
+      txtConfirmarPassword.setVisible(true);
+      txtConfirmarPassword.setText(txtConfirmarPasswordOculto.getText());
+
+      imgTogglePassword.setImage(new Image(getClass().getResourceAsStream("/ojoNegroTachado.png")));
+    } else {
+      txtPasswordOculto.setVisible(true);
+      txtPassword.setVisible(false);
+      txtPasswordOculto.setText(txtPassword.getText());
+
+      txtConfirmarPasswordOculto.setVisible(true);
+      txtConfirmarPassword.setVisible(false);
+      txtConfirmarPasswordOculto.setText(txtConfirmarPassword.getText());
+
+      imgTogglePassword.setImage(new Image(getClass().getResourceAsStream("/ojoNegro.png")));
+    }
+  }
 
   @FXML
   void btnEnviarPressed(MouseEvent event) {
 
   }
-  
-	@FXML
-	void flechaAtrasPressed(MouseEvent event) {
-		try {
-			// Obtener el Stage de la ventana principal y cerrarla
-			Stage ventanaPrincipal = (Stage) ((Node) event.getSource()).getScene().getWindow();
 
-			// Cargar el nuevo archivo FXML (el que contiene la vista "Crear Cuenta")
-			FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/VentanaPrincipal.fxml"));
-			BorderPane root = loader.load();
+  @FXML
+  void flechaAtrasPressed(MouseEvent event) {
+    try {
+      // Obtener el Stage de la ventana principal y cerrarla
+      Stage ventanaPrincipal = (Stage) ((Node) event.getSource()).getScene().getWindow();
 
-			// Crear una nueva escena con el root cargado
-			Scene scene = new Scene(root);
-			scene.getStylesheets().add(getClass().getResource("/styles.css").toExternalForm());
+      // Cargar el nuevo archivo FXML (el que contiene la vista "Crear Cuenta")
+      FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/VentanaPrincipal.fxml"));
+      BorderPane root = loader.load();
 
-			// Crear un nuevo Stage (ventana) para la "Crear Cuenta"
-			Stage nuevaVentana = new Stage();
-			nuevaVentana.setTitle("Crear Cuenta");
-			nuevaVentana.setScene(scene);
+      // Crear una nueva escena con el root cargado
+      Scene scene = new Scene(root);
+      scene.getStylesheets().add(getClass().getResource("/styles.css").toExternalForm());
 
-			// Maximizar la ventana
-			nuevaVentana.setMaximized(true);
-			nuevaVentana.setResizable(false);
-			nuevaVentana.initStyle(StageStyle.UNDECORATED);
+      // Crear un nuevo Stage (ventana) para la "Crear Cuenta"
+      Stage nuevaVentana = new Stage();
+      nuevaVentana.setTitle("Crear Cuenta");
+      nuevaVentana.setScene(scene);
 
-			// Mostrar la nueva ventana
-			nuevaVentana.show();
+      // Maximizar la ventana
+      nuevaVentana.setMaximized(true);
+      nuevaVentana.setResizable(false);
+      nuevaVentana.initStyle(StageStyle.UNDECORATED);
 
-			// Transición de desvanecimiento para la primera ventana
-			FadeTransition fadeOut = new FadeTransition(Duration.seconds(0.5), nuevaVentana.getScene().getRoot());
-			fadeOut.setFromValue(1.0);
-			fadeOut.setToValue(0.0);
+      // Mostrar la nueva ventana
+      nuevaVentana.show();
 
-			ventanaPrincipal.close();
+      // Transición de desvanecimiento para la primera ventana
+      FadeTransition fadeOut = new FadeTransition(Duration.seconds(0.5), nuevaVentana.getScene().getRoot());
+      fadeOut.setFromValue(1.0);
+      fadeOut.setToValue(0.0);
 
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
+      ventanaPrincipal.close();
 
-  
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+  }
+
 }
