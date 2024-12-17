@@ -6,6 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import javafx.animation.ScaleTransition;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -23,13 +24,14 @@ import javafx.scene.layout.Pane;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import javafx.util.Duration;
 import jdbc.Conector;
 
 public class VentanaPrincipalController {
 
   private static final String SQL_USUARIO = "Select * from usuarios where nombre_usuario = ? and contraseña = ?";
 
-	@FXML
+  @FXML
   private BorderPane VentanaPrincipal;
 
   @FXML
@@ -79,39 +81,41 @@ public class VentanaPrincipalController {
 
   private boolean isPasswordVisible = false;
 
-  
   @FXML
-  void btnLoginPressed(MouseEvent event) {
-      String user = txtUsuario.getText();
-      String password = txtPassword.getText().isEmpty() ? txtPasswordOculto.getText() : txtPassword.getText();
-
-      Connection cone = Conector.conectar();
-      try (PreparedStatement st = cone.prepareStatement(SQL_USUARIO)) {
-          st.setString(1, user);
-          st.setString(2, password); 
-
-          ResultSet rs = st.executeQuery();
-
-          if (rs.next()) {
-              Alert alerta = new Alert(Alert.AlertType.CONFIRMATION);
-              alerta.setTitle("Login");
-              alerta.setContentText("Bienvenido " + user);
-              alerta.setHeaderText("Login exitoso");
-              alerta.showAndWait();
-          } else {
-              Alert alerta = new Alert(Alert.AlertType.ERROR);
-              alerta.setTitle("Login");
-              alerta.setContentText("Usuario o contraseña incorrectos");
-              alerta.setHeaderText("Error de Login");
-              alerta.showAndWait();
-          }
-      } catch (SQLException e) {
-          e.printStackTrace(); 
-      }
+  void initialize() {
+    addZoomEffect(imgLogo);
   }
 
-  
-  
+  @FXML
+  void btnLoginPressed(MouseEvent event) {
+    String user = txtUsuario.getText();
+    String password = txtPassword.getText().isEmpty() ? txtPasswordOculto.getText() : txtPassword.getText();
+
+    Connection cone = Conector.conectar();
+    try (PreparedStatement st = cone.prepareStatement(SQL_USUARIO)) {
+      st.setString(1, user);
+      st.setString(2, password);
+
+      ResultSet rs = st.executeQuery();
+
+      if (rs.next()) {
+        Alert alerta = new Alert(Alert.AlertType.CONFIRMATION);
+        alerta.setTitle("Login");
+        alerta.setContentText("Bienvenido " + user);
+        alerta.setHeaderText("Login exitoso");
+        alerta.showAndWait();
+      } else {
+        Alert alerta = new Alert(Alert.AlertType.ERROR);
+        alerta.setTitle("Login");
+        alerta.setContentText("Usuario o contraseña incorrectos");
+        alerta.setHeaderText("Error de Login");
+        alerta.showAndWait();
+      }
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+  }
+
   @FXML
   private void togglePasswordVisibility() {
     // Cambiar la visibilidad de los campos
@@ -175,39 +179,56 @@ public class VentanaPrincipalController {
     Stage ventanaPrincipal = (Stage) ((Node) event.getSource()).getScene().getWindow();
     ventanaPrincipal.close();
   }
+
   @FXML
   void lblRecuperarContraseñaPressed(MouseEvent event) {
-      try {
-          // Obtener el Stage de la ventana principal
-          Stage ventanaPrincipal = (Stage) ((Node) event.getSource()).getScene().getWindow();
+    try {
+      // Obtener el Stage de la ventana principal
+      Stage ventanaPrincipal = (Stage) ((Node) event.getSource()).getScene().getWindow();
 
-          // Cargar el archivo FXML de la ventana de Recuperar Contraseña
-          FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/RecuperarContraseña.fxml"));
-          Pane root = loader.load();
+      // Cargar el archivo FXML de la ventana de Recuperar Contraseña
+      FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/RecuperarContraseña.fxml"));
+      Pane root = loader.load();
 
-          // Crear una nueva escena con el root cargado
-          Scene scene = new Scene(root);
-          scene.getStylesheets().add(getClass().getResource("/styles.css").toExternalForm());
+      // Crear una nueva escena con el root cargado
+      Scene scene = new Scene(root);
+      scene.getStylesheets().add(getClass().getResource("/styles.css").toExternalForm());
 
-          // Crear un nuevo Stage (ventana) para "Recuperar Contraseña"
-          Stage nuevaVentana = new Stage();
-          nuevaVentana.setTitle("Recuperar Contraseña");
-          nuevaVentana.setScene(scene);
+      // Crear un nuevo Stage (ventana) para "Recuperar Contraseña"
+      Stage nuevaVentana = new Stage();
+      nuevaVentana.setTitle("Recuperar Contraseña");
+      nuevaVentana.setScene(scene);
 
-          // Maximizar la ventana
-          nuevaVentana.setMaximized(true);
-          nuevaVentana.setResizable(false);
-          nuevaVentana.initStyle(StageStyle.UNDECORATED);
+      // Maximizar la ventana
+      nuevaVentana.setMaximized(true);
+      nuevaVentana.setResizable(false);
+      nuevaVentana.initStyle(StageStyle.UNDECORATED);
 
-          // Mostrar la nueva ventana
-          nuevaVentana.show();
+      // Mostrar la nueva ventana
+      nuevaVentana.show();
 
-          // Cerrar la ventana principal
-          ventanaPrincipal.close();
+      // Cerrar la ventana principal
+      ventanaPrincipal.close();
 
-      } catch (IOException e) {
-          e.printStackTrace();
-      }
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
   }
 
+  // Método para agregar efecto de zoom a un ImageView
+  private void addZoomEffect(ImageView imageView) {
+    imageView.setOnMouseEntered(event -> {
+      ScaleTransition zoomIn = new ScaleTransition(Duration.millis(200), imageView);
+      zoomIn.setToX(1.2);
+      zoomIn.setToY(1.2);
+      zoomIn.play();
+    });
+
+    imageView.setOnMouseExited(event -> {
+      ScaleTransition zoomOut = new ScaleTransition(Duration.millis(200), imageView);
+      zoomOut.setToX(1.0);
+      zoomOut.setToY(1.0);
+      zoomOut.play();
+    });
+  }
 }

@@ -99,11 +99,17 @@
                             <image>
                                 <Image url="@/ojoNegro.png" />
                             </image>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
                         </ImageView>
                      </graphic>
                      <GridPane.margin>
                         <Insets bottom="5.0" />
                      </GridPane.margin>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
                   </Button>
                   <VBox alignment="CENTER" prefHeight="63.0" prefWidth="425.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
                      <children>
@@ -149,7 +155,10 @@
                               <Font size="20.0" />
                            </font>
                         </Label>
-                        <CheckComboBox fx:id="lstGeneros" prefHeight="37.0" prefWidth="416.0" />
+                        <CheckComboBox fx:id="lstGeneros" prefHeight="37.0" prefWidth="416.0">
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor></CheckComboBox>
                      </children>
                   </VBox>
                   <HBox prefHeight="242.0" prefWidth="110.0" spacing="25.0" GridPane.columnIndex="2">
@@ -161,6 +170,9 @@
                            <image>
                               <Image url="@/Minimizar.png" />
                            </image>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
                         </ImageView>
                         <ImageView fx:id="imgClose" fitHeight="20.0" fitWidth="20.0" onMouseClicked="#cerrarPressed" pickOnBounds="true" preserveRatio="true">
                            <HBox.margin>
@@ -169,6 +181,9 @@
                            <image>
                               <Image url="@/Cerrar.png" />
                            </image>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
                         </ImageView>
                      </children>
                      <padding>
@@ -199,7 +214,10 @@
             <ImageView fx:id="imgFlechaAtras" fitHeight="50.0" fitWidth="50.0" onMouseClicked="#flechaAtrasPressed" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="TOP_LEFT">
                <BorderPane.margin>
                   <Insets left="15.0" top="20.0" />
-               </BorderPane.margin></ImageView>
+               </BorderPane.margin>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor></ImageView>
                 <image>
                   <Image url="@/flechaAtras.png" />
                </image>

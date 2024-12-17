@@ -67,7 +67,8 @@
                               <TextField fx:id="txtPassword" prefHeight="39.0" prefWidth="425.0" visible="false">
                                  <font>
                                     <Font size="18.0" />
-                                 </font></TextField>
+                                 </font>
+                              </TextField>
                               <PasswordField fx:id="txtPasswordOculto" prefHeight="39.0" prefWidth="425.0">
                                  <font>
                                     <Font size="18.0" />
@@ -79,15 +80,27 @@
                   </VBox>
                   <VBox prefHeight="124.0" prefWidth="275.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
                      <children>
-                        <Label fx:id="lblRecuperarContraseña" alignment="CENTER" onMouseClicked="#lblRecuperarContraseñaPressed" prefHeight="30.0" prefWidth="514.0" text="¿Problemas para iniciar sesión?" textFill="#503feb">
+                        <Label fx:id="lblRecuperarContraseña" alignment="CENTER" onMouseClicked="#lblRecuperarContraseñaPressed" prefHeight="30.0" prefWidth="285.0" text="¿Problemas para iniciar sesión?" textFill="#503feb">
                            <font>
                               <Font size="20.0" />
                            </font>
+                           <VBox.margin>
+                              <Insets left="65.0" />
+                           </VBox.margin>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
                         </Label>
-                        <Label fx:id="lblCrearCuenta" alignment="CENTER" onMouseClicked="#crearCuentaPressed" prefHeight="71.0" prefWidth="457.0" text="Crear Cuenta" textFill="#503feb">
+                        <Label fx:id="lblCrearCuenta" alignment="CENTER" onMouseClicked="#crearCuentaPressed" prefHeight="71.0" prefWidth="136.0" text="Crear Cuenta" textFill="#503feb">
                            <font>
                               <Font size="20.0" />
                            </font>
+                           <VBox.margin>
+                              <Insets left="140.0" />
+                           </VBox.margin>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
                         </Label>
                         <Button fx:id="btnLogin" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onMouseClicked="#btnLoginPressed" prefHeight="43.0" prefWidth="453.0" style="-fx-background-color: #5599CA; -fx-text-fill: white;" text="Iniciar Sesión">
                            <cursor>
@@ -113,6 +126,9 @@
                      <GridPane.margin>
                         <Insets top="13.0" />
                      </GridPane.margin>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
                   </Button>
                   <HBox prefHeight="100.0" prefWidth="200.0" spacing="25.0" GridPane.columnIndex="2">
                      <children>
@@ -123,6 +139,9 @@
                            <image>
                               <Image url="@/Minimizar.png" />
                            </image>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
                         </ImageView>
                         <ImageView fx:id="imgClose" fitHeight="20.0" fitWidth="20.0" onMouseClicked="#cerrarPressed" pickOnBounds="true" preserveRatio="true">
                            <HBox.margin>
@@ -131,6 +150,9 @@
                            <image>
                               <Image url="@/Cerrar.png" />
                            </image>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
                         </ImageView>
                      </children>
                      <padding>
