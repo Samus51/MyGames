@@ -60,9 +60,7 @@
                   <Font size="27.0" />
                </font>
             </Label>
-            
-            <!-- Primer ScrollPane con tamaño reducido -->
-            <VBox prefHeight="182.0" prefWidth="1648.0">
+			<VBox prefHeight="182.0" prefWidth="1648.0">
                <children>
                   <ScrollPane fx:id="scrollpane" hbarPolicy="ALWAYS" prefHeight="150.0" prefWidth="1532.0" style="-fx-background: transparent; -fx-border-color: transparent;" vbarPolicy="NEVER">
                      <content>
@@ -122,8 +120,6 @@
                   <Font size="27.0" />
                </font>
             </Label>
-
-            <!-- Segundo ScrollPane con tamaño reducido -->
             <VBox prefHeight="200.0" prefWidth="1730.0">
                <children>
                   <ScrollPane fx:id="scrollpane1" hbarPolicy="ALWAYS" prefHeight="150.0" prefWidth="1300.0" style="-fx-background: transparent; -fx-border-color: transparent;" vbarPolicy="NEVER">
@@ -184,8 +180,6 @@
                   <Font size="27.0" />
                </font>
             </Label>
-
-            <!-- Tercer ScrollPane con tamaño reducido -->
             <VBox prefHeight="200.0" prefWidth="1730.0">
                <children>
                   <ScrollPane fx:id="scrollpane2" hbarPolicy="ALWAYS" prefHeight="150.0" prefWidth="1300.0" style="-fx-background: transparent; -fx-border-color: transparent;" vbarPolicy="NEVER">

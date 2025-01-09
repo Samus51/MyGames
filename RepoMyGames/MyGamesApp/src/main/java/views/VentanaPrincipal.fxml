@@ -40,7 +40,7 @@
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <TextField fx:id="txtPasswordClear" opacity="0.0" visible="false" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                  <TextField fx:id="txtPasswordLimpio" opacity="0.0" visible="false" GridPane.columnIndex="1" GridPane.rowIndex="4" />
                   <VBox prefHeight="200.0" prefWidth="100.0" spacing="10.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
                      <children>
                         <Label fx:id="lblUser" alignment="BOTTOM_LEFT" contentDisplay="BOTTOM" prefHeight="124.0" prefWidth="246.0" text="Usuario" textAlignment="CENTER" textFill="WHITE">
@@ -80,7 +80,7 @@
                   </VBox>
                   <VBox prefHeight="124.0" prefWidth="275.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
                      <children>
-                        <Label fx:id="lblRecuperarContraseña" alignment="CENTER" onMouseClicked="#lblRecuperarContraseñaPressed" prefHeight="30.0" prefWidth="285.0" text="¿Problemas para iniciar sesión?" textFill="#503feb">
+                        <Label fx:id="lblRecuperarContrasena" alignment="CENTER" onMouseClicked="#lblRecuperarContrasenaPressed" prefHeight="30.0" prefWidth="285.0" text="¿Problemas para iniciar sesión?" textFill="#503feb">
                            <font>
                               <Font size="20.0" />
                            </font>
@@ -122,9 +122,9 @@
                         </Button>
                      </children>
                   </VBox>
-                  <Button fx:id="btnTogglePassword" onAction="#togglePasswordVisibility" prefHeight="40.0" prefWidth="50.0" style="-fx-background-color: #504B4B;" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2">
+                  <Button fx:id="btnOjoPassword" onAction="#mostrarPassword" prefHeight="40.0" prefWidth="50.0" style="-fx-background-color: #504B4B;" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2">
                      <graphic>
-                        <ImageView fx:id="imgTogglePassword" fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fx:id="imgOjoPassword" fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
                             <image>
                                 <Image url="@/ojoNegro.png" />
                             </image>

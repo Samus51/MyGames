@@ -16,7 +16,6 @@ import org.controlsfx.control.CheckComboBox;
 
 import javafx.animation.FadeTransition;
 import javafx.animation.ScaleTransition;
-import javafx.beans.InvalidationListener;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -51,7 +50,7 @@ public class RegistroController {
   private Button btnCrearCuenta;
 
   @FXML
-  private Button btnTogglePassword;
+  private Button btnOjoPassword;
 
   @FXML
   private ComboBox<?> cbxGenero;
@@ -63,7 +62,7 @@ public class RegistroController {
   private ImageView imgLogo;
 
   @FXML
-  private ImageView imgTogglePassword;
+  private ImageView imgOjoPassword;
 
   @FXML
   private Label lblConfirmarPassword;
@@ -108,16 +107,16 @@ public class RegistroController {
   CheckComboBox<String> lstGeneros;
 
   @FXML
-  private ImageView imgClose;
+  private ImageView imgCerrar;
 
-  private boolean isPasswordVisible = false;
+  private boolean esPasswordVisible = false;
 
   @FXML
-  private void togglePasswordVisibility() {
+  private void mostrarPassword() {
     // Cambiar la visibilidad de los campos
-    isPasswordVisible = !isPasswordVisible;
+    esPasswordVisible = !esPasswordVisible;
 
-    if (isPasswordVisible) {
+    if (esPasswordVisible) {
       txtPasswordOculto.setVisible(false);
       txtPassword.setVisible(true);
       txtPassword.setText(txtPasswordOculto.getText());
@@ -126,7 +125,7 @@ public class RegistroController {
       txtConfirmarPassword.setVisible(true);
       txtConfirmarPassword.setText(txtConfirmarPasswordOculto.getText());
 
-      imgTogglePassword.setImage(new Image(getClass().getResourceAsStream("/ojoNegroTachado.png")));
+      imgOjoPassword.setImage(new Image(getClass().getResourceAsStream("/ojoNegroTachado.png")));
     } else {
       txtPasswordOculto.setVisible(true);
       txtPassword.setVisible(false);
@@ -136,7 +135,7 @@ public class RegistroController {
       txtConfirmarPassword.setVisible(false);
       txtConfirmarPasswordOculto.setText(txtConfirmarPassword.getText());
 
-      imgTogglePassword.setImage(new Image(getClass().getResourceAsStream("/ojoNegro.png")));
+      imgOjoPassword.setImage(new Image(getClass().getResourceAsStream("/ojoNegro.png")));
     }
   }
 

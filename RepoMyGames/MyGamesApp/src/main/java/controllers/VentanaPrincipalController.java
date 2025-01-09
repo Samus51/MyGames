@@ -39,7 +39,7 @@ public class VentanaPrincipalController {
   private Button btnLogin;
 
   @FXML
-  private Button btnTogglePassword;
+  private Button btnOjoPassword;
 
   @FXML
   private ImageView imgClose;
@@ -51,7 +51,7 @@ public class VentanaPrincipalController {
   private ImageView imgMinimizar;
 
   @FXML
-  private ImageView imgTogglePassword;
+  private ImageView imgOjoPassword;
 
   @FXML
   private Label lblCrearCuenta;
@@ -75,7 +75,7 @@ public class VentanaPrincipalController {
   private TextField txtPassword;
 
   @FXML
-  private TextField txtPasswordClear;
+  private TextField txtPasswordLimpio;
 
   @FXML
   private PasswordField txtPasswordOculto;
@@ -83,7 +83,7 @@ public class VentanaPrincipalController {
   @FXML
   private TextField txtUsuario;
 
-  private boolean isPasswordVisible = false;
+  private boolean esPasswordVisible = false;
 
   @FXML
   void initialize() {
@@ -180,18 +180,18 @@ public class VentanaPrincipalController {
   @FXML
   private void mostrarPassword() {
     // Cambiar la visibilidad de los campos
-    isPasswordVisible = !isPasswordVisible;
+    esPasswordVisible = !esPasswordVisible;
 
-    if (isPasswordVisible) {
+    if (esPasswordVisible) {
       txtPasswordOculto.setVisible(false);
       txtPassword.setVisible(true);
       txtPassword.setText(txtPasswordOculto.getText());
-      imgTogglePassword.setImage(new Image(getClass().getResourceAsStream("/ojoNegroTachado.png")));
+      imgOjoPassword.setImage(new Image(getClass().getResourceAsStream("/ojoNegroTachado.png")));
     } else {
       txtPasswordOculto.setVisible(true);
       txtPassword.setVisible(false);
       txtPasswordOculto.setText(txtPassword.getText());
-      imgTogglePassword.setImage(new Image(getClass().getResourceAsStream("/ojoNegro.png")));
+      imgOjoPassword.setImage(new Image(getClass().getResourceAsStream("/ojoNegro.png")));
     }
   }
 

@@ -93,9 +93,9 @@
                         </Button>
                      </children>
                   </VBox>
-                  <Button fx:id="btnTogglePassword" onAction="#togglePasswordVisibility" prefHeight="30.0" prefWidth="30.0" style="-fx-background-color: #504B4B;" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2">
+                  <Button fx:id="btnOjoPassword" onAction="#mostrarPassword" prefHeight="30.0" prefWidth="30.0" style="-fx-background-color: #504B4B;" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2">
                      <graphic>
-                        <ImageView fx:id="imgTogglePassword" fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fx:id="imgOjoPassword" fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
                             <image>
                                 <Image url="@/ojoNegro.png" />
                             </image>
@@ -174,7 +174,7 @@
                               <Cursor fx:constant="HAND" />
                            </cursor>
                         </ImageView>
-                        <ImageView fx:id="imgClose" fitHeight="20.0" fitWidth="20.0" onMouseClicked="#cerrarPressed" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fx:id="imgCerrar" fitHeight="20.0" fitWidth="20.0" onMouseClicked="#cerrarPressed" pickOnBounds="true" preserveRatio="true">
                            <HBox.margin>
                               <Insets />
                            </HBox.margin>
