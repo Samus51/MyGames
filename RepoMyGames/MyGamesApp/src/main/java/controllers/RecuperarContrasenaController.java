@@ -28,7 +28,7 @@ import javafx.stage.StageStyle;
 import javafx.util.Duration;
 import jdbc.Conector;
 
-public class RecuperarContraseñaController {
+public class RecuperarContrasenaController {
 
   private static final String SQL_EMAIL = "Select * from usuarios where email = ?";
   private static final String SQL_CODIGO = "UPDATE usuarios set codigo_seguridad = ? where email = ?";
@@ -70,7 +70,7 @@ public class RecuperarContraseñaController {
   void imgFlechaAtrasPressed(MouseEvent event) {
     try {
       // Obtener el Stage de la ventana actual (Recuperar Contraseña)
-      Stage ventanaRecuperarContraseña = (Stage) ((Node) event.getSource()).getScene().getWindow();
+      Stage ventanaRecuperarContrasena = (Stage) ((Node) event.getSource()).getScene().getWindow();
 
       // Cargar el archivo FXML de la ventana principal
       FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/VentanaPrincipal.fxml"));
@@ -94,7 +94,7 @@ public class RecuperarContraseñaController {
       nuevaVentana.show();
 
       // Cerrar la ventana actual (Recuperar Contraseña)
-      ventanaRecuperarContraseña.close();
+      ventanaRecuperarContrasena.close();
 
     } catch (IOException e) {
       e.printStackTrace();
@@ -169,9 +169,9 @@ public class RecuperarContraseñaController {
         st2.executeUpdate();
 
         // Después de enviar el correo, abrir la siguiente ventana de recuperación
-        Stage ventanaRecuperarContraseña = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        Stage ventanaRecuperarContrasena = (Stage) ((Node) event.getSource()).getScene().getWindow();
 
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/RecuperarContraseñaParte2.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/RecuperarContrasenaParte2.fxml"));
         Pane root = loader.load();
 
         Scene scene = new Scene(root);
@@ -185,7 +185,7 @@ public class RecuperarContraseñaController {
         nuevaVentana.initStyle(StageStyle.UNDECORATED);
 
         nuevaVentana.show();
-        ventanaRecuperarContraseña.close();
+        ventanaRecuperarContrasena.close();
 
       } else {
         // Si no se encuentra el email en la base de datos, mostrar el error

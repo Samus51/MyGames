@@ -1,0 +1,329 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane fx:id="VentanaPrincipal" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" stylesheets="@../../resources/styles.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.HomeController">
+   <center>
+      <VBox prefHeight="389.0" prefWidth="1820.0" BorderPane.alignment="CENTER">
+         <children>
+            <HBox prefHeight="69.0" prefWidth="1820.0" stylesheets="@../../resources/styles.css">
+               <children>
+                  <HBox fx:id="buscador" alignment="TOP_RIGHT" prefHeight="119.0" prefWidth="680.0" styleClass="search_container">
+                     <children>
+                        <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@/Lupa.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                     <HBox.margin>
+                        <Insets left="500.0" top="20.0" />
+                     </HBox.margin>
+                  </HBox>
+                  <HBox alignment="TOP_RIGHT" prefHeight="64.0" prefWidth="644.0" spacing="40.0">
+                     <children>
+                        <ImageView fx:id="btnUser" fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@/User.Png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@/Minimizar.png" />
+                           </image>
+                           <HBox.margin>
+                              <Insets top="15.0" />
+                           </HBox.margin>
+                        </ImageView>
+                        <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@/Cerrar.png" />
+                           </image>
+                           <HBox.margin>
+                              <Insets right="5.0" top="15.0" />
+                           </HBox.margin>
+                        </ImageView>
+                     </children>
+                  </HBox>
+               </children>
+            </HBox>
+            <Label prefHeight="87.0" prefWidth="1806.0" text="Mis Juegos Favoritos" textFill="WHITE">
+               <font>
+                  <Font size="27.0" />
+               </font>
+            </Label>
+            
+            <!-- Primer ScrollPane con tamaño reducido -->
+            <VBox prefHeight="182.0" prefWidth="1648.0">
+               <children>
+                  <ScrollPane fx:id="scrollpane" hbarPolicy="ALWAYS" prefHeight="150.0" prefWidth="1532.0" style="-fx-background: transparent; -fx-border-color: transparent;" vbarPolicy="NEVER">
+                     <content>
+                        <HBox fx:id="contJuegos1" prefHeight="210.0" prefWidth="1534.0" spacing="30.0" style="-fx-background: transparent; -fx-background-color: transparent;">
+                           <children>
+                              <ImageView fitHeight="129.0" fitWidth="214.0" pickOnBounds="true" preserveRatio="true" styleClass="img_videojuegos">
+                                 <HBox.margin>
+                                    <Insets left="15.0" top="10.0" />
+                                 </HBox.margin>
+                                 <image>
+                                    <Image url="@/Logo.png" />
+                                 </image>
+                              </ImageView>
+                              <ImageView fitHeight="129.0" fitWidth="214.0" pickOnBounds="true" preserveRatio="true" styleClass="img_videojuegos">
+                                 <HBox.margin>
+                                    <Insets left="15.0" top="10.0" />
+                                 </HBox.margin>
+                                 <image>
+                                    <Image url="@/Logo.png" />
+                                 </image>
+                              </ImageView>
+                              <ImageView fitHeight="129.0" fitWidth="214.0" pickOnBounds="true" preserveRatio="true" styleClass="img_videojuegos">
+                                 <HBox.margin>
+                                    <Insets left="15.0" top="10.0" />
+                                 </HBox.margin>
+                                 <image>
+                                    <Image url="@/Logo.png" />
+                                 </image>
+                              </ImageView>
+                              <ImageView fitHeight="129.0" fitWidth="214.0" pickOnBounds="true" preserveRatio="true" styleClass="img_videojuegos">
+                                 <HBox.margin>
+                                    <Insets left="15.0" top="10.0" />
+                                 </HBox.margin>
+                                 <image>
+                                    <Image url="@/Logo.png" />
+                                 </image>
+                              </ImageView>
+                              <ImageView fitHeight="129.0" fitWidth="214.0" pickOnBounds="true" preserveRatio="true" styleClass="img_videojuegos">
+                                 <image>
+                                    <Image url="@/Logo.png" />
+                                 </image>
+                                 <HBox.margin>
+                                    <Insets left="15.0" top="10.0" />
+                                 </HBox.margin>
+                              </ImageView>
+                           </children>
+                        </HBox>
+                     </content>
+                  </ScrollPane>
+               </children>
+               <VBox.margin>
+                  <Insets right="200.0" />
+               </VBox.margin>
+            </VBox>
+            <Label prefHeight="87.0" prefWidth="1806.0" text="Proximos lanzamientos" textFill="WHITE">
+               <font>
+                  <Font size="27.0" />
+               </font>
+            </Label>
+
+            <!-- Segundo ScrollPane con tamaño reducido -->
+            <VBox prefHeight="200.0" prefWidth="1730.0">
+               <children>
+                  <ScrollPane fx:id="scrollpane1" hbarPolicy="ALWAYS" prefHeight="150.0" prefWidth="1300.0" style="-fx-background: transparent; -fx-border-color: transparent;" vbarPolicy="NEVER">
+                     <content>
+                        <HBox fx:id="contJuegos11" prefHeight="210.0" prefWidth="1722.0" spacing="30.0" style="-fx-background: transparent;">
+                           <children>
+                              <ImageView fitHeight="200.0" fitWidth="210.0" pickOnBounds="true" preserveRatio="true" styleClass="img_videojuegos">
+                                 <HBox.margin>
+                                    <Insets left="15.0" top="10.0" />
+                                 </HBox.margin>
+                                 <image>
+                                    <Image url="@/Logo.png" />
+                                 </image>
+                              </ImageView>
+                              <ImageView fitHeight="200.0" fitWidth="210.0" pickOnBounds="true" preserveRatio="true" styleClass="img_videojuegos">
+                                 <HBox.margin>
+                                    <Insets left="15.0" top="10.0" />
+                                 </HBox.margin>
+                                 <image>
+                                    <Image url="@/Logo.png" />
+                                 </image>
+                              </ImageView>
+                              <ImageView fitHeight="200.0" fitWidth="210.0" pickOnBounds="true" preserveRatio="true" styleClass="img_videojuegos">
+                                 <HBox.margin>
+                                    <Insets left="15.0" top="10.0" />
+                                 </HBox.margin>
+                                 <image>
+                                    <Image url="@/Logo.png" />
+                                 </image>
+                              </ImageView>
+                              <ImageView fitHeight="200.0" fitWidth="210.0" pickOnBounds="true" preserveRatio="true" styleClass="img_videojuegos">
+                                 <HBox.margin>
+                                    <Insets left="15.0" top="10.0" />
+                                 </HBox.margin>
+                                 <image>
+                                    <Image url="@/Logo.png" />
+                                 </image>
+                              </ImageView>
+                              <ImageView fitHeight="200.0" fitWidth="210.0" pickOnBounds="true" preserveRatio="true" styleClass="img_videojuegos">
+                                 <image>
+                                    <Image url="@/Logo.png" />
+                                 </image>
+                                 <HBox.margin>
+                                    <Insets left="15.0" top="10.0" />
+                                 </HBox.margin>
+                              </ImageView>
+                           </children>
+                        </HBox>
+                     </content>
+                  </ScrollPane>
+               </children>
+               <VBox.margin>
+                  <Insets right="200.0" />
+               </VBox.margin>
+            </VBox>
+            <Label prefHeight="87.0" prefWidth="1806.0" text="Recomendados para ti" textFill="WHITE">
+               <font>
+                  <Font size="27.0" />
+               </font>
+            </Label>
+
+            <!-- Tercer ScrollPane con tamaño reducido -->
+            <VBox prefHeight="200.0" prefWidth="1730.0">
+               <children>
+                  <ScrollPane fx:id="scrollpane2" hbarPolicy="ALWAYS" prefHeight="150.0" prefWidth="1300.0" style="-fx-background: transparent; -fx-border-color: transparent;" vbarPolicy="NEVER">
+                     <content>
+                        <HBox fx:id="contJuegos12" prefHeight="210.0" prefWidth="1730.0" spacing="30.0" style="-fx-background: transparent;">
+                           <children>
+                              <ImageView fitHeight="200.0" fitWidth="210.0" pickOnBounds="true" preserveRatio="true" styleClass="img_videojuegos">
+                                 <HBox.margin>
+                                    <Insets left="15.0" top="10.0" />
+                                 </HBox.margin>
+                                 <image>
+                                    <Image url="@/Logo.png" />
+                                 </image>
+                              </ImageView>
+                              <ImageView fitHeight="200.0" fitWidth="210.0" pickOnBounds="true" preserveRatio="true" styleClass="img_videojuegos">
+                                 <HBox.margin>
+                                    <Insets left="15.0" top="10.0" />
+                                 </HBox.margin>
+                                 <image>
+                                    <Image url="@/Logo.png" />
+                                 </image>
+                              </ImageView>
+                              <ImageView fitHeight="200.0" fitWidth="210.0" pickOnBounds="true" preserveRatio="true" styleClass="img_videojuegos">
+                                 <HBox.margin>
+                                    <Insets left="15.0" top="10.0" />
+                                 </HBox.margin>
+                                 <image>
+                                    <Image url="@/Logo.png" />
+                                 </image>
+                              </ImageView>
+                              <ImageView fitHeight="132.0" fitWidth="210.0" pickOnBounds="true" preserveRatio="true" styleClass="img_videojuegos">
+                                 <HBox.margin>
+                                    <Insets left="15.0" top="10.0" />
+                                 </HBox.margin>
+                                 <image>
+                                    <Image url="@/Logo.png" />
+                                 </image>
+                              </ImageView>
+                              <ImageView fitHeight="200.0" fitWidth="210.0" pickOnBounds="true" preserveRatio="true" styleClass="img_videojuegos">
+                                 <image>
+                                    <Image url="@/Logo.png" />
+                                 </image>
+                                 <HBox.margin>
+                                    <Insets left="15.0" top="10.0" />
+                                 </HBox.margin>
+                              </ImageView>
+                           </children>
+                        </HBox>
+                     </content>
+                  </ScrollPane>
+               </children>
+               <VBox.margin>
+                  <Insets right="200.0" />
+               </VBox.margin>
+            </VBox>
+            <Label prefHeight="87.0" prefWidth="1806.0" text="Pendiente de jugar" textFill="WHITE">
+               <font>
+                  <Font size="27.0" />
+               </font>
+            </Label>
+            <VBox prefHeight="200.0" prefWidth="1730.0">
+               <children>
+                  <ScrollPane fx:id="scrollpane21" hbarPolicy="ALWAYS" prefHeight="150.0" prefWidth="1300.0" style="-fx-background: transparent; -fx-border-color: transparent;" vbarPolicy="NEVER">
+                     <content>
+                        <HBox fx:id="contJuegos121" prefHeight="210.0" prefWidth="1718.0" spacing="30.0" style="-fx-background: transparent;">
+                           <children>
+                              <ImageView fitHeight="200.0" fitWidth="210.0" pickOnBounds="true" preserveRatio="true" styleClass="img_videojuegos">
+                                 <HBox.margin>
+                                    <Insets left="15.0" top="10.0" />
+                                 </HBox.margin>
+                                 <image>
+                                    <Image url="@/Logo.png" />
+                                 </image>
+                              </ImageView>
+                              <ImageView fitHeight="200.0" fitWidth="210.0" pickOnBounds="true" preserveRatio="true" styleClass="img_videojuegos">
+                                 <HBox.margin>
+                                    <Insets left="15.0" top="10.0" />
+                                 </HBox.margin>
+                                 <image>
+                                    <Image url="@/Logo.png" />
+                                 </image>
+                              </ImageView>
+                              <ImageView fitHeight="200.0" fitWidth="210.0" pickOnBounds="true" preserveRatio="true" styleClass="img_videojuegos">
+                                 <HBox.margin>
+                                    <Insets left="15.0" top="10.0" />
+                                 </HBox.margin>
+                                 <image>
+                                    <Image url="@/Logo.png" />
+                                 </image>
+                              </ImageView>
+                              <ImageView fitHeight="200.0" fitWidth="210.0" pickOnBounds="true" preserveRatio="true" styleClass="img_videojuegos">
+                                 <HBox.margin>
+                                    <Insets left="15.0" top="10.0" />
+                                 </HBox.margin>
+                                 <image>
+                                    <Image url="@/Logo.png" />
+                                 </image>
+                              </ImageView>
+                              <ImageView fitHeight="200.0" fitWidth="210.0" pickOnBounds="true" preserveRatio="true" styleClass="img_videojuegos">
+                                 <image>
+                                    <Image url="@/Logo.png" />
+                                 </image>
+                                 <HBox.margin>
+                                    <Insets left="15.0" top="10.0" />
+                                 </HBox.margin>
+                              </ImageView>
+                           </children>
+                        </HBox>
+                     </content>
+                  </ScrollPane>
+               </children>
+               <VBox.margin>
+                  <Insets right="200.0" />
+               </VBox.margin>
+            </VBox>
+
+         </children>
+      </VBox>
+   </center>
+   <left>
+      <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+         <children>
+            <HBox prefHeight="100.0" prefWidth="200.0">
+               <children>
+                  <ImageView fx:id="btnMenu" fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@/Menu.png" />
+                     </image>
+                     <HBox.margin>
+                        <Insets left="25.0" top="40.0" />
+                     </HBox.margin>
+                  </ImageView>
+               </children>
+            </HBox>
+         </children>
+         <BorderPane.margin>
+            <Insets right="300.0" />
+         </BorderPane.margin>
+      </VBox>
+   </left>
+</BorderPane>

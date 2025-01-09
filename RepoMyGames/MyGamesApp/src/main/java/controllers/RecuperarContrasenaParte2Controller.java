@@ -19,7 +19,7 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.util.Duration;
 
-public class RecuperarContraseñaParte2Controller {
+public class RecuperarContrasenaParte2Controller {
 
   @FXML
   private TextField txtCodigo;
@@ -58,7 +58,7 @@ public class RecuperarContraseñaParte2Controller {
   void imgFlechaAtrasPressed(MouseEvent event) {
     try {
       // Obtener el Stage de la ventana actual (Recuperar Contraseña)
-      Stage ventanaRecuperarContraseña = (Stage) ((Node) event.getSource()).getScene().getWindow();
+      Stage ventanaRecuperarContrasena = (Stage) ((Node) event.getSource()).getScene().getWindow();
 
       // Cargar el archivo FXML de la ventana principal
       FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/VentanaPrincipal.fxml"));
@@ -82,7 +82,7 @@ public class RecuperarContraseñaParte2Controller {
       nuevaVentana.show();
 
       // Cerrar la ventana actual (Recuperar Contraseña)
-      ventanaRecuperarContraseña.close();
+      ventanaRecuperarContrasena.close();
 
     } catch (IOException e) {
       e.printStackTrace();

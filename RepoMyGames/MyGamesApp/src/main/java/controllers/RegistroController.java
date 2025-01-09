@@ -42,7 +42,7 @@ import javafx.util.Duration;
 public class RegistroController {
 
   private static final String SQL_USUARIO_COMPROBACION = "Select * from usuarios where email = ?";
-  private static final String SQL_USUARIO_INSERT = "INSERT INTO usuarios (nombre,email,fecha_registro,contraseña) values (?,?,?,?)";
+  private static final String SQL_USUARIO_INSERT = "INSERT INTO usuarios (nombre,email,fecha_registro,contrasena) values (?,?,?,?)";
 
   @FXML
   private BorderPane VentanaPrincipal;
@@ -158,8 +158,8 @@ public class RegistroController {
   void btnCrearCuentaPressed(MouseEvent event) {
     String userName = txtUser.getText();
     String email = txtEmail.getText();
-    String contraseña;
-    String contraseñaConfirmacion;
+    String contrasena;
+    String contrasenaConfirmacion;
 
     if (!email.matches("^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$")) {
       Alert alert = new Alert(AlertType.WARNING);
@@ -171,22 +171,22 @@ public class RegistroController {
     }
 
     if (txtPassword.getText().isEmpty()) {
-      contraseña = txtPasswordOculto.getText();
+      contrasena = txtPasswordOculto.getText();
     } else {
-      contraseña = txtPassword.getText();
+      contrasena = txtPassword.getText();
     }
 
     if (txtConfirmarPassword.getText().isEmpty()) {
-      contraseñaConfirmacion = txtConfirmarPasswordOculto.getText();
+      contrasenaConfirmacion = txtConfirmarPasswordOculto.getText();
     } else {
-      contraseñaConfirmacion = txtConfirmarPassword.getText();
+      contrasenaConfirmacion = txtConfirmarPassword.getText();
     }
 
-    if (!contraseña.equals(contraseñaConfirmacion)) {
+    if (!contrasena.equals(contrasenaConfirmacion)) {
       System.out.println("Las contraseñas no coinciden.");
     }
 
-    if (!contraseña.matches("^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$")) {
+    if (!contrasena.matches("^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$")) {
       Alert alert = new Alert(AlertType.WARNING);
       alert.setTitle("Creación de usuario");
       alert.setHeaderText("Error de formato de contraseña");
@@ -225,7 +225,7 @@ public class RegistroController {
       st2.setString(1, userName);
       st2.setString(2, email);
       st2.setDate(3, new Date(System.currentTimeMillis()));
-      st2.setString(4, contraseña);
+      st2.setString(4, contrasena);
 
       int rs2 = st2.executeUpdate();
       if (rs2 == 1) {

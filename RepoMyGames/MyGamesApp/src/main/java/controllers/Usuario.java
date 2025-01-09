@@ -5,7 +5,7 @@ import java.util.List;
 public class Usuario {
 	private String nombreUsuario;
 	private String email;
-	private String contraseña;
+	private String contrasena;
 	private List<String> generosPreferidos;
 
 	/**
@@ -25,8 +25,8 @@ public class Usuario {
 	/**
 	 * @return the contraseña
 	 */
-	public String getContraseña() {
-		return contraseña;
+	public String getContrasena() {
+		return contrasena;
 	}
 
 	/**
@@ -53,8 +53,8 @@ public class Usuario {
 	/**
 	 * @param contraseña the contraseña to set
 	 */
-	public void setContraseña(String contraseña) {
-		this.contraseña = contraseña;
+	public void setContrasena(String contrasena) {
+		this.contrasena = contrasena;
 	}
 
 	/**
@@ -64,10 +64,10 @@ public class Usuario {
 		this.generosPreferidos = generosPreferidos;
 	}
 
-	public Usuario(String nombreUsuario, String email, String contraseña, List<String> generosPreferidos) {
+	public Usuario(String nombreUsuario, String email, String contrasena, List<String> generosPreferidos) {
 		this.nombreUsuario = nombreUsuario;
 		this.email = email;
-		this.contraseña = contraseña;
+		this.contrasena = contrasena;
 		this.generosPreferidos = generosPreferidos;
 	}
 

@@ -7,6 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import javafx.animation.ScaleTransition;
+import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -29,7 +30,7 @@ import jdbc.Conector;
 
 public class VentanaPrincipalController {
 
-  private static final String SQL_USUARIO = "Select * from usuarios where nombre_usuario = ? and contraseña = ?";
+  private static final String SQL_USUARIO = "Select * from usuarios where nombre = ? and contrasena = ?";
 
   @FXML
   private BorderPane VentanaPrincipal;
@@ -68,6 +69,9 @@ public class VentanaPrincipalController {
   private BorderPane panelLogo;
 
   @FXML
+  private ImageView cargando;
+
+  @FXML
   private TextField txtPassword;
 
   @FXML
@@ -84,6 +88,7 @@ public class VentanaPrincipalController {
   @FXML
   void initialize() {
     addZoomEffect(imgLogo);
+    cargando.setVisible(false);
   }
 
   @FXML
@@ -99,17 +104,73 @@ public class VentanaPrincipalController {
       ResultSet rs = st.executeQuery();
 
       if (rs.next()) {
-        Alert alerta = new Alert(Alert.AlertType.CONFIRMATION);
-        alerta.setTitle("Login");
-        alerta.setContentText("Bienvenido " + user);
-        alerta.setHeaderText("Login exitoso");
-        alerta.showAndWait();
+        // Ocultar el texto del botón y mostrar el GIF de carga
+        btnLogin.setText("");
+        cargando.setVisible(true);
+        btnLogin.setDisable(true);
+
+        // Usamos un Task para hacer el proceso en un hilo secundario y evitar congelar
+        // la UI
+        Task<Void> task = new Task<Void>() {
+          protected Void call() throws Exception {
+            Thread.sleep(5000);
+            return null;
+          }
+
+          protected void succeeded() {
+            // Llamamos a este método cuando el Task se complete con éxito
+            try {
+              Stage ventanaPrincipal = (Stage) ((Node) event.getSource()).getScene().getWindow();
+
+              FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/Home.fxml"));
+              BorderPane root = loader.load();
+
+              Scene scene = new Scene(root);
+              scene.getStylesheets().add(getClass().getResource("/styles.css").toExternalForm());
+
+              Stage nuevaVentana = new Stage();
+              nuevaVentana.setTitle("Home");
+              nuevaVentana.setScene(scene);
+
+              nuevaVentana.setMaximized(true);
+              nuevaVentana.setResizable(false);
+              nuevaVentana.initStyle(StageStyle.UNDECORATED);
+              nuevaVentana.show();
+
+              ventanaPrincipal.close();
+            } catch (IOException e) {
+              e.printStackTrace();
+            }
+          }
+
+          protected void failed() {
+            // Si ocurre algún error durante el Task, restablecer la UI
+            Alert alerta = new Alert(Alert.AlertType.ERROR);
+            alerta.setTitle("Login");
+            alerta.setContentText("Hubo un error al procesar la solicitud.");
+            alerta.setHeaderText("Error de Login");
+            alerta.showAndWait();
+
+            // Restaurar la UI
+            btnLogin.setText("Iniciar sesión");
+            cargando.setVisible(false);
+            btnLogin.setDisable(false);
+          }
+        };
+        // Ejecutar el Task en un hilo secundario
+        new Thread(task).start();
       } else {
+        // Si el login es incorrecto, mostrar un mensaje de error
         Alert alerta = new Alert(Alert.AlertType.ERROR);
         alerta.setTitle("Login");
         alerta.setContentText("Usuario o contraseña incorrectos");
         alerta.setHeaderText("Error de Login");
         alerta.showAndWait();
+
+        // Restaurar la UI en caso de error
+        btnLogin.setText("Iniciar sesión");
+        cargando.setVisible(false);
+        btnLogin.setDisable(false);
       }
     } catch (SQLException e) {
       e.printStackTrace();
@@ -117,7 +178,7 @@ public class VentanaPrincipalController {
   }
 
   @FXML
-  private void togglePasswordVisibility() {
+  private void mostrarPassword() {
     // Cambiar la visibilidad de los campos
     isPasswordVisible = !isPasswordVisible;
 
@@ -181,13 +242,13 @@ public class VentanaPrincipalController {
   }
 
   @FXML
-  void lblRecuperarContraseñaPressed(MouseEvent event) {
+  void lblRecuperarContrasenaPressed(MouseEvent event) {
     try {
       // Obtener el Stage de la ventana principal
       Stage ventanaPrincipal = (Stage) ((Node) event.getSource()).getScene().getWindow();
 
       // Cargar el archivo FXML de la ventana de Recuperar Contraseña
-      FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/RecuperarContraseña.fxml"));
+      FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/RecuperarContrasena.fxml"));
       Pane root = loader.load();
 
       // Crear una nueva escena con el root cargado
