@@ -54,8 +54,8 @@ public class HomeController {
     Rectangle2D bounds = screen.getVisualBounds();
 
     // Ajusta el desplazamiento según lo desees
-    double desplazamientoX = 300; // Distancia horizontal
-    double desplazamientoY = 100; // Distancia vertical
+    double desplazamientoX = 300;
+    double desplazamientoY = 100;
 
     // Establecer la nueva posición de la ventana en el monitor
     stage.setX(bounds.getMinX() + desplazamientoX);

@@ -28,7 +28,7 @@ import javafx.stage.StageStyle;
 import javafx.util.Duration;
 import jdbc.Conector;
 
-public class VentanaPrincipalController {
+public class LoginController {
 
   private static final String SQL_USUARIO = "Select * from usuarios where nombre = ? and contrasena = ?";
 
