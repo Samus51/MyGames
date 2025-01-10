@@ -264,7 +264,7 @@ public class RegistroController {
       Stage ventanaPrincipal = (Stage) ((Node) event.getSource()).getScene().getWindow();
 
       // Cargar el nuevo archivo FXML (el que contiene la vista "Crear Cuenta")
-      FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/VentanaPrincipal.fxml"));
+      FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/Login.fxml"));
       BorderPane root = loader.load();
 
       // Crear una nueva escena con el root cargado
