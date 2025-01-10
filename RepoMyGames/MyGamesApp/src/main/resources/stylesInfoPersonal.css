@@ -1,0 +1,22 @@
+#VentanaPrincipal {
+    -fx-background-image: url('fondoWeb2.jpg');
+    -fx-background-size: cover;
+    -fx-background-position: center center;
+    -fx-background-repeat: no-repeat;
+}
+
+.text-field {
+	-fx-background-color:#504B4B;
+	-fx-text-fill:white;
+}
+
+#lstGeneros .list-cell {
+    -fx-background-color: #504B4B;
+    -fx-text-fill: white;
+}
+
+#lstGeneros{
+	-fx-background-color:#504B4B;
+	-fx-text-fill:white;
+	
+}

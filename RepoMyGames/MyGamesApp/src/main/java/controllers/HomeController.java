@@ -64,8 +64,14 @@ public class HomeController {
 	@FXML
 	private HBox contJuegos4;
 
+<<<<<<< HEAD
 	@FXML
 	private StackPane contMenuPadre;
+=======
+    // Ajusta el desplazamiento según lo desees
+    double desplazamientoX = 300;
+    double desplazamientoY = 100;
+>>>>>>> refs/remotes/origin/main
 
 	@FXML
 	private VBox menuGeneral;

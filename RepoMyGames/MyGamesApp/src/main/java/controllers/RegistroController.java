@@ -14,7 +14,6 @@ import java.util.Map;
 import jdbc.Conector;
 import org.controlsfx.control.CheckComboBox;
 
-import javafx.animation.FadeTransition;
 import javafx.animation.ScaleTransition;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -284,11 +283,6 @@ public class RegistroController {
 
       // Mostrar la nueva ventana
       nuevaVentana.show();
-
-      // Transición de desvanecimiento para la primera ventana
-      FadeTransition fadeOut = new FadeTransition(Duration.seconds(0.5), nuevaVentana.getScene().getRoot());
-      fadeOut.setFromValue(1.0);
-      fadeOut.setToValue(0.0);
 
       ventanaPrincipal.close();
 
