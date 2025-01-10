@@ -248,7 +248,7 @@
                         <Cursor fx:constant="HAND" />
                      </cursor>
                   </Label>
-                  <Label prefHeight="70.0" prefWidth="815.0" text="Cerrar Sesión" textFill="WHITE">
+                  <Label fx:id="lblCerrarSesion" onMouseClicked="#lblCerrarSesionPressed" prefHeight="70.0" prefWidth="815.0" text="Cerrar Sesión" textFill="WHITE">
                      <font>
                         <Font size="36.0" />
                      </font>
@@ -256,7 +256,7 @@
                         <Cursor fx:constant="HAND" />
                      </cursor>
                   </Label>
-                  <Label prefHeight="70.0" prefWidth="813.0" text="Eliminar Cuenta" textFill="WHITE">
+                  <Label fx:id="lblEliminarCuenta" onMouseClicked="#lblEliminarCuentaPressed" prefHeight="70.0" prefWidth="813.0" text="Eliminar Cuenta" textFill="WHITE">
                      <font>
                         <Font size="36.0" />
                      </font>

@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
@@ -38,6 +39,12 @@ public class HomeController {
 
 	@FXML
 	private ImageView btnGenerosSalida;
+
+	@FXML
+	private ImageView btnMinimizar;
+
+	@FXML
+	private ImageView btnCerrar;
 
 	@FXML
 	private Label btnPlataformas;
@@ -358,4 +365,17 @@ public class HomeController {
 	void btnUserPressed(MouseEvent event) {
 		abrirNuevaVentana(PANEL_USER);
 	}
+
+	@FXML
+	void btnMinimizarPressed(MouseEvent event) {
+		Stage ventanaPrincipal = (Stage) ((Node) event.getSource()).getScene().getWindow();
+		ventanaPrincipal.setIconified(true);
+	}
+
+	@FXML
+	void btnCerrarPressed(MouseEvent event) {
+		Stage ventanaPrincipal = (Stage) ((Node) event.getSource()).getScene().getWindow();
+		ventanaPrincipal.close();
+	}
+
 }

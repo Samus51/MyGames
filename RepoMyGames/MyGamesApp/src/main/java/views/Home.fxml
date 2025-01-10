@@ -49,7 +49,7 @@
                               <Cursor fx:constant="HAND" />
                            </cursor>
                         </ImageView>
-                        <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fx:id="btnMinimizar" fitHeight="20.0" fitWidth="20.0" onMouseClicked="#btnMinimizarPressed" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@/Minimizar.png" />
                            </image>
@@ -60,7 +60,7 @@
                               <Cursor fx:constant="HAND" />
                            </cursor>
                         </ImageView>
-                        <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fx:id="btnCerrar" fitHeight="20.0" fitWidth="20.0" onMouseClicked="#btnCerrarPressed" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@/Cerrar.png" />
                            </image>
@@ -495,7 +495,7 @@
                               <Font name="System Bold" size="35.0" />
                            </font>
                            <cursor>
-                              <Cursor fx:constant="CROSSHAIR" />
+                              <Cursor fx:constant="HAND" />
                            </cursor>
                            <VBox.margin>
                               <Insets />
