@@ -34,9 +34,9 @@ public class HomeController {
 	@FXML
 	private Label btnPlataformas;
 
-  @FXML
-  private ImageView btnMenu;
-	
+	@FXML
+	private ImageView btnMenu;
+
 	@FXML
 	private Label btnPlataformasMenuGeneros;
 
@@ -64,14 +64,8 @@ public class HomeController {
 	@FXML
 	private HBox contJuegos4;
 
-<<<<<<< HEAD
 	@FXML
 	private StackPane contMenuPadre;
-=======
-    // Ajusta el desplazamiento según lo desees
-    double desplazamientoX = 300;
-    double desplazamientoY = 100;
->>>>>>> refs/remotes/origin/main
 
 	@FXML
 	private VBox menuGeneral;
@@ -194,7 +188,7 @@ public class HomeController {
 				double newHvalue = scrollPaneActivo.getHvalue() + deltaX * 8 / contenedorActivo.getWidth();
 				// Aseguramos que el valor se mantenga dentro de los límites (0 a 1)
 				scrollPaneActivo.setHvalue(Math.max(0, Math.min(1, newHvalue)));
-        scrollPaneActivo.setVvalue(0);  // Establecemos el valor vertical en 0 para restringirlo.
+				scrollPaneActivo.setVvalue(0); // Establecemos el valor vertical en 0 para restringirlo.
 
 			}
 		}
@@ -298,9 +292,9 @@ public class HomeController {
 		scrollMenu.setVvalue(0);
 	}
 
-	 @FXML
-   void btnMenuPressed(MouseEvent event) {
-		 menuGeneral.setVisible(true);
-   }
-	
+	@FXML
+	void btnMenuPressed(MouseEvent event) {
+		menuGeneral.setVisible(true);
+	}
+
 }

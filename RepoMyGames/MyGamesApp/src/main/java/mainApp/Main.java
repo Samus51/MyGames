@@ -17,11 +17,7 @@ public class Main extends Application {
   public void start(Stage primaryStage) {
     try {
       // Cargar el archivo FXML
-<<<<<<< HEAD
       FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/Home.fxml"));
-=======
-      FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/HistorialJuegos.fxml"));
->>>>>>> refs/remotes/origin/main
       Pane root = loader.load();
       primaryStage.setMaximized(true);
       primaryStage.initStyle(StageStyle.UNDECORATED);
