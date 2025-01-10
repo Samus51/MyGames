@@ -27,6 +27,7 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.util.Duration;
 import jdbc.Conector;
+import utils.LoginTask;
 
 public class VentanaPrincipalController {
 
@@ -93,88 +94,41 @@ public class VentanaPrincipalController {
 
   @FXML
   void btnLoginPressed(MouseEvent event) {
-    String user = txtUsuario.getText();
-    String password = txtPassword.getText().isEmpty() ? txtPasswordOculto.getText() : txtPassword.getText();
+      String user = txtUsuario.getText();
+      String password = txtPassword.getText().isEmpty() ? txtPasswordOculto.getText() : txtPassword.getText();
 
-    Connection cone = Conector.conectar();
-    try (PreparedStatement st = cone.prepareStatement(SQL_USUARIO)) {
-      st.setString(1, user);
-      st.setString(2, password);
+      Connection cone = Conector.conectar();
+      try (PreparedStatement st = cone.prepareStatement(SQL_USUARIO)) {
+          st.setString(1, user);
+          st.setString(2, password);
 
-      ResultSet rs = st.executeQuery();
+          ResultSet rs = st.executeQuery();
 
-      if (rs.next()) {
-        // Ocultar el texto del botón y mostrar el GIF de carga
-        btnLogin.setText("");
-        cargando.setVisible(true);
-        btnLogin.setDisable(true);
+          if (rs.next()) {
+              // Ocultar el texto del botón y mostrar el GIF de carga
+              btnLogin.setText("");
+              cargando.setVisible(true);
+              btnLogin.setDisable(true);
 
-        // Usamos un Task para hacer el proceso en un hilo secundario y evitar congelar
-        // la UI
-        Task<Void> task = new Task<Void>() {
-          protected Void call() throws Exception {
-            Thread.sleep(5000);
-            return null;
+              // Crear y ejecutar LoginTask
+              LoginTask loginTask = new LoginTask((Node) event.getSource(), btnLogin, cargando);
+              new Thread(loginTask).start();
+          } else {
+              // Si el login es incorrecto, mostrar un mensaje de error
+              Alert alerta = new Alert(Alert.AlertType.ERROR);
+              alerta.setTitle("Login");
+              alerta.setContentText("Usuario o contraseña incorrectos");
+              alerta.setHeaderText("Error de Login");
+              alerta.showAndWait();
+
+              // Restaurar la UI en caso de error
+              btnLogin.setText("Iniciar sesión");
+              cargando.setVisible(false);
+              btnLogin.setDisable(false);
           }
-
-          protected void succeeded() {
-            // Llamamos a este método cuando el Task se complete con éxito
-            try {
-              Stage ventanaPrincipal = (Stage) ((Node) event.getSource()).getScene().getWindow();
-
-              FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/Home.fxml"));
-              BorderPane root = loader.load();
-
-              Scene scene = new Scene(root);
-              scene.getStylesheets().add(getClass().getResource("/styles.css").toExternalForm());
-
-              Stage nuevaVentana = new Stage();
-              nuevaVentana.setTitle("Home");
-              nuevaVentana.setScene(scene);
-
-              nuevaVentana.setMaximized(true);
-              nuevaVentana.setResizable(false);
-              nuevaVentana.initStyle(StageStyle.UNDECORATED);
-              nuevaVentana.show();
-
-              ventanaPrincipal.close();
-            } catch (IOException e) {
-              e.printStackTrace();
-            }
-          }
-
-          protected void failed() {
-            // Si ocurre algún error durante el Task, restablecer la UI
-            Alert alerta = new Alert(Alert.AlertType.ERROR);
-            alerta.setTitle("Login");
-            alerta.setContentText("Hubo un error al procesar la solicitud.");
-            alerta.setHeaderText("Error de Login");
-            alerta.showAndWait();
-
-            // Restaurar la UI
-            btnLogin.setText("Iniciar sesión");
-            cargando.setVisible(false);
-            btnLogin.setDisable(false);
-          }
-        };
-        // Ejecutar el Task en un hilo secundario
-        new Thread(task).start();
-      } else {
-        // Si el login es incorrecto, mostrar un mensaje de error
-        Alert alerta = new Alert(Alert.AlertType.ERROR);
-        alerta.setTitle("Login");
-        alerta.setContentText("Usuario o contraseña incorrectos");
-        alerta.setHeaderText("Error de Login");
-        alerta.showAndWait();
-
-        // Restaurar la UI en caso de error
-        btnLogin.setText("Iniciar sesión");
-        cargando.setVisible(false);
-        btnLogin.setDisable(false);
+      } catch (SQLException e) {
+          e.printStackTrace();
       }
-    } catch (SQLException e) {
-      e.printStackTrace();
-    }
   }
 
   @FXML

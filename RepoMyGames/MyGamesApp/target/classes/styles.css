@@ -32,3 +32,21 @@
 	-fx-text-fill:white;
 	
 }
+
+#contMenuPadre{
+    -fx-background-image: url("fondoWeb.jpg");
+    -fx-background-size: cover;
+    -fx-background-repeat: no-repeat; 
+    -fx-background-attachment: fixed; 
+}
+
+#menuGeneral Label, 
+#menuGeneros Label, 
+#menuPlataformas Label {
+    -fx-text-fill: white; 
+}
+
+.search_container{
+	-fx-background-color:#ffff;
+	-fx-background-radius:100;
+	}
