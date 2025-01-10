@@ -1,20 +1,28 @@
 package controllers;
 
+import java.io.IOException;
+
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Screen;
 import javafx.geometry.Rectangle2D;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 public class HomeController {
+
+	private final static String PANEL_USER = "/views/CambiarInfoPersonal.fxml";
 
 	@FXML
 	private BorderPane VentanaPrincipal;
@@ -294,7 +302,60 @@ public class HomeController {
 
 	@FXML
 	void btnMenuPressed(MouseEvent event) {
-		menuGeneral.setVisible(true);
+
+		if (menuGeneral.isVisible()) {
+			menuGeneral.setVisible(false);
+		} else {
+			menuGeneral.setVisible(true);
+		}
+
+		if (menuGeneros.isVisible()) {
+			menuGeneros.setVisible(false);
+			menuGeneral.setVisible(false);
+
+		}
+		if (menuPlataformas.isVisible()) {
+			menuPlataformas.setVisible(false);
+			menuGeneral.setVisible(false);
+
+		}
+
 	}
 
+	public void abrirNuevaVentana(String fxml) {
+		try {
+			// Obtener el Stage de la ventana principal
+			Stage ventanaPrincipal = (Stage) VentanaPrincipal.getScene().getWindow();
+
+			// Cargar el archivo FXML de la nueva ventana
+			FXMLLoader loader = new FXMLLoader(getClass().getResource(fxml));
+			Pane root = loader.load();
+
+			// Crear una nueva escena con el root cargado
+			Scene scene = new Scene(root);
+			scene.getStylesheets().add(getClass().getResource("/styles.css").toExternalForm());
+
+			// Crear un nuevo Stage
+			Stage nuevaVentana = new Stage();
+			nuevaVentana.setScene(scene);
+
+			// Maximizar la ventana
+			nuevaVentana.setMaximized(true);
+			nuevaVentana.setResizable(false);
+			nuevaVentana.initStyle(StageStyle.UNDECORATED);
+
+			// Mostrar la nueva ventana
+			nuevaVentana.show();
+
+			// Cerrar la ventana principal
+			ventanaPrincipal.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	@FXML
+	void btnUserPressed(MouseEvent event) {
+		abrirNuevaVentana(PANEL_USER);
+	}
 }

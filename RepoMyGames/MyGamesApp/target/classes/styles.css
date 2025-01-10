@@ -34,7 +34,7 @@
 }
 
 #contMenuPadre{
-    -fx-background-image: url("fondoWeb.jpg");
+    -fx-background-image: url("fondoPrueba.jpg");
     -fx-background-size: cover;
     -fx-background-repeat: no-repeat; 
     -fx-background-attachment: fixed; 
@@ -50,3 +50,4 @@
 	-fx-background-color:#ffff;
 	-fx-background-radius:100;
 	}
+

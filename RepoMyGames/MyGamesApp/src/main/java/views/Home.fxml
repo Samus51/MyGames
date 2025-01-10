@@ -41,10 +41,13 @@
                   </HBox>
                   <HBox alignment="TOP_RIGHT" prefHeight="64.0" prefWidth="644.0" spacing="40.0">
                      <children>
-                        <ImageView fx:id="btnUser" fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fx:id="btnUser" fitHeight="50.0" fitWidth="50.0" onMouseClicked="#btnUserPressed" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@/User.Png" />
                            </image>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
                         </ImageView>
                         <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                            <image>
@@ -53,6 +56,9 @@
                            <HBox.margin>
                               <Insets top="15.0" />
                            </HBox.margin>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
                         </ImageView>
                         <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                            <image>
@@ -61,6 +67,9 @@
                            <HBox.margin>
                               <Insets right="5.0" top="15.0" />
                            </HBox.margin>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
                         </ImageView>
                      </children>
                   </HBox>
@@ -76,7 +85,7 @@
             </Label>
 			<VBox prefHeight="182.0" prefWidth="1648.0" style="-fx-background-color: transparent;">
                <children>
-                  <ScrollPane fx:id="scrollpane" hbarPolicy="NEVER" prefHeight="150.0" prefWidth="1532.0" style="-fx-background: transparent; -fx-border-color: transparent;" vbarPolicy="NEVER" vmax="0.0">
+                  <ScrollPane fx:id="scrollpane" fitToWidth="true" hbarPolicy="NEVER" prefHeight="150.0" prefWidth="1532.0" style="-fx-background: transparent; -fx-background-color: transparent;" vbarPolicy="NEVER" vmax="0.0">
                      <content>
                         <HBox fx:id="contJuegos1" prefHeight="210.0" prefWidth="1534.0" spacing="30.0" style="-fx-background: transparent; -fx-background-color: transparent;">
                            <children>
@@ -120,6 +129,26 @@
                                     <Insets left="15.0" top="10.0" />
                                  </HBox.margin>
                               </ImageView>
+                              <ImageView fitHeight="129.0" fitWidth="214.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@/OjoNegro.png" />
+                                 </image>
+                              </ImageView>
+                              <ImageView fitHeight="129.0" fitWidth="214.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@/OjoNegro.png" />
+                                 </image>
+                              </ImageView>
+                              <ImageView fitHeight="129.0" fitWidth="214.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@/OjoNegro.png" />
+                                 </image>
+                              </ImageView>
+                              <ImageView fitHeight="129.0" fitWidth="214.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@/OjoNegro.png" />
+                                 </image>
+                              </ImageView>
                            </children>
                         </HBox>
                      </content>
@@ -136,11 +165,11 @@
             </Label>
             <VBox prefHeight="200.0" prefWidth="1730.0">
                <children>
-                  <ScrollPane fx:id="scrollpane1" hbarPolicy="NEVER" prefHeight="150.0" prefWidth="1300.0" style="-fx-background: transparent; -fx-border-color: transparent;" vbarPolicy="NEVER" vmax="0.0">
+                  <ScrollPane fx:id="scrollpane1" fitToWidth="true" hbarPolicy="NEVER" prefHeight="150.0" prefWidth="1300.0" style="-fx-background: transparent; -fx-background-color: transparent;" vbarPolicy="NEVER" vmax="0.0">
                      <content>
-                        <HBox fx:id="contJuegos2" prefHeight="210.0" prefWidth="1722.0" spacing="30.0" style="-fx-background: transparent;">
+                        <HBox fx:id="contJuegos2" prefHeight="210.0" prefWidth="1534.0" spacing="30.0" style="-fx-background: transparent; -fx-background-color: transparent;">
                            <children>
-                              <ImageView fitHeight="200.0" fitWidth="210.0" pickOnBounds="true" preserveRatio="true" styleClass="img_videojuegos">
+                              <ImageView fitHeight="129.0" fitWidth="214.0" pickOnBounds="true" preserveRatio="true" styleClass="img_videojuegos">
                                  <HBox.margin>
                                     <Insets left="15.0" top="10.0" />
                                  </HBox.margin>
@@ -148,7 +177,7 @@
                                     <Image url="@/Logo.png" />
                                  </image>
                               </ImageView>
-                              <ImageView fitHeight="200.0" fitWidth="210.0" pickOnBounds="true" preserveRatio="true" styleClass="img_videojuegos">
+                              <ImageView fx:id="btnGenerosSalida1" fitHeight="129.0" fitWidth="214.0" pickOnBounds="true" preserveRatio="true" styleClass="img_videojuegos">
                                  <HBox.margin>
                                     <Insets left="15.0" top="10.0" />
                                  </HBox.margin>
@@ -156,7 +185,7 @@
                                     <Image url="@/Logo.png" />
                                  </image>
                               </ImageView>
-                              <ImageView fitHeight="200.0" fitWidth="210.0" pickOnBounds="true" preserveRatio="true" styleClass="img_videojuegos">
+                              <ImageView fitHeight="129.0" fitWidth="214.0" pickOnBounds="true" preserveRatio="true" styleClass="img_videojuegos">
                                  <HBox.margin>
                                     <Insets left="15.0" top="10.0" />
                                  </HBox.margin>
@@ -164,7 +193,7 @@
                                     <Image url="@/Logo.png" />
                                  </image>
                               </ImageView>
-                              <ImageView fitHeight="200.0" fitWidth="210.0" pickOnBounds="true" preserveRatio="true" styleClass="img_videojuegos">
+                              <ImageView fitHeight="129.0" fitWidth="214.0" pickOnBounds="true" preserveRatio="true" styleClass="img_videojuegos">
                                  <HBox.margin>
                                     <Insets left="15.0" top="10.0" />
                                  </HBox.margin>
@@ -172,13 +201,33 @@
                                     <Image url="@/Logo.png" />
                                  </image>
                               </ImageView>
-                              <ImageView fitHeight="200.0" fitWidth="210.0" pickOnBounds="true" preserveRatio="true" styleClass="img_videojuegos">
+                              <ImageView fitHeight="129.0" fitWidth="214.0" pickOnBounds="true" preserveRatio="true" styleClass="img_videojuegos">
                                  <image>
                                     <Image url="@/Logo.png" />
                                  </image>
                                  <HBox.margin>
                                     <Insets left="15.0" top="10.0" />
                                  </HBox.margin>
+                              </ImageView>
+                              <ImageView fitHeight="129.0" fitWidth="214.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@/OjoNegro.png" />
+                                 </image>
+                              </ImageView>
+                              <ImageView fitHeight="129.0" fitWidth="214.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@/OjoNegro.png" />
+                                 </image>
+                              </ImageView>
+                              <ImageView fitHeight="129.0" fitWidth="214.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@/OjoNegro.png" />
+                                 </image>
+                              </ImageView>
+                              <ImageView fitHeight="129.0" fitWidth="214.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@/OjoNegro.png" />
+                                 </image>
                               </ImageView>
                            </children>
                         </HBox>
@@ -196,12 +245,11 @@
             </Label>
             <VBox prefHeight="200.0" prefWidth="1730.0">
                <children>
-                  <ScrollPane fx:id="scrollpane2" hbarPolicy="NEVER" prefHeight="150.0" prefWidth="1289.0" style="-fx-background: transparent; -fx-border-color: transparent;" vbarPolicy="NEVER" vmax="0.0">
+                  <ScrollPane fx:id="scrollpane2" fitToWidth="true" hbarPolicy="NEVER" prefHeight="150.0" prefWidth="1321.0" style="-fx-background: transparent; -fx-background-color: transparent;" vbarPolicy="NEVER" vmax="0.0">
                      <content>
-                        <HBox fx:id="contJuegos3" prefHeight="210.0" prefWidth="1730.0" spacing="30.0" style="-fx-background: transparent;">
+                        <HBox fx:id="contJuegos3" prefHeight="210.0" prefWidth="1534.0" spacing="30.0" style="-fx-background: transparent; -fx-background-color: transparent;">
                            <children>
-                              <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
-                              <ImageView fitHeight="128.0" fitWidth="210.0" pickOnBounds="true" preserveRatio="true" styleClass="img_videojuegos">
+                              <ImageView fitHeight="129.0" fitWidth="214.0" pickOnBounds="true" preserveRatio="true" styleClass="img_videojuegos">
                                  <HBox.margin>
                                     <Insets left="15.0" top="10.0" />
                                  </HBox.margin>
@@ -209,7 +257,7 @@
                                     <Image url="@/Logo.png" />
                                  </image>
                               </ImageView>
-                              <ImageView fitHeight="129.0" fitWidth="210.0" pickOnBounds="true" preserveRatio="true" styleClass="img_videojuegos">
+                              <ImageView fx:id="btnGenerosSalida2" fitHeight="129.0" fitWidth="214.0" pickOnBounds="true" preserveRatio="true" styleClass="img_videojuegos">
                                  <HBox.margin>
                                     <Insets left="15.0" top="10.0" />
                                  </HBox.margin>
@@ -217,7 +265,7 @@
                                     <Image url="@/Logo.png" />
                                  </image>
                               </ImageView>
-                              <ImageView fitHeight="132.0" fitWidth="210.0" pickOnBounds="true" preserveRatio="true" styleClass="img_videojuegos">
+                              <ImageView fitHeight="129.0" fitWidth="214.0" pickOnBounds="true" preserveRatio="true" styleClass="img_videojuegos">
                                  <HBox.margin>
                                     <Insets left="15.0" top="10.0" />
                                  </HBox.margin>
@@ -225,7 +273,7 @@
                                     <Image url="@/Logo.png" />
                                  </image>
                               </ImageView>
-                              <ImageView fitHeight="132.0" fitWidth="210.0" pickOnBounds="true" preserveRatio="true" styleClass="img_videojuegos">
+                              <ImageView fitHeight="129.0" fitWidth="214.0" pickOnBounds="true" preserveRatio="true" styleClass="img_videojuegos">
                                  <HBox.margin>
                                     <Insets left="15.0" top="10.0" />
                                  </HBox.margin>
@@ -233,7 +281,7 @@
                                     <Image url="@/Logo.png" />
                                  </image>
                               </ImageView>
-                              <ImageView fitHeight="132.0" fitWidth="210.0" pickOnBounds="true" preserveRatio="true" styleClass="img_videojuegos">
+                              <ImageView fitHeight="129.0" fitWidth="214.0" pickOnBounds="true" preserveRatio="true" styleClass="img_videojuegos">
                                  <image>
                                     <Image url="@/Logo.png" />
                                  </image>
@@ -241,7 +289,26 @@
                                     <Insets left="15.0" top="10.0" />
                                  </HBox.margin>
                               </ImageView>
-                              <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
+                              <ImageView fitHeight="129.0" fitWidth="214.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@/OjoNegro.png" />
+                                 </image>
+                              </ImageView>
+                              <ImageView fitHeight="129.0" fitWidth="214.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@/OjoNegro.png" />
+                                 </image>
+                              </ImageView>
+                              <ImageView fitHeight="129.0" fitWidth="214.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@/OjoNegro.png" />
+                                 </image>
+                              </ImageView>
+                              <ImageView fitHeight="129.0" fitWidth="214.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@/OjoNegro.png" />
+                                 </image>
+                              </ImageView>
                            </children>
                         </HBox>
                      </content>
@@ -258,11 +325,11 @@
             </Label>
             <VBox prefHeight="200.0" prefWidth="1730.0">
                <children>
-                  <ScrollPane fx:id="scrollpane3" hbarPolicy="NEVER" prefHeight="150.0" prefWidth="1300.0" style="-fx-background: transparent; -fx-border-color: transparent;" vbarPolicy="NEVER" vmax="0.0">
+                  <ScrollPane fx:id="scrollpane3" fitToWidth="true" hbarPolicy="NEVER" prefHeight="150.0" prefWidth="1300.0" style="-fx-background: transparent; -fx-background-color: transparent;" vbarPolicy="NEVER" vmax="0.0">
                      <content>
-                        <HBox fx:id="contJuegos4" prefHeight="210.0" prefWidth="1718.0" spacing="30.0" style="-fx-background: transparent;">
+                        <HBox fx:id="contJuegos4" prefHeight="210.0" prefWidth="1534.0" spacing="30.0" style="-fx-background: transparent; -fx-background-color: transparent;">
                            <children>
-                              <ImageView fitHeight="200.0" fitWidth="210.0" pickOnBounds="true" preserveRatio="true" styleClass="img_videojuegos">
+                              <ImageView fitHeight="129.0" fitWidth="214.0" pickOnBounds="true" preserveRatio="true" styleClass="img_videojuegos">
                                  <HBox.margin>
                                     <Insets left="15.0" top="10.0" />
                                  </HBox.margin>
@@ -270,7 +337,7 @@
                                     <Image url="@/Logo.png" />
                                  </image>
                               </ImageView>
-                              <ImageView fitHeight="200.0" fitWidth="210.0" pickOnBounds="true" preserveRatio="true" styleClass="img_videojuegos">
+                              <ImageView fx:id="btnGenerosSalida3" fitHeight="129.0" fitWidth="214.0" pickOnBounds="true" preserveRatio="true" styleClass="img_videojuegos">
                                  <HBox.margin>
                                     <Insets left="15.0" top="10.0" />
                                  </HBox.margin>
@@ -278,7 +345,7 @@
                                     <Image url="@/Logo.png" />
                                  </image>
                               </ImageView>
-                              <ImageView fitHeight="200.0" fitWidth="210.0" pickOnBounds="true" preserveRatio="true" styleClass="img_videojuegos">
+                              <ImageView fitHeight="129.0" fitWidth="214.0" pickOnBounds="true" preserveRatio="true" styleClass="img_videojuegos">
                                  <HBox.margin>
                                     <Insets left="15.0" top="10.0" />
                                  </HBox.margin>
@@ -286,7 +353,7 @@
                                     <Image url="@/Logo.png" />
                                  </image>
                               </ImageView>
-                              <ImageView fitHeight="200.0" fitWidth="210.0" pickOnBounds="true" preserveRatio="true" styleClass="img_videojuegos">
+                              <ImageView fitHeight="129.0" fitWidth="214.0" pickOnBounds="true" preserveRatio="true" styleClass="img_videojuegos">
                                  <HBox.margin>
                                     <Insets left="15.0" top="10.0" />
                                  </HBox.margin>
@@ -294,13 +361,33 @@
                                     <Image url="@/Logo.png" />
                                  </image>
                               </ImageView>
-                              <ImageView fitHeight="200.0" fitWidth="210.0" pickOnBounds="true" preserveRatio="true" styleClass="img_videojuegos">
+                              <ImageView fitHeight="129.0" fitWidth="214.0" pickOnBounds="true" preserveRatio="true" styleClass="img_videojuegos">
                                  <image>
                                     <Image url="@/Logo.png" />
                                  </image>
                                  <HBox.margin>
                                     <Insets left="15.0" top="10.0" />
                                  </HBox.margin>
+                              </ImageView>
+                              <ImageView fitHeight="129.0" fitWidth="214.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@/OjoNegro.png" />
+                                 </image>
+                              </ImageView>
+                              <ImageView fitHeight="129.0" fitWidth="214.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@/OjoNegro.png" />
+                                 </image>
+                              </ImageView>
+                              <ImageView fitHeight="129.0" fitWidth="214.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@/OjoNegro.png" />
+                                 </image>
+                              </ImageView>
+                              <ImageView fitHeight="129.0" fitWidth="214.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@/OjoNegro.png" />
+                                 </image>
                               </ImageView>
                            </children>
                         </HBox>
@@ -321,14 +408,20 @@
    <left>
       <ScrollPane fx:id="scrollMenu" hbarPolicy="NEVER" prefHeight="1080.0" prefWidth="331.0" style="-fx-background-color: transparent; -fx-background: transparent;" vbarPolicy="NEVER" vmax="1300.0" BorderPane.alignment="CENTER">
          <content>
-            <StackPane fx:id="contMenuPadre" cacheHint="QUALITY" centerShape="false" prefWidth="319.0" style="-fx-background-color: transparent;" stylesheets="@../../resources/styles.css">
+            <StackPane fx:id="contMenuPadre" cacheHint="QUALITY" centerShape="false" prefWidth="319.0" stylesheets="@../../resources/styles.css">
                <children>
                   <VBox prefHeight="200.0" prefWidth="100.0">
                      <children>
-                        <ImageView fx:id="btnMenu" fitHeight="42.0" fitWidth="44.0" onMouseClicked="#btnMenuPressed" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fx:id="btnMenu" fitHeight="70.0" fitWidth="70.0" onMouseClicked="#btnMenuPressed" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@/MenuChulo.png" />
                            </image>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                           <VBox.margin>
+                              <Insets left="25.0" top="10.0" />
+                           </VBox.margin>
                         </ImageView>
                      </children>
                   </VBox>
@@ -392,7 +485,7 @@
                         </Label>
                      </children>
                      <StackPane.margin>
-                        <Insets left="20.0" top="15.0" />
+                        <Insets left="35.0" top="75.0" />
                      </StackPane.margin>
                   </VBox>
                   <VBox fx:id="menuGeneros" prefHeight="19.0" prefWidth="284.0" spacing="55.0" visible="false">
@@ -402,7 +495,7 @@
                               <Font name="System Bold" size="35.0" />
                            </font>
                            <cursor>
-                              <Cursor fx:constant="HAND" />
+                              <Cursor fx:constant="CROSSHAIR" />
                            </cursor>
                            <VBox.margin>
                               <Insets />
@@ -646,10 +739,10 @@
                         </Label>
                      </children>
                      <StackPane.margin>
-                        <Insets left="35.0" top="20.0" />
+                        <Insets left="35.0" top="75.0" />
                      </StackPane.margin>
                   </VBox>
-                  <VBox fx:id="menuPlataformas" prefHeight="200.0" prefWidth="100.0" spacing="90.0" visible="false">
+                  <VBox fx:id="menuPlataformas" prefHeight="200.0" prefWidth="100.0" spacing="75.0" visible="false">
                      <children>
                         <Label fx:id="btnGenerosMenuPlataformas" onMouseClicked="#btnGenerosMenuPlataformasPressed" prefHeight="51.0" prefWidth="256.0" text="Géneros" textAlignment="CENTER">
                            <font>
@@ -764,7 +857,7 @@
                         </Label>
                      </children>
                      <StackPane.margin>
-                        <Insets left="20.0" top="15.0" />
+                        <Insets left="35.0" top="75.0" />
                      </StackPane.margin>
                   </VBox>
                </children>

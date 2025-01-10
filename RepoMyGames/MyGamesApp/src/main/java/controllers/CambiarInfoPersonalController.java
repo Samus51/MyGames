@@ -200,7 +200,7 @@ public class CambiarInfoPersonalController {
     return -1;
   }
 
-  private void abrirNuevaVentana(String fxml) {
+  public void abrirNuevaVentana(String fxml) {
     try {
       // Obtener el Stage de la ventana principal
       Stage ventanaPrincipal = (Stage) VentanaPrincipal.getScene().getWindow();
