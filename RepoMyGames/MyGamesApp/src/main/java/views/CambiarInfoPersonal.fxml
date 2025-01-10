@@ -105,7 +105,7 @@
                               </Label>
                               <Group>
                                  <children>
-                                    <TextField fx:id="txtConfirmarPassword" prefHeight="39.0" prefWidth="425.0" visible="false">
+                                    <TextField fx:id="txtConfirmarPassword" prefHeight="39.0" prefWidth="581.0" visible="false">
                                        <font>
                                           <Font size="18.0" />
                                        </font>
@@ -175,7 +175,7 @@
                               </Label>
                               <Group>
                                  <children>
-                                    <TextField fx:id="txtPassword" prefHeight="39.0" prefWidth="425.0" visible="false">
+                                    <TextField fx:id="txtPassword" prefHeight="39.0" prefWidth="581.0" visible="false">
                                        <font>
                                           <Font size="18.0" />
                                        </font>
@@ -240,7 +240,7 @@
                         <Font size="36.0" />
                      </font>
                   </Label>
-                  <Label prefHeight="70.0" prefWidth="869.0" text="Historial de Juegos" textFill="WHITE">
+                  <Label fx:id="lblHistorialJuegos" onMouseClicked="#lblHistorialJuegosPressed" prefHeight="70.0" prefWidth="869.0" text="Historial de Juegos" textFill="WHITE">
                      <font>
                         <Font size="36.0" />
                      </font>

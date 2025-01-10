@@ -11,6 +11,7 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
@@ -30,6 +31,11 @@ import org.controlsfx.control.CheckComboBox;
 
 public class CambiarInfoPersonalController {
 
+  // Contantes
+  private static final String LOGIN = "/views/Login.fxml";
+  private static final String HOME = "/views/Home.fxml";
+  private static final String HISTORIAL_JUEGOS = "/views/HistorialJuegos.fxml";
+
   @FXML
   private BorderPane VentanaPrincipal;
 
@@ -47,6 +53,9 @@ public class CambiarInfoPersonalController {
 
   @FXML
   private ImageView imgMinimizar;
+
+  @FXML
+  private Label lblHistorialJuegos;
 
   @FXML
   private ImageView imgOjoPassword;
@@ -89,9 +98,91 @@ public class CambiarInfoPersonalController {
 
   private Usuario usuarioActivo;
 
+  private boolean esPasswordVisible = false;
+
+  @FXML
+  private void mostrarPassword() {
+    // Cambiar la visibilidad de los campos
+    esPasswordVisible = !esPasswordVisible;
+
+    if (esPasswordVisible) {
+      txtPasswordOculto.setVisible(false);
+      txtPassword.setVisible(true);
+      txtPassword.setText(txtPasswordOculto.getText());
+
+      txtConfirmarPasswordOculto.setVisible(false);
+      txtConfirmarPassword.setVisible(true);
+      txtConfirmarPassword.setText(txtConfirmarPasswordOculto.getText());
+
+      imgOjoPassword.setImage(new Image(getClass().getResourceAsStream("/ojoNegroTachado.png")));
+    } else {
+      txtPasswordOculto.setVisible(true);
+      txtPassword.setVisible(false);
+      txtPasswordOculto.setText(txtPassword.getText());
+
+      txtConfirmarPasswordOculto.setVisible(true);
+      txtConfirmarPassword.setVisible(false);
+      txtConfirmarPasswordOculto.setText(txtConfirmarPassword.getText());
+
+      imgOjoPassword.setImage(new Image(getClass().getResourceAsStream("/ojoNegro.png")));
+    }
+  }
+
   @FXML
   void btnAplicarCambiosPressed(MouseEvent event) {
+    // 1. Validar los campos
+    String nuevoEmail = txtEmail.getText().trim();
+    String nuevoUsuario = txtUser.getText().trim();
+    String nuevaPassword = txtPassword.getText().trim();
+    String confirmarPassword = txtConfirmarPassword.getText().trim();
 
+    // Verificar si los campos de usuario y email están vacíos
+    if (nuevoUsuario.isEmpty() || nuevoEmail.isEmpty()) {
+      mostrarAlerta("Campos vacíos", "El nombre de usuario y el correo electrónico no pueden estar vacíos.",
+          Alert.AlertType.WARNING);
+      return;
+    }
+
+    // Verificar si las contraseñas coinciden
+    if (!nuevaPassword.equals(confirmarPassword)) {
+      mostrarAlerta("Contraseñas no coinciden", "Las contraseñas no coinciden. Por favor, ingresa nuevamente.",
+          Alert.AlertType.WARNING);
+      return;
+    }
+
+    // 2. Si es válido, actualizar los datos en la base de datos
+    String sql = "UPDATE usuarios SET contrasena = ?, WHERE id_usuario = ?";
+
+    try (Connection conn = Conector.conectar(); PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+      // Establecer los valores de los parámetros
+      stmt.setString(1, nuevaPassword);
+      stmt.setInt(2, obtenerIdUsuario());
+
+      // Ejecutar la actualización
+      int filasAfectadas = stmt.executeUpdate();
+
+      // Verificar si la actualización fue exitosa
+      if (filasAfectadas > 0) {
+        mostrarAlerta("Éxito", "Los cambios se aplicaron correctamente.", Alert.AlertType.INFORMATION);
+      } else {
+        mostrarAlerta("Error", "No se pudieron aplicar los cambios. Intenta nuevamente.", Alert.AlertType.ERROR);
+      }
+
+    } catch (SQLException e) {
+      e.printStackTrace();
+      mostrarAlerta("Error de base de datos",
+          "Ocurrió un error al intentar actualizar la información. Por favor, inténtalo de nuevo.",
+          Alert.AlertType.ERROR);
+    }
+  }
+
+  private void mostrarAlerta(String titulo, String contenido, Alert.AlertType tipo) {
+    Alert alerta = new Alert(tipo);
+    alerta.setTitle(titulo);
+    alerta.setHeaderText(null);
+    alerta.setContentText(contenido);
+    alerta.showAndWait();
   }
 
   @FXML
@@ -108,12 +199,12 @@ public class CambiarInfoPersonalController {
 
   @FXML
   void flechaAtrasPressed(MouseEvent event) {
-    abrirNuevaVentana("/views/Home.fxml");
+    abrirNuevaVentana(HOME);
   }
 
   @FXML
-  void lblCambiarInfoPressed(MouseEvent event) {
-    abrirNuevaVentana("/views/CambiarInfoPersonal.fxml");
+  void lblHistorialJuegosPressed(MouseEvent event) {
+    abrirNuevaVentana(HISTORIAL_JUEGOS);
   }
 
   @FXML
@@ -136,7 +227,7 @@ public class CambiarInfoPersonalController {
 
     // Verificar cuál fue el botón presionado
     if (alerta.getResult() == botonConfirmar) {
-      abrirNuevaVentana("/views/Login.fxml");
+      abrirNuevaVentana(LOGIN);
     } else {
       alerta.close();
     }
@@ -163,7 +254,7 @@ public class CambiarInfoPersonalController {
       public void accept(ButtonType respuesta) {
         if (respuesta == botonConfirmar) {
           eliminarCuenta();
-          abrirNuevaVentana("/views/Login.fxml");
+          abrirNuevaVentana(LOGIN);
         } else {
           // Si el usuario cancela
           alerta.close();
@@ -231,10 +322,4 @@ public class CambiarInfoPersonalController {
       e.printStackTrace();
     }
   }
-
-  @FXML
-  void mostrarPassword(ActionEvent event) {
-
-  }
-
 }

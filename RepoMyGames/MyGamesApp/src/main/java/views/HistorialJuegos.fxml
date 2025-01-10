@@ -61,7 +61,7 @@
                      <children>
                         <Label prefHeight="241.0" prefWidth="1196.0" text="Historial de Juegos">
                            <font>
-                              <Font size="48.0" />
+                              <Font name="Arial Bold" size="48.0" />
                            </font>
                            <opaqueInsets>
                               <Insets />
