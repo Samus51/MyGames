@@ -1,6 +1,8 @@
 package controllers;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -8,6 +10,7 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
@@ -16,10 +19,12 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.shape.Rectangle;
 import javafx.stage.Screen;
 import javafx.geometry.Rectangle2D;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import utils.ExtractorAPI;
 
 public class HomeController {
 
@@ -141,6 +146,50 @@ public class HomeController {
 		menuGeneros.setMinHeight(0);
 		menuPlataformas.setMinHeight(0);
 		menuGeneral.setMinHeight(Region.USE_COMPUTED_SIZE);
+
+		List<String> imagenes= cargarJuegos();
+		asignarImagenes(contJuegos2, imagenes);
+	}
+
+	public static void asignarImagenes(HBox hbox, List<String> imagePaths) {
+	    for (int i = 0; i < hbox.getChildren().size(); i++) {
+	        if (hbox.getChildren().get(i) instanceof ImageView) {
+	            ImageView imageView = (ImageView) hbox.getChildren().get(i);
+	            if (i < imagePaths.size()) { 
+	                imageView.setImage(new Image(imagePaths.get(i)));
+	                imageView.setPreserveRatio(false); 
+	                imageView.setSmooth(true); 
+
+	                double cornerRadius = 20; 
+	                Rectangle clip = new Rectangle(imageView.getFitWidth(), imageView.getFitHeight());
+	                clip.setArcWidth(cornerRadius);  
+	                clip.setArcHeight(cornerRadius); 
+	                imageView.setClip(clip);  
+
+	                imageView.setFitWidth(imageView.getFitWidth());
+	                imageView.setFitHeight(imageView.getFitHeight());
+	            }
+	        }
+	    }
+	}
+	private static List<String> cargarJuegos() {
+		List<Integer> gameIds = ExtractorAPI.getJuegosIDs(1);
+		List<String> capturas = new ArrayList<String>();
+
+		for (int gameId : gameIds) {
+			try {
+				List<String> capturasJuego = ExtractorAPI.obtenerPrimeraCaptura(gameId);
+				if (capturasJuego != null && !capturasJuego.isEmpty()) {
+					capturas.addAll(capturasJuego);
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+
+		}
+		
+		return capturas;
+		
 	}
 
 	// Método para mover la ventana
@@ -150,8 +199,8 @@ public class HomeController {
 		Rectangle2D bounds = screen.getVisualBounds();
 
 		// Ajustamos el desplazamiento
-		double desplazamientoX = 300; // Distancia horizontal
-		double desplazamientoY = 100; // Distancia vertical
+		double desplazamientoX = 300;
+		double desplazamientoY = 100;
 
 		// Establecer la nueva posición de la ventana en el monitor
 		stage.setX(bounds.getMinX() + desplazamientoX);
@@ -203,7 +252,7 @@ public class HomeController {
 				double newHvalue = scrollPaneActivo.getHvalue() + deltaX * 8 / contenedorActivo.getWidth();
 				// Aseguramos que el valor se mantenga dentro de los límites (0 a 1)
 				scrollPaneActivo.setHvalue(Math.max(0, Math.min(1, newHvalue)));
-				scrollPaneActivo.setVvalue(0); // Establecemos el valor vertical en 0 para restringirlo.
+				scrollPaneActivo.setVvalue(0);
 
 			}
 		}
@@ -216,8 +265,8 @@ public class HomeController {
 		Rectangle2D bounds = screen.getVisualBounds();
 
 		// Ajusta el desplazamiento según lo desees
-		double desplazamientoX = 300; // Distancia horizontal
-		double desplazamientoY = 100; // Distancia vertical
+		double desplazamientoX = 300; 
+		double desplazamientoY = 100; 
 
 		// Establecer la nueva posición de la ventana en el monitor
 		stage.setX(bounds.getMinX() + desplazamientoX);

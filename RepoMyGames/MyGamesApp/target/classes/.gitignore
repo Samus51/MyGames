@@ -1,14 +1,6 @@
-/META-INF/
-/controllers/
 /mainApp/
-/views/
-<<<<<<< HEAD
-/controllers/
-/META-INF/
-=======
-/models/
 /jdbc/
->>>>>>> refs/remotes/origin/main
 /utils/
-=======
->>>>>>> refs/remotes/origin/main
+/META-INF/
+/controllers/
+/views/
