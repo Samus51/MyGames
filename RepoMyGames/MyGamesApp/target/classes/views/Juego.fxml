@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<HBox prefHeight="173.0" prefWidth="485.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.JuegoController">
+   <children>
+      <ImageView fx:id="imgJuego" fitHeight="173.0" fitWidth="219.0" pickOnBounds="true" preserveRatio="true">
+         <HBox.margin>
+            <Insets left="50.0" />
+         </HBox.margin>
+      </ImageView>
+      <VBox prefHeight="202.0" prefWidth="649.0">
+         <children>
+            <Label fx:id="lblNombre" prefHeight="35.0" prefWidth="579.0" text="Nombre">
+               <font>
+                  <Font size="24.0" />
+               </font>
+            </Label>
+            <Label fx:id="lblGenero" prefHeight="35.0" prefWidth="755.0" text="Genero">
+               <font>
+                  <Font size="24.0" />
+               </font>
+            </Label>
+            <Label prefHeight="35.0" prefWidth="561.0" text="Duración Juego">
+               <font>
+                  <Font size="24.0" />
+               </font>
+               <padding>
+                  <Insets top="20.0" />
+               </padding>
+            </Label>
+            <Label fx:id="lblTiempoJuego" prefHeight="35.0" prefWidth="623.0" text="10 Horas">
+               <font>
+                  <Font size="24.0" />
+               </font>
+            </Label>
+         </children>
+         <opaqueInsets>
+            <Insets />
+         </opaqueInsets>
+         <HBox.margin>
+            <Insets left="30.0" />
+         </HBox.margin>
+      </VBox>
+   </children>
+</HBox>

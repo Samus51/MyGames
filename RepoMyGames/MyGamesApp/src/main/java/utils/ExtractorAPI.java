@@ -42,7 +42,7 @@ public class ExtractorAPI {
 						JSONObject game = results.getJSONObject(j);
 						int gameId = game.optInt("id", -1);
 						if (gameId != -1) {
-							gameIds.add(gameId); // Añadir el ID del juego a la lista
+							gameIds.add(gameId);
 						}
 					}
 				} else {
