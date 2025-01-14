@@ -30,218 +30,231 @@ import jdbc.Conector;
 
 public class RecuperarContrasenaController {
 
-  private static final String SQL_EMAIL = "Select * from usuarios where email = ?";
-  private static final String SQL_CODIGO = "UPDATE usuarios set codigo_seguridad = ? where email = ?";
+	private static final String SQL_EMAIL = "Select * from usuarios where email = ?";
+	private static final String SQL_CODIGO = "UPDATE usuarios set codigo_seguridad = ? where email = ?";
 
-  private static String EMAIL_FROM = "soportemygames@gmail.com";
-  private static String PASSWORD_FROM = "cmol lytj vnub uanm";
+	private static String EMAIL_FROM = "soportemygames@gmail.com";
+	private static String PASSWORD_FROM = "cmol lytj vnub uanm";
 
-  @FXML
-  private Button btnEnviar;
+	@FXML
+	private Button btnEnviar;
 
-  @FXML
-  private ImageView imgClose;
+	@FXML
+	private ImageView imgClose;
 
-  @FXML
-  private ImageView imgFlechaAtras;
+	@FXML
+	private ImageView imgFlechaAtras;
 
-  @FXML
-  private ImageView imgMinimizar;
+	@FXML
+	private ImageView imgMinimizar;
 
-  @FXML
-  private Pane paginaFondo;
+	@FXML
+	private Pane paginaFondo;
 
-  @FXML
-  private TextField txtCorreo;
+	@FXML
+	private TextField txtCorreo;
 
-  @FXML
-  void minimizarPressed(MouseEvent event) {
-    Stage ventanaPrincipal = (Stage) ((Node) event.getSource()).getScene().getWindow();
-    ventanaPrincipal.setIconified(true);
-  }
+	@FXML
+	void minimizarPressed(MouseEvent event) {
+		Stage ventanaPrincipal = (Stage) ((Node) event.getSource()).getScene().getWindow();
+		ventanaPrincipal.setIconified(true);
+	}
 
-  @FXML
-  void cerrarPressed(MouseEvent event) {
-    Stage ventanaPrincipal = (Stage) ((Node) event.getSource()).getScene().getWindow();
-    ventanaPrincipal.close();
-  }
+	@FXML
+	void cerrarPressed(MouseEvent event) {
+		Stage ventanaPrincipal = (Stage) ((Node) event.getSource()).getScene().getWindow();
+		ventanaPrincipal.close();
+	}
 
-  @FXML
-  void imgFlechaAtrasPressed(MouseEvent event) {
-    try {
-      // Obtener el Stage de la ventana actual (Recuperar Contraseña)
-      Stage ventanaRecuperarContrasena = (Stage) ((Node) event.getSource()).getScene().getWindow();
+	@FXML
+	void imgFlechaAtrasPressed(MouseEvent event) {
+		try {
+			// Obtener el Stage de la ventana actual (Recuperar Contraseña)
+			Stage ventanaRecuperarContrasena = (Stage) ((Node) event.getSource()).getScene().getWindow();
 
-      // Cargar el archivo FXML de la ventana principal
-      FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/VentanaPrincipal.fxml"));
-      BorderPane root = loader.load();
+			// Cargar el archivo FXML de la ventana principal
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/Login.fxml"));
+			BorderPane root = loader.load();
 
-      // Crear una nueva escena con el root cargado
-      Scene scene = new Scene(root);
-      scene.getStylesheets().add(getClass().getResource("/styles.css").toExternalForm());
+			// Crear una nueva escena con el root cargado
+			Scene scene = new Scene(root);
+			scene.getStylesheets().add(getClass().getResource("/styles.css").toExternalForm());
 
-      // Crear un nuevo Stage (ventana) para la "Ventana Principal"
-      Stage nuevaVentana = new Stage();
-      nuevaVentana.setTitle("Ventana Principal");
-      nuevaVentana.setScene(scene);
+			// Crear un nuevo Stage (ventana) para la "Ventana Principal"
+			Stage nuevaVentana = new Stage();
+			nuevaVentana.setTitle("Ventana Principal");
+			nuevaVentana.setScene(scene);
 
-      // Maximizar la ventana
-      nuevaVentana.setMaximized(true);
-      nuevaVentana.setResizable(false);
-      nuevaVentana.initStyle(StageStyle.UNDECORATED);
+			// Maximizar la ventana
+			nuevaVentana.setMaximized(true);
+			nuevaVentana.setResizable(false);
+			nuevaVentana.initStyle(StageStyle.UNDECORATED);
 
-      // Mostrar la nueva ventana
-      nuevaVentana.show();
+			// Mostrar la nueva ventana
+			nuevaVentana.show();
 
-      // Cerrar la ventana actual (Recuperar Contraseña)
-      ventanaRecuperarContrasena.close();
+			// Cerrar la ventana actual (Recuperar Contraseña)
+			ventanaRecuperarContrasena.close();
 
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
-  }
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 
-  @FXML
-  void flechaAtrasPressed(MouseEvent event) {
-    try {
-      // Obtener el Stage de la ventana principal y cerrarla
-      Stage ventanaPrincipal = (Stage) ((Node) event.getSource()).getScene().getWindow();
+	@FXML
+	void flechaAtrasPressed(MouseEvent event) {
+		try {
+			// Obtener el Stage de la ventana principal y cerrarla
+			Stage ventanaPrincipal = (Stage) ((Node) event.getSource()).getScene().getWindow();
 
-      // Cargar el nuevo archivo FXML (el que contiene la vista "Crear Cuenta")
-      FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/VentanaPrincipal.fxml"));
-      BorderPane root = loader.load();
+			// Cargar el nuevo archivo FXML (el que contiene la vista "Crear Cuenta")
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/Login.fxml"));
+			BorderPane root = loader.load();
 
-      // Crear una nueva escena con el root cargado
-      Scene scene = new Scene(root);
-      scene.getStylesheets().add(getClass().getResource("/styles.css").toExternalForm());
+			// Crear una nueva escena con el root cargado
+			Scene scene = new Scene(root);
+			scene.getStylesheets().add(getClass().getResource("/styles.css").toExternalForm());
 
-      // Crear un nuevo Stage (ventana) para la "Crear Cuenta"
-      Stage nuevaVentana = new Stage();
-      nuevaVentana.setTitle("Crear Cuenta");
-      nuevaVentana.setScene(scene);
+			// Crear un nuevo Stage (ventana) para la "Crear Cuenta"
+			Stage nuevaVentana = new Stage();
+			nuevaVentana.setTitle("Crear Cuenta");
+			nuevaVentana.setScene(scene);
 
-      // Maximizar la ventana
-      nuevaVentana.setMaximized(true);
-      nuevaVentana.setResizable(false);
-      nuevaVentana.initStyle(StageStyle.UNDECORATED);
+			// Maximizar la ventana
+			nuevaVentana.setMaximized(true);
+			nuevaVentana.setResizable(false);
+			nuevaVentana.initStyle(StageStyle.UNDECORATED);
 
-      // Mostrar la nueva ventana
-      nuevaVentana.show();
+			// Mostrar la nueva ventana
+			nuevaVentana.show();
 
-      // Transición de desvanecimiento para la primera ventana
-      FadeTransition fadeOut = new FadeTransition(Duration.seconds(0.5), nuevaVentana.getScene().getRoot());
-      fadeOut.setFromValue(1.0);
-      fadeOut.setToValue(0.0);
+			// Transición de desvanecimiento para la primera ventana
+			FadeTransition fadeOut = new FadeTransition(Duration.seconds(0.5), nuevaVentana.getScene().getRoot());
+			fadeOut.setFromValue(1.0);
+			fadeOut.setToValue(0.0);
 
-      ventanaPrincipal.close();
+			ventanaPrincipal.close();
 
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
-  }
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 
-  @FXML
-  void btnEnviarPressed(MouseEvent event) {
-    try (Connection cone = Conector.conectar();
-        PreparedStatement st = cone.prepareStatement(SQL_EMAIL);
-        PreparedStatement st2 = cone.prepareStatement(SQL_CODIGO)) {
+	@FXML
+	void btnEnviarPressed(MouseEvent event) {
+		try (Connection cone = Conector.conectar();
+				PreparedStatement st = cone.prepareStatement(SQL_EMAIL);
+				PreparedStatement st2 = cone.prepareStatement(SQL_CODIGO)) {
 
-      String email = txtCorreo.getText();
-      st.setString(1, email);
-      ResultSet rs = st.executeQuery();
+			String email = txtCorreo.getText();
+			st.setString(1, email);
+			ResultSet rs = st.executeQuery();
 
-      if (rs.next()) {
-        // Generar el código de seguridad
-        String codigo = generarCodigoSeguridad();
+			if (rs.next()) {
+				// Generar el código de seguridad
+				String codigo = generarCodigoSeguridad();
 
-        // Configurar el correo
-        String emailTo = email; // Obtener el correo del usuario desde el ResultSet
-        String subject = "Código de seguridad";
-        String content = "<p>Hola,</p>" + "<p>Tu código de seguridad es: <strong>" + codigo + "</strong></p>"
-            + "<p>Por favor, no compartas este código con nadie.</p>";
+				// Configurar el correo
+				String emailTo = email; // Obtener el correo del usuario desde el ResultSet
+				String subject = "Código de seguridad";
+				String content = "<html>" + "<body style='font-family: Arial, sans-serif; text-align: center;'>"
+						+ "<h1 style='color: #333;'>¡Recupera tu cuenta en MyGames!</h1>"
+						+ "<img src='https://raw.githubusercontent.com/Samus51/MyGames/main/LogoMyGames.png' "
+						+ "alt='Logo MyGames' style='width: 150px; height: auto; margin: 20px auto;' />"
+						+ "<p style='font-size: 16px;'>Tu código de seguridad es: <strong>" + codigo + "</strong></p>"
+						+ "<p style='font-size: 14px;'>Por favor, no compartas este código con nadie. Es solo para ti.</p>"
+						+ "<p style='font-size: 14px; color: #888;'>Equipo MyGames</p>" + "</body>" + "</html>";
 
-        // Enviar el correo
-        enviarCorreo(EMAIL_FROM, PASSWORD_FROM, emailTo, subject, content);
-        System.out.println("Correo enviado con el código: " + codigo);
+				enviarCorreo(EMAIL_FROM, PASSWORD_FROM, email, subject, content);
 
-        st2.setString(1, codigo);
-        st2.setString(2, email);
-        st2.executeUpdate();
+				// Enviar el correo
+				enviarCorreo(EMAIL_FROM, PASSWORD_FROM, emailTo, subject, content);
+				System.out.println("Correo enviado con el código: " + codigo);
 
-        // Después de enviar el correo, abrir la siguiente ventana de recuperación
-        Stage ventanaRecuperarContrasena = (Stage) ((Node) event.getSource()).getScene().getWindow();
+				st2.setString(1, codigo);
+				st2.setString(2, email);
+				st2.executeUpdate();
 
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/RecuperarContrasenaParte2.fxml"));
-        Pane root = loader.load();
+				// Después de enviar el correo, abrir la siguiente ventana de recuperación
+				Stage ventanaRecuperarContrasena = (Stage) ((Node) event.getSource()).getScene().getWindow();
 
-        Scene scene = new Scene(root);
-        scene.getStylesheets().add(getClass().getResource("/styles.css").toExternalForm());
+				// Cargar la segunda ventana y pasar el email
+				FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/RecuperarContrasenaParte2.fxml"));
+				Pane root = loader.load();
 
-        Stage nuevaVentana = new Stage();
-        nuevaVentana.setTitle("Ventana Principal");
-        nuevaVentana.setScene(scene);
-        nuevaVentana.setMaximized(true);
-        nuevaVentana.setResizable(false);
-        nuevaVentana.initStyle(StageStyle.UNDECORATED);
+				// Obtener el controlador de la segunda ventana
+				RecuperarContrasenaParte2Controller siguienteController = loader.getController();
+				siguienteController.setEmail(email); // Pasar el email a la segunda ventana
 
-        nuevaVentana.show();
-        ventanaRecuperarContrasena.close();
+				Scene scene = new Scene(root);
+				scene.getStylesheets().add(getClass().getResource("/styles.css").toExternalForm());
 
-      } else {
-        // Si no se encuentra el email en la base de datos, mostrar el error
-        Alert alert = new Alert(AlertType.ERROR);
-        alert.setTitle("Error al recuperar usuario");
-        alert.setHeaderText("Error de email");
-        alert.setContentText("El email no existe.");
-        alert.showAndWait();
-      }
+				Stage nuevaVentana = new Stage();
+				nuevaVentana.setTitle("Ventana Recuperación Contraseña Parte 2");
+				nuevaVentana.setScene(scene);
+				nuevaVentana.setMaximized(true);
+				nuevaVentana.setResizable(false);
+				nuevaVentana.initStyle(StageStyle.UNDECORATED);
 
-    } catch (SQLException e) {
-      e.printStackTrace();
-    } catch (Exception e) {
-      e.printStackTrace();
-    }
-  }
+				nuevaVentana.show();
+				ventanaRecuperarContrasena.close();
 
-  public void enviarCorreo(String emailFrom, String passwordFrom, String emailTo, String subject, String content) {
-    Properties mProperties = new Properties();
+			} else {
+				// Si no se encuentra el email en la base de datos, mostrar el error
+				Alert alert = new Alert(AlertType.ERROR);
+				alert.setTitle("Error al recuperar usuario");
+				alert.setHeaderText("Error de email");
+				alert.setContentText("El email no existe.");
+				alert.showAndWait();
+			}
 
-    // Configuración del servidor SMTP
-    mProperties.put("mail.smtp.host", "smtp.gmail.com");
-    mProperties.put("mail.smtp.ssl.trust", "smtp.gmail.com");
-    mProperties.setProperty("mail.smtp.starttls.enable", "true");
-    mProperties.setProperty("mail.smtp.port", "587");
-    mProperties.setProperty("mail.smtp.user", emailFrom);
-    mProperties.setProperty("mail.smtp.ssl.protocols", "TLSv1.2");
-    mProperties.setProperty("mail.smtp.auth", "true");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 
-    // Crear la sesión de correo
-    Session mSession = Session.getDefaultInstance(mProperties);
+	public static void enviarCorreo(String emailFrom, String passwordFrom, String emailTo, String subject,
+			String content) {
+		Properties mProperties = new Properties();
 
-    try {
-      // Crear el mensaje
-      MimeMessage mCorreo = new MimeMessage(mSession);
-      mCorreo.setFrom(new InternetAddress(emailFrom));
-      mCorreo.setRecipient(Message.RecipientType.TO, new InternetAddress(emailTo));
-      mCorreo.setSubject(subject);
-      mCorreo.setText(content, "ISO-8859-1", "html");
+		// Configuración del servidor SMTP
+		mProperties.put("mail.smtp.host", "smtp.gmail.com");
+		mProperties.put("mail.smtp.ssl.trust", "smtp.gmail.com");
+		mProperties.setProperty("mail.smtp.starttls.enable", "true");
+		mProperties.setProperty("mail.smtp.port", "587");
+		mProperties.setProperty("mail.smtp.user", emailFrom);
+		mProperties.setProperty("mail.smtp.ssl.protocols", "TLSv1.2");
+		mProperties.setProperty("mail.smtp.auth", "true");
 
-      // Enviar el correo
-      Transport mTransport = mSession.getTransport("smtp");
-      mTransport.connect(emailFrom, passwordFrom);
-      mTransport.sendMessage(mCorreo, mCorreo.getRecipients(Message.RecipientType.TO));
-      mTransport.close();
+		// Crear la sesión de correo
+		Session mSession = Session.getDefaultInstance(mProperties);
 
-      System.out.println("Correo enviado a: " + emailTo);
-    } catch (MessagingException e) {
-      e.printStackTrace();
-    }
-  }
+		try {
+			// Crear el mensaje
+			MimeMessage mCorreo = new MimeMessage(mSession);
+			mCorreo.setFrom(new InternetAddress(emailFrom));
+			mCorreo.setRecipient(Message.RecipientType.TO, new InternetAddress(emailTo));
+			mCorreo.setSubject(subject);
+			mCorreo.setText(content, "ISO-8859-1", "html");
 
-  public String generarCodigoSeguridad() {
-    Random random = new Random();
-    int codigo = 100000 + random.nextInt(900000);
-    return String.valueOf(codigo);
-  }
+			// Enviar el correo
+			Transport mTransport = mSession.getTransport("smtp");
+			mTransport.connect(emailFrom, passwordFrom);
+			mTransport.sendMessage(mCorreo, mCorreo.getRecipients(Message.RecipientType.TO));
+			mTransport.close();
+
+			System.out.println("Correo enviado a: " + emailTo);
+		} catch (MessagingException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public String generarCodigoSeguridad() {
+		Random random = new Random();
+		int codigo = 100000 + random.nextInt(900000);
+		return String.valueOf(codigo);
+	}
 
 }
