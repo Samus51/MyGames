@@ -34,6 +34,9 @@ public class HomeController {
 	private BorderPane VentanaPrincipal;
 
 	@FXML
+	private Pane panelFondo;
+
+	@FXML
 	private Label btnGeneroSalida;
 
 	@FXML
@@ -147,31 +150,32 @@ public class HomeController {
 		menuPlataformas.setMinHeight(0);
 		menuGeneral.setMinHeight(Region.USE_COMPUTED_SIZE);
 
-		List<String> imagenes= cargarJuegos();
+		List<String> imagenes = cargarJuegos();
 		asignarImagenes(contJuegos2, imagenes);
 	}
 
 	public static void asignarImagenes(HBox hbox, List<String> imagePaths) {
-	    for (int i = 0; i < hbox.getChildren().size(); i++) {
-	        if (hbox.getChildren().get(i) instanceof ImageView) {
-	            ImageView imageView = (ImageView) hbox.getChildren().get(i);
-	            if (i < imagePaths.size()) { 
-	                imageView.setImage(new Image(imagePaths.get(i)));
-	                imageView.setPreserveRatio(false); 
-	                imageView.setSmooth(true); 
+		for (int i = 0; i < hbox.getChildren().size(); i++) {
+			if (hbox.getChildren().get(i) instanceof ImageView) {
+				ImageView imageView = (ImageView) hbox.getChildren().get(i);
+				if (i < imagePaths.size()) {
+					imageView.setImage(new Image(imagePaths.get(i)));
+					imageView.setPreserveRatio(false);
+					imageView.setSmooth(true);
 
-	                double cornerRadius = 20; 
-	                Rectangle clip = new Rectangle(imageView.getFitWidth(), imageView.getFitHeight());
-	                clip.setArcWidth(cornerRadius);  
-	                clip.setArcHeight(cornerRadius); 
-	                imageView.setClip(clip);  
+					double cornerRadius = 20;
+					Rectangle clip = new Rectangle(imageView.getFitWidth(), imageView.getFitHeight());
+					clip.setArcWidth(cornerRadius);
+					clip.setArcHeight(cornerRadius);
+					imageView.setClip(clip);
 
-	                imageView.setFitWidth(imageView.getFitWidth());
-	                imageView.setFitHeight(imageView.getFitHeight());
-	            }
-	        }
-	    }
+					imageView.setFitWidth(imageView.getFitWidth());
+					imageView.setFitHeight(imageView.getFitHeight());
+				}
+			}
+		}
 	}
+
 	private static List<String> cargarJuegos() {
 		List<Integer> gameIds = ExtractorAPI.getJuegosIDs(1);
 		List<String> capturas = new ArrayList<String>();
@@ -187,9 +191,9 @@ public class HomeController {
 			}
 
 		}
-		
+
 		return capturas;
-		
+
 	}
 
 	// Método para mover la ventana
@@ -265,8 +269,8 @@ public class HomeController {
 		Rectangle2D bounds = screen.getVisualBounds();
 
 		// Ajusta el desplazamiento según lo desees
-		double desplazamientoX = 300; 
-		double desplazamientoY = 100; 
+		double desplazamientoX = 300;
+		double desplazamientoY = 100;
 
 		// Establecer la nueva posición de la ventana en el monitor
 		stage.setX(bounds.getMinX() + desplazamientoX);
@@ -358,24 +362,25 @@ public class HomeController {
 
 	@FXML
 	void btnMenuPressed(MouseEvent event) {
+	    if (menuGeneral.isVisible()) {
+	        // Ocultar menú y restaurar estilos originales (transparente)
+	        menuGeneral.setVisible(false);
+	        contMenuPadre.setStyle(
+	            "-fx-background-image: none;" + // Sin imagen de fondo
+	            "-fx-background-color: transparent;" // Color de fondo transparente
+	        );
+	    } else {
+	        // Mostrar menú y aplicar estilo con opacidad
+	        menuGeneral.setVisible(true);
+	        contMenuPadre.setStyle(
+	            "-fx-background-color: linear-gradient(from 0% 0% to 100% 100%, " +
+	            "rgba(0, 0, 255, 0.3), rgba(0, 0, 0, 0.3));"
+	        );
+	    }
 
-		if (menuGeneral.isVisible()) {
-			menuGeneral.setVisible(false);
-		} else {
-			menuGeneral.setVisible(true);
-		}
-
-		if (menuGeneros.isVisible()) {
-			menuGeneros.setVisible(false);
-			menuGeneral.setVisible(false);
-
-		}
-		if (menuPlataformas.isVisible()) {
-			menuPlataformas.setVisible(false);
-			menuGeneral.setVisible(false);
-
-		}
-
+	    // Asegúrate de que otros menús estén ocultos
+	    menuGeneros.setVisible(false);
+	    menuPlataformas.setVisible(false);
 	}
 
 	public void abrirNuevaVentana(String fxml) {

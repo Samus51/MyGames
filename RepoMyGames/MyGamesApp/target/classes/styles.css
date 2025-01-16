@@ -33,12 +33,6 @@
 	
 }
 
-#contMenuPadre{
-    -fx-background-image: url("fondoPrueba.jpg");
-    -fx-background-size: cover;
-    -fx-background-repeat: no-repeat; 
-    -fx-background-attachment: fixed; 
-}
 
 #menuGeneral Label, 
 #menuGeneros Label, 
