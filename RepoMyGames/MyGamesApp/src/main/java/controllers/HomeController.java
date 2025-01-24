@@ -38,8 +38,16 @@ public class HomeController {
   @FXML
   private BorderPane VentanaPrincipal;
 
+<<<<<<< HEAD
   @FXML
   private Pane panelFondo;
+=======
+	@FXML
+	private Pane panelFondo;
+
+	@FXML
+	private Label btnGeneroSalida;
+>>>>>>> branch 'main' of https://github.com/Samus51/MyGames.git
 
   @FXML
   private Label btnGeneroSalida;
@@ -149,23 +157,69 @@ public class HomeController {
     contJuegos1.setOnMousePressed(this::onMousePressed);
     contJuegos1.setOnMouseDragged(this::onMouseDragged);
 
+<<<<<<< HEAD
     contJuegos2.setOnMousePressed(this::onMousePressed);
     contJuegos2.setOnMouseDragged(this::onMouseDragged);
+=======
+		List<String> imagenes = cargarJuegos();
+		asignarImagenes(contJuegos2, imagenes);
+	}
+>>>>>>> branch 'main' of https://github.com/Samus51/MyGames.git
 
+<<<<<<< HEAD
     contJuegos3.setOnMousePressed(this::onMousePressed);
     contJuegos3.setOnMouseDragged(this::onMouseDragged);
+=======
+	public static void asignarImagenes(HBox hbox, List<String> imagePaths) {
+		for (int i = 0; i < hbox.getChildren().size(); i++) {
+			if (hbox.getChildren().get(i) instanceof ImageView) {
+				ImageView imageView = (ImageView) hbox.getChildren().get(i);
+				if (i < imagePaths.size()) {
+					imageView.setImage(new Image(imagePaths.get(i)));
+					imageView.setPreserveRatio(false);
+					imageView.setSmooth(true);
+>>>>>>> branch 'main' of https://github.com/Samus51/MyGames.git
 
+<<<<<<< HEAD
     contJuegos4.setOnMousePressed(this::onMousePressed);
     contJuegos4.setOnMouseDragged(this::onMouseDragged);
+=======
+					double cornerRadius = 20;
+					Rectangle clip = new Rectangle(imageView.getFitWidth(), imageView.getFitHeight());
+					clip.setArcWidth(cornerRadius);
+					clip.setArcHeight(cornerRadius);
+					imageView.setClip(clip);
+>>>>>>> branch 'main' of https://github.com/Samus51/MyGames.git
 
+<<<<<<< HEAD
     contJuegos4.setOnMousePressed(this::onMousePressed);
     contJuegos4.setOnMouseDragged(this::onMouseDragged);
+=======
+					imageView.setFitWidth(imageView.getFitWidth());
+					imageView.setFitHeight(imageView.getFitHeight());
+				}
+			}
+		}
+	}
+
+	private static List<String> cargarJuegos() {
+		List<Integer> gameIds = ExtractorAPI.getJuegosIDs(1);
+		List<String> capturas = new ArrayList<String>();
+>>>>>>> branch 'main' of https://github.com/Samus51/MyGames.git
 
     scrollJuegosVertical.setOnMousePressed(this::onMousePressed);
     scrollJuegosVertical.setOnMousePressed(this::onMousePressed);
 
+<<<<<<< HEAD
     scrollMenu.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
     scrollMenu.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+=======
+		}
+
+		return capturas;
+
+	}
+>>>>>>> branch 'main' of https://github.com/Samus51/MyGames.git
 
     scrollHorizontalJuego.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
 
@@ -329,9 +383,15 @@ public class HomeController {
     Screen screen = Screen.getPrimary();
     Rectangle2D bounds = screen.getVisualBounds();
 
+<<<<<<< HEAD
     // Ajusta el desplazamiento según lo desees
     double desplazamientoX = 300;
     double desplazamientoY = 100;
+=======
+		// Ajusta el desplazamiento según lo desees
+		double desplazamientoX = 300;
+		double desplazamientoY = 100;
+>>>>>>> branch 'main' of https://github.com/Samus51/MyGames.git
 
     // Establecer la nueva posición de la ventana en el monitor
     stage.setX(bounds.getMinX() + desplazamientoX);
@@ -421,6 +481,7 @@ public class HomeController {
     scrollMenu.setVvalue(0);
   }
 
+<<<<<<< HEAD
   @FXML
   void btnMenuPressed(MouseEvent event) {
     if (menuGeneral.isVisible()) {
@@ -435,7 +496,27 @@ public class HomeController {
       menuFondito.setStyle("-fx-background-color: linear-gradient(from 0% 0% to 100% 100%, "
           + "rgba(0, 0, 255, 0.3), rgba(0, 0, 0, 0.3));");
     }
+=======
+	@FXML
+	void btnMenuPressed(MouseEvent event) {
+	    if (menuGeneral.isVisible()) {
+	        // Ocultar menú y restaurar estilos originales (transparente)
+	        menuGeneral.setVisible(false);
+	        contMenuPadre.setStyle(
+	            "-fx-background-image: none;" + // Sin imagen de fondo
+	            "-fx-background-color: transparent;" // Color de fondo transparente
+	        );
+	    } else {
+	        // Mostrar menú y aplicar estilo con opacidad
+	        menuGeneral.setVisible(true);
+	        contMenuPadre.setStyle(
+	            "-fx-background-color: linear-gradient(from 0% 0% to 100% 100%, " +
+	            "rgba(0, 0, 255, 0.3), rgba(0, 0, 0, 0.3));"
+	        );
+	    }
+>>>>>>> branch 'main' of https://github.com/Samus51/MyGames.git
 
+<<<<<<< HEAD
     // Asegúrate de que otros menús estén ocultos
     menuGeneros.setVisible(false);
     menuPlataformas.setVisible(false);
@@ -457,6 +538,12 @@ public class HomeController {
       // Crear un nuevo Stage
       Stage nuevaVentana = new Stage();
       nuevaVentana.setScene(scene);
+=======
+	    // Asegúrate de que otros menús estén ocultos
+	    menuGeneros.setVisible(false);
+	    menuPlataformas.setVisible(false);
+	}
+>>>>>>> branch 'main' of https://github.com/Samus51/MyGames.git
 
       // Maximizar la ventana
       nuevaVentana.setMaximized(true);

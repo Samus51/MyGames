@@ -16,7 +16,11 @@
 
 <BorderPane fx:id="VentanaPrincipal" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" stylesheets="@../../resources/styles.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.HomeController">
    <center>
+<<<<<<< HEAD
       <HBox prefHeight="100.0" prefWidth="200.0" spacing="25.0" BorderPane.alignment="CENTER">
+=======
+      <VBox prefHeight="389.0" prefWidth="1548.0" spacing="50.0" BorderPane.alignment="CENTER">
+>>>>>>> branch 'main' of https://github.com/Samus51/MyGames.git
          <children>
             <VBox prefHeight="1080.0" prefWidth="358.0">
                <children>
@@ -546,14 +550,36 @@
                            </children>
                         </HBox>
                      </children>
+<<<<<<< HEAD
                   </VBox>
                   <ScrollPane fx:id="scrollJuegosVertical" fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" hmax="0.0" prefHeight="918.0" prefWidth="1343.0" style="-fx-background-color: transparent; -fx-background: transparent;" vbarPolicy="NEVER" VBox.vgrow="ALWAYS">
                      <VBox.margin>
                         <Insets right="200.0" />
                      </VBox.margin>
+=======
+                  </HBox>
+               </children>
+               <HBox.margin>
+                  <Insets top="10.0" />
+               </HBox.margin>
+            </HBox>
+            <Label prefHeight="87.0" prefWidth="1806.0" text="Mis Juegos Favoritos" textFill="WHITE">
+               <font>
+                  <Font size="27.0" />
+               </font>
+            </Label>
+			<VBox prefHeight="182.0" prefWidth="1648.0" style="-fx-background-color: transparent;">
+               <children>
+                  <ScrollPane fx:id="scrollpane" fitToWidth="true" hbarPolicy="NEVER" prefHeight="227.0" prefWidth="1289.0" style="-fx-background: transparent; -fx-background-color: transparent;" vbarPolicy="NEVER" vmax="0.0" VBox.vgrow="ALWAYS">
+>>>>>>> branch 'main' of https://github.com/Samus51/MyGames.git
                      <content>
+<<<<<<< HEAD
                         <VBox prefHeight="926.0" prefWidth="1343.0" style="-fx-background-color: transparent;">
+=======
+                        <HBox fx:id="contJuegos1" prefHeight="289.0" prefWidth="2241.0" spacing="30.0" style="-fx-background: transparent; -fx-background-color: transparent;">
+>>>>>>> branch 'main' of https://github.com/Samus51/MyGames.git
                            <children>
+<<<<<<< HEAD
                               <Label prefHeight="87.0" prefWidth="1806.0" text="Más Populares">
                                  <font>
                                     <Font size="27.0" />
@@ -1086,12 +1112,160 @@
                                     </HBox>
                                  </content>
                               </ScrollPane>
+=======
+                              <VBox>
+                                 <HBox.margin>
+                                    <Insets left="15.0" top="10.0" />
+                                 </HBox.margin>
+                                 <children>
+                                    <ImageView fitHeight="154.0" fitWidth="214.0" pickOnBounds="true" preserveRatio="true" styleClass="img_videojuegos">
+                                       <image>
+                                          <Image url="@/Logo.png" />
+                                       </image>
+                                    </ImageView>
+                                    <Label prefHeight="17.0" prefWidth="211.0" text="Label" />
+                                 </children>
+                              </VBox>
+                              <ImageView fx:id="btnGenerosSalida" fitHeight="154.0" fitWidth="214.0" pickOnBounds="true" preserveRatio="true" styleClass="img_videojuegos">
+                                 <HBox.margin>
+                                    <Insets left="15.0" top="10.0" />
+                                 </HBox.margin>
+                                 <image>
+                                    <Image url="@/Logo.png" />
+                                 </image>
+                              </ImageView>
+                              <ImageView fitHeight="154.0" fitWidth="214.0" pickOnBounds="true" preserveRatio="true" styleClass="img_videojuegos">
+                                 <HBox.margin>
+                                    <Insets left="15.0" top="10.0" />
+                                 </HBox.margin>
+                                 <image>
+                                    <Image url="@/Logo.png" />
+                                 </image>
+                              </ImageView>
+                              <ImageView fitHeight="154.0" fitWidth="214.0" pickOnBounds="true" preserveRatio="true" styleClass="img_videojuegos">
+                                 <HBox.margin>
+                                    <Insets left="15.0" top="10.0" />
+                                 </HBox.margin>
+                                 <image>
+                                    <Image url="@/Logo.png" />
+                                 </image>
+                              </ImageView>
+                              <ImageView fitHeight="154.0" fitWidth="214.0" pickOnBounds="true" preserveRatio="true" styleClass="img_videojuegos">
+                                 <image>
+                                    <Image url="@/Logo.png" />
+                                 </image>
+                                 <HBox.margin>
+                                    <Insets left="15.0" top="10.0" />
+                                 </HBox.margin>
+                              </ImageView>
+                              <ImageView fitHeight="154.0" fitWidth="214.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@/OjoNegro.png" />
+                                 </image>
+                              </ImageView>
+                              <ImageView fitHeight="154.0" fitWidth="214.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@/OjoNegro.png" />
+                                 </image>
+                              </ImageView>
+                              <ImageView fitHeight="154.0" fitWidth="214.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@/OjoNegro.png" />
+                                 </image>
+                              </ImageView>
+                              <ImageView fitHeight="154.0" fitWidth="214.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@/OjoNegro.png" />
+                                 </image>
+                              </ImageView>
+>>>>>>> branch 'main' of https://github.com/Samus51/MyGames.git
                            </children>
                         </VBox>
                      </content>
                   </ScrollPane>
                </children>
             </VBox>
+<<<<<<< HEAD
+=======
+            <VBox prefHeight="182.0" prefWidth="1648.0" style="-fx-background-color: transparent;">
+               <children>
+                  <ScrollPane fx:id="scrollpane1" fitToWidth="true" hbarPolicy="NEVER" prefHeight="174.0" prefWidth="1289.0" style="-fx-background: transparent; -fx-background-color: transparent;" vbarPolicy="NEVER" vmax="0.0">
+                     <content>
+                        <HBox fx:id="contJuegos11" prefHeight="210.0" prefWidth="1534.0" spacing="30.0" style="-fx-background: transparent; -fx-background-color: transparent;">
+                           <children>
+                              <VBox>
+                                 <HBox.margin>
+                                    <Insets left="15.0" top="10.0" />
+                                 </HBox.margin>
+                                 <children>
+                                    <ImageView fitHeight="154.0" fitWidth="214.0" pickOnBounds="true" preserveRatio="true" styleClass="img_videojuegos">
+                                       <image>
+                                          <Image url="@/Logo.png" />
+                                       </image>
+                                    </ImageView>
+                                    <Label prefHeight="17.0" prefWidth="211.0" text="Label" />
+                                 </children>
+                              </VBox>
+                              <ImageView fx:id="btnGenerosSalida1" fitHeight="154.0" fitWidth="214.0" pickOnBounds="true" preserveRatio="true" styleClass="img_videojuegos">
+                                 <HBox.margin>
+                                    <Insets left="15.0" top="10.0" />
+                                 </HBox.margin>
+                                 <image>
+                                    <Image url="@/Logo.png" />
+                                 </image>
+                              </ImageView>
+                              <ImageView fitHeight="154.0" fitWidth="214.0" pickOnBounds="true" preserveRatio="true" styleClass="img_videojuegos">
+                                 <HBox.margin>
+                                    <Insets left="15.0" top="10.0" />
+                                 </HBox.margin>
+                                 <image>
+                                    <Image url="@/Logo.png" />
+                                 </image>
+                              </ImageView>
+                              <ImageView fitHeight="154.0" fitWidth="214.0" pickOnBounds="true" preserveRatio="true" styleClass="img_videojuegos">
+                                 <HBox.margin>
+                                    <Insets left="15.0" top="10.0" />
+                                 </HBox.margin>
+                                 <image>
+                                    <Image url="@/Logo.png" />
+                                 </image>
+                              </ImageView>
+                              <ImageView fitHeight="154.0" fitWidth="214.0" pickOnBounds="true" preserveRatio="true" styleClass="img_videojuegos">
+                                 <image>
+                                    <Image url="@/Logo.png" />
+                                 </image>
+                                 <HBox.margin>
+                                    <Insets left="15.0" top="10.0" />
+                                 </HBox.margin>
+                              </ImageView>
+                              <ImageView fitHeight="154.0" fitWidth="214.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@/OjoNegro.png" />
+                                 </image>
+                              </ImageView>
+                              <ImageView fitHeight="154.0" fitWidth="214.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@/OjoNegro.png" />
+                                 </image>
+                              </ImageView>
+                              <ImageView fitHeight="154.0" fitWidth="214.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@/OjoNegro.png" />
+                                 </image>
+                              </ImageView>
+                              <ImageView fitHeight="154.0" fitWidth="214.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@/OjoNegro.png" />
+                                 </image>
+                              </ImageView>
+                           </children>
+                        </HBox>
+                     </content>
+                  </ScrollPane>
+               </children>
+            </VBox>
+
+>>>>>>> branch 'main' of https://github.com/Samus51/MyGames.git
          </children>
       </HBox>
    </center>
