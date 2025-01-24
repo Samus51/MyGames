@@ -2,7 +2,12 @@ package controllers;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -28,403 +33,461 @@ import utils.ExtractorAPI;
 
 public class HomeController {
 
-	private final static String PANEL_USER = "/views/CambiarInfoPersonal.fxml";
+  private final static String PANEL_USER = "/views/CambiarInfoPersonal.fxml";
 
-	@FXML
-	private BorderPane VentanaPrincipal;
+  @FXML
+  private BorderPane VentanaPrincipal;
 
-	@FXML
-	private Label btnGeneroSalida;
+  @FXML
+  private Pane panelFondo;
 
-	@FXML
-	private Label btnGeneros;
+  @FXML
+  private Label btnGeneroSalida;
 
-	@FXML
-	private Label btnGenerosMenuPlataformas;
+  @FXML
+  private Label btnGeneros;
 
-	@FXML
-	private ImageView btnGenerosSalida;
+  @FXML
+  private Label btnGenerosMenuPlataformas;
 
-	@FXML
-	private ImageView btnMinimizar;
+  @FXML
+  private ImageView btnGenerosSalida;
 
-	@FXML
-	private ImageView btnCerrar;
+  @FXML
+  private ImageView btnMinimizar;
 
-	@FXML
-	private Label btnPlataformas;
+  @FXML
+  private ImageView btnCerrar;
 
-	@FXML
-	private ImageView btnMenu;
+  @FXML
+  private Label btnPlataformas;
 
-	@FXML
-	private Label btnPlataformasMenuGeneros;
+  @FXML
+  private ImageView btnMenu;
 
-	@FXML
-	private Label btnPlataformasSalida;
+  @FXML
+  private Label btnPlataformasMenuGeneros;
 
-	@FXML
-	private ImageView btnUser;
+  @FXML
+  private Label btnPlataformasSalida;
 
-	@FXML
-	private HBox buscador;
+  @FXML
+  private ImageView btnUser;
 
-	@FXML
-	private HBox contBusqueda;
+  @FXML
+  private HBox buscador;
 
-	@FXML
-	private HBox contJuegos1;
+  @FXML
+  private HBox contBusqueda;
 
-	@FXML
-	private HBox contJuegos2;
+  @FXML
+  private HBox contJuegos1;
 
-	@FXML
-	private HBox contJuegos3;
+  @FXML
+  private HBox contJuegos2;
 
-	@FXML
-	private HBox contJuegos4;
+  @FXML
+  private HBox contJuegos3;
 
-	@FXML
-	private StackPane contMenuPadre;
+  @FXML
+  private HBox contJuegos4;
 
-	@FXML
-	private VBox menuGeneral;
+  @FXML
+  private HBox contPlataformas;
 
-	@FXML
-	private VBox menuGeneros;
+  @FXML
+  private HBox contPlataformas1;
 
-	@FXML
-	private VBox menuPlataformas;
+  @FXML
+  private StackPane contMenuPadre;
 
-	@FXML
-	private ScrollPane scrollMenu;
+  @FXML
+  private VBox menuGeneral;
 
-	@FXML
-	private ScrollPane scrollpane;
+  @FXML
+  private VBox contInfo;
 
-	@FXML
-	private ScrollPane scrollpane1;
+  @FXML
+  private VBox menuFondito;
 
-	@FXML
-	private ScrollPane scrollpane2;
+  @FXML
+  private VBox menuGeneros;
 
-	@FXML
-	private ScrollPane scrollpane3;
+  @FXML
+  private VBox menuPlataformas;
 
-	private double mousePressedX;
-	private double mousePressedY;
-	private HBox contenedorActivo = null;
+  @FXML
+  private ScrollPane scrollMenu;
 
-	@FXML
-	public void initialize() {
-		scrollpane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
-		scrollpane.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+  @FXML
+  private ScrollPane scrollJuegosVertical;
 
-		scrollpane.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
-		scrollpane1.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
-		scrollpane2.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
-		scrollpane3.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+  @FXML
+  private ScrollPane scrollHorizontalJuego;
 
-		// Manejar el arrastre horizontal
-		contJuegos1.setOnMousePressed(this::onMousePressed);
-		contJuegos1.setOnMouseDragged(this::onMouseDragged);
+  @FXML
+  private ScrollPane scrollHorizontalJuego1;
 
-		contJuegos2.setOnMousePressed(this::onMousePressed);
-		contJuegos2.setOnMouseDragged(this::onMouseDragged);
+  @FXML
+  private ScrollPane scrollHorizontalJuego2;
 
-		contJuegos3.setOnMousePressed(this::onMousePressed);
-		contJuegos3.setOnMouseDragged(this::onMouseDragged);
+  @FXML
+  private ScrollPane scrollHorizontalJuego3;
 
-		contJuegos4.setOnMousePressed(this::onMousePressed);
-		contJuegos4.setOnMouseDragged(this::onMouseDragged);
+  private double mousePressedX;
+  private double mousePressedY;
+  private HBox contenedorActivo = null;
 
-		scrollMenu.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
-		scrollMenu.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+  @FXML
+  public void initialize() {
+    scrollHorizontalJuego.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+    scrollHorizontalJuego.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
 
-		scrollpane.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+    scrollHorizontalJuego.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
 
-		menuGeneros.setMinHeight(0);
-		menuPlataformas.setMinHeight(0);
-		menuGeneral.setMinHeight(Region.USE_COMPUTED_SIZE);
+    // Manejar el arrastre horizontal
+    contJuegos1.setOnMousePressed(this::onMousePressed);
+    contJuegos1.setOnMouseDragged(this::onMouseDragged);
 
-		List<String> imagenes= cargarJuegos();
-		asignarImagenes(contJuegos2, imagenes);
-	}
+    contJuegos2.setOnMousePressed(this::onMousePressed);
+    contJuegos2.setOnMouseDragged(this::onMouseDragged);
 
-	public static void asignarImagenes(HBox hbox, List<String> imagePaths) {
-	    for (int i = 0; i < hbox.getChildren().size(); i++) {
-	        if (hbox.getChildren().get(i) instanceof ImageView) {
-	            ImageView imageView = (ImageView) hbox.getChildren().get(i);
-	            if (i < imagePaths.size()) { 
-	                imageView.setImage(new Image(imagePaths.get(i)));
-	                imageView.setPreserveRatio(false); 
-	                imageView.setSmooth(true); 
+    contJuegos3.setOnMousePressed(this::onMousePressed);
+    contJuegos3.setOnMouseDragged(this::onMouseDragged);
 
-	                double cornerRadius = 20; 
-	                Rectangle clip = new Rectangle(imageView.getFitWidth(), imageView.getFitHeight());
-	                clip.setArcWidth(cornerRadius);  
-	                clip.setArcHeight(cornerRadius); 
-	                imageView.setClip(clip);  
+    contJuegos4.setOnMousePressed(this::onMousePressed);
+    contJuegos4.setOnMouseDragged(this::onMouseDragged);
 
-	                imageView.setFitWidth(imageView.getFitWidth());
-	                imageView.setFitHeight(imageView.getFitHeight());
-	            }
-	        }
-	    }
-	}
-	private static List<String> cargarJuegos() {
-		List<Integer> gameIds = ExtractorAPI.getJuegosIDs(1);
-		List<String> capturas = new ArrayList<String>();
+    contJuegos4.setOnMousePressed(this::onMousePressed);
+    contJuegos4.setOnMouseDragged(this::onMouseDragged);
 
-		for (int gameId : gameIds) {
-			try {
-				List<String> capturasJuego = ExtractorAPI.obtenerPrimeraCaptura(gameId);
-				if (capturasJuego != null && !capturasJuego.isEmpty()) {
-					capturas.addAll(capturasJuego);
-				}
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
+    scrollJuegosVertical.setOnMousePressed(this::onMousePressed);
+    scrollJuegosVertical.setOnMousePressed(this::onMousePressed);
 
-		}
-		
-		return capturas;
-		
-	}
+    scrollMenu.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+    scrollMenu.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
 
-	// Método para mover la ventana
-	public void moverVentana(Stage stage) {
-		// Cogemos la Pantalla
-		Screen screen = Screen.getPrimary();
-		Rectangle2D bounds = screen.getVisualBounds();
+    scrollHorizontalJuego.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
 
-		// Ajustamos el desplazamiento
-		double desplazamientoX = 300;
-		double desplazamientoY = 100;
+    menuGeneros.setMinHeight(0);
+    menuPlataformas.setMinHeight(0);
+    menuGeneral.setMinHeight(Region.USE_COMPUTED_SIZE);
 
-		// Establecer la nueva posición de la ventana en el monitor
-		stage.setX(bounds.getMinX() + desplazamientoX);
-		stage.setY(bounds.getMinY() + desplazamientoY);
-	}
+    Map<String, List<String>> capturasPlataformas = cargarJuegos();
+    asignarImagenes(contJuegos1, capturasPlataformas, contPlataformas);
+    asignarImagenes(contJuegos2, capturasPlataformas, contPlataformas1);
+
+  }
+
+  // 378, 199, Contenedors Info y Plataformas
+  public static void asignarImagenes(HBox hbox, Map<String, List<String>> capturaYPlataformas, HBox contPlataformeros) {
+    int imageIndex = 0;
+
+    for (Node node : hbox.getChildren()) {
+      if (node instanceof VBox) {
+        VBox vbox = (VBox) node;
+
+        // Recorrer los hijos del VBox para buscar ImageViews
+        for (Node vboxChild : vbox.getChildren()) {
+
+          if (vboxChild instanceof ImageView && imageIndex < capturaYPlataformas.size()) {
+            ImageView imageView = (ImageView) vboxChild;
+
+            // Obtener la captura de pantalla correspondiente
+            String captura = (String) capturaYPlataformas.keySet().toArray()[imageIndex];
+            List<String> plataformas = capturaYPlataformas.get(captura);
+
+            // Asignar imagen
+            imageView.setImage(new Image(captura));
+            imageView.setPreserveRatio(false);
+            imageView.setSmooth(true);
+
+            // Aplicar esquinas redondeadas
+            double cornerRadius = 20;
+            Rectangle clip = new Rectangle(imageView.getFitWidth(), imageView.getFitHeight());
+            clip.setArcWidth(cornerRadius);
+            clip.setArcHeight(cornerRadius);
+            imageView.setClip(clip);
+
+            imageView.setFitWidth(imageView.getFitWidth());
+            imageView.setFitHeight(imageView.getFitHeight());
+
+            // Mostrar plataformas (como texto adicional o alguna representación)
+            if (vbox.getChildren().size() > 1 && vbox.getChildren().get(1) instanceof Label) {
+              Label platformLabel = (Label) vbox.getChildren().get(1);
+              platformLabel.setText(String.join(", ", plataformas));
+            }
+
+            imageIndex++;
+          }
+          if (vboxChild instanceof VBox) {
+            for (Node vboxChild2 : vbox.getChildren()) {
+
+            }
+
+          }
+        }
+      }
+    }
+  }
+
+  private static Map<String, List<String>> cargarJuegos() {
+    Map<Integer, List<String>> gameIdsYPlataformas = ExtractorAPI.getJuegosIDsYPlataformas(1);
+
+    Map<String, List<String>> capturaYPlataformas = new HashMap<>();
+
+    for (Map.Entry<Integer, List<String>> entry : gameIdsYPlataformas.entrySet()) {
+      int gameId = entry.getKey();
+      List<String> plataformas = entry.getValue();
+
+      try {
+        Map<String, List<String>> capturasJuego = ExtractorAPI.obtenerPrimeraCapturaYPlataformas(gameId);
+        for (Map.Entry<String, List<String>> capturaEntry : capturasJuego.entrySet()) {
+          String captura = capturaEntry.getKey();
+          capturaYPlataformas.put(captura, plataformas);
+        }
+      } catch (Exception e) {
+        e.printStackTrace();
+      }
+    }
+
+    return capturaYPlataformas;
+  }
+
+  // Método para mover la ventana
+  public void moverVentana(Stage stage) {
+    // Cogemos la Pantalla
+    Screen screen = Screen.getPrimary();
+    Rectangle2D bounds = screen.getVisualBounds();
+
+    // Ajustamos el desplazamiento
+    double desplazamientoX = 300;
+    double desplazamientoY = 100;
+
+    // Establecer la nueva posición de la ventana en el monitor
+    stage.setX(bounds.getMinX() + desplazamientoX);
+    stage.setY(bounds.getMinY() + desplazamientoY);
+  }
 
 //Método que se ejecuta cuando se presiona el ratón en el contenedor de juegos
-	private void onMousePressed(MouseEvent event) {
-		// Detectamos cuál contenedor está siendo presionado y lo asignamos a la
-		// variable
-		if (event.getSource() == contJuegos1) {
-			contenedorActivo = contJuegos1;
-		} else if (event.getSource() == contJuegos2) {
-			contenedorActivo = contJuegos2;
-		} else if (event.getSource() == contJuegos3) {
-			contenedorActivo = contJuegos3;
-		} else if (event.getSource() == contJuegos4) {
-			contenedorActivo = contJuegos4;
-		}
+  private void onMousePressed(MouseEvent event) {
+    // Detectamos cuál contenedor está siendo presionado y lo asignamos a la
+    // variable
+    if (event.getSource() == contJuegos1) {
+      contenedorActivo = contJuegos1;
+    } else if (event.getSource() == contJuegos2) {
+      contenedorActivo = contJuegos2;
+    } else if (event.getSource() == contJuegos3) {
+      contenedorActivo = contJuegos3;
+    } else if (event.getSource() == contJuegos4) {
+      contenedorActivo = contJuegos4;
+    }
 
-		// Guardamos la posición inicial del mouse
-		if (contenedorActivo != null) {
-			mousePressedX = event.getSceneX();
-		}
-	}
+    // Guardamos la posición inicial del mouse
+    if (contenedorActivo != null) {
+      mousePressedX = event.getSceneX();
+    }
+  }
 
 //Método que se ejecuta cuando el ratón se mueve para arrastrar el contenido
-	private void onMouseDragged(MouseEvent event) {
-		// Verificamos si hay un contenedor activo
-		if (contenedorActivo != null) {
-			double deltaX = mousePressedX - event.getSceneX();
-			mousePressedX = event.getSceneX();
+  private void onMouseDragged(MouseEvent event) {
+    // Verificamos si hay un contenedor activo
+    if (contenedorActivo != null) {
+      double deltaX = mousePressedX - event.getSceneX();
+      mousePressedX = event.getSceneX();
 
-			// Calculamos el desplazamiento solo para el contenedor activo
-			ScrollPane scrollPaneActivo = null;
-			if (contenedorActivo == contJuegos1) {
-				scrollPaneActivo = scrollpane;
-			} else if (contenedorActivo == contJuegos2) {
-				scrollPaneActivo = scrollpane1;
-			} else if (contenedorActivo == contJuegos3) {
-				scrollPaneActivo = scrollpane2;
-			} else if (contenedorActivo == contJuegos4) {
-				scrollPaneActivo = scrollpane3;
-			}
+      // Calculamos el desplazamiento solo para el contenedor activo
+      ScrollPane scrollPaneActivo = null;
+      if (contenedorActivo == contJuegos1) {
+        scrollPaneActivo = scrollHorizontalJuego;
+      }
+      if (contenedorActivo == contJuegos2) {
+        scrollPaneActivo = scrollHorizontalJuego1;
+      }
+      if (contenedorActivo == contJuegos3) {
+        scrollPaneActivo = scrollHorizontalJuego2;
+      }
+      if (contenedorActivo == contJuegos4) {
+        scrollPaneActivo = scrollHorizontalJuego3;
+      }
 
-			if (scrollPaneActivo != null) {
-				// Calculamos el nuevo valor de desplazamiento en función del movimiento del
-				// ratón
-				double newHvalue = scrollPaneActivo.getHvalue() + deltaX * 8 / contenedorActivo.getWidth();
-				// Aseguramos que el valor se mantenga dentro de los límites (0 a 1)
-				scrollPaneActivo.setHvalue(Math.max(0, Math.min(1, newHvalue)));
-				scrollPaneActivo.setVvalue(0);
+      if (scrollPaneActivo != null) {
+        // Calculamos el nuevo valor de desplazamiento en función del movimiento del
+        // ratón
+        double newHvalue = scrollPaneActivo.getHvalue() + deltaX * 2 / contenedorActivo.getWidth();
+        // Aseguramos que el valor se mantenga dentro de los límites (0 a 1)
+        scrollPaneActivo.setHvalue(Math.max(0, Math.min(1, newHvalue)));
+        scrollPaneActivo.setVvalue(0);
 
-			}
-		}
-	}
+      }
+    }
+  }
 
-	// Método para mover la ventana
-	public void moverVentanaMenu(Stage stage) {
-		// Obtén el monitor que quieres usar
-		Screen screen = Screen.getPrimary();
-		Rectangle2D bounds = screen.getVisualBounds();
+  // Método para mover la ventana
+  public void moverVentanaMenu(Stage stage) {
+    // Obtén el monitor que quieres usar
+    Screen screen = Screen.getPrimary();
+    Rectangle2D bounds = screen.getVisualBounds();
 
-		// Ajusta el desplazamiento según lo desees
-		double desplazamientoX = 300; 
-		double desplazamientoY = 100; 
+    // Ajusta el desplazamiento según lo desees
+    double desplazamientoX = 300;
+    double desplazamientoY = 100;
 
-		// Establecer la nueva posición de la ventana en el monitor
-		stage.setX(bounds.getMinX() + desplazamientoX);
-		stage.setY(bounds.getMinY() + desplazamientoY);
-	}
+    // Establecer la nueva posición de la ventana en el monitor
+    stage.setX(bounds.getMinX() + desplazamientoX);
+    stage.setY(bounds.getMinY() + desplazamientoY);
+  }
 
-	private void onMousePressedMenu(MouseEvent event) {
-		mousePressedY = event.getSceneY();
-	}
+  private void onMousePressedMenu(MouseEvent event) {
+    mousePressedY = event.getSceneY();
+  }
 
-	private void onMouseDraggedMenu(MouseEvent event) {
-		double deltaY = mousePressedY - event.getSceneY();
-		mousePressedY = event.getSceneY();
+  private void onMouseDraggedMenu(MouseEvent event) {
+    double deltaY = mousePressedY - event.getSceneY();
+    mousePressedY = event.getSceneY();
 
-		// Desplazamos el contenido del ScrollPane
-		double newVvalue = scrollMenu.getVvalue() + deltaY * 8 / contMenuPadre.getHeight();
-		scrollMenu.setVvalue(Math.max(0, Math.min(1, newVvalue)));
-	}
+    // Desplazamos el contenido del ScrollPane
+    double newVvalue = scrollMenu.getVvalue() + deltaY * 8 / contMenuPadre.getHeight();
+    scrollMenu.setVvalue(Math.max(0, Math.min(1, newVvalue)));
+  }
 
-	@FXML
-	void btnGenerosMenuPlataformasPressed(MouseEvent event) {
-		menuGeneral.setVisible(false);
-		menuGeneros.setVisible(true);
-		menuPlataformas.setVisible(false);
+  @FXML
+  void btnGenerosMenuPlataformasPressed(MouseEvent event) {
+    menuGeneral.setVisible(false);
+    menuGeneros.setVisible(true);
+    menuPlataformas.setVisible(false);
 
-		menuGeneros.setMinHeight(Region.USE_COMPUTED_SIZE);
-		menuPlataformas.setMinHeight(0);
-		menuGeneral.setMinHeight(0);
+    menuGeneros.setMinHeight(Region.USE_COMPUTED_SIZE);
+    menuPlataformas.setMinHeight(0);
+    menuGeneral.setMinHeight(0);
 
-		scrollMenu.setHvalue(0);
-		scrollMenu.setVvalue(0);
-	}
+    scrollMenu.setHvalue(0);
+    scrollMenu.setVvalue(0);
+  }
 
-	@FXML
-	void btnGenerosPressed(MouseEvent event) {
-		menuGeneral.setVisible(false);
-		menuGeneros.setVisible(true);
-		menuPlataformas.setVisible(false);
+  @FXML
+  void btnGenerosPressed(MouseEvent event) {
+    menuGeneral.setVisible(false);
+    menuGeneros.setVisible(true);
+    menuPlataformas.setVisible(false);
 
-		menuGeneros.setMinHeight(Region.USE_COMPUTED_SIZE);
-		menuPlataformas.setMinHeight(0);
-		menuGeneral.setMinHeight(0);
-	}
+    menuGeneros.setMinHeight(Region.USE_COMPUTED_SIZE);
+    menuPlataformas.setMinHeight(0);
+    menuGeneral.setMinHeight(0);
+  }
 
-	@FXML
-	void btnGenerosSalidaPressed(MouseEvent event) {
-		menuGeneral.setVisible(true);
-		menuGeneros.setVisible(false);
+  @FXML
+  void btnGenerosSalidaPressed(MouseEvent event) {
+    menuGeneral.setVisible(true);
+    menuGeneros.setVisible(false);
 
-		menuGeneros.setMinHeight(0);
-		menuGeneral.setMinHeight(Region.USE_COMPUTED_SIZE);
-	}
+    menuGeneros.setMinHeight(0);
+    menuGeneral.setMinHeight(Region.USE_COMPUTED_SIZE);
+  }
 
-	@FXML
-	void btnPlataformasPressed(MouseEvent event) {
-		menuGeneral.setVisible(false);
-		menuPlataformas.setVisible(true);
-		menuGeneros.setVisible(false);
+  @FXML
+  void btnPlataformasPressed(MouseEvent event) {
+    menuGeneral.setVisible(false);
+    menuPlataformas.setVisible(true);
+    menuGeneros.setVisible(false);
 
-		menuGeneros.setMinHeight(0);
-		menuPlataformas.setMinHeight(Region.USE_COMPUTED_SIZE);
-		menuGeneral.setMinHeight(0);
-	}
+    menuGeneros.setMinHeight(0);
+    menuPlataformas.setMinHeight(Region.USE_COMPUTED_SIZE);
+    menuGeneral.setMinHeight(0);
+  }
 
-	@FXML
-	void btnPlataformasSalidaPressed(MouseEvent event) {
-		menuGeneral.setVisible(true);
-		menuPlataformas.setVisible(false);
-		menuGeneros.setVisible(false);
+  @FXML
+  void btnPlataformasSalidaPressed(MouseEvent event) {
+    menuGeneral.setVisible(true);
+    menuPlataformas.setVisible(false);
+    menuGeneros.setVisible(false);
 
-		menuGeneros.setMinHeight(0);
-		menuPlataformas.setMinHeight(0);
-		menuGeneral.setMinHeight(Region.USE_COMPUTED_SIZE);
-	}
+    menuGeneros.setMinHeight(0);
+    menuPlataformas.setMinHeight(0);
+    menuGeneral.setMinHeight(Region.USE_COMPUTED_SIZE);
+  }
 
-	@FXML
-	void btnPlataformasMenuGenerosPressed(MouseEvent event) {
-		menuGeneral.setVisible(false);
-		menuGeneros.setVisible(false);
-		menuPlataformas.setVisible(true);
+  @FXML
+  void btnPlataformasMenuGenerosPressed(MouseEvent event) {
+    menuGeneral.setVisible(false);
+    menuGeneros.setVisible(false);
+    menuPlataformas.setVisible(true);
 
-		menuGeneros.setMinHeight(0);
-		menuPlataformas.setMinHeight(Region.USE_COMPUTED_SIZE);
-		menuGeneral.setMinHeight(0);
+    menuGeneros.setMinHeight(0);
+    menuPlataformas.setMinHeight(Region.USE_COMPUTED_SIZE);
+    menuGeneral.setMinHeight(0);
 
-		scrollMenu.setHvalue(0);
-		scrollMenu.setVvalue(0);
-	}
+    scrollMenu.setHvalue(0);
+    scrollMenu.setVvalue(0);
+  }
 
-	@FXML
-	void btnMenuPressed(MouseEvent event) {
+  @FXML
+  void btnMenuPressed(MouseEvent event) {
+    if (menuGeneral.isVisible()) {
+      // Ocultar menú y restaurar estilos originales (transparente)
+      menuGeneral.setVisible(false);
+      menuFondito.setStyle("-fx-background-image: none;" + // Sin imagen de fondo
+          "-fx-background-color: transparent;" // Color de fondo transparente
+      );
+    } else {
+      // Mostrar menú y aplicar estilo con opacidad
+      menuGeneral.setVisible(true);
+      menuFondito.setStyle("-fx-background-color: linear-gradient(from 0% 0% to 100% 100%, "
+          + "rgba(0, 0, 255, 0.3), rgba(0, 0, 0, 0.3));");
+    }
 
-		if (menuGeneral.isVisible()) {
-			menuGeneral.setVisible(false);
-		} else {
-			menuGeneral.setVisible(true);
-		}
+    // Asegúrate de que otros menús estén ocultos
+    menuGeneros.setVisible(false);
+    menuPlataformas.setVisible(false);
+  }
 
-		if (menuGeneros.isVisible()) {
-			menuGeneros.setVisible(false);
-			menuGeneral.setVisible(false);
+  public void abrirNuevaVentana(String fxml) {
+    try {
+      // Obtener el Stage de la ventana principal
+      Stage ventanaPrincipal = (Stage) VentanaPrincipal.getScene().getWindow();
 
-		}
-		if (menuPlataformas.isVisible()) {
-			menuPlataformas.setVisible(false);
-			menuGeneral.setVisible(false);
+      // Cargar el archivo FXML de la nueva ventana
+      FXMLLoader loader = new FXMLLoader(getClass().getResource(fxml));
+      Pane root = loader.load();
 
-		}
+      // Crear una nueva escena con el root cargado
+      Scene scene = new Scene(root);
+      scene.getStylesheets().add(getClass().getResource("/styles.css").toExternalForm());
 
-	}
+      // Crear un nuevo Stage
+      Stage nuevaVentana = new Stage();
+      nuevaVentana.setScene(scene);
 
-	public void abrirNuevaVentana(String fxml) {
-		try {
-			// Obtener el Stage de la ventana principal
-			Stage ventanaPrincipal = (Stage) VentanaPrincipal.getScene().getWindow();
+      // Maximizar la ventana
+      nuevaVentana.setMaximized(true);
+      nuevaVentana.setResizable(false);
+      nuevaVentana.initStyle(StageStyle.UNDECORATED);
 
-			// Cargar el archivo FXML de la nueva ventana
-			FXMLLoader loader = new FXMLLoader(getClass().getResource(fxml));
-			Pane root = loader.load();
+      // Mostrar la nueva ventana
+      nuevaVentana.show();
 
-			// Crear una nueva escena con el root cargado
-			Scene scene = new Scene(root);
-			scene.getStylesheets().add(getClass().getResource("/styles.css").toExternalForm());
+      // Cerrar la ventana principal
+      ventanaPrincipal.close();
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+  }
 
-			// Crear un nuevo Stage
-			Stage nuevaVentana = new Stage();
-			nuevaVentana.setScene(scene);
+  @FXML
+  void btnUserPressed(MouseEvent event) {
+    abrirNuevaVentana(PANEL_USER);
+  }
 
-			// Maximizar la ventana
-			nuevaVentana.setMaximized(true);
-			nuevaVentana.setResizable(false);
-			nuevaVentana.initStyle(StageStyle.UNDECORATED);
+  @FXML
+  void btnMinimizarPressed(MouseEvent event) {
+    Stage ventanaPrincipal = (Stage) ((Node) event.getSource()).getScene().getWindow();
+    ventanaPrincipal.setIconified(true);
+  }
 
-			// Mostrar la nueva ventana
-			nuevaVentana.show();
-
-			// Cerrar la ventana principal
-			ventanaPrincipal.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-
-	@FXML
-	void btnUserPressed(MouseEvent event) {
-		abrirNuevaVentana(PANEL_USER);
-	}
-
-	@FXML
-	void btnMinimizarPressed(MouseEvent event) {
-		Stage ventanaPrincipal = (Stage) ((Node) event.getSource()).getScene().getWindow();
-		ventanaPrincipal.setIconified(true);
-	}
-
-	@FXML
-	void btnCerrarPressed(MouseEvent event) {
-		Stage ventanaPrincipal = (Stage) ((Node) event.getSource()).getScene().getWindow();
-		ventanaPrincipal.close();
-	}
+  @FXML
+  void btnCerrarPressed(MouseEvent event) {
+    Stage ventanaPrincipal = (Stage) ((Node) event.getSource()).getScene().getWindow();
+    ventanaPrincipal.close();
+  }
 
 }

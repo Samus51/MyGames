@@ -6,7 +6,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import javafx.animation.FadeTransition;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -19,283 +18,212 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import javafx.util.Duration;
 import jdbc.Conector;
 
+/**
+ * Controlador de RecuperarContrasenaParte2
+ */
 public class RecuperarContrasenaParte2Controller {
 
-	private static final String SQL_CODIGO = "Select codigo_seguridad from usuarios where email = ?";
+  // Constantes
+  // SQL
+  private static final String SQL_CODIGO = "SELECT codigo_seguridad FROM usuarios WHERE email = ?";
+  private static final String SQL_PASSWORDS = "UPDATE usuarios SET contrasena = ? WHERE email = ?";
+  // Styles
+  private static final String STYLES = "/styles.css";
+  // Pantallas
+  private static final String LOGIN = "/views/Login.fxml";
+  private static final String RECUPERAR_CONTRASENA = "/views/RecuperarContrasena.fxml";
+  // Fotos
+  private static final String OJO_NEGRO = "/ojoNegro.png";
+  private static final String OJO_NEGRO_TACHADO = "/ojoNegroTachado.png";
 
-	private static final String SQL_PASSWORDS = "UPDATE usuarios set contrasena = ? where email = ?";
+  // Atributos
+  private String email;
+  // Variable para controlar la visibilidad de las contraseñas
+  private boolean isPasswordVisible = false;
 
-	private String email;
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
+  public void setEmail(String email) {
+    this.email = email;
+  }
 
   @FXML
-  private BorderPane VentanaPrincipal;
+  private TextField txtCodigo;
 
-	
-	@FXML
-	private TextField txtCodigo;
+  @FXML
+  private Button btnTogglePassword;
 
-	@FXML
-	private Button btnTogglePassword;
+  @FXML
+  private ImageView imgClose, imgFlechaAtras, imgMinimizar, imgTogglePassword;
 
-	@FXML
-	private ImageView imgClose;
+  @FXML
+  private Pane paginaFondo;
 
-	@FXML
-	private ImageView imgFlechaAtras;
+  @FXML
+  private TextField txtConfirmarPassword, txtPassword;
 
-	@FXML
-	private ImageView imgMinimizar;
+  @FXML
+  private PasswordField txtConfirmarPasswordOculto, txtPasswordOculto;
 
-	@FXML
-	private ImageView imgTogglePassword;
+  @FXML
+  /**
+   * Método para cuando se pulse la flecha atrás
+   * 
+   * @param event
+   */
+  private void imgFlechaAtrasPressed(MouseEvent event) {
+    abrirNuevaVentana(RECUPERAR_CONTRASENA);
+  }
 
-	@FXML
-	private Pane paginaFondo;
+  @FXML
+  /**
+   * Método para cuando se pulse el botón de minimizar
+   * 
+   * @param event
+   */
+  private void minimizarPressed(MouseEvent event) {
+    Stage ventanaPrincipal = (Stage) ((Node) event.getSource()).getScene().getWindow();
+    ventanaPrincipal.setIconified(true);
+  }
 
-	@FXML
-	private TextField txtConfirmarPassword;
+  @FXML
+  /**
+   * Método para cuando se pulse el botón de cerrar
+   * 
+   * @param event
+   */
+  private void cerrarPressed(MouseEvent event) {
+    Stage ventanaPrincipal = (Stage) ((Node) event.getSource()).getScene().getWindow();
+    ventanaPrincipal.close();
+  }
 
-	@FXML
-	private PasswordField txtConfirmarPasswordOculto;
+  @FXML
+  private void togglePasswordVisibility() {
+    isPasswordVisible = !isPasswordVisible;
 
-	@FXML
-	private TextField txtPassword;
+    if (isPasswordVisible) {
+      txtPassword.setText(txtPasswordOculto.getText());
+      txtConfirmarPassword.setText(txtConfirmarPasswordOculto.getText());
 
-	@FXML
-	private PasswordField txtPasswordOculto;
+      txtPasswordOculto.setVisible(false);
+      txtConfirmarPasswordOculto.setVisible(false);
 
-	@FXML
-	void imgFlechaAtrasPressed(MouseEvent event) {
-		try {
-			// Obtener el Stage de la ventana actual (Recuperar Contraseña)
-			Stage ventanaRecuperarContrasena = (Stage) ((Node) event.getSource()).getScene().getWindow();
+      txtPassword.setVisible(true);
+      txtConfirmarPassword.setVisible(true);
 
-			// Cargar el archivo FXML de la ventana principal
-			FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/Login.fxml"));
-			BorderPane root = loader.load();
+      imgTogglePassword.setImage(new Image(getClass().getResourceAsStream(OJO_NEGRO)));
+    } else {
+      txtPasswordOculto.setText(txtPassword.getText());
+      txtConfirmarPasswordOculto.setText(txtConfirmarPassword.getText());
 
-			// Crear una nueva escena con el root cargado
-			Scene scene = new Scene(root);
-			scene.getStylesheets().add(getClass().getResource("/styles.css").toExternalForm());
+      txtPassword.setVisible(false);
+      txtConfirmarPassword.setVisible(false);
 
-			// Crear un nuevo Stage (ventana) para la "Ventana Principal"
-			Stage nuevaVentana = new Stage();
-			nuevaVentana.setTitle("Ventana Principal");
-			nuevaVentana.setScene(scene);
+      txtPasswordOculto.setVisible(true);
+      txtConfirmarPasswordOculto.setVisible(true);
 
-			// Maximizar la ventana
-			nuevaVentana.setMaximized(true);
-			nuevaVentana.setResizable(false);
-			nuevaVentana.initStyle(StageStyle.UNDECORATED);
+      imgTogglePassword.setImage(new Image(getClass().getResourceAsStream(OJO_NEGRO_TACHADO)));
+    }
+  }
 
-			// Mostrar la nueva ventana
-			nuevaVentana.show();
+  @FXML
+  /**
+   * Método para cuando se pulse el botón de enviar
+   * 
+   * @param event
+   */
+  private void btnEnviarPressed(MouseEvent event) {
+    // Cogemos los textos de los txt
+    String codigo = txtCodigo.getText();
+    String emailUser = email;
+    String password = txtPassword.getText().isEmpty() ? txtPasswordOculto.getText() : txtPassword.getText();
+    String passwordConfirmar = txtConfirmarPassword.getText().isEmpty() ? txtConfirmarPasswordOculto.getText()
+        : txtConfirmarPassword.getText();
 
-			// Cerrar la ventana actual (Recuperar Contraseña)
-			ventanaRecuperarContrasena.close();
+    // Comprobamos que coinciden las contraseñas
+    if (!password.equals(passwordConfirmar)) {
+      mostrarAlerta(AlertType.WARNING, "Error de Contraseña", "La contraseña y su confirmación no coinciden.");
+      return;
+    }
 
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
+    // Validamos el formato de la contraseña
+    if (!validarFormatoPassword(password)) {
+      mostrarAlerta(AlertType.WARNING, "Formato Incorrecto",
+          "La contraseña debe tener al menos 8 caracteres, incluir una mayúscula, una minúscula, un número y un carácter especial.");
+      return;
+    }
 
-	@FXML
-	void minimizarPressed(MouseEvent event) {
-		Stage ventanaPrincipal = (Stage) ((Node) event.getSource()).getScene().getWindow();
-		ventanaPrincipal.setIconified(true);
-	}
+    try (Connection cone = Conector.conectar();
+        PreparedStatement st = cone.prepareStatement(SQL_CODIGO);
+        PreparedStatement st2 = cone.prepareStatement(SQL_PASSWORDS)) {
 
-	@FXML
-	void cerrarPressed(MouseEvent event) {
-		Stage ventanaPrincipal = (Stage) ((Node) event.getSource()).getScene().getWindow();
-		ventanaPrincipal.close();
-	}
+      st.setString(1, emailUser);
 
-	// Variable para controlar la visibilidad de las contraseñas
-	private boolean isPasswordVisible = false;
+      ResultSet rs = st.executeQuery();
+      if (rs.next() && codigo.equals(rs.getString("codigo_seguridad"))) {
+        st2.setString(1, password);
+        st2.setString(2, email);
+        st2.executeUpdate();
 
-	@FXML
-	private void togglePasswordVisibility() {
-		// Cambiar la visibilidad de los campos
-		isPasswordVisible = !isPasswordVisible;
+        mostrarAlerta(AlertType.INFORMATION, "Recuperación Exitosa", "Su contraseña ha sido actualizada.");
+        abrirNuevaVentana(LOGIN);
+      } else {
+        mostrarAlerta(AlertType.ERROR, "Código Incorrecto", "El código de seguridad no es correcto.");
+      }
 
-		if (isPasswordVisible) {
-			txtPasswordOculto.setVisible(false);
-			txtPassword.setVisible(true);
-			txtPassword.setText(txtPasswordOculto.getText());
+    } catch (SQLException e) {
+      e.printStackTrace();
+      mostrarAlerta(AlertType.ERROR, "Error en la Base de Datos", "Ocurrió un error al actualizar la contraseña.");
+    }
+  }
 
-			txtConfirmarPasswordOculto.setVisible(false);
-			txtConfirmarPassword.setVisible(true);
-			txtConfirmarPassword.setText(txtConfirmarPasswordOculto.getText());
-
-			imgTogglePassword.setImage(new Image(getClass().getResourceAsStream("/ojoNegroTachado.png")));
-		} else {
-			txtPasswordOculto.setVisible(true);
-			txtPassword.setVisible(false);
-			txtPasswordOculto.setText(txtPassword.getText());
-
-			txtConfirmarPasswordOculto.setVisible(true);
-			txtConfirmarPassword.setVisible(false);
-			txtConfirmarPasswordOculto.setText(txtConfirmarPassword.getText());
-
-			imgTogglePassword.setImage(new Image(getClass().getResourceAsStream("/ojoNegro.png")));
-		}
-	}
-
-	@FXML
-	void btnEnviarPressed(MouseEvent event) {
-		String codigo = txtCodigo.getText();
-		String emailUser = email;
-		String password = txtPassword.getText().isEmpty() ? txtPasswordOculto.getText() : txtPassword.getText();
-		String passwordConfirmar = txtConfirmarPassword.getText().isEmpty() ? txtConfirmarPasswordOculto.getText()
-				: txtConfirmarPassword.getText();
-		String codigoOriginal = "";
-
-		if (!password.equals(passwordConfirmar)) {
-			Alert alert = new Alert(AlertType.WARNING);
-			alert.setTitle("Creación de usuario");
-			alert.setHeaderText("Error de contraseña");
-			alert.setContentText("La contraseña debe ser igual a la contraseña de confirmación");
-			alert.showAndWait();
-			return;
-		}
-
-		if (!password.matches("^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)(?=.*[@$!%*?&_])[A-Za-z\\d@$!%*?&_]{8,}$")) {
-			Alert alert = new Alert(AlertType.WARNING);
-			alert.setTitle("Creación de usuario");
-			alert.setHeaderText("Error de formato de contraseña");
-			alert.setContentText(
-					"La contraseña debe tener al menos 8 caracteres, incluir una letra mayúscula, una minúscula, un número y un carácter especial.");
-			alert.showAndWait();
-			return;
-		}
-
-		try (Connection cone = Conector.conectar();
-				PreparedStatement st = cone.prepareStatement(SQL_CODIGO);
-				PreparedStatement st2 = cone.prepareStatement(SQL_PASSWORDS)) {
-
-			st.setString(1, emailUser);
-
-			ResultSet rs = st.executeQuery();
-			if (rs.next()) {
-				codigoOriginal = rs.getString("codigo_seguridad");
-			}
-			if (codigo.equals(codigoOriginal)) {
-				Alert alerta2 = new Alert(AlertType.INFORMATION);
-				alerta2.setTitle("Recuperacion de Cuenta");
-				alerta2.setHeaderText("Codigo Correcto");
-				alerta2.setContentText("Ha podido recuperar su cuenta");
-				alerta2.showAndWait();
-
-			} else {
-				Alert alerta2 = new Alert(AlertType.ERROR);
-				alerta2.setTitle("Recuperacion de Cuenta");
-				alerta2.setHeaderText("Codigo Incorrecto");
-				alerta2.setContentText("El codigo de seguridad no es el correctoo o no existe");
-				alerta2.showAndWait();
-
-			}
-
-			st2.setString(1, password);
-			st2.setString(2, email);
-			st2.executeUpdate();
-			
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-		abrirNuevaVentana("/views/Login.fxml");
-
-		
-	}
-
-	
-	
+  /**
+   * Método para abrir una nueva ventana y cerrar la actual.
+   *
+   * @param fxml Ruta del archivo FXML de la nueva ventana.
+   */
   private void abrirNuevaVentana(String fxml) {
     try {
-      // Obtener el Stage de la ventana principal
-      Stage ventanaPrincipal = (Stage) VentanaPrincipal.getScene().getWindow();
+      Stage ventanaPrincipal = (Stage) paginaFondo.getScene().getWindow();
 
-      // Cargar el archivo FXML de la nueva ventana
       FXMLLoader loader = new FXMLLoader(getClass().getResource(fxml));
       Pane root = loader.load();
 
-      // Crear una nueva escena con el root cargado
       Scene scene = new Scene(root);
-      scene.getStylesheets().add(getClass().getResource("/styles.css").toExternalForm());
+      scene.getStylesheets().add(getClass().getResource(STYLES).toExternalForm());
 
-      // Crear un nuevo Stage
       Stage nuevaVentana = new Stage();
       nuevaVentana.setScene(scene);
-
-      // Maximizar la ventana
       nuevaVentana.setMaximized(true);
       nuevaVentana.setResizable(false);
       nuevaVentana.initStyle(StageStyle.UNDECORATED);
 
-      // Mostrar la nueva ventana
       nuevaVentana.show();
-
-      // Cerrar la ventana principal
       ventanaPrincipal.close();
     } catch (IOException e) {
       e.printStackTrace();
+      mostrarAlerta(AlertType.ERROR, "Error al Abrir Ventana", "No se pudo abrir la ventana solicitada.");
     }
   }
-	
-	
-	
-	
-	
-	@FXML
-	void flechaAtrasPressed(MouseEvent event) {
-		try {
-			// Obtener el Stage de la ventana principal y cerrarla
-			Stage ventanaPrincipal = (Stage) ((Node) event.getSource()).getScene().getWindow();
 
-			// Cargar el nuevo archivo FXML (el que contiene la vista "Crear Cuenta")
-			FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/Login.fxml"));
-			BorderPane root = loader.load();
+  /**
+   * Método para mostrar una alerta.
+   */
+  private void mostrarAlerta(AlertType tipo, String titulo, String mensaje) {
+    Alert alerta = new Alert(tipo);
+    alerta.setTitle(titulo);
+    alerta.setHeaderText(null);
+    alerta.setContentText(mensaje);
+    alerta.showAndWait();
+  }
 
-			// Crear una nueva escena con el root cargado
-			Scene scene = new Scene(root);
-			scene.getStylesheets().add(getClass().getResource("/styles.css").toExternalForm());
-
-			// Crear un nuevo Stage (ventana) para la "Crear Cuenta"
-			Stage nuevaVentana = new Stage();
-			nuevaVentana.setTitle("Crear Cuenta");
-			nuevaVentana.setScene(scene);
-
-			// Maximizar la ventana
-			nuevaVentana.setMaximized(true);
-			nuevaVentana.setResizable(false);
-			nuevaVentana.initStyle(StageStyle.UNDECORATED);
-
-			// Mostrar la nueva ventana
-			nuevaVentana.show();
-
-			// Transición de desvanecimiento para la primera ventana
-			FadeTransition fadeOut = new FadeTransition(Duration.seconds(0.5), nuevaVentana.getScene().getRoot());
-			fadeOut.setFromValue(1.0);
-			fadeOut.setToValue(0.0);
-
-			ventanaPrincipal.close();
-
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-
+  /**
+   * Método para validar el formato de una contraseña.
+   */
+  private boolean validarFormatoPassword(String password) {
+    return password.matches("^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)(?=.*[@$!%*?&_])[A-Za-z\\d@$!%*?&_]{8,}$");
+  }
 }

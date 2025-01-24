@@ -6,6 +6,9 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import models.Juego;
 
+/**
+ * Controlador de Juego
+ */
 public class JuegoController {
 
   @FXML
@@ -19,7 +22,7 @@ public class JuegoController {
 
   @FXML
   private Label lblTiempoJuego;
-  
+
   public void setData(Juego juego) {
     Image image = new Image(getClass().getResourceAsStream(juego.getImagen()));
     imgJuego.setImage(image);

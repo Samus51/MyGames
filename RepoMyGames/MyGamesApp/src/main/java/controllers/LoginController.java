@@ -28,9 +28,23 @@ import javafx.stage.StageStyle;
 import javafx.util.Duration;
 import jdbc.Conector;
 
+/**
+ * Controlador de Login
+ */
 public class LoginController {
 
+  // Constantes
+  // SQL
   private static final String SQL_USUARIO = "Select * from usuarios where nombre = ? and contrasena = ?";
+  // Styles
+  private static final String STYLES = "/styles.css";
+  // Pantallas
+  private static final String REGISTRO = "/views/Registro.fxml";
+  private static final String RECUPERAR_CONTRASENA = "/views/RecuperarContrasena.fxml";
+  private static final String HOME = "/views/Home.fxml";
+  // Fotos
+  private static final String OJO_NEGRO = "/ojoNegro.png";
+  private static final String OJO_NEGRO_TACHADO = "/ojoNegroTachado.png";
 
   @FXML
   private BorderPane VentanaPrincipal;
@@ -119,28 +133,7 @@ public class LoginController {
 
           protected void succeeded() {
             // Llamamos a este método cuando el Task se complete con éxito
-            try {
-              Stage ventanaPrincipal = (Stage) ((Node) event.getSource()).getScene().getWindow();
-
-              FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/Home.fxml"));
-              BorderPane root = loader.load();
-
-              Scene scene = new Scene(root);
-              scene.getStylesheets().add(getClass().getResource("/styles.css").toExternalForm());
-
-              Stage nuevaVentana = new Stage();
-              nuevaVentana.setTitle("Home");
-              nuevaVentana.setScene(scene);
-
-              nuevaVentana.setMaximized(true);
-              nuevaVentana.setResizable(false);
-              nuevaVentana.initStyle(StageStyle.UNDECORATED);
-              nuevaVentana.show();
-
-              ventanaPrincipal.close();
-            } catch (IOException e) {
-              e.printStackTrace();
-            }
+            abrirNuevaVentana(HOME);
           }
 
           protected void failed() {
@@ -186,47 +179,18 @@ public class LoginController {
       txtPasswordOculto.setVisible(false);
       txtPassword.setVisible(true);
       txtPassword.setText(txtPasswordOculto.getText());
-      imgOjoPassword.setImage(new Image(getClass().getResourceAsStream("/ojoNegroTachado.png")));
+      imgOjoPassword.setImage(new Image(getClass().getResourceAsStream(OJO_NEGRO_TACHADO)));
     } else {
       txtPasswordOculto.setVisible(true);
       txtPassword.setVisible(false);
       txtPasswordOculto.setText(txtPassword.getText());
-      imgOjoPassword.setImage(new Image(getClass().getResourceAsStream("/ojoNegro.png")));
+      imgOjoPassword.setImage(new Image(getClass().getResourceAsStream(OJO_NEGRO)));
     }
   }
 
   @FXML
   void crearCuentaPressed(MouseEvent event) {
-    try {
-      // Obtener el Stage de la ventana principal y cerrarla
-      Stage ventanaPrincipal = (Stage) ((Node) event.getSource()).getScene().getWindow();
-
-      // Cargar el nuevo archivo FXML (el que contiene la vista "Crear Cuenta")
-      FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/Registro.fxml"));
-      BorderPane root = loader.load();
-
-      // Crear una nueva escena con el root cargado
-      Scene scene = new Scene(root);
-      scene.getStylesheets().add(getClass().getResource("/styles.css").toExternalForm());
-
-      // Crear un nuevo Stage (ventana) para la "Crear Cuenta"
-      Stage nuevaVentana = new Stage();
-      nuevaVentana.setTitle("Crear Cuenta");
-      nuevaVentana.setScene(scene);
-
-      // Maximizar la ventana
-      nuevaVentana.setMaximized(true);
-      nuevaVentana.setResizable(false);
-      nuevaVentana.initStyle(StageStyle.UNDECORATED);
-
-      // Mostrar la nueva ventana
-      nuevaVentana.show();
-
-      ventanaPrincipal.close();
-
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
+    abrirNuevaVentana(REGISTRO);
   }
 
   @FXML
@@ -243,37 +207,7 @@ public class LoginController {
 
   @FXML
   void lblRecuperarContrasenaPressed(MouseEvent event) {
-    try {
-      // Obtener el Stage de la ventana principal
-      Stage ventanaPrincipal = (Stage) ((Node) event.getSource()).getScene().getWindow();
-
-      // Cargar el archivo FXML de la ventana de Recuperar Contraseña
-      FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/RecuperarContrasena.fxml"));
-      Pane root = loader.load();
-
-      // Crear una nueva escena con el root cargado
-      Scene scene = new Scene(root);
-      scene.getStylesheets().add(getClass().getResource("/styles.css").toExternalForm());
-
-      // Crear un nuevo Stage (ventana) para "Recuperar Contraseña"
-      Stage nuevaVentana = new Stage();
-      nuevaVentana.setTitle("Recuperar Contraseña");
-      nuevaVentana.setScene(scene);
-
-      // Maximizar la ventana
-      nuevaVentana.setMaximized(true);
-      nuevaVentana.setResizable(false);
-      nuevaVentana.initStyle(StageStyle.UNDECORATED);
-
-      // Mostrar la nueva ventana
-      nuevaVentana.show();
-
-      // Cerrar la ventana principal
-      ventanaPrincipal.close();
-
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
+    abrirNuevaVentana(RECUPERAR_CONTRASENA);
   }
 
   // Método para agregar efecto de zoom a un ImageView
@@ -291,5 +225,42 @@ public class LoginController {
       zoomOut.setToY(1.0);
       zoomOut.play();
     });
+  }
+
+  /**
+   * Metodo para abrir una nueva ventana y cerrar la actual
+   * 
+   * @param fxml Ventana fxml
+   */
+  private void abrirNuevaVentana(String fxml) {
+    try {
+      // Obtener el Stage de la ventana principal
+      Stage ventanaPrincipal = (Stage) VentanaPrincipal.getScene().getWindow();
+
+      // Cargar el archivo FXML de la nueva ventana
+      FXMLLoader loader = new FXMLLoader(getClass().getResource(fxml));
+      Pane root = loader.load();
+
+      // Crear una nueva escena con el root cargado
+      Scene scene = new Scene(root);
+      scene.getStylesheets().add(getClass().getResource(STYLES).toExternalForm());
+
+      // Crear un nuevo Stage
+      Stage nuevaVentana = new Stage();
+      nuevaVentana.setScene(scene);
+
+      // Maximizar la ventana
+      nuevaVentana.setMaximized(true);
+      nuevaVentana.setResizable(false);
+      nuevaVentana.initStyle(StageStyle.UNDECORATED);
+
+      // Mostrar la nueva ventana
+      nuevaVentana.show();
+
+      // Cerrar la ventana principal
+      ventanaPrincipal.close();
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
   }
 }

@@ -30,7 +30,22 @@ import jdbc.Conector;
 import models.Juego;
 import models.Usuario;
 
+/**
+ * Controlador de HistorialJuegos
+ */
 public class HistorialJuegosController implements Initializable {
+
+  // Constantes
+  // SQL
+  private static final String SQL_ELIMINAR_CUENTA = "DELETE FROM usuarios WHERE id_usuario = ?";
+  // Styles
+  private static final String STYLES = "/styles.css";
+  // Pantallas
+  private static final String LOGIN = "/views/Login.fxml";
+  private static final String JUEGO = "/views/Juego.fxml";
+  private static final String CAMBIAR_INFO_PERSONAL = "/views/CambiarInfoPersonal.fxml";
+  private static final String HOME = "/views/Home.fxml";
+
 
   @FXML
   private BorderPane VentanaPrincipal;
@@ -70,7 +85,7 @@ public class HistorialJuegosController implements Initializable {
     try {
       for (Juego juego : recentlyPlayed) {
         FXMLLoader fxmlLoader = new FXMLLoader();
-        fxmlLoader.setLocation(getClass().getResource("/views/juego.fxml"));
+        fxmlLoader.setLocation(getClass().getResource(JUEGO));
 
         HBox hBox = fxmlLoader.load();
         JuegoController juegoController = fxmlLoader.getController();
@@ -152,12 +167,12 @@ public class HistorialJuegosController implements Initializable {
 
   @FXML
   void flechaAtrasPressed(MouseEvent event) {
-    abrirNuevaVentana("/views/Home.fxml");
+    abrirNuevaVentana(HOME);
   }
 
   @FXML
   void lblCambiarInfoPressed(MouseEvent event) {
-    abrirNuevaVentana("/views/CambiarInfoPersonal.fxml");
+    abrirNuevaVentana(CAMBIAR_INFO_PERSONAL);
   }
 
   @FXML
@@ -180,7 +195,7 @@ public class HistorialJuegosController implements Initializable {
 
     // Verificar cuál fue el botón presionado
     if (alerta.getResult() == botonConfirmar) {
-      abrirNuevaVentana("/views/Login.fxml");
+      abrirNuevaVentana(LOGIN);
     } else {
       alerta.close();
     }
@@ -207,7 +222,7 @@ public class HistorialJuegosController implements Initializable {
       public void accept(ButtonType respuesta) {
         if (respuesta == botonConfirmar) {
           eliminarCuenta();
-          abrirNuevaVentana("/views/Login.fxml");
+          abrirNuevaVentana(LOGIN);
         } else {
           // Si el usuario cancela
           alerta.close();
@@ -218,7 +233,7 @@ public class HistorialJuegosController implements Initializable {
 
   private void eliminarCuenta() {
     // Establecemos la consulta SQL
-    String sql = "DELETE FROM usuarios WHERE id_usuario = ?";
+    String sql = SQL_ELIMINAR_CUENTA;
 
     // Suponiendo que el id_usuario lo obtienes desde una sesión activa
     int idUsuario = obtenerIdUsuario();
@@ -229,7 +244,7 @@ public class HistorialJuegosController implements Initializable {
       stmt.setInt(1, idUsuario);
 
       // Ejecutar la eliminación
-      int filasAfectadas = stmt.executeUpdate();
+      stmt.executeUpdate();
 
     } catch (SQLException e) {
       e.printStackTrace();
@@ -254,7 +269,7 @@ public class HistorialJuegosController implements Initializable {
 
       // Crear una nueva escena con el root cargado
       Scene scene = new Scene(root);
-      scene.getStylesheets().add(getClass().getResource("/styles.css").toExternalForm());
+      scene.getStylesheets().add(getClass().getResource(STYLES).toExternalForm());
 
       // Crear un nuevo Stage
       Stage nuevaVentana = new Stage();

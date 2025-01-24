@@ -18,27 +18,27 @@
    <center>
       <HBox prefHeight="100.0" prefWidth="200.0" spacing="25.0" BorderPane.alignment="CENTER">
          <children>
-            <VBox prefHeight="1080.0" prefWidth="358.0">
+            <VBox fx:id="menuFondito" prefHeight="1080.0" prefWidth="358.0">
                <children>
+                  <VBox fx:id="menuGeneral" prefHeight="200.0" prefWidth="100.0">
+                     <children>
+                        <ImageView fx:id="btnMenu" fitHeight="70.0" fitWidth="70.0" onMouseClicked="#btnMenuPressed" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@/MenuChulo.png" />
+                           </image>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                           <VBox.margin>
+                              <Insets left="25.0" top="10.0" />
+                           </VBox.margin>
+                        </ImageView>
+                     </children>
+                  </VBox>
                   <ScrollPane fx:id="scrollMenu" hbarPolicy="NEVER" prefHeight="1080.0" prefWidth="331.0" style="-fx-background-color: transparent; -fx-background: transparent;" vbarPolicy="NEVER" vmax="1300.0">
                      <content>
                         <StackPane fx:id="contMenuPadre" cacheHint="QUALITY" centerShape="false" prefWidth="319.0" stylesheets="@../../resources/styles.css">
                            <children>
-                              <VBox fx:id="menuGeneral" prefHeight="200.0" prefWidth="100.0">
-                                 <children>
-                                    <ImageView fx:id="btnMenu" fitHeight="70.0" fitWidth="70.0" onMouseClicked="#btnMenuPressed" pickOnBounds="true" preserveRatio="true">
-                                       <image>
-                                          <Image url="@/MenuChulo.png" />
-                                       </image>
-                                       <cursor>
-                                          <Cursor fx:constant="HAND" />
-                                       </cursor>
-                                       <VBox.margin>
-                                          <Insets left="25.0" top="10.0" />
-                                       </VBox.margin>
-                                    </ImageView>
-                                 </children>
-                              </VBox>
                               <VBox fx:id="menuGeneral" prefHeight="1083.0" prefWidth="299.0" spacing="100.0" visible="false">
                                  <children>
                                     <Label fx:id="btnGeneros" onMouseClicked="#btnGenerosPressed" prefHeight="51.0" prefWidth="256.0" text="Géneros -&gt;" textAlignment="CENTER">
@@ -576,7 +576,19 @@
                                                       <Image url="@/Logo.png" />
                                                    </image>
                                                 </ImageView>
-                                                <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#363636" height="204.0" stroke="BLACK" strokeType="INSIDE" width="379.0" VBox.vgrow="NEVER" />
+                                                <VBox fx:id="contInfo" prefHeight="199.0" prefWidth="378.0" style="-fx-background-color: #363636;">
+                                                   <children>
+                                                      <HBox fx:id="contPlataformas" prefHeight="117.0" prefWidth="378.0" spacing="30.0">
+                                                         <children>
+                                                            <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" />
+                                                            <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" />
+                                                            <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" />
+                                                            <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" />
+                                                            <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" />
+                                                         </children>
+                                                      </HBox>
+                                                   </children>
+                                                </VBox>
                                              </children>
                                           </VBox>
                                           <VBox fx:id="juegoSolo2" prefHeight="287.0" prefWidth="379.0">
@@ -586,7 +598,16 @@
                                                       <Image url="@/Logo.png" />
                                                    </image>
                                                 </ImageView>
-                                                <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#363636" height="204.0" stroke="BLACK" strokeType="INSIDE" width="379.0" VBox.vgrow="NEVER" />
+                                                <HBox fx:id="contPlataformas1" prefHeight="272.0" prefWidth="378.0" spacing="30.0" style="-fx-background-color: #363636;">
+                                                   <children>
+                                                      <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" />
+                                                      <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" />
+                                                      <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" />
+                                                      <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" />
+                                                      <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" />
+                                                   </children>
+                                                </HBox>
+                                                <Label fx:id="lblTitulo" prefHeight="110.0" prefWidth="378.0" />
                                              </children>
                                              <HBox.margin>
                                                 <Insets left="15.0" top="10.0" />
