@@ -9,11 +9,6 @@
 
 	<dependencies>
 		<!-- Dependencia de Hibernate -->
-		<dependency>
-			<groupId>Hibernate</groupId>
-			<artifactId>Pruebas</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
-		</dependency>
 
 		<!-- Dependencia para JavaFX -->
 		<dependency>

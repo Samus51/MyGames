@@ -44,7 +44,7 @@ public class HistorialJuegosController implements Initializable {
   private static final String LOGIN = "/views/Login.fxml";
   private static final String JUEGO = "/views/Juego.fxml";
   private static final String CAMBIAR_INFO_PERSONAL = "/views/CambiarInfoPersonal.fxml";
-  private static final String HOME = "/views/Home.fxml";
+  private static final String HOME = "/views/HomeMenu.fxml";
 
 
   @FXML

@@ -19,7 +19,7 @@
 
 <BorderPane fx:id="VentanaPrincipal" prefHeight="1871.0" prefWidth="1920.0" stylesheets="@../../resources/styles.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.JuegoInfoController">
    <center>
-      <ScrollPane hbarPolicy="NEVER" hmax="0.0" prefHeight="1115.0" prefWidth="1920.0" vbarPolicy="NEVER" BorderPane.alignment="CENTER">
+      <ScrollPane hbarPolicy="NEVER" hmax="0.0" prefHeight="1115.0" prefWidth="1920.0" style="-fx-background-color: transparent; -fx-background: transparent;" vbarPolicy="NEVER" BorderPane.alignment="CENTER">
          <content>
             <VBox prefHeight="1806.0" prefWidth="1915.0">
                <children>
@@ -35,14 +35,13 @@
                                     <Insets />
                                  </VBox.margin>
                               </Label>
-                              <ImageView fx:id="imgJuego" fitHeight="584.0" fitWidth="1363.0" pickOnBounds="true" />
+                              <ImageView fx:id="imgJuego" fitHeight="584.0" fitWidth="1264.0" pickOnBounds="true" />
                               <HBox prefHeight="121.0" prefWidth="1363.0" spacing="90.0">
                                  <children>
-                                    <ImageView fx:id="imgJuego2" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
-                                    <ImageView fx:id="imgJuego3" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
-                                    <ImageView fx:id="imgJuego4" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
-                                    <ImageView fx:id="imgJuego5" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
-                                    <ImageView fx:id="imgJuego6" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
+                                    <ImageView fx:id="imgJuego2" fitHeight="150.0" fitWidth="250.0" pickOnBounds="true" preserveRatio="true" />
+                                    <ImageView fx:id="imgJuego3" fitHeight="150.0" fitWidth="250.0" pickOnBounds="true" preserveRatio="true" />
+                                    <ImageView fx:id="imgJuego4" fitHeight="150.0" fitWidth="250.0" pickOnBounds="true" preserveRatio="true" />
+                                    <ImageView fx:id="imgJuego5" fitHeight="150.0" fitWidth="250.0" pickOnBounds="true" preserveRatio="true" />
                                  </children>
                               </HBox>
                               <Label prefHeight="20.0" prefWidth="1375.0" text="Descripción">
@@ -52,7 +51,7 @@
                               </Label>
                               <Label fx:id="lblDescripcionVacio" prefHeight="364.0" prefWidth="1366.0" text="F1 2015 is a racing simulator based on the 2015 Formula One season, but with teams from the 2014 season (including the Hockenheimring track, which is missed from the 2015 season calendar). Seventh in the series. It presents the crews and pilots who participated directly in this season. Unlike its predecessors, the game received a new engine, improved physics and graphics.A &quot;Pro Season&quot; mode was featured. This mode was different from the usual championship in a complete lack of interface and management assistance, as well as the highest level of complexity. The career mode, which was in the previous parts of the series, did not appear in the game.The game is also compatible with the voice recognition (available only on PlayStation 4 and Xbox One). With its help, players will be able to communicate with their teams during the race and learn about the weather changes, the condition of the car and tires, and to request an unscheduled change of tires." wrapText="true">
                                  <font>
-                                    <Font size="24.0" />
+                                    <Font size="18.0" />
                                  </font>
                               </Label>
                            </children>
@@ -206,44 +205,47 @@
                                     <Insets left="50.0" />
                                  </VBox.margin>
                               </StackPane>
-                              <VBox prefHeight="200.0" prefWidth="100.0">
+                              <VBox prefHeight="317.0" prefWidth="432.0">
                                  <children>
-                                    <HBox prefHeight="45.0" prefWidth="449.0" spacing="50.0">
+                                    <HBox prefHeight="109.0" prefWidth="432.0" spacing="50.0">
                                        <children>
                                           <Label prefHeight="45.0" prefWidth="199.0" text="Géneros">
                                              <font>
                                                 <Font size="18.0" />
                                              </font>
                                           </Label>
-                                          <Label fx:id="lblGenerosVacio" prefHeight="45.0" prefWidth="221.0" text="Accción">
+                                          <Label fx:id="lblGenerosVacio" prefHeight="45.0" prefWidth="374.0" text="Accción" wrapText="true">
                                              <font>
                                                 <Font size="18.0" />
                                              </font>
                                           </Label>
                                        </children>
                                     </HBox>
-                                    <HBox prefHeight="45.0" prefWidth="449.0" spacing="50.0">
+                                    <HBox prefHeight="141.0" prefWidth="432.0" spacing="50.0">
                                        <children>
                                           <Label prefHeight="45.0" prefWidth="199.0" text="Plataformas">
                                              <font>
                                                 <Font size="18.0" />
                                              </font>
+                                             <HBox.margin>
+                                                <Insets top="40.0" />
+                                             </HBox.margin>
                                           </Label>
-                                          <Label fx:id="lblPlataformasVacio" prefHeight="45.0" prefWidth="224.0" text="PC,PS5,XBOX X/Sccción">
+                                          <Label fx:id="lblPlataformasVacio" prefHeight="124.0" prefWidth="370.0" text="PC,PS5,XBOX X/Sccción" wrapText="true">
                                              <font>
                                                 <Font size="18.0" />
                                              </font>
                                           </Label>
                                        </children>
                                     </HBox>
-                                    <HBox prefHeight="45.0" prefWidth="449.0" spacing="50.0">
+                                    <HBox prefHeight="127.0" prefWidth="432.0" spacing="50.0">
                                        <children>
-                                          <Label prefHeight="45.0" prefWidth="199.0" text="Desarrolladores">
+                                          <Label prefHeight="90.0" prefWidth="182.0" text="Desarrolladores">
                                              <font>
                                                 <Font size="18.0" />
                                              </font>
                                           </Label>
-                                          <Label fx:id="lblDesarrolladoresVacio" prefHeight="45.0" prefWidth="220.0" text="Bandai Nanco">
+                                          <Label fx:id="lblDesarrolladoresVacio" prefHeight="98.0" prefWidth="343.0" text="Bandai Nanco" wrapText="true">
                                              <font>
                                                 <Font size="18.0" />
                                              </font>
@@ -257,7 +259,7 @@
                                                 <Font size="18.0" />
                                              </font>
                                           </Label>
-                                          <Label fx:id="lblFechaLanzamientoVacio" prefHeight="45.0" prefWidth="215.0" text="11/10/2024">
+                                          <Label fx:id="lblFechaLanzamientoVacio" prefHeight="29.0" prefWidth="263.0" text="11/10/2024">
                                              <font>
                                                 <Font size="18.0" />
                                              </font>
@@ -269,12 +271,12 @@
                                     <Insets top="125.0" />
                                  </VBox.margin>
                               </VBox>
-                              <HBox prefHeight="100.0" prefWidth="200.0">
+                              <HBox prefHeight="90.0" prefWidth="432.0">
                                  <VBox.margin>
                                     <Insets top="100.0" />
                                  </VBox.margin>
                                  <children>
-                                    <Label prefHeight="100.0" prefWidth="180.0" text="Tiempo de juego">
+                                    <Label prefHeight="137.0" prefWidth="180.0" text="Tiempo de juego">
                                        <font>
                                           <Font size="18.0" />
                                        </font>
@@ -373,6 +375,12 @@
                      <GridPane.margin>
                         <Insets left="15.0" top="20.0" />
                      </GridPane.margin>
+                     <image>
+                        <Image url="@/flechaAtras.png" />
+                     </image>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
                   </ImageView>
                </children>
             </GridPane>

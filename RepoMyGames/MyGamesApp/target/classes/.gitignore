@@ -1,4 +1,6 @@
+/META-INF/
 /controllers/
+/jdbc/
 /mainApp/
 /models/
 /utils/
