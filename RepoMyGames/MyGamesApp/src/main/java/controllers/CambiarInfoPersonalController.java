@@ -40,7 +40,7 @@ public class CambiarInfoPersonalController {
   private static final String STYLES = "/styles.css";
   // Pantallas
   private static final String LOGIN = "/views/Login.fxml";
-  private static final String HOME = "/views/HomeMenu.fxml";
+  private static final String HOME = "/views/Home.fxml";
   private static final String HISTORIAL_JUEGOS = "/views/HistorialJuegos.fxml";
 
   @FXML

@@ -13,7 +13,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane fx:id="VentanaPrincipal" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" stylesheets="@../../resources/styles.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.HomeBusquedaController">
+<BorderPane fx:id="VentanaPrincipal" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" stylesheets="@../../resources/styles.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.GenerosYPlataformasController">
    <center>
       <HBox prefHeight="100.0" prefWidth="200.0" spacing="25.0" BorderPane.alignment="CENTER">
          <children>
@@ -101,9 +101,9 @@
                                     <Insets left="35.0" top="75.0" />
                                  </StackPane.margin>
                               </VBox>
-                              <VBox fx:id="menuGeneros" prefHeight="19.0" prefWidth="284.0" spacing="55.0" visible="false">
+                              <VBox fx:id="menuGeneros" prefHeight="19.0" prefWidth="284.0" spacing="55.0">
                                  <children>
-                                    <Label fx:id="btnGeneroSalida" onMouseClicked="#btnGenerosSalidaPressed" text="Géneros &lt;-" textFill="WHITE">
+                                    <Label fx:id="btnGeneroSalida" onMouseClicked="#btnGenerosSalidaPressed" text="Genres &lt;-" textFill="WHITE">
                                        <font>
                                           <Font name="System Bold" size="35.0" />
                                        </font>
@@ -114,7 +114,7 @@
                                           <Insets />
                                        </VBox.margin>
                                     </Label>
-                                    <Label prefHeight="51.0" prefWidth="273.0" text="Acción">
+                                    <Label fx:id="action" onMouseClicked="#lblGeneroPressed" prefHeight="51.0" prefWidth="273.0" text="Action">
                                        <font>
                                           <Font size="30.0" />
                                        </font>
@@ -125,7 +125,7 @@
                                           <Insets left="50.0" />
                                        </VBox.margin>
                                     </Label>
-                                    <Label prefHeight="51.0" prefWidth="267.0" text="Indie">
+                                    <Label fx:id="indie" onMouseClicked="#lblGeneroPressed" prefHeight="51.0" prefWidth="267.0" text="Indie">
                                        <font>
                                           <Font size="30.0" />
                                        </font>
@@ -136,7 +136,7 @@
                                           <Insets left="50.0" />
                                        </VBox.margin>
                                     </Label>
-                                    <Label text="Aventura">
+                                    <Label onMouseClicked="#lblGeneroPressed" text="Adventure">
                                        <font>
                                           <Font size="30.0" />
                                        </font>
@@ -147,7 +147,7 @@
                                           <Insets left="50.0" />
                                        </VBox.margin>
                                     </Label>
-                                    <Label text="RPG">
+                                    <Label onMouseClicked="#lblGeneroPressed" text="RPG">
                                        <font>
                                           <Font size="30.0" />
                                        </font>
@@ -158,7 +158,7 @@
                                           <Insets left="50.0" />
                                        </VBox.margin>
                                     </Label>
-                                    <Label prefHeight="51.0" prefWidth="281.0" text="Estrategia">
+                                    <Label onMouseClicked="#lblGeneroPressed" prefHeight="51.0" prefWidth="281.0" text="Stategy">
                                        <font>
                                           <Font size="30.0" />
                                        </font>
@@ -169,7 +169,7 @@
                                           <Insets left="50.0" />
                                        </VBox.margin>
                                     </Label>
-                                    <Label text="Shooter">
+                                    <Label onMouseClicked="#lblGeneroPressed" text="Shooter">
                                        <font>
                                           <Font size="30.0" />
                                        </font>
@@ -177,7 +177,7 @@
                                           <Insets left="50.0" />
                                        </VBox.margin>
                                     </Label>
-                                    <Label text="Casual">
+                                    <Label onMouseClicked="#lblGeneroPressed" text="Casual">
                                        <opaqueInsets>
                                           <Insets />
                                        </opaqueInsets>
@@ -188,7 +188,7 @@
                                           <Font size="30.0" />
                                        </font>
                                     </Label>
-                                    <Label text="Simulación">
+                                    <Label onMouseClicked="#lblGeneroPressed" text="Simulation">
                                        <opaqueInsets>
                                           <Insets />
                                        </opaqueInsets>
@@ -199,7 +199,7 @@
                                           <Font size="30.0" />
                                        </font>
                                     </Label>
-                                    <Label text="Puzzle">
+                                    <Label onMouseClicked="#lblGeneroPressed" text="Puzzle">
                                        <opaqueInsets>
                                           <Insets />
                                        </opaqueInsets>
@@ -210,7 +210,7 @@
                                           <Font size="30.0" />
                                        </font>
                                     </Label>
-                                    <Label text="Arcade">
+                                    <Label onMouseClicked="#lblGeneroPressed" text="Arcade">
                                        <opaqueInsets>
                                           <Insets />
                                        </opaqueInsets>
@@ -221,7 +221,7 @@
                                           <Font size="30.0" />
                                        </font>
                                     </Label>
-                                    <Label text="Plataformas">
+                                    <Label onMouseClicked="#lblGeneroPressed" text="Platformer">
                                        <opaqueInsets>
                                           <Insets />
                                        </opaqueInsets>
@@ -232,7 +232,7 @@
                                           <Font size="30.0" />
                                        </font>
                                     </Label>
-                                    <Label text="Multijugador Masivo">
+                                    <Label onMouseClicked="#lblGeneroPressed" text="Massively Multiplayer">
                                        <opaqueInsets>
                                           <Insets />
                                        </opaqueInsets>
@@ -243,7 +243,7 @@
                                           <Font size="30.0" />
                                        </font>
                                     </Label>
-                                    <Label text="Carreras">
+                                    <Label onMouseClicked="#lblGeneroPressed" text="Racing">
                                        <opaqueInsets>
                                           <Insets />
                                        </opaqueInsets>
@@ -254,7 +254,7 @@
                                           <Font size="30.0" />
                                        </font>
                                     </Label>
-                                    <Label text="Deportes">
+                                    <Label onMouseClicked="#lblGeneroPressed" text="Sports">
                                        <opaqueInsets>
                                           <Insets />
                                        </opaqueInsets>
@@ -265,7 +265,7 @@
                                           <Font size="30.0" />
                                        </font>
                                     </Label>
-                                    <Label text="Lucha">
+                                    <Label onMouseClicked="#lblGeneroPressed" text="Fighting">
                                        <opaqueInsets>
                                           <Insets />
                                        </opaqueInsets>
@@ -276,7 +276,7 @@
                                           <Font size="30.0" />
                                        </font>
                                     </Label>
-                                    <Label text="Familiar">
+                                    <Label onMouseClicked="#lblGeneroPressed" text="Family">
                                        <opaqueInsets>
                                           <Insets />
                                        </opaqueInsets>
@@ -287,7 +287,7 @@
                                           <Font size="30.0" />
                                        </font>
                                     </Label>
-                                    <Label text="Juegos de Mesa">
+                                    <Label onMouseClicked="#lblGeneroPressed" text="Board Games">
                                        <opaqueInsets>
                                           <Insets />
                                        </opaqueInsets>
@@ -298,7 +298,7 @@
                                           <Font size="30.0" />
                                        </font>
                                     </Label>
-                                    <Label text="Educativo">
+                                    <Label onMouseClicked="#lblGeneroPressed" text="Educational">
                                        <opaqueInsets>
                                           <Insets />
                                        </opaqueInsets>
@@ -309,7 +309,7 @@
                                           <Font size="30.0" />
                                        </font>
                                     </Label>
-                                    <Label text="Cartas">
+                                    <Label onMouseClicked="#lblGeneroPressed" text="Card">
                                        <opaqueInsets>
                                           <Insets />
                                        </opaqueInsets>

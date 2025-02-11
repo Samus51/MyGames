@@ -1,27 +1,36 @@
 package controllers;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.controlsfx.control.CheckComboBox;
+
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
-import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Pane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import jdbc.Conector;
-import org.controlsfx.control.CheckComboBox;
-
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
 
 public class JuegoAnadirController {
 
@@ -44,16 +53,24 @@ public class JuegoAnadirController {
   @FXML
   private CheckComboBox<String> lstGeneros, lstPlataformas;
   @FXML
-  private CheckComboBox<String> lstPegi;
+  private ComboBox<String> lstPegi;
 
   private File archivoImagenPrincipal, archivoImagenSecundaria, archivoImagenTercera, archivoImagenCuarta,
       archivoImagenQuinta;
 
   @FXML
   public void initialize() {
-    lstGeneros.getItems().addAll("Acción", "Aventura", "RPG", "Casual", "Arcade", "Indie", "Estrategia", "Simulación",
-        "Deportes", "Carreras", "Lucha", "Disparos", "Puzzle", "Multijugador masivo");
-    lstPlataformas.getItems().addAll("PC", "PlayStation 5", "Xbox Series X", "Nintendo Switch", "Android", "iOS");
+    lstGeneros.getItems().addAll("Action", "Adventure", "RPG", "Casual", "Arcade", "Indie", "Strategy", "Simulation",
+        "Sports", "Racing", "Fighting", "Shooter", "Puzzle", "Massively Multiplayer", "Card");
+
+    lstPlataformas.getItems().addAll("PC", "macOS", "Linux", "PlayStation 5", "PlayStation 4", "PlayStation 3",
+        "PlayStation 2", "PlayStation", "PS Vita", "PSP", "Nintendo Switch", "Nintendo 3DS", "Nintendo DS",
+        "Nintendo DSi", "Wii U", "Wii", "Nintendo 64", "Xbox One", "Xbox Series S/X", "Xbox 360", "Xbox", "iOS",
+        "Android", "GameCube", "Game Boy Advance", "Game Boy Color", "Game Boy", "SNES", "NES", "Classic Macintosh",
+        "Apple II", "Commodore / Amiga", "Atari 7800", "Atari 5200", "Atari 2600", "Atari Flashback", "Atari 8-bit",
+        "Atari ST", "Atari Lynx", "Atari XEGS", "Genesis", "SEGA Saturn", "SEGA CD", "SEGA 32X", "SEGA Master System",
+        "Dreamcast", "3DO", "Jaguar", "Game Gear", "Neo Geo");
+
     lstPegi.getItems().addAll("3", "7", "12", "16", "18");
   }
 
@@ -82,100 +99,300 @@ public class JuegoAnadirController {
     String titulo = txtTitulo.getText().trim();
     String descripcion = txtDescripcion.getText().trim();
     String desarrolladores = txtDesarrolladores.getText().trim();
+    String tiempoJugado = txtTiempoJugado.getText().trim();
     String fechaLanzamiento = txtFechaLanzamiento.getText().trim();
     List<String> generos = new ArrayList<>(lstGeneros.getCheckModel().getCheckedItems());
     List<String> plataformas = new ArrayList<>(lstPlataformas.getCheckModel().getCheckedItems());
-    int tiempoJugado = txtTiempoJugado.getText().trim().isEmpty() ? 0
-        : Integer.parseInt(txtTiempoJugado.getText().trim());
-    int pegi = lstPegi.getCheckModel().getCheckedItems().isEmpty() ? 0
-        : Integer.parseInt(lstPegi.getCheckModel().getCheckedItems().get(0));
+    String pegi = lstPegi.getSelectionModel().getSelectedItem();
     int idUsuario = obtenerIdUsuarioActual();
 
     if (titulo.isEmpty() || desarrolladores.isEmpty() || fechaLanzamiento.isEmpty() || generos.isEmpty()
-        || plataformas.isEmpty()) {
+        || plataformas.isEmpty() || pegi == null) {
       mostrarAlerta("Error", "Todos los campos deben estar completos", Alert.AlertType.ERROR);
       return;
     }
 
-    try (Connection conn = Conector.conectar()) {
+    Connection conn = null;
+    PreparedStatement stmt = null;
+    ResultSet rs = null;
+
+    try {
+      conn = Conector.conectar();
       conn.setAutoCommit(false);
-      int idDesarrollador = obtenerIdDesarrollador(conn, desarrolladores);
-      int idJuego = insertarJuego(conn, titulo, descripcion, fechaLanzamiento, idDesarrollador, idUsuario, tiempoJugado,
-          desarrolladores, pegi);
-      asociarPlataformas(conn, idJuego, plataformas);
-      conn.commit();
-      mostrarAlerta("Éxito", "Juego guardado correctamente", Alert.AlertType.INFORMATION);
-    } catch (SQLException e) {
-      e.printStackTrace();
-      mostrarAlerta("Error", "No se pudo guardar el juego", Alert.AlertType.ERROR);
-    }
-  }
 
-  private int obtenerIdDesarrollador(Connection conn, String desarrolladores) throws SQLException {
-    String query = "SELECT id_desarrollador FROM desarrolladores WHERE nombre = ?";
-    try (PreparedStatement stmt = conn.prepareStatement(query)) {
+      // Verificar si el desarrollador ya existe
+      int idDesarrollador = -1;
+      String query = "SELECT id_desarrollador FROM desarrolladores WHERE nombre = ?";
+      stmt = conn.prepareStatement(query);
       stmt.setString(1, desarrolladores);
-      ResultSet rs = stmt.executeQuery();
-      if (rs.next())
-        return rs.getInt("id_desarrollador");
-    }
-    query = "INSERT INTO desarrolladores (nombre) VALUES (?)";
-    try (PreparedStatement stmt = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
-      stmt.setString(1, desarrolladores);
-      stmt.executeUpdate();
-      ResultSet rs = stmt.getGeneratedKeys();
-      return rs.next() ? rs.getInt(1) : -1;
-    }
-  }
+      rs = stmt.executeQuery();
 
-  private int insertarJuego(Connection conn, String titulo, String descripcion, String fechaLanzamiento,
-      int idDesarrollador, int idUsuario, int tiempoJugado, String desarrolladores, int pegi) throws SQLException {
-    String query = "INSERT INTO juegos (titulo, descripcion, fecha_lanzamiento, id_desarrollador, creado_por_usuario, id_usuario, tiempo_jugado, creadores, pegi) VALUES (?, ?, ?, ?, 1, ?, ?, ?, ?)";
-    try (PreparedStatement stmt = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
+      if (rs.next()) {
+        idDesarrollador = rs.getInt("id_desarrollador");
+      } else {
+        query = "INSERT INTO desarrolladores (nombre) VALUES (?)";
+        stmt = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+        stmt.setString(1, desarrolladores);
+        stmt.executeUpdate();
+        rs = stmt.getGeneratedKeys();
+        if (rs.next()) {
+          idDesarrollador = rs.getInt(1);
+        }
+      }
+
+      // Insertar juego en la base de datos
+      query = "INSERT INTO juegos (titulo, descripcion, fecha_lanzamiento, id_desarrollador, creado_por_usuario, id_usuario,tiempo_jugado,creadores,imagen_principal, imagen_secundaria, imagen_tercera, imagen_cuarta, imagen_quinta, pegi) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+      stmt = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
       stmt.setString(1, titulo);
       stmt.setString(2, descripcion);
       stmt.setString(3, fechaLanzamiento);
       stmt.setInt(4, idDesarrollador);
-      stmt.setInt(5, idUsuario);
-      stmt.setInt(6, tiempoJugado);
-      stmt.setString(7, desarrolladores);
-      stmt.setInt(8, pegi);
-      stmt.executeUpdate();
-      ResultSet rs = stmt.getGeneratedKeys();
-      return rs.next() ? rs.getInt(1) : -1;
-    }
-  }
+      stmt.setInt(5, 1);
+      stmt.setInt(6, idUsuario);
+      stmt.setString(7, tiempoJugado);
+      stmt.setString(8, desarrolladores);
 
-  private void asociarPlataformas(Connection conn, int idJuego, List<String> plataformas) throws SQLException {
-    String query = "INSERT INTO juegos_plataformas (id_juego, id_plataforma) VALUES (?, (SELECT id_plataforma FROM plataformas WHERE nombre = ?))";
-    try (PreparedStatement stmt = conn.prepareStatement(query)) {
-      for (String plataforma : plataformas) {
-        stmt.setInt(1, idJuego);
-        stmt.setString(2, plataforma);
-        stmt.executeUpdate();
+      // Manejo de la imagen principal
+      FileInputStream fis1 = null;
+      FileInputStream fis2 = null;
+      FileInputStream fis3 = null;
+      FileInputStream fis4 = null;
+      FileInputStream fis5 = null;
+
+      try {
+        if (archivoImagenPrincipal != null && archivoImagenPrincipal.exists() && archivoImagenPrincipal.isFile()) {
+          fis1 = new FileInputStream(archivoImagenPrincipal);
+          stmt.setBinaryStream(9, fis1, (int) archivoImagenPrincipal.length());
+        } else {
+          System.err.println("El archivo de imagen principal no se encuentra o no es válido.");
+          return;
+        }
+      } catch (IOException e) {
+        System.err.println("Error al leer el archivo de imagen principal: " + e.getMessage());
+        e.printStackTrace();
+        return;
       }
-    }
-  }
 
-  private void mostrarAlerta(String titulo, String mensaje, AlertType tipo) {
-    Alert alert = new Alert(tipo);
-    alert.setTitle(titulo);
-    alert.setContentText(mensaje);
-    alert.showAndWait();
-  }
+      try {
+        if (archivoImagenSecundaria != null && archivoImagenSecundaria.exists() && archivoImagenSecundaria.isFile()) {
+          fis2 = new FileInputStream(archivoImagenSecundaria);
+          stmt.setBinaryStream(10, fis2, (int) archivoImagenSecundaria.length());
+        } else {
+          System.err.println("El archivo de imagen secundaria no se encuentra o no es válido.");
+          return;
+        }
+      } catch (IOException e) {
+        System.err.println("Error al leer el archivo de imagen secundaria: " + e.getMessage());
+        e.printStackTrace();
+        return;
+      }
 
-  private void abrirNuevaVentana(String fxml) {
-    try {
-      Stage stage = new Stage();
-      stage.setScene(new Scene(FXMLLoader.load(getClass().getResource(fxml))));
-      stage.initStyle(StageStyle.DECORATED);
-      stage.show();
-    } catch (IOException e) {
+      try {
+        if (archivoImagenTercera != null && archivoImagenTercera.exists() && archivoImagenTercera.isFile()) {
+          fis3 = new FileInputStream(archivoImagenTercera);
+          stmt.setBinaryStream(11, fis3, (int) archivoImagenTercera.length());
+        } else {
+          System.err.println("El archivo de imagen tercera no se encuentra o no es válido.");
+          return;
+        }
+      } catch (IOException e) {
+        System.err.println("Error al leer el archivo de imagen tercera: " + e.getMessage());
+        e.printStackTrace();
+        return;
+      }
+
+      try {
+        if (archivoImagenCuarta != null && archivoImagenCuarta.exists() && archivoImagenCuarta.isFile()) {
+          fis4 = new FileInputStream(archivoImagenCuarta);
+          stmt.setBinaryStream(12, fis4, (int) archivoImagenCuarta.length());
+        } else {
+          System.err.println("El archivo de imagen cuarta no se encuentra o no es válido.");
+          return;
+        }
+      } catch (IOException e) {
+        System.err.println("Error al leer el archivo de imagen cuarta: " + e.getMessage());
+        e.printStackTrace();
+        return;
+      }
+
+      try {
+        if (archivoImagenQuinta != null && archivoImagenQuinta.exists() && archivoImagenQuinta.isFile()) {
+          fis5 = new FileInputStream(archivoImagenQuinta);
+          stmt.setBinaryStream(13, fis5, (int) archivoImagenQuinta.length());
+        } else {
+          System.err.println("El archivo de imagen quinta no se encuentra o no es válido.");
+          return;
+        }
+      } catch (IOException e) {
+        System.err.println("Error al leer el archivo de imagen sexta: " + e.getMessage());
+        e.printStackTrace();
+        return;
+      }
+
+      stmt.setInt(14, Integer.parseInt(pegi));
+
+      stmt.executeUpdate();
+      rs = stmt.getGeneratedKeys();
+
+      if (!rs.next()) {
+        throw new SQLException("Error al obtener el ID del juego");
+      }
+      int idJuego = rs.getInt(1);
+
+      // Asociar plataformas al juego
+      for (String plataforma : plataformas) {
+        query = "SELECT id_plataforma FROM plataformas WHERE nombre = ?";
+        stmt = conn.prepareStatement(query);
+        stmt.setString(1, plataforma);
+        rs = stmt.executeQuery();
+        if (rs.next()) {
+          int idPlataforma = rs.getInt("id_plataforma");
+          query = "INSERT INTO juegos_plataformas (id_juego, id_plataforma) VALUES (?, ?)";
+          stmt = conn.prepareStatement(query);
+          stmt.setInt(1, idJuego);
+          stmt.setInt(2, idPlataforma);
+          stmt.executeUpdate();
+        }
+      }
+
+      conn.commit();
+      mostrarAlerta("Éxito", "Juego guardado correctamente", Alert.AlertType.INFORMATION);
+    } catch (SQLException e) {
       e.printStackTrace();
+      if (conn != null) {
+        try {
+          conn.rollback();
+        } catch (SQLException rollbackEx) {
+          rollbackEx.printStackTrace();
+        }
+      }
+      mostrarAlerta("Error", "No se pudo guardar el juego", Alert.AlertType.ERROR);
+    } finally {
+      try {
+        if (rs != null)
+          rs.close();
+        if (stmt != null)
+          stmt.close();
+        if (conn != null)
+          conn.close();
+      } catch (SQLException ex) {
+        ex.printStackTrace();
+      }
     }
   }
 
   private int obtenerIdUsuarioActual() {
     return 29;
+  }
+
+  private void mostrarAlerta(String titulo, String mensaje, Alert.AlertType tipo) {
+    Alert alert = new Alert(tipo);
+    alert.setTitle(titulo);
+    alert.setHeaderText(null);
+    alert.setContentText(mensaje);
+    alert.showAndWait();
+  }
+
+  // Método para cargar imágenes en ImageViews
+  @FXML
+  void cargarImagenArriba(MouseEvent event) {
+    FileChooser fileChooser = new FileChooser();
+    fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Imágenes", "*.png", "*.jpg", "*.jpeg"));
+
+    File archivoSeleccionado = fileChooser.showOpenDialog(null);
+
+    if (archivoSeleccionado != null) {
+      archivoImagenPrincipal = archivoSeleccionado;
+
+      ImageView img = (ImageView) event.getSource();
+      Image image = new Image(archivoImagenPrincipal.toURI().toString());
+
+      img.setImage(image);
+
+      // Ajustar tamaño correctamente para evitar distorsiones
+      img.setFitWidth(img.getParent().getLayoutBounds().getWidth());
+      img.setFitHeight(img.getParent().getLayoutBounds().getHeight());
+      img.setPreserveRatio(true);
+      img.setSmooth(true);
+      img.setCache(true);
+
+      System.out.println("Imagen cargada correctamente: " + archivoImagenPrincipal.getAbsolutePath());
+    } else {
+      System.out.println("No se seleccionó ninguna imagen.");
+    }
+  }
+
+  @FXML
+  void cargarImagen(MouseEvent event) {
+    FileChooser fileChooser = new FileChooser();
+    fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Imágenes", "*.png", "*.jpg", "*.jpeg"));
+
+    File archivoSeleccionado = fileChooser.showOpenDialog(null);
+
+    if (archivoSeleccionado != null) {
+      ImageView img = (ImageView) event.getSource();
+      Image image = new Image(archivoSeleccionado.toURI().toString());
+
+      img.setImage(image);
+      img.setPreserveRatio(true);
+      img.setSmooth(true);
+      img.setCache(true);
+
+      // Ajustar tamaño correctamente sin distorsionar
+      img.setFitWidth(img.getParent().getLayoutBounds().getWidth());
+      img.setFitHeight(img.getParent().getLayoutBounds().getHeight());
+
+      // Asignar archivo a la variable correspondiente
+      if (img == img2) {
+        archivoImagenSecundaria = archivoSeleccionado;
+      } else if (img == img3) {
+        archivoImagenTercera = archivoSeleccionado;
+      } else if (img == img4) {
+        archivoImagenCuarta = archivoSeleccionado;
+      } else if (img == img5) {
+        archivoImagenQuinta = archivoSeleccionado;
+      }
+
+      System.out.println("Imagen asignada correctamente: " + archivoSeleccionado.getAbsolutePath());
+    } else {
+      System.out.println("No se seleccionó ninguna imagen.");
+    }
+  }
+
+  /**
+   * Metodo para abrir una nueva ventana y cerrar la actual
+   * 
+   * @param fxml Ventana fxml
+   */
+  private void abrirNuevaVentana(String fxml) {
+    try {
+      // Obtener el Stage de la ventana principal
+      Stage ventanaPrincipal = (Stage) VentanaPrincipal.getScene().getWindow();
+
+      // Cargar el archivo FXML de la nueva ventana
+      FXMLLoader loader = new FXMLLoader(getClass().getResource(fxml));
+      Pane root = loader.load();
+
+      // Crear una nueva escena con el root cargado
+      Scene scene = new Scene(root);
+      scene.getStylesheets().add(getClass().getResource(STYLES).toExternalForm());
+
+      // Crear un nuevo Stage
+      Stage nuevaVentana = new Stage();
+      nuevaVentana.setScene(scene);
+
+      // Maximizar la ventana
+      nuevaVentana.setMaximized(true);
+      nuevaVentana.setResizable(false);
+      nuevaVentana.initStyle(StageStyle.UNDECORATED);
+
+      // Mostrar la nueva ventana
+      nuevaVentana.show();
+
+      // Cerrar la ventana principal
+      ventanaPrincipal.close();
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
   }
 }

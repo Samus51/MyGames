@@ -49,11 +49,58 @@ public class HomeBusquedaController {
 	public void setJuegosBuscados(List<JuegoHome> juegosPasados) {
 		this.juegosBuscados = juegosPasados;
 		System.out.println(juegosPasados.toString());
-		cargarJuegosBusqueda();
-	}
 
-	private void cargarJuegosBusqueda() {
+		// Dividir la lista en 4 partes intentando que cada parte tenga 3 juegos
+		int total = juegosPasados.size();
+		int chunkSize = 3; // Cada lista tendrá 3 juegos como máximo
 
+		// Crear las listas
+		List<JuegoHome> lista1 = new ArrayList<>();
+		List<JuegoHome> lista2 = new ArrayList<>();
+		List<JuegoHome> lista3 = new ArrayList<>();
+		List<JuegoHome> lista4 = new ArrayList<>();
+
+		// Llenar las listas hasta el tamaño de chunkSize (3 juegos por lista)
+		for (int i = 0; i < total; i++) {
+			if (i < chunkSize) {
+				lista1.add(juegosPasados.get(i));
+			} else if (i < chunkSize * 2) {
+				lista2.add(juegosPasados.get(i));
+			} else if (i < chunkSize * 3) {
+				lista3.add(juegosPasados.get(i));
+			} else {
+				lista4.add(juegosPasados.get(i));
+			}
+		}
+
+		// Asignar las imágenes solo a los contenedores que tienen juegos
+		if (!lista1.isEmpty()) {
+			asignarImagenes(contJuegos1, lista1);
+			contJuegos1.setVisible(true); // Asegura que el contenedor esté visible si tiene juegos
+		} else {
+			contJuegos1.setVisible(false); // Oculta el contenedor si no tiene juegos
+		}
+
+		if (!lista2.isEmpty()) {
+			asignarImagenes(contJuegos2, lista2);
+			contJuegos2.setVisible(true);
+		} else {
+			contJuegos2.setVisible(false);
+		}
+
+		if (!lista3.isEmpty()) {
+			asignarImagenes(contJuegos3, lista3);
+			contJuegos3.setVisible(true);
+		} else {
+			contJuegos3.setVisible(false);
+		}
+
+		if (!lista4.isEmpty()) {
+			asignarImagenes(contJuegos4, lista4);
+			contJuegos4.setVisible(true);
+		} else {
+			contJuegos4.setVisible(false);
+		}
 	}
 
 	private final static String PANEL_USER = "/views/CambiarInfoPersonal.fxml";
@@ -61,6 +108,10 @@ public class HomeBusquedaController {
 	private static final String PANEL_JUEGO_INFO = "/views/JuegoInfo.fxml";
 
 	private static final String STYLES = "/styles.css";
+
+	private static final String PANEL_HOME = "/views/Home.fxml";
+
+	private static final String PANEL_HOME_BUSQUEDA = "/views/HomeBusqueda.fxml";
 
 	@FXML
 	private BorderPane VentanaPrincipal;
@@ -85,6 +136,9 @@ public class HomeBusquedaController {
 
 	@FXML
 	private ImageView btnGenerosSalida;
+
+	@FXML
+	private ImageView imgCerrar;
 
 	@FXML
 	private ImageView btnMinimizar;
@@ -176,8 +230,7 @@ public class HomeBusquedaController {
 
 	@FXML
 	public void initialize() {
-		setJuegosBuscados(juegosBuscados);
-
+		System.out.println("SIZE JUEGOS VENTANA: " + juegosBuscados.size());
 		scrollHorizontalJuego.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
 		scrollHorizontalJuego.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
 
@@ -210,11 +263,6 @@ public class HomeBusquedaController {
 		menuGeneros.setMinHeight(0);
 		menuPlataformas.setMinHeight(0);
 		menuGeneral.setMinHeight(Region.USE_COMPUTED_SIZE);
-
-		asignarImagenes(contJuegos1, juegosBuscados);
-		asignarImagenes(contJuegos2, juegosBuscados);
-		asignarImagenes(contJuegos3, juegosBuscados);
-		asignarImagenes(contJuegos4, juegosBuscados);
 
 	}
 
@@ -646,9 +694,40 @@ public class HomeBusquedaController {
 	}
 
 	@FXML
-	void imgLupaPressed(MouseEvent event) {
+	void imgLupaPressed(MouseEvent event) throws IOException {
 		String texto = txtBusqueda.getText();
+		System.out.println(texto + " -------");
+		FXMLLoader loader = new FXMLLoader(getClass().getResource(PANEL_HOME_BUSQUEDA));
+		Pane root = loader.load();
 
+		List<JuegoHome> juegosCargar = ExtractorAPI.buscarJuegoPorNombreBarra(texto);
+		System.out.println("JUEGOS CARGADOS:" + juegosCargar.size());
+		HomeBusquedaController controller = loader.getController();
+		System.out.println("Controlador cargado: " + controller);
+
+		// Ahora pasa el título al controlador
+		controller.setJuegosBuscados(juegosCargar);
+
+		Scene scene = new Scene(root);
+		scene.getStylesheets().add(getClass().getResource(STYLES).toExternalForm());
+
+		Stage nuevaVentana = new Stage();
+		nuevaVentana.setTitle("Busqueda");
+		nuevaVentana.setScene(scene);
+		nuevaVentana.setMaximized(true);
+		nuevaVentana.setResizable(false);
+		nuevaVentana.initStyle(StageStyle.UNDECORATED);
+
+		nuevaVentana.show();
+		obtenerVentana(event).close();
+		System.out.println("Ventana cerrada");
+
+	}
+
+	@FXML
+	void imgCerrarPressed(MouseEvent event) {
+
+		abrirNuevaVentana(PANEL_HOME);
 	}
 
 }

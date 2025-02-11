@@ -52,7 +52,7 @@ public class JuegoInfoController {
 	// Styles
 	private static final String STYLES = "/styles.css";
 	// Pantallas
-	private static final String HOME = "/views/HomeMenu.fxml";
+	private static final String HOME = "/views/Home.fxml";
 
 	@FXML
 	private BorderPane VentanaPrincipal;
@@ -184,32 +184,48 @@ public class JuegoInfoController {
 	private VBox vboxPrincipal;
 
 	private void cargarJuegoInfo() {
-		// Simula la carga del juego
-		JuegoPachorra juegoACargar = ExtractorAPI.buscarJuegoPorNombre(this.tituloJuego);
+    // Simula la carga del juego
+    JuegoPachorra juegoACargar = ExtractorAPI.buscarJuegoPorNombre(this.tituloJuego);
 
-		if (juegoACargar != null) {
-			// Actualiza la interfaz con la información del juego
-			imgJuego.setImage(new Image(juegoACargar.getImagenPrincipal()));
-			lblDescripcionVacio.setText(juegoACargar.getDescripcion());
-			lblDesarrolladoresVacio.setText(juegoACargar.getDevs().toString());
-			lblPlataformasVacio.setText(juegoACargar.getPlataformas().toString());
-			lblFechaLanzamientoVacio.setText(juegoACargar.getFechaLanzamiento());
-			lblGenerosVacio.setText(juegoACargar.getGeneros().toString());
-			lblMetaScoreVacio.setText(String.valueOf(juegoACargar.getMetacriticScore()));
-			lblTiempoJugadoVacio.setText(String.valueOf(juegoACargar.getTiempo_jugado() + " Horas"));
+    if (juegoACargar != null) {
+        // Actualiza la interfaz con la información del juego, solo si los datos no son nulos
+        if (juegoACargar.getImagenPrincipal() != null) {
+            imgJuego.setImage(new Image(juegoACargar.getImagenPrincipal()));
+        }
+        if (juegoACargar.getDescripcion() != null) {
+            lblDescripcionVacio.setText(juegoACargar.getDescripcion());
+        }
+        if (juegoACargar.getDevs() != null) {
+            lblDesarrolladoresVacio.setText(juegoACargar.getDevs().toString());
+        }
+        if (juegoACargar.getPlataformas() != null) {
+            lblPlataformasVacio.setText(juegoACargar.getPlataformas().toString());
+        }
+        if (juegoACargar.getFechaLanzamiento() != null) {
+            lblFechaLanzamientoVacio.setText(juegoACargar.getFechaLanzamiento());
+        }
+        if (juegoACargar.getGeneros() != null) {
+            lblGenerosVacio.setText(juegoACargar.getGeneros().toString());
+        }
+        if (juegoACargar.getMetacriticScore() >= 0) {
+            lblMetaScoreVacio.setText(String.valueOf(juegoACargar.getMetacriticScore()));
+        }
+        if (juegoACargar.getTiempo_jugado() >= 0) {
+            lblTiempoJugadoVacio.setText(juegoACargar.getTiempo_jugado() + " Horas");
+        }
 
-			List<String> imagenes = juegoACargar.getCapturasImagenes();
-			imgJuego2.setImage(new Image(imagenes.get(1)));
-			imgJuego3.setImage(new Image(imagenes.get(2)));
-			imgJuego4.setImage(new Image(imagenes.get(3)));
-			imgJuego5.setImage(new Image(imagenes.get(4)));
-
-
-		} else {
-			// Si no se encuentra el juego, muestra un mensaje de error
-			System.out.println("Juego no encontrado");
-		}
-	}
+        List<String> imagenes = juegoACargar.getCapturasImagenes();
+        if (imagenes != null && imagenes.size() >= 5) {
+            imgJuego2.setImage(new Image(imagenes.get(1)));
+            imgJuego3.setImage(new Image(imagenes.get(2)));
+            imgJuego4.setImage(new Image(imagenes.get(3)));
+            imgJuego5.setImage(new Image(imagenes.get(4)));
+        }
+    } else {
+        // Si no se encuentra el juego, muestra un mensaje de error
+        System.out.println("Juego no encontrado");
+    }
+}
 
 	@FXML
 	void btnAnadirJuegoPressed(MouseEvent event) {

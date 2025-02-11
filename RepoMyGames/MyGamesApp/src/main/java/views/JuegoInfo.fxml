@@ -27,7 +27,7 @@
                      <children>
                         <VBox prefHeight="1467.0" prefWidth="1346.0" spacing="50.0">
                            <children>
-                              <Label fx:id="lblTitulo" prefHeight="121.0" prefWidth="1399.0" text="Titulo juego">
+                              <Label fx:id="lblTitulo" prefHeight="121.0" prefWidth="1399.0" text="Sin Título">
                                  <font>
                                     <Font size="36.0" />
                                  </font>
@@ -49,7 +49,7 @@
                                     <Font size="36.0" />
                                  </font>
                               </Label>
-                              <Label fx:id="lblDescripcionVacio" prefHeight="364.0" prefWidth="1366.0" text="F1 2015 is a racing simulator based on the 2015 Formula One season, but with teams from the 2014 season (including the Hockenheimring track, which is missed from the 2015 season calendar). Seventh in the series. It presents the crews and pilots who participated directly in this season. Unlike its predecessors, the game received a new engine, improved physics and graphics.A &quot;Pro Season&quot; mode was featured. This mode was different from the usual championship in a complete lack of interface and management assistance, as well as the highest level of complexity. The career mode, which was in the previous parts of the series, did not appear in the game.The game is also compatible with the voice recognition (available only on PlayStation 4 and Xbox One). With its help, players will be able to communicate with their teams during the race and learn about the weather changes, the condition of the car and tires, and to request an unscheduled change of tires." wrapText="true">
+                              <Label fx:id="lblDescripcionVacio" alignment="TOP_LEFT" prefHeight="364.0" prefWidth="1366.0" text="Sin Descripción" wrapText="true">
                                  <font>
                                     <Font size="18.0" />
                                  </font>
@@ -68,12 +68,12 @@
                                           <Font name="System Bold" size="24.0" />
                                        </font>
                                     </Label>
-                                    <Label fx:id="lblMetaScoreVacio" alignment="CENTER" prefHeight="48.0" prefWidth="59.0" text="80">
+                                    <Label fx:id="lblMetaScoreVacio" alignment="CENTER" prefHeight="48.0" prefWidth="495.0" text="Sin Calificación">
                                        <font>
                                           <Font size="24.0" />
                                        </font>
                                        <VBox.margin>
-                                          <Insets left="190.0" />
+                                          <Insets />
                                        </VBox.margin>
                                     </Label>
                                  </children>
@@ -214,7 +214,7 @@
                                                 <Font size="18.0" />
                                              </font>
                                           </Label>
-                                          <Label fx:id="lblGenerosVacio" prefHeight="45.0" prefWidth="374.0" text="Accción" wrapText="true">
+                                          <Label fx:id="lblGenerosVacio" prefHeight="45.0" prefWidth="374.0" text="Sin Género" wrapText="true">
                                              <font>
                                                 <Font size="18.0" />
                                              </font>
@@ -231,7 +231,7 @@
                                                 <Insets top="40.0" />
                                              </HBox.margin>
                                           </Label>
-                                          <Label fx:id="lblPlataformasVacio" prefHeight="124.0" prefWidth="370.0" text="PC,PS5,XBOX X/Sccción" wrapText="true">
+                                          <Label fx:id="lblPlataformasVacio" prefHeight="124.0" prefWidth="370.0" text="Sin Plataformas" wrapText="true">
                                              <font>
                                                 <Font size="18.0" />
                                              </font>
@@ -245,7 +245,7 @@
                                                 <Font size="18.0" />
                                              </font>
                                           </Label>
-                                          <Label fx:id="lblDesarrolladoresVacio" prefHeight="98.0" prefWidth="343.0" text="Bandai Nanco" wrapText="true">
+                                          <Label fx:id="lblDesarrolladoresVacio" prefHeight="98.0" prefWidth="343.0" text="Sin Desarollador" wrapText="true">
                                              <font>
                                                 <Font size="18.0" />
                                              </font>
@@ -259,7 +259,7 @@
                                                 <Font size="18.0" />
                                              </font>
                                           </Label>
-                                          <Label fx:id="lblFechaLanzamientoVacio" prefHeight="29.0" prefWidth="263.0" text="11/10/2024">
+                                          <Label fx:id="lblFechaLanzamientoVacio" prefHeight="29.0" prefWidth="263.0" text="Fecha no Disponible">
                                              <font>
                                                 <Font size="18.0" />
                                              </font>
@@ -281,7 +281,7 @@
                                           <Font size="18.0" />
                                        </font>
                                     </Label>
-                                    <Label fx:id="lblTiempoJugadoVacio" prefHeight="105.0" prefWidth="145.0" text="30 Horas">
+                                    <Label fx:id="lblTiempoJugadoVacio" prefHeight="105.0" prefWidth="145.0" text="No disponible">
                                        <font>
                                           <Font size="18.0" />
                                        </font>
