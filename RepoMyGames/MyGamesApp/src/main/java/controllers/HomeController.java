@@ -334,4 +334,9 @@ public class HomeController {
 		}, event);
 	}
 
+	@FXML
+	void lblPlataformasPressed(MouseEvent event) {
+
+	}
+
 }

@@ -5,9 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
-import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
@@ -20,12 +18,13 @@ import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 import models.JuegoHome;
 import utils.ExtractorAPI;
 import utils.ImagenUtils;
+import utils.VentanaUtil;
 
 public class GenerosYPlataformasController {
+	private static final String PANEL_GENEROS = "/views/GenerosYPlataformas.fxml";
 
 	List<JuegoHome> juegosBuscados = new ArrayList<JuegoHome>();
 
@@ -209,41 +208,9 @@ public class GenerosYPlataformasController {
 		menuPlataformas.setVisible(false);
 	}
 
-	public void abrirNuevaVentana(String fxml) {
-		try {
-			// Obtener el Stage de la ventana principal
-			Stage ventanaPrincipal = (Stage) VentanaPrincipal.getScene().getWindow();
-
-			// Cargar el archivo FXML de la nueva ventana
-			FXMLLoader loader = new FXMLLoader(getClass().getResource(fxml));
-			Pane root = loader.load();
-
-			// Crear una nueva escena con el root cargado
-			Scene scene = new Scene(root);
-			scene.getStylesheets().add(getClass().getResource("/styles.css").toExternalForm());
-
-			// Crear un nuevo Stage
-			Stage nuevaVentana = new Stage();
-			nuevaVentana.setScene(scene);
-
-			// Maximizar la ventana
-			nuevaVentana.setMaximized(true);
-			nuevaVentana.setResizable(false);
-			nuevaVentana.initStyle(StageStyle.UNDECORATED);
-
-			// Mostrar la nueva ventana
-			nuevaVentana.show();
-
-			// Cerrar la ventana principal
-			ventanaPrincipal.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-
 	@FXML
-	void btnUserPressed(MouseEvent event) {
-		abrirNuevaVentana(PANEL_USER);
+	void btnUserPressed(MouseEvent event) throws IOException {
+		VentanaUtil.abrirVentana(PANEL_USER, "Usuario", STYLES, null, event);
 	}
 
 	@FXML
@@ -267,38 +234,15 @@ public class GenerosYPlataformasController {
 		VBox vbox = (VBox) event.getSource();
 
 		for (Node childNode : vbox.getChildren()) {
-			if (childNode instanceof VBox) {
-				VBox innerVBox = (VBox) childNode;
-
+			if (childNode instanceof VBox innerVBox) {
 				for (Node innerNode : innerVBox.getChildren()) {
-					if (innerNode instanceof Label) {
-						Label tituloLabel = (Label) innerNode;
-
-						FXMLLoader loader = new FXMLLoader(getClass().getResource(PANEL_JUEGO_INFO));
-						Pane root = loader.load();
-
-						// Verifica que el controlador esté cargado
-						JuegoInfoController controller = loader.getController();
-						System.out.println("Controlador cargado: " + controller);
-
-						// Ahora pasa el título al controlador
+					if (innerNode instanceof Label tituloLabel) {
 						String tituloJuego = tituloLabel.getText();
 						System.out.println("Título del juego: " + tituloJuego);
-						controller.setTituloJuego(tituloJuego);
 
-						Scene scene = new Scene(root);
-						scene.getStylesheets().add(getClass().getResource(STYLES).toExternalForm());
-
-						Stage nuevaVentana = new Stage();
-						nuevaVentana.setTitle("Juego Info");
-						nuevaVentana.setScene(scene);
-						nuevaVentana.setMaximized(true);
-						nuevaVentana.setResizable(false);
-						nuevaVentana.initStyle(StageStyle.UNDECORATED);
-
-						nuevaVentana.show();
-						obtenerVentana(event).close();
-						System.out.println("Ventana cerrada");
+						VentanaUtil.abrirVentana(PANEL_JUEGO_INFO, "Juego Info", STYLES, controller -> {
+							((JuegoInfoController) controller).setTituloJuego(tituloJuego);
+						}, event);
 					}
 				}
 			}
@@ -309,43 +253,34 @@ public class GenerosYPlataformasController {
 	void imgLupaPressed(MouseEvent event) throws IOException {
 		String texto = txtBusqueda.getText();
 		System.out.println(texto + " -------");
-		FXMLLoader loader = new FXMLLoader(getClass().getResource(PANEL_HOME_BUSQUEDA));
-		Pane root = loader.load();
 
 		List<JuegoHome> juegosCargar = ExtractorAPI.buscarJuegoPorNombreBarra(texto);
 		System.out.println("JUEGOS CARGADOS:" + juegosCargar.size());
-		GenerosYPlataformasController controller = loader.getController();
-		System.out.println("Controlador cargado: " + controller);
 
-		// Ahora pasa el título al controlador
-		controller.setJuegosBuscados(juegosCargar);
-
-		Scene scene = new Scene(root);
-		scene.getStylesheets().add(getClass().getResource(STYLES).toExternalForm());
-
-		Stage nuevaVentana = new Stage();
-		nuevaVentana.setTitle("Busqueda");
-		nuevaVentana.setScene(scene);
-		nuevaVentana.setMaximized(true);
-		nuevaVentana.setResizable(false);
-		nuevaVentana.initStyle(StageStyle.UNDECORATED);
-
-		nuevaVentana.show();
-		obtenerVentana(event).close();
-		System.out.println("Ventana cerrada");
+		VentanaUtil.abrirVentana(PANEL_HOME_BUSQUEDA, "Búsqueda", STYLES, controller -> {
+			((HomeBusquedaController) controller).setJuegosBuscados(juegosCargar);
+		}, event);
 
 	}
 
 	@FXML
-	void imgCerrarPressed(MouseEvent event) {
+	void imgCerrarPressed(MouseEvent event) throws IOException {
 
-		abrirNuevaVentana(PANEL_HOME);
+		VentanaUtil.abrirVentana(PANEL_HOME, "Home", STYLES, null, event);
 	}
 
 	@FXML
-	void lblGeneroPressed(MouseEvent event) {
+	void lblGenerosPressed(MouseEvent event) throws IOException {
+		Label labelClicado = (Label) event.getSource();
+		String genero = labelClicado.getText().toLowerCase().replace(" ", "-");
+		System.out.println(genero + " -------");
 
-		System.out.println("BOF");
+		List<JuegoHome> juegosCargar = ExtractorAPI.buscarJuegosPorGenero(genero);
+		System.out.println("JUEGOS CARGADOS: " + juegosCargar.size());
+
+		VentanaUtil.abrirVentana(PANEL_GENEROS, "Géneros", STYLES, controller -> {
+			((GenerosYPlataformasController) controller).setJuegosBuscados(juegosCargar);
+		}, event);
 	}
 
 }
