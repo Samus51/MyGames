@@ -110,9 +110,9 @@ public class HomeBusquedaController {
 			scrollHorizontalJuego2, scrollHorizontalJuego3;
 	@FXML
 	private Label btnGeneroSalida, btnGeneros, titulo, btnGenerosMenuPlataformas, btnPlataformas,
-			btnPlataformasMenuGeneros, btnPlataformasSalida, btnUser;
+			btnPlataformasMenuGeneros, btnPlataformasSalida;
 	@FXML
-	private ImageView btnGenerosSalida, imgCerrar, btnMinimizar, btnCerrar, imgLupa, btnMenu;
+	private ImageView btnGenerosSalida, imgCerrar, btnMinimizar, btnCerrar, imgLupa, btnMenu, btnUser;
 
 	@FXML
 	private TextField txtBusqueda;
@@ -272,6 +272,26 @@ public class HomeBusquedaController {
 			VentanaUtil.abrirVentana(PANEL_USER, "Usuario", STYLES, null, event);
 		} catch (IOException e) {
 			e.printStackTrace();
+		}
+	}
+
+	@FXML
+	void juegoSoloPressed(MouseEvent event) throws IOException {
+		VBox vbox = (VBox) event.getSource();
+
+		for (Node childNode : vbox.getChildren()) {
+			if (childNode instanceof VBox innerVBox) {
+				for (Node innerNode : innerVBox.getChildren()) {
+					if (innerNode instanceof Label tituloLabel) {
+						String tituloJuego = tituloLabel.getText();
+						System.out.println("Título del juego: " + tituloJuego);
+
+						VentanaUtil.abrirVentana(PANEL_JUEGO_INFO, "Juego Info", STYLES, controller -> {
+							((JuegoInfoController) controller).setTituloJuego(tituloJuego);
+						}, event);
+					}
+				}
+			}
 		}
 	}
 

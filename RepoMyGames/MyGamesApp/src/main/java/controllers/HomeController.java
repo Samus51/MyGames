@@ -34,6 +34,8 @@ public class HomeController {
 
 	private static final String PANEL_HOME_BUSQUEDA = "/views/HomeBusqueda.fxml";
 
+	private static final String PANEL_GENEROS = "/views/GenerosYPlataformas.fxml";
+
 	private static final String PANEL_ADD_JUEGO = "/views/JuegoAnadir.fxml";
 
 //Contenedores
@@ -279,10 +281,6 @@ public class HomeController {
 		ventanaPrincipal.close();
 	}
 
-	private Stage obtenerVentana(MouseEvent event) {
-		return (Stage) ((Node) event.getSource()).getScene().getWindow();
-	}
-
 	@FXML
 	void juegoSoloPressed(MouseEvent event) throws IOException {
 		VBox vbox = (VBox) event.getSource();
@@ -324,9 +322,16 @@ public class HomeController {
 
 	@FXML
 	void lblGenerosPressed(MouseEvent event) throws IOException {
-		System.out.println("Uh");
-	}
+		Label labelClicado = (Label) event.getSource();
+		String genero = labelClicado.getText().toLowerCase().replace(" ", "-");
+		System.out.println(genero + " -------");
 
-	
+		List<JuegoHome> juegosCargar = ExtractorAPI.buscarJuegosPorGenero(genero);
+		System.out.println("JUEGOS CARGADOS: " + juegosCargar.size());
+
+		VentanaUtil.abrirVentana(PANEL_GENEROS, "Géneros", STYLES, controller -> {
+			((GenerosYPlataformasController) controller).setJuegosBuscados(juegosCargar);
+		}, event);
+	}
 
 }
