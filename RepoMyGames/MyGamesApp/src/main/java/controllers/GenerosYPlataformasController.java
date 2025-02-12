@@ -3,7 +3,6 @@ package controllers;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -12,7 +11,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
@@ -21,9 +19,6 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
-import javafx.scene.shape.Rectangle;
-import javafx.stage.Screen;
-import javafx.geometry.Rectangle2D;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import models.JuegoHome;
@@ -162,84 +157,54 @@ public class GenerosYPlataformasController {
 		return juegos;
 	}
 
+	private void cambiarMenu(Region mostrar, Region ocultar1, Region ocultar2, boolean resetScroll) {
+		menuGeneral.setVisible(mostrar == menuGeneral);
+		menuGeneros.setVisible(mostrar == menuGeneros);
+		menuPlataformas.setVisible(mostrar == menuPlataformas);
+
+		menuGeneros.setMinHeight(mostrar == menuGeneros ? Region.USE_COMPUTED_SIZE : 0);
+		menuPlataformas.setMinHeight(mostrar == menuPlataformas ? Region.USE_COMPUTED_SIZE : 0);
+		menuGeneral.setMinHeight(mostrar == menuGeneral ? Region.USE_COMPUTED_SIZE : 0);
+
+		if (resetScroll) {
+			scrollMenu.setHvalue(0);
+			scrollMenu.setVvalue(0);
+		}
+	}
+
 	@FXML
 	void btnGenerosMenuPlataformasPressed(MouseEvent event) {
-		menuGeneral.setVisible(false);
-		menuGeneros.setVisible(true);
-		menuPlataformas.setVisible(false);
-
-		menuGeneros.setMinHeight(Region.USE_COMPUTED_SIZE);
-		menuPlataformas.setMinHeight(0);
-		menuGeneral.setMinHeight(0);
-
-		scrollMenu.setHvalue(0);
-		scrollMenu.setVvalue(0);
+		cambiarMenu(menuGeneros, menuPlataformas, menuGeneral, true);
 	}
 
 	@FXML
 	void btnGenerosPressed(MouseEvent event) {
-		menuGeneral.setVisible(false);
-		menuGeneros.setVisible(true);
-		menuPlataformas.setVisible(false);
-
-		menuGeneros.setMinHeight(Region.USE_COMPUTED_SIZE);
-		menuPlataformas.setMinHeight(0);
-		menuGeneral.setMinHeight(0);
+		cambiarMenu(menuGeneros, menuPlataformas, menuGeneral, false);
 	}
 
 	@FXML
 	void btnGenerosSalidaPressed(MouseEvent event) {
-		menuGeneral.setVisible(true);
-		menuGeneros.setVisible(false);
-
-		menuGeneros.setMinHeight(0);
-		menuGeneral.setMinHeight(Region.USE_COMPUTED_SIZE);
+		cambiarMenu(menuGeneral, menuGeneros, null, false);
 	}
 
 	@FXML
 	void btnPlataformasPressed(MouseEvent event) {
-		menuGeneral.setVisible(false);
-		menuPlataformas.setVisible(true);
-		menuGeneros.setVisible(false);
-
-		menuGeneros.setMinHeight(0);
-		menuPlataformas.setMinHeight(Region.USE_COMPUTED_SIZE);
-		menuGeneral.setMinHeight(0);
+		cambiarMenu(menuPlataformas, menuGeneros, menuGeneral, false);
 	}
 
 	@FXML
 	void btnPlataformasSalidaPressed(MouseEvent event) {
-		menuGeneral.setVisible(true);
-		menuPlataformas.setVisible(false);
-		menuGeneros.setVisible(false);
-
-		menuGeneros.setMinHeight(0);
-		menuPlataformas.setMinHeight(0);
-		menuGeneral.setMinHeight(Region.USE_COMPUTED_SIZE);
+		cambiarMenu(menuGeneral, menuPlataformas, menuGeneros, false);
 	}
 
 	@FXML
 	void btnPlataformasMenuGenerosPressed(MouseEvent event) {
-		menuGeneral.setVisible(false);
-		menuGeneros.setVisible(false);
-		menuPlataformas.setVisible(true);
-
-		menuGeneros.setMinHeight(0);
-		menuPlataformas.setMinHeight(Region.USE_COMPUTED_SIZE);
-		menuGeneral.setMinHeight(0);
-
-		scrollMenu.setHvalue(0);
-		scrollMenu.setVvalue(0);
+		cambiarMenu(menuPlataformas, menuGeneros, menuGeneral, true);
 	}
 
 	@FXML
 	void btnMenuPressed(MouseEvent event) {
-		if (menuGeneral.isVisible()) {
-			menuGeneral.setVisible(false);
-		} else {
-			menuGeneral.setVisible(true);
-		}
-
+		menuGeneral.setVisible(!menuGeneral.isVisible());
 		menuGeneros.setVisible(false);
 		menuPlataformas.setVisible(false);
 	}
