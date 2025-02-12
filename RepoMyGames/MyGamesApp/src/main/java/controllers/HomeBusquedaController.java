@@ -25,6 +25,8 @@ import utils.VentanaUtil;
 
 public class HomeBusquedaController {
 	private static final String PANEL_ADD_JUEGO = "/views/JuegoAnadir.fxml";
+	private static int offset = 0;
+	private static String ultimoTextoBusqueda = "";
 
 	List<JuegoHome> juegosBuscados = new ArrayList<JuegoHome>();
 
@@ -32,6 +34,8 @@ public class HomeBusquedaController {
 	 * @param juegosPasados the juegosBuscados to set
 	 */
 	public void setJuegosBuscados(List<JuegoHome> juegosPasados) {
+		System.out.println("ULTIMO TEXTO DE BUSQUEDA: " + ultimoTextoBusqueda);
+
 		this.juegosBuscados = juegosPasados;
 		System.out.println(juegosPasados.toString());
 
@@ -88,6 +92,20 @@ public class HomeBusquedaController {
 
 	}
 
+	/**
+	 * @return the ultimoTextoBusqueda
+	 */
+	public static String getUltimoTextoBusqueda() {
+		return ultimoTextoBusqueda;
+	}
+
+	/**
+	 * @param ultimoTextoBusqueda the ultimoTextoBusqueda to set
+	 */
+	public static void setUltimoTextoBusqueda(String ultimoTextoBusqueda) {
+		HomeBusquedaController.ultimoTextoBusqueda = ultimoTextoBusqueda;
+	}
+
 	private final static String PANEL_USER = "/views/CambiarInfoPersonal.fxml";
 
 	private static final String PANEL_JUEGO_INFO = "/views/JuegoInfo.fxml";
@@ -112,7 +130,8 @@ public class HomeBusquedaController {
 	private Label btnGeneroSalida, btnGeneros, titulo, btnGenerosMenuPlataformas, btnPlataformas,
 			btnPlataformasMenuGeneros, btnPlataformasSalida;
 	@FXML
-	private ImageView btnGenerosSalida, imgCerrar, btnMinimizar, btnCerrar, imgLupa, btnMenu, btnUser;
+	private ImageView btnGenerosSalida, imgCerrar, btnMinimizar, btnCerrar, imgLupa, btnMenu, btnUser, imgCargarJuegos,
+			imgCargarJuegosAtras;
 
 	@FXML
 	private TextField txtBusqueda;
@@ -255,14 +274,40 @@ public class HomeBusquedaController {
 	void imgLupaPressed(MouseEvent event) throws IOException {
 		String texto = txtBusqueda.getText();
 		System.out.println(texto + " -------");
-
-		List<JuegoHome> juegosCargar = ExtractorAPI.buscarJuegoPorNombreBarra(texto);
+		List<JuegoHome> juegosCargar = ExtractorAPI.buscarJuegoPorNombreBarra(texto, 0);
 		System.out.println("JUEGOS CARGADOS:" + juegosCargar.size());
 
 		VentanaUtil.abrirVentana(PANEL_HOME_BUSQUEDA, "Búsqueda", STYLES, controller -> {
 			((HomeBusquedaController) controller).setJuegosBuscados(juegosCargar);
 		}, event);
 
+	}
+
+	@FXML
+	void imgCargarJuegosPressed(MouseEvent event) throws IOException {
+		offset += 12;
+		List<JuegoHome> juegosCargar = ExtractorAPI.buscarJuegoPorNombreBarra(ultimoTextoBusqueda, offset);
+		System.out.println("JUEGOS CARGADOS:" + juegosCargar.size());
+
+		VentanaUtil.abrirVentana(PANEL_HOME_BUSQUEDA, "Búsqueda", STYLES, controller -> {
+			((HomeBusquedaController) controller).setJuegosBuscados(juegosCargar);
+		}, event);
+
+	}
+
+	@FXML
+	void imgCargarJuegoAtrasPressed(MouseEvent event) throws IOException {
+		if (offset == 0) {
+			System.out.println("Weon");
+			return;
+		}
+		offset -= 12;
+		List<JuegoHome> juegosCargar = ExtractorAPI.buscarJuegoPorNombreBarra(ultimoTextoBusqueda, offset);
+		System.out.println("JUEGOS CARGADOS:" + juegosCargar.size());
+
+		VentanaUtil.abrirVentana(PANEL_HOME_BUSQUEDA, "Búsqueda", STYLES, controller -> {
+			((HomeBusquedaController) controller).setJuegosBuscados(juegosCargar);
+		}, event);
 	}
 
 	@FXML

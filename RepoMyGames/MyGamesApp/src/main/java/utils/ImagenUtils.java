@@ -18,6 +18,11 @@ public class ImagenUtils {
 	public static void asignarImagenes(HBox hbox, List<JuegoHome> juegos) {
 		int imageIndex = 0;
 
+		// Lista de nombres de consolas retro
+		String[] consolasRetro = { "NES", "SNES", "Nintendo 64", "GameCube", "Game Boy", "Game Boy Color",
+				"Game Boy Advance", "Nintendo DS", "Nintendo 3DS", "SEGA Genesis", "SEGA Saturn", "SEGA Dreamcast",
+				"Atari 2600", "Atari 5200", "Atari 7800", "Neo Geo" };
+
 		for (Node node : hbox.getChildren()) {
 			if (node instanceof VBox) {
 				VBox vbox = (VBox) node;
@@ -64,17 +69,32 @@ public class ImagenUtils {
 									HBox contenedorImagenes = (HBox) contInfoChild;
 
 									// Lista de logos por defecto (para asegurarnos de que siempre haya 5 imágenes)
-									String[] logosPorDefecto = { "imgLogos/logoPlay.png", "imgLogos/logoPc.png", "imgLogos/logoXbox.png",
-											"imgLogos/logoNintendo.png", "imgLogos/logoRetro.png" };
+									String[] logosPorDefecto = { "imgLogos/logoPlay.png", "imgLogos/logoPc.png",
+											"imgLogos/logoXbox.png", "imgLogos/logoNintendo.png",
+											"imgLogos/logoRetro.png" };
 
 									// Mapa de versiones en color de los logos si la plataforma está presente en el
 									// juego
-									Map<String, String> logosColor = Map.of("Playstation", "imgLogos/logoPlayColor.png", "Pc",
-											"imgLogos/logoPcColor.png", "Xbox", "imgLogos/logoXboxColor.png", "Nintendo",
-											"imgLogos/logoNintendoColor.png", "Retro", "imgLogos/logoRetroColor.png");
+									Map<String, String> logosColor = Map.of("Playstation", "imgLogos/logoPlayColor.png",
+											"Pc", "imgLogos/logoPcColor.png", "Xbox", "imgLogos/logoXboxColor.png",
+											"Nintendo", "imgLogos/logoNintendoColor.png", "Retro",
+											"imgLogos/logoRetroColor.png");
 
 									// Índice para recorrer las imágenes dentro del HBox
 									int index = 0;
+
+									// Verificar si alguna plataforma del juego es retro
+									boolean esConsolaRetro = false;
+									for (String plataforma : juego.getPlataformas()) {
+										for (String consolaRetro : consolasRetro) {
+											if (plataforma.toLowerCase().contains(consolaRetro.toLowerCase())) {
+												esConsolaRetro = true;
+												break;
+											}
+										}
+										if (esConsolaRetro)
+											break;
+									}
 
 									// Recorrer las imágenes dentro del contenedor
 									for (Node imagenNode2 : contenedorImagenes.getChildren()) {
@@ -101,8 +121,10 @@ public class ImagenUtils {
 												}
 											}
 
-											// Si el juego tiene una plataforma que coincide, usar la versión en color
-											if (tienePlataforma) {
+											// Si el juego tiene una plataforma retro, usar el logo retro
+											if (esConsolaRetro && plataformaClave.equals("Retro")) {
+												logoPath = logosColor.get("Retro");
+											} else if (tienePlataforma) {
 												logoPath = logosColor.get(plataformaClave);
 											}
 
@@ -119,7 +141,8 @@ public class ImagenUtils {
 
 											// Aplicar esquinas redondeadas
 											double cornerRadius = 10;
-											Rectangle clip = new Rectangle(imageView2.getFitWidth(), imageView2.getFitHeight());
+											Rectangle clip = new Rectangle(imageView2.getFitWidth(),
+													imageView2.getFitHeight());
 											clip.setArcWidth(cornerRadius);
 											clip.setArcHeight(cornerRadius);
 											imageView2.setClip(clip);
@@ -148,5 +171,4 @@ public class ImagenUtils {
 			}
 		}
 	}
-
 }

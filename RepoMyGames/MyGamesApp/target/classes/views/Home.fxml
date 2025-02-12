@@ -124,6 +124,9 @@
                                        <VBox.margin>
                                           <Insets left="50.0" />
                                        </VBox.margin>
+                                       <cursor>
+                                          <Cursor fx:constant="HAND" />
+                                       </cursor>
                                     </Label>
                                     <Label onMouseClicked="#lblGenerosPressed" prefHeight="51.0" prefWidth="267.0" text="Indie">
                                        <font>
@@ -135,6 +138,9 @@
                                        <VBox.margin>
                                           <Insets left="50.0" />
                                        </VBox.margin>
+                                       <cursor>
+                                          <Cursor fx:constant="HAND" />
+                                       </cursor>
                                     </Label>
                                     <Label onMouseClicked="#lblGenerosPressed" text="Adventure">
                                        <font>
@@ -146,6 +152,9 @@
                                        <VBox.margin>
                                           <Insets left="50.0" />
                                        </VBox.margin>
+                                       <cursor>
+                                          <Cursor fx:constant="HAND" />
+                                       </cursor>
                                     </Label>
                                     <Label onMouseClicked="#lblGenerosPressed" text="RPG">
                                        <font>
@@ -157,6 +166,9 @@
                                        <VBox.margin>
                                           <Insets left="50.0" />
                                        </VBox.margin>
+                                       <cursor>
+                                          <Cursor fx:constant="HAND" />
+                                       </cursor>
                                     </Label>
                                     <Label onMouseClicked="#lblGenerosPressed" prefHeight="51.0" prefWidth="281.0" text="Strategy">
                                        <font>
@@ -168,6 +180,9 @@
                                        <VBox.margin>
                                           <Insets left="50.0" />
                                        </VBox.margin>
+                                       <cursor>
+                                          <Cursor fx:constant="HAND" />
+                                       </cursor>
                                     </Label>
                                     <Label onMouseClicked="#lblGenerosPressed" text="Shooter">
                                        <font>
@@ -176,6 +191,9 @@
                                        <VBox.margin>
                                           <Insets left="50.0" />
                                        </VBox.margin>
+                                       <cursor>
+                                          <Cursor fx:constant="HAND" />
+                                       </cursor>
                                     </Label>
                                     <Label onMouseClicked="#lblGenerosPressed" text="Casual">
                                        <opaqueInsets>
@@ -187,6 +205,9 @@
                                        <font>
                                           <Font size="30.0" />
                                        </font>
+                                       <cursor>
+                                          <Cursor fx:constant="HAND" />
+                                       </cursor>
                                     </Label>
                                     <Label onMouseClicked="#lblGenerosPressed" text="Simulation">
                                        <opaqueInsets>
@@ -198,6 +219,9 @@
                                        <font>
                                           <Font size="30.0" />
                                        </font>
+                                       <cursor>
+                                          <Cursor fx:constant="HAND" />
+                                       </cursor>
                                     </Label>
                                     <Label onMouseClicked="#lblGenerosPressed" text="Puzzle">
                                        <opaqueInsets>
@@ -209,6 +233,9 @@
                                        <font>
                                           <Font size="30.0" />
                                        </font>
+                                       <cursor>
+                                          <Cursor fx:constant="HAND" />
+                                       </cursor>
                                     </Label>
                                     <Label onMouseClicked="#lblGenerosPressed" text="Arcade">
                                        <opaqueInsets>
@@ -220,6 +247,9 @@
                                        <font>
                                           <Font size="30.0" />
                                        </font>
+                                       <cursor>
+                                          <Cursor fx:constant="HAND" />
+                                       </cursor>
                                     </Label>
                                     <Label onMouseClicked="#lblGenerosPressed" text="Platformer">
                                        <opaqueInsets>
@@ -231,6 +261,9 @@
                                        <font>
                                           <Font size="30.0" />
                                        </font>
+                                       <cursor>
+                                          <Cursor fx:constant="HAND" />
+                                       </cursor>
                                     </Label>
                                     <Label onMouseClicked="#lblGenerosPressed" text="Massively Multiplayer">
                                        <opaqueInsets>
@@ -242,6 +275,9 @@
                                        <font>
                                           <Font size="30.0" />
                                        </font>
+                                       <cursor>
+                                          <Cursor fx:constant="HAND" />
+                                       </cursor>
                                     </Label>
                                     <Label onMouseClicked="#lblGenerosPressed" text="Racing">
                                        <opaqueInsets>
@@ -253,6 +289,9 @@
                                        <font>
                                           <Font size="30.0" />
                                        </font>
+                                       <cursor>
+                                          <Cursor fx:constant="HAND" />
+                                       </cursor>
                                     </Label>
                                     <Label onMouseClicked="#lblGenerosPressed" text="Sports">
                                        <opaqueInsets>
@@ -264,6 +303,9 @@
                                        <font>
                                           <Font size="30.0" />
                                        </font>
+                                       <cursor>
+                                          <Cursor fx:constant="HAND" />
+                                       </cursor>
                                     </Label>
                                     <Label onMouseClicked="#lblGenerosPressed" text="Fight">
                                        <opaqueInsets>
@@ -275,6 +317,9 @@
                                        <font>
                                           <Font size="30.0" />
                                        </font>
+                                       <cursor>
+                                          <Cursor fx:constant="HAND" />
+                                       </cursor>
                                     </Label>
                                     <Label onMouseClicked="#lblGenerosPressed" text="Family">
                                        <opaqueInsets>
@@ -286,6 +331,9 @@
                                        <font>
                                           <Font size="30.0" />
                                        </font>
+                                       <cursor>
+                                          <Cursor fx:constant="HAND" />
+                                       </cursor>
                                     </Label>
                                     <Label onMouseClicked="#lblGenerosPressed" text="Board Games">
                                        <opaqueInsets>
@@ -297,6 +345,9 @@
                                        <font>
                                           <Font size="30.0" />
                                        </font>
+                                       <cursor>
+                                          <Cursor fx:constant="HAND" />
+                                       </cursor>
                                     </Label>
                                     <Label onMouseClicked="#lblGenerosPressed" text="Educational">
                                        <opaqueInsets>
@@ -308,6 +359,9 @@
                                        <font>
                                           <Font size="30.0" />
                                        </font>
+                                       <cursor>
+                                          <Cursor fx:constant="HAND" />
+                                       </cursor>
                                     </Label>
                                     <Label onMouseClicked="#lblGenerosPressed" text="Card">
                                        <opaqueInsets>
@@ -319,36 +373,57 @@
                                        <font>
                                           <Font size="30.0" />
                                        </font>
+                                       <cursor>
+                                          <Cursor fx:constant="HAND" />
+                                       </cursor>
                                     </Label>
                                     <Label graphicTextGap="25.0" prefHeight="51.0" prefWidth="256.0" text="Tus Juegos">
                                        <font>
                                           <Font size="35.0" />
                                        </font>
+                                       <cursor>
+                                          <Cursor fx:constant="HAND" />
+                                       </cursor>
                                     </Label>
                                     <Label graphicTextGap="25.0" prefHeight="51.0" prefWidth="273.0" text="Recomendados">
                                        <font>
                                           <Font size="35.0" />
                                        </font>
+                                       <cursor>
+                                          <Cursor fx:constant="HAND" />
+                                       </cursor>
                                     </Label>
                                     <Label graphicTextGap="25.0" prefHeight="51.0" prefWidth="267.0" text="Nuevos Juegos">
                                        <font>
                                           <Font size="35.0" />
                                        </font>
+                                       <cursor>
+                                          <Cursor fx:constant="HAND" />
+                                       </cursor>
                                     </Label>
                                     <Label graphicTextGap="25.0" prefHeight="51.0" prefWidth="255.0" text="Añadir Juego">
                                        <font>
                                           <Font size="35.0" />
                                        </font>
+                                       <cursor>
+                                          <Cursor fx:constant="HAND" />
+                                       </cursor>
                                     </Label>
                                     <Label graphicTextGap="25.0" text="Lista de Deseados">
                                        <font>
                                           <Font size="35.0" />
                                        </font>
+                                       <cursor>
+                                          <Cursor fx:constant="HAND" />
+                                       </cursor>
                                     </Label>
                                     <Label fx:id="btnPlataformasMenuGeneros" graphicTextGap="25.0" onMouseClicked="#btnPlataformasMenuGenerosPressed" prefHeight="51.0" prefWidth="281.0" text="Plataformas -&gt;">
                                        <font>
                                           <Font size="35.0" />
                                        </font>
+                                       <cursor>
+                                          <Cursor fx:constant="HAND" />
+                                       </cursor>
                                     </Label>
                                  </children>
                                  <StackPane.margin>
@@ -405,7 +480,7 @@
                                           <Cursor fx:constant="HAND" />
                                        </cursor>
                                     </Label>
-                                    <Label fx:id="btnPlataformasSalida" onMouseClicked="#btnPlataformasSalidaPressed" text="Plataformas" textFill="WHITE">
+                                    <Label fx:id="btnPlataformasSalida" onMouseClicked="#btnPlataformasSalidaPressed" text="Plataformas &lt;--" textFill="WHITE">
                                        <font>
                                           <Font name="System Bold" size="35.0" />
                                        </font>
@@ -413,7 +488,7 @@
                                           <Cursor fx:constant="HAND" />
                                        </cursor>
                                     </Label>
-                                    <Label text="PC &lt;-">
+                                    <Label onMouseClicked="#lblPlataformasPressed" text="PC">
                                        <padding>
                                           <Insets left="50.0" />
                                        </padding>
@@ -424,7 +499,7 @@
                                           <Cursor fx:constant="HAND" />
                                        </cursor>
                                     </Label>
-                                    <Label text="PlayStation">
+                                    <Label onMouseClicked="#lblPlataformasPressed" text="PlayStation">
                                        <padding>
                                           <Insets left="50.0" />
                                        </padding>
@@ -435,7 +510,7 @@
                                           <Cursor fx:constant="HAND" />
                                        </cursor>
                                     </Label>
-                                    <Label text="Xbox">
+                                    <Label onMouseClicked="#lblPlataformasPressed" text="Xbox">
                                        <padding>
                                           <Insets left="50.0" />
                                        </padding>
@@ -446,7 +521,7 @@
                                           <Cursor fx:constant="HAND" />
                                        </cursor>
                                     </Label>
-                                    <Label text="Nintendo">
+                                    <Label onMouseClicked="#lblPlataformasPressed" text="Nintendo">
                                        <padding>
                                           <Insets left="50.0" />
                                        </padding>
@@ -457,7 +532,7 @@
                                           <Cursor fx:constant="HAND" />
                                        </cursor>
                                     </Label>
-                                    <Label text="Retro">
+                                    <Label onMouseClicked="#lblPlataformasPressed" text="Retro">
                                        <padding>
                                           <Insets left="50.0" />
                                        </padding>
@@ -502,6 +577,9 @@
                                        <HBox.margin>
                                           <Insets top="5.0" />
                                        </HBox.margin>
+                                       <cursor>
+                                          <Cursor fx:constant="HAND" />
+                                       </cursor>
                                     </ImageView>
                                  </children>
                                  <HBox.margin>

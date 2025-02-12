@@ -515,6 +515,16 @@
                               </HBox>
                               <HBox alignment="TOP_RIGHT" prefHeight="64.0" prefWidth="644.0" spacing="40.0">
                                  <children>
+                                    <ImageView fx:id="imgCargarJuegos" fitHeight="50.0" fitWidth="50.0" onMouseClicked="#imgCargarJuegosPressed" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@/flechaAtras.png" />
+                                       </image>
+                                    </ImageView>
+                                    <ImageView fx:id="imgCargarJuegoAtras" fitHeight="50.0" fitWidth="50.0" onMouseClicked="#imgCargarJuegoAtrasPressed" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@/flechaDerecha.png" />
+                                       </image>
+                                    </ImageView>
                                     <ImageView fx:id="btnUser" fitHeight="50.0" fitWidth="50.0" onMouseClicked="#btnUserPressed" pickOnBounds="true" preserveRatio="true">
                                        <image>
                                           <Image url="@/User.Png" />

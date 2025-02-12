@@ -192,39 +192,66 @@ public class JuegoInfoController {
 		if (juegoACargar != null) {
 			// Actualiza la interfaz con la información del juego, solo si los datos no son
 			// nulos
-			if (juegoACargar.getImagenPrincipal() != null) {
-				imgJuego.setImage(new Image(juegoACargar.getImagenPrincipal()));
-			}
-			if (juegoACargar.getDescripcion() != null) {
-				lblDescripcionVacio.setText(juegoACargar.getDescripcion());
-			}
-			if (juegoACargar.getDevs() != null) {
-				lblDesarrolladoresVacio.setText(juegoACargar.getDevs().toString());
-			}
-			if (juegoACargar.getPlataformas() != null) {
-				lblPlataformasVacio.setText(juegoACargar.getPlataformas().toString());
-			}
-			if (juegoACargar.getFechaLanzamiento() != null) {
-				lblFechaLanzamientoVacio.setText(juegoACargar.getFechaLanzamiento());
-			}
-			if (juegoACargar.getGeneros() != null) {
-				lblGenerosVacio.setText(juegoACargar.getGeneros().toString());
-			}
-			if (juegoACargar.getMetacriticScore() >= 0) {
-				lblMetaScoreVacio.setText(String.valueOf(juegoACargar.getMetacriticScore()));
-			}
-			if (juegoACargar.getTiempo_jugado() >= 0) {
-				lblTiempoJugadoVacio.setText(juegoACargar.getTiempo_jugado() + " Horas");
+
+			if (juegoACargar.getPegi() != null) {
+				switch (juegoACargar.getPegi()) {
+				case "Mature":
+					imgPegi.setImage(new Image("imgPegi/pegi16.png"));
+					break;
+				case "Adult Only":
+					imgPegi.setImage(new Image("imgPegi/pegi19.png"));
+					break;
+				case "Everyone":
+					imgPegi.setImage(new Image("imgPegi/pegi3.png"));
+					break;
+				case "Teen":
+					imgPegi.setImage(new Image("imgPegi/pegi12.png"));
+					break;
+				case "Everyone 10+":
+					imgPegi.setImage(new Image("imgPegi/pegi7.png"));
+					break;
+				default:
+					// Código por defecto si no coincide con ningún caso
+					break;
+				}
 			}
 
-			List<String> imagenes = juegoACargar.getCapturasImagenes();
-			if (imagenes != null && imagenes.size() >= 5) {
-				imgJuego2.setImage(new Image(imagenes.get(1)));
-				imgJuego3.setImage(new Image(imagenes.get(2)));
-				imgJuego4.setImage(new Image(imagenes.get(3)));
-				imgJuego5.setImage(new Image(imagenes.get(4)));
-			}
-		} else {
+		}
+
+		if (juegoACargar.getImagenPrincipal() != null) {
+			imgJuego.setImage(new Image(juegoACargar.getImagenPrincipal()));
+		}
+		if (juegoACargar.getDescripcion() != null) {
+			lblDescripcionVacio.setText(juegoACargar.getDescripcion());
+		}
+		if (juegoACargar.getDevs() != null) {
+			lblDesarrolladoresVacio.setText(juegoACargar.getDevs().toString());
+		}
+		if (juegoACargar.getPlataformas() != null) {
+			lblPlataformasVacio.setText(juegoACargar.getPlataformas().toString());
+		}
+		if (juegoACargar.getFechaLanzamiento() != null) {
+			lblFechaLanzamientoVacio.setText(juegoACargar.getFechaLanzamiento());
+		}
+		if (juegoACargar.getGeneros() != null) {
+			lblGenerosVacio.setText(juegoACargar.getGeneros().toString());
+		}
+		if (juegoACargar.getMetacriticScore() >= 0) {
+			lblMetaScoreVacio.setText(String.valueOf(juegoACargar.getMetacriticScore()));
+		}
+		if (juegoACargar.getTiempo_jugado() >= 0) {
+			lblTiempoJugadoVacio.setText(juegoACargar.getTiempo_jugado() + " Horas");
+		}
+
+		List<String> imagenes = juegoACargar.getCapturasImagenes();
+		if (imagenes != null && imagenes.size() >= 5) {
+			imgJuego2.setImage(new Image(imagenes.get(1)));
+			imgJuego3.setImage(new Image(imagenes.get(2)));
+			imgJuego4.setImage(new Image(imagenes.get(3)));
+			imgJuego5.setImage(new Image(imagenes.get(4)));
+		}
+
+		{
 			// Si no se encuentra el juego, muestra un mensaje de error
 			System.out.println("Juego no encontrado");
 		}

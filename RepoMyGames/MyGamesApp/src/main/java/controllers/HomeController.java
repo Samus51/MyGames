@@ -21,6 +21,7 @@ import javafx.stage.Screen;
 import javafx.stage.Stage;
 import models.JuegoHome;
 import utils.ExtractorAPI;
+import utils.ExtractorApi2;
 import utils.ImagenUtils;
 import utils.VentanaUtil;
 
@@ -308,16 +309,18 @@ public class HomeController {
 
 	@FXML
 	void imgLupaPressed(MouseEvent event) throws IOException {
-		String texto = txtBusqueda.getText();
-		System.out.println(texto + " -------");
+	    String texto = txtBusqueda.getText();
+	    System.out.println(texto + " -------");
 
-		List<JuegoHome> juegosCargar = ExtractorAPI.buscarJuegoPorNombreBarra(texto);
-		System.out.println("JUEGOS CARGADOS:" + juegosCargar.size());
-
-		VentanaUtil.abrirVentana(PANEL_HOME_BUSQUEDA, "Búsqueda", STYLES, controller -> {
-			((HomeBusquedaController) controller).setJuegosBuscados(juegosCargar);
-		}, event);
-
+	    // Obtén el controlador de la ventana y pasa el texto
+	    VentanaUtil.abrirVentana(PANEL_HOME_BUSQUEDA, "Búsqueda", STYLES, controller -> {
+	        HomeBusquedaController homeController = (HomeBusquedaController) controller;
+	        HomeBusquedaController.setUltimoTextoBusqueda(texto);
+	        
+	        List<JuegoHome> juegosCargar = ExtractorAPI.buscarJuegoPorNombreBarra(texto, 0);
+	        System.out.println("JUEGOS CARGADOS:" + juegosCargar.size());
+	        homeController.setJuegosBuscados(juegosCargar);
+	    }, event);
 	}
 
 	@FXML
@@ -336,12 +339,12 @@ public class HomeController {
 
 	@FXML
 	void lblPlataformasPressed(MouseEvent event) throws IOException {
-
+		System.out.println("Busqueda de plataformas");
 		Label labelClicado = (Label) event.getSource();
-		String genero = labelClicado.getText().toLowerCase().replace(" ", "-");
-		System.out.println(genero + " -------");
+		String plataformaPadre = labelClicado.getText().toLowerCase().replace(" ", "-");
+		System.out.println(plataformaPadre + " -------");
 
-		List<JuegoHome> juegosCargar = ExtractorAPI.buscarJuegosPorGenero(genero);
+		List<JuegoHome> juegosCargar = ExtractorApi2.buscarJuegosPorPlataformaPadre(plataformaPadre);
 		System.out.println("JUEGOS CARGADOS: " + juegosCargar.size());
 
 		VentanaUtil.abrirVentana(PANEL_GENEROS, "Plataformas", STYLES, controller -> {

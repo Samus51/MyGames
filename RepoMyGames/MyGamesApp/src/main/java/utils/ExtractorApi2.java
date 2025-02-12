@@ -1,16 +1,19 @@
 package utils;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import models.JuegoHome;
 import models.JuegoPachorra;
 
 public class ExtractorApi2 {
@@ -18,9 +21,9 @@ public class ExtractorApi2 {
 	private static final String API_KEY = "fcc27fd8089c4a42a452702e7f522258";
 	private static final String API_URL_SEARCH = "https://api.rawg.io/api/games?key=" + API_KEY + "&search=%s";
 	private static final String API_URL_GAME_DETAILS = "https://api.rawg.io/api/games/%d?key=" + API_KEY;
-	private static final String API_URL_SEARCH_BUSQUEDA = "https://api.rawg.io/api/games?key=" + API_KEY
-			+ "&search=%s&page_size=12";
+	private static final String API_URL_SEARCH_BUSQUEDA = "https://api.rawg.io/api/games?key=" + API_KEY + "&search=%s&page_size=12";
 	private static final String API_URL_GENRE = "https://api.rawg.io/api/games?key=" + API_KEY + "&genres=%s";
+	private static final String API_URL_PLATAFORMA = "https://api.rawg.io/api/games/%d?key=fcc27fd8089c4a42a452702e7f522258&platforms=%d";
 
 	private static final String API_URL_TEMPLATE_NEW = "https://api.rawg.io/api/games?key=fcc27fd8089c4a42a452702e7f522258&page_size=9&ordering=-released&released=2025-01-01&ratings=4&page=%d";
 	private static final String API_URL_TEMPLATE = "https://api.rawg.io/api/games?key=fcc27fd8089c4a42a452702e7f522258&page_size=9&ordering=new&page=%d";
@@ -80,6 +83,10 @@ public class ExtractorApi2 {
 	public static JuegoPachorra buscarJuegoPorNombre(String nombreJuego) {
 		try {
 			// Construir URL de búsqueda
+			if (nombreJuego.toLowerCase().equals("label")) {
+				return null;
+			}
+
 			String apiUrl = String.format(API_URL_SEARCH, URLEncoder.encode(nombreJuego, "UTF-8"));
 			HttpURLConnection connection = (HttpURLConnection) new URL(apiUrl).openConnection();
 			connection.setRequestMethod("GET");
@@ -102,9 +109,9 @@ public class ExtractorApi2 {
 
 			if (results == null || results.isEmpty()) {
 				System.out.println("No se encontraron resultados.");
-				return new JuegoPachorra("Imagen no disponible", new ArrayList<>(), "No encontrado", "Fecha no disponible", -1,
-						-1, new ArrayList<>(), new ArrayList<>(), -1, "Desconocido", new ArrayList<>(),
-						"Descripción no disponible");
+				return new JuegoPachorra("Imagen no disponible", new ArrayList<>(), "No encontrado",
+						"Fecha no disponible", -1, -1, new ArrayList<>(), new ArrayList<>(), -1, "Desconocido",
+						new ArrayList<>(), "Descripción no disponible");
 			}
 
 			JSONObject game = results.getJSONObject(0);
@@ -182,14 +189,99 @@ public class ExtractorApi2 {
 			String descripcion = ExtractorApi2
 					.obtenerDescripcionIngles(gameDetails.optString("description", "Descripción no disponible"));
 
-			return new JuegoPachorra(imagenPrincipal, capturas, titulo, lanzamiento, idJuego, metacritic, platforms, generos,
-					playtime, pegiNormal, devs, descripcion);
+			return new JuegoPachorra(imagenPrincipal, capturas, titulo, lanzamiento, idJuego, metacritic, platforms,
+					generos, playtime, pegiNormal, devs, descripcion);
 
 		} catch (Exception e) {
 			e.printStackTrace();
-			return new JuegoPachorra("Imagen no disponible", new ArrayList<>(), "No encontrado", "Fecha no disponible", -1,
-					-1, new ArrayList<>(), new ArrayList<>(), -1, "Desconocido", new ArrayList<>(), "Descripción no disponible");
+			return new JuegoPachorra("Imagen no disponible", new ArrayList<>(), "No encontrado", "Fecha no disponible",
+					-1, -1, new ArrayList<>(), new ArrayList<>(), -1, "Desconocido", new ArrayList<>(),
+					"Descripción no disponible");
 		}
+	}
+
+	public static List<JuegoHome> buscarJuegosPorPlataformaPadre(String plataformaPadre) {
+		List<JuegoHome> juegos = new ArrayList<>();
+
+		try {
+			String apiUrl = "";
+
+			// Seleccionar la plataforma según el parámetro
+			switch (plataformaPadre.toLowerCase()) {
+			case "playstation":
+				apiUrl = "https://api.rawg.io/api/games?key=fcc27fd8089c4a42a452702e7f522258&platforms="
+						+ String.join(",", Arrays.stream(IdsPlataformas.consolasPlayStation).mapToObj(String::valueOf)
+								.toArray(String[]::new));
+				break;
+			case "xbox":
+				apiUrl = "https://api.rawg.io/api/games?key=fcc27fd8089c4a42a452702e7f522258&platforms=" + String.join(
+						",",
+						Arrays.stream(IdsPlataformas.consolasXbox).mapToObj(String::valueOf).toArray(String[]::new));
+				break;
+			case "pc":
+				apiUrl = "https://api.rawg.io/api/games?key=fcc27fd8089c4a42a452702e7f522258&platforms=" + String.join(
+						",", Arrays.stream(IdsPlataformas.consolasPC).mapToObj(String::valueOf).toArray(String[]::new));
+				break;
+			case "retro":
+				apiUrl = "https://api.rawg.io/api/games?key=fcc27fd8089c4a42a452702e7f522258&platforms=" + String.join(
+						",",
+						Arrays.stream(IdsPlataformas.consolasRetro).mapToObj(String::valueOf).toArray(String[]::new));
+				break;
+			case "nintendo":
+				apiUrl = "https://api.rawg.io/api/games?key=fcc27fd8089c4a42a452702e7f522258&platforms="
+						+ String.join(",", Arrays.stream(IdsPlataformas.consolasNintendo).mapToObj(String::valueOf)
+								.toArray(String[]::new));
+				break;
+			default:
+				throw new IllegalArgumentException("Plataforma desconocida");
+			}
+
+			HttpURLConnection connection = (HttpURLConnection) new URL(apiUrl).openConnection();
+			connection.setRequestMethod("GET");
+
+			if (connection.getResponseCode() != 200) {
+				throw new IOException("Error en la conexión: " + connection.getResponseCode());
+			}
+
+			BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+			StringBuilder response = new StringBuilder();
+			String line;
+			while ((line = in.readLine()) != null) {
+				response.append(line);
+			}
+			in.close();
+
+			JSONObject json = new JSONObject(response.toString());
+			JSONArray results = json.optJSONArray("results");
+
+			if (results == null || results.length() == 0) {
+				System.out.println("No se encontraron resultados.");
+				return juegos;
+			}
+
+			for (int i = 0; i < results.length(); i++) {
+				JSONObject game = results.getJSONObject(i);
+				int idJuego = game.optInt("id", -1);
+				String titulo = game.optString("name", "No encontrado");
+				String imagenPrincipal = game.optString("background_image", "Imagen no disponible");
+
+				List<String> platforms = new ArrayList<>();
+				JSONArray plataformasArray = game.optJSONArray("platforms");
+				if (plataformasArray != null) {
+					for (int j = 0; j < plataformasArray.length(); j++) {
+						JSONObject obj = plataformasArray.getJSONObject(j).optJSONObject("platform");
+						platforms.add(obj != null ? obj.optString("name", "Desconocido") : "Desconocido");
+					}
+				}
+
+				juegos.add(new JuegoHome(imagenPrincipal, titulo, idJuego, platforms));
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return juegos;
 	}
 
 }

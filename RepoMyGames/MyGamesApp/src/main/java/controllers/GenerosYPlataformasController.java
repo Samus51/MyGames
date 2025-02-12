@@ -20,6 +20,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import models.JuegoHome;
 import utils.ExtractorAPI;
+import utils.ExtractorApi2;
 import utils.ImagenUtils;
 import utils.VentanaUtil;
 
@@ -148,14 +149,6 @@ public class GenerosYPlataformasController {
 
 	}
 
-	private static List<JuegoHome> cargarJuegos(String modo) {
-		List<JuegoHome> juegosIncompletos = ExtractorAPI.getJuegosIDsYPlataformas(1, modo);
-
-		List<JuegoHome> juegos = ExtractorAPI.obtenerPrimeraCapturaYPlataformas(juegosIncompletos);
-
-		return juegos;
-	}
-
 	private void cambiarMenu(Region mostrar, Region ocultar1, Region ocultar2, boolean resetScroll) {
 		menuGeneral.setVisible(mostrar == menuGeneral);
 		menuGeneros.setVisible(mostrar == menuGeneros);
@@ -225,10 +218,6 @@ public class GenerosYPlataformasController {
 		ventanaPrincipal.close();
 	}
 
-	private Stage obtenerVentana(MouseEvent event) {
-		return (Stage) ((Node) event.getSource()).getScene().getWindow();
-	}
-
 	@FXML
 	void juegoSoloPressed(MouseEvent event) throws IOException {
 		VBox vbox = (VBox) event.getSource();
@@ -254,7 +243,7 @@ public class GenerosYPlataformasController {
 		String texto = txtBusqueda.getText();
 		System.out.println(texto + " -------");
 
-		List<JuegoHome> juegosCargar = ExtractorAPI.buscarJuegoPorNombreBarra(texto);
+		List<JuegoHome> juegosCargar = ExtractorAPI.buscarJuegoPorNombreBarra(texto,0);
 		System.out.println("JUEGOS CARGADOS:" + juegosCargar.size());
 
 		VentanaUtil.abrirVentana(PANEL_HOME_BUSQUEDA, "Búsqueda", STYLES, controller -> {
@@ -281,6 +270,22 @@ public class GenerosYPlataformasController {
 		VentanaUtil.abrirVentana(PANEL_GENEROS, "Géneros", STYLES, controller -> {
 			((GenerosYPlataformasController) controller).setJuegosBuscados(juegosCargar);
 		}, event);
+	}
+
+	@FXML
+	void lblPlataformasPressed(MouseEvent event) throws IOException {
+		System.out.println("BUSQUEDA DE PLATAFORMAS");
+		Label labelClicado = (Label) event.getSource();
+		String plataformaPadre = labelClicado.getText().toLowerCase().replace(" ", "-");
+		System.out.println(plataformaPadre + " -------");
+
+		List<JuegoHome> juegosCargar = ExtractorApi2.buscarJuegosPorPlataformaPadre(plataformaPadre);
+		System.out.println("JUEGOS CARGADOS: " + juegosCargar.size());
+
+		VentanaUtil.abrirVentana(PANEL_GENEROS, "Plataformas", STYLES, controller -> {
+			((GenerosYPlataformasController) controller).setJuegosBuscados(juegosCargar);
+		}, event);
+
 	}
 
 }

@@ -14,9 +14,7 @@ import java.util.List;
 import org.controlsfx.control.CheckComboBox;
 
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
-import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
@@ -26,10 +24,8 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.Pane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 import jdbc.Conector;
 import utils.VentanaUtil;
 
