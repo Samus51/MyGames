@@ -335,8 +335,20 @@ public class HomeController {
 	}
 
 	@FXML
-	void lblPlataformasPressed(MouseEvent event) {
+	void lblPlataformasPressed(MouseEvent event) throws IOException {
 
+		Label labelClicado = (Label) event.getSource();
+		String genero = labelClicado.getText().toLowerCase().replace(" ", "-");
+		System.out.println(genero + " -------");
+
+		List<JuegoHome> juegosCargar = ExtractorAPI.buscarJuegosPorGenero(genero);
+		System.out.println("JUEGOS CARGADOS: " + juegosCargar.size());
+
+		VentanaUtil.abrirVentana(PANEL_GENEROS, "Plataformas", STYLES, controller -> {
+			((GenerosYPlataformasController) controller).setJuegosBuscados(juegosCargar);
+		}, event);
+
+		
 	}
 
 }

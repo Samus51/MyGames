@@ -24,6 +24,8 @@ import javafx.stage.StageStyle;
 import javafx.util.Duration;
 import models.JuegoPachorra;
 import utils.ExtractorAPI;
+import utils.ExtractorApi2;
+import utils.VentanaUtil;
 
 /**
  * Controlador de JuegoInfo
@@ -184,48 +186,49 @@ public class JuegoInfoController {
 	private VBox vboxPrincipal;
 
 	private void cargarJuegoInfo() {
-    // Simula la carga del juego
-    JuegoPachorra juegoACargar = ExtractorAPI.buscarJuegoPorNombre(this.tituloJuego);
+		// Simula la carga del juego
+		JuegoPachorra juegoACargar = ExtractorApi2.buscarJuegoPorNombre(this.tituloJuego);
 
-    if (juegoACargar != null) {
-        // Actualiza la interfaz con la información del juego, solo si los datos no son nulos
-        if (juegoACargar.getImagenPrincipal() != null) {
-            imgJuego.setImage(new Image(juegoACargar.getImagenPrincipal()));
-        }
-        if (juegoACargar.getDescripcion() != null) {
-            lblDescripcionVacio.setText(juegoACargar.getDescripcion());
-        }
-        if (juegoACargar.getDevs() != null) {
-            lblDesarrolladoresVacio.setText(juegoACargar.getDevs().toString());
-        }
-        if (juegoACargar.getPlataformas() != null) {
-            lblPlataformasVacio.setText(juegoACargar.getPlataformas().toString());
-        }
-        if (juegoACargar.getFechaLanzamiento() != null) {
-            lblFechaLanzamientoVacio.setText(juegoACargar.getFechaLanzamiento());
-        }
-        if (juegoACargar.getGeneros() != null) {
-            lblGenerosVacio.setText(juegoACargar.getGeneros().toString());
-        }
-        if (juegoACargar.getMetacriticScore() >= 0) {
-            lblMetaScoreVacio.setText(String.valueOf(juegoACargar.getMetacriticScore()));
-        }
-        if (juegoACargar.getTiempo_jugado() >= 0) {
-            lblTiempoJugadoVacio.setText(juegoACargar.getTiempo_jugado() + " Horas");
-        }
+		if (juegoACargar != null) {
+			// Actualiza la interfaz con la información del juego, solo si los datos no son
+			// nulos
+			if (juegoACargar.getImagenPrincipal() != null) {
+				imgJuego.setImage(new Image(juegoACargar.getImagenPrincipal()));
+			}
+			if (juegoACargar.getDescripcion() != null) {
+				lblDescripcionVacio.setText(juegoACargar.getDescripcion());
+			}
+			if (juegoACargar.getDevs() != null) {
+				lblDesarrolladoresVacio.setText(juegoACargar.getDevs().toString());
+			}
+			if (juegoACargar.getPlataformas() != null) {
+				lblPlataformasVacio.setText(juegoACargar.getPlataformas().toString());
+			}
+			if (juegoACargar.getFechaLanzamiento() != null) {
+				lblFechaLanzamientoVacio.setText(juegoACargar.getFechaLanzamiento());
+			}
+			if (juegoACargar.getGeneros() != null) {
+				lblGenerosVacio.setText(juegoACargar.getGeneros().toString());
+			}
+			if (juegoACargar.getMetacriticScore() >= 0) {
+				lblMetaScoreVacio.setText(String.valueOf(juegoACargar.getMetacriticScore()));
+			}
+			if (juegoACargar.getTiempo_jugado() >= 0) {
+				lblTiempoJugadoVacio.setText(juegoACargar.getTiempo_jugado() + " Horas");
+			}
 
-        List<String> imagenes = juegoACargar.getCapturasImagenes();
-        if (imagenes != null && imagenes.size() >= 5) {
-            imgJuego2.setImage(new Image(imagenes.get(1)));
-            imgJuego3.setImage(new Image(imagenes.get(2)));
-            imgJuego4.setImage(new Image(imagenes.get(3)));
-            imgJuego5.setImage(new Image(imagenes.get(4)));
-        }
-    } else {
-        // Si no se encuentra el juego, muestra un mensaje de error
-        System.out.println("Juego no encontrado");
-    }
-}
+			List<String> imagenes = juegoACargar.getCapturasImagenes();
+			if (imagenes != null && imagenes.size() >= 5) {
+				imgJuego2.setImage(new Image(imagenes.get(1)));
+				imgJuego3.setImage(new Image(imagenes.get(2)));
+				imgJuego4.setImage(new Image(imagenes.get(3)));
+				imgJuego5.setImage(new Image(imagenes.get(4)));
+			}
+		} else {
+			// Si no se encuentra el juego, muestra un mensaje de error
+			System.out.println("Juego no encontrado");
+		}
+	}
 
 	@FXML
 	void btnAnadirJuegoPressed(MouseEvent event) {
@@ -264,8 +267,8 @@ public class JuegoInfoController {
 	}
 
 	@FXML
-	void flechaAtrasPressed(MouseEvent event) {
-		abrirNuevaVentana(HOME);
+	void flechaAtrasPressed(MouseEvent event) throws IOException {
+		VentanaUtil.abrirVentana(HOME, "Juego Info", STYLES, null, event);
 
 	}
 
@@ -280,36 +283,5 @@ public class JuegoInfoController {
 	 * 
 	 * @param fxml Ventana fxml
 	 */
-	private void abrirNuevaVentana(String fxml) {
-		try {
-			// Obtener el Stage de la ventana principal
-			Stage ventanaPrincipal = (Stage) VentanaPrincipal.getScene().getWindow();
-
-			// Cargar el archivo FXML de la nueva ventana
-			FXMLLoader loader = new FXMLLoader(getClass().getResource(fxml));
-			Pane root = loader.load();
-
-			// Crear una nueva escena con el root cargado
-			Scene scene = new Scene(root);
-			scene.getStylesheets().add(getClass().getResource(STYLES).toExternalForm());
-
-			// Crear un nuevo Stage
-			Stage nuevaVentana = new Stage();
-			nuevaVentana.setScene(scene);
-
-			// Maximizar la ventana
-			nuevaVentana.setMaximized(true);
-			nuevaVentana.setResizable(false);
-			nuevaVentana.initStyle(StageStyle.UNDECORATED);
-
-			// Mostrar la nueva ventana
-			nuevaVentana.show();
-
-			// Cerrar la ventana principal
-			ventanaPrincipal.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
 
 }

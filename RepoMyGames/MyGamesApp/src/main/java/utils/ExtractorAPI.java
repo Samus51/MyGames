@@ -137,119 +137,6 @@ public class ExtractorAPI {
 
 	}
 
-	public static JuegoPachorra buscarJuegoPorNombre(String nombreJuego) {
-		try {
-			// Construir URL de búsqueda
-			String apiUrl = String.format(API_URL_SEARCH, URLEncoder.encode(nombreJuego, "UTF-8"));
-			HttpURLConnection connection = (HttpURLConnection) new URL(apiUrl).openConnection();
-			connection.setRequestMethod("GET");
-
-			if (connection.getResponseCode() != 200) {
-				System.out.println("Error en la conexión: " + connection.getResponseCode());
-				return null;
-			}
-
-			BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-			StringBuilder response = new StringBuilder();
-			String line;
-			while ((line = in.readLine()) != null) {
-				response.append(line);
-			}
-			in.close();
-
-			JSONObject json = new JSONObject(response.toString());
-			JSONArray results = json.optJSONArray("results");
-
-			if (results == null || results.isEmpty()) {
-				System.out.println("No se encontraron resultados.");
-				return new JuegoPachorra("Imagen no disponible", new ArrayList<>(), "No encontrado", "Fecha no disponible", -1,
-						-1, new ArrayList<>(), new ArrayList<>(), -1, "Desconocido", new ArrayList<>(),
-						"Descripción no disponible");
-			}
-
-			JSONObject game = results.getJSONObject(0);
-			int idJuego = game.optInt("id", -1);
-			String titulo = game.optString("name", "No encontrado");
-			String imagenPrincipal = game.optString("background_image", "Imagen no disponible");
-			int metacritic = game.optInt("metacritic", -1);
-			String lanzamiento = game.optString("released", "Fecha no disponible");
-			int playtime = game.optInt("playtime", -1);
-
-			List<String> platforms = new ArrayList<>();
-			JSONArray plataformasArray = game.optJSONArray("platforms");
-			if (plataformasArray != null) {
-				for (int i = 0; i < plataformasArray.length(); i++) {
-					JSONObject obj = plataformasArray.getJSONObject(i).optJSONObject("platform");
-					platforms.add(obj != null ? obj.optString("name", "Desconocido") : "Desconocido");
-				}
-			}
-
-			List<String> capturas = new ArrayList<>();
-			JSONArray capturasArray = game.optJSONArray("short_screenshots");
-			if (capturasArray != null) {
-				for (int i = 0; i < capturasArray.length(); i++) {
-					capturas.add(capturasArray.getJSONObject(i).optString("image", "Desconocido"));
-				}
-			}
-
-			String pegiNormal = "Desconocido";
-			if (game.has("esrb_rating") && game.optJSONObject("esrb_rating") != null) {
-				pegiNormal = game.optJSONObject("esrb_rating").optString("name", "Desconocido");
-			}
-
-			List<String> generos = new ArrayList<>();
-			JSONArray generosArray = game.optJSONArray("genres");
-			if (generosArray != null) {
-				for (int i = 0; i < generosArray.length(); i++) {
-					generos.add(generosArray.getJSONObject(i).optString("name", "Desconocido"));
-				}
-			}
-
-			if (idJuego == -1) {
-				System.out.println("No se pudo obtener el ID del juego.");
-				return new JuegoPachorra(imagenPrincipal, capturas, titulo, lanzamiento, idJuego, metacritic, platforms,
-						generos, playtime, pegiNormal, new ArrayList<>(), "Descripción no disponible");
-			}
-
-			// Obtener detalles del juego con el ID
-			String detailsUrl = String.format(API_URL_GAME_DETAILS, idJuego);
-			connection = (HttpURLConnection) new URL(detailsUrl).openConnection();
-			connection.setRequestMethod("GET");
-
-			if (connection.getResponseCode() != 200) {
-				System.out.println("Error en la conexión: " + connection.getResponseCode());
-				return new JuegoPachorra(imagenPrincipal, capturas, titulo, lanzamiento, idJuego, metacritic, platforms,
-						generos, playtime, pegiNormal, new ArrayList<>(), "Descripción no disponible");
-			}
-
-			in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-			response = new StringBuilder();
-			while ((line = in.readLine()) != null) {
-				response.append(line);
-			}
-			in.close();
-
-			JSONObject gameDetails = new JSONObject(response.toString());
-
-			List<String> devs = new ArrayList<>();
-			JSONArray devsArray = gameDetails.optJSONArray("developers");
-			if (devsArray != null) {
-				for (int i = 0; i < devsArray.length(); i++) {
-					devs.add(devsArray.getJSONObject(i).optString("name", "Desconocido"));
-				}
-			}
-
-			String descripcion = obtenerDescripcionIngles(gameDetails.optString("description", "Descripción no disponible"));
-
-			return new JuegoPachorra(imagenPrincipal, capturas, titulo, lanzamiento, idJuego, metacritic, platforms, generos,
-					playtime, pegiNormal, devs, descripcion);
-
-		} catch (Exception e) {
-			e.printStackTrace();
-			return new JuegoPachorra("Imagen no disponible", new ArrayList<>(), "No encontrado", "Fecha no disponible", -1,
-					-1, new ArrayList<>(), new ArrayList<>(), -1, "Desconocido", new ArrayList<>(), "Descripción no disponible");
-		}
-	}
 
 	// Obtener juegos y sus IDs
 	public static List<JuegoHome> getJuegosIDsYPlataformas(int pages, String modo) {
@@ -343,8 +230,8 @@ public class ExtractorAPI {
 				String name = json.optString("name", "Nombre no disponible");
 				String released = json.optString("released", "Fecha no disponible");
 				String description = json.optString("description", "Descripción no disponible");
-				String descripcionBuena = obtenerDescripcionIngles(description);
-				String descripcionLimpia = limpiarDescripcion(descripcionBuena);
+				String descripcionBuena = ExtractorApi2.obtenerDescripcionIngles(description);
+				String descripcionLimpia = ExtractorApi2.limpiarDescripcion(descripcionBuena);
 				String playtime = json.optString("playtime", "PlayTime no disponible");
 
 				// Obtener géneros
@@ -494,53 +381,6 @@ public class ExtractorAPI {
 		return juegosConImagenes;
 	}
 
-	public static String obtenerDescripcionIngles(String descripcionCompleta) {
-		String descripcionIngles = "";
-		try {
-			// Reemplazar caracteres escapados
-
-			StringBuilder descripcionBuilder = new StringBuilder();
-			String inicioIngles = "<p>";
-			String finIngles = "</p>";
-
-			int inicio = descripcionCompleta.indexOf(inicioIngles);
-			while (inicio != -1) {
-				int fin = descripcionCompleta.indexOf(finIngles, inicio);
-				if (fin != -1) {
-					String parrafo = descripcionCompleta.substring(inicio + inicioIngles.length(), fin).trim();
-					// Agregar cada párrafo de la descripción
-					descripcionBuilder.append(parrafo).append("\n");
-					inicio = descripcionCompleta.indexOf(inicioIngles, fin);
-				} else {
-					inicio = -1;
-				}
-			}
-
-			descripcionIngles = descripcionBuilder.toString().trim();
-			descripcionIngles = descripcionIngles.replace("<br />", "\n");
-
-		} catch (Exception e) {
-			e.printStackTrace();
-			descripcionIngles = "Error al procesar la descripción.";
-		}
-		return descripcionIngles;
-	}
-
-	public static String limpiarDescripcion(String descripcionCompleta) {
-		String descripcionLimpia = "";
-		try {
-			// Reemplazar caracteres escapados
-			descripcionLimpia = descripcionCompleta.replace("\\u003C", "<") // Reemplazar etiquetas abiertas
-					.replace("\\u003E", ">") // Reemplazar etiquetas cerradas
-					.replace("\\n", "\n") // Reemplazar saltos de línea
-					.replace("&#39;", "'") // Reemplazar comillas simples
-					.replace("<br />", "\n"); // Reemplazar etiquetas de salto de línea
-
-		} catch (Exception e) {
-			e.printStackTrace();
-			descripcionLimpia = "Error al procesar la descripción.";
-		}
-		return descripcionLimpia;
-	}
+	
 
 }
