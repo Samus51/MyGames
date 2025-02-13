@@ -666,7 +666,7 @@
                                                       </HBox>
                                                       <Label fx:id="titulo" prefHeight="80.0" prefWidth="378.0" text="Prueba" textFill="WHITE">
                                                          <font>
-                                                            <Font size="18.0" />
+                                                            <Font name="System Bold" size="18.0" />
                                                          </font>
                                                       </Label>
                                                    </children>
@@ -694,7 +694,10 @@
                                                             <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" />
                                                          </children>
                                                       </HBox>
-                                                      <Label prefHeight="80.0" prefWidth="378.0" text="Label" />
+                                                      <Label prefHeight="80.0" prefWidth="378.0" text="Label">
+                                                         <font>
+                                                            <Font name="System Bold" size="18.0" />
+                                                         </font></Label>
                                                    </children>
                                                 </VBox>
                                              </children>
@@ -723,7 +726,10 @@
                                                             <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" />
                                                          </children>
                                                       </HBox>
-                                                      <Label prefHeight="80.0" prefWidth="378.0" text="Label" />
+                                                      <Label prefHeight="80.0" prefWidth="378.0" text="Label">
+                                                         <font>
+                                                            <Font name="System Bold" size="18.0" />
+                                                         </font></Label>
                                                    </children>
                                                 </VBox>
                                              </children>
@@ -752,7 +758,10 @@
                                                             <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" />
                                                          </children>
                                                       </HBox>
-                                                      <Label prefHeight="80.0" prefWidth="378.0" text="Label" />
+                                                      <Label prefHeight="80.0" prefWidth="378.0" text="Label">
+                                                         <font>
+                                                            <Font name="System Bold" size="18.0" />
+                                                         </font></Label>
                                                    </children>
                                                 </VBox>
                                              </children>
@@ -781,7 +790,10 @@
                                                             <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" />
                                                          </children>
                                                       </HBox>
-                                                      <Label prefHeight="80.0" prefWidth="378.0" text="Label" />
+                                                      <Label prefHeight="80.0" prefWidth="378.0" text="Label">
+                                                         <font>
+                                                            <Font size="18.0" />
+                                                         </font></Label>
                                                    </children>
                                                 </VBox>
                                              </children>
@@ -810,7 +822,10 @@
                                                             <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" />
                                                          </children>
                                                       </HBox>
-                                                      <Label prefHeight="80.0" prefWidth="378.0" text="Label" />
+                                                      <Label prefHeight="80.0" prefWidth="378.0" text="Label">
+                                                         <font>
+                                                            <Font size="18.0" />
+                                                         </font></Label>
                                                    </children>
                                                 </VBox>
                                              </children>
@@ -839,7 +854,10 @@
                                                             <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" />
                                                          </children>
                                                       </HBox>
-                                                      <Label prefHeight="80.0" prefWidth="378.0" text="Label" />
+                                                      <Label prefHeight="80.0" prefWidth="378.0" text="Label">
+                                                         <font>
+                                                            <Font size="18.0" />
+                                                         </font></Label>
                                                    </children>
                                                 </VBox>
                                              </children>
@@ -868,7 +886,10 @@
                                                             <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" />
                                                          </children>
                                                       </HBox>
-                                                      <Label prefHeight="80.0" prefWidth="378.0" text="Label" />
+                                                      <Label prefHeight="80.0" prefWidth="378.0" text="Label">
+                                                         <font>
+                                                            <Font size="18.0" />
+                                                         </font></Label>
                                                    </children>
                                                 </VBox>
                                              </children>
@@ -897,7 +918,10 @@
                                                             <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" />
                                                          </children>
                                                       </HBox>
-                                                      <Label prefHeight="80.0" prefWidth="378.0" text="Label" />
+                                                      <Label prefHeight="80.0" prefWidth="378.0" text="Label">
+                                                         <font>
+                                                            <Font size="18.0" />
+                                                         </font></Label>
                                                    </children>
                                                 </VBox>
                                              </children>
@@ -942,7 +966,10 @@
                                                             <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" />
                                                          </children>
                                                       </HBox>
-                                                      <Label prefHeight="80.0" prefWidth="378.0" text="Label" />
+                                                      <Label prefHeight="80.0" prefWidth="378.0" text="Label">
+                                                         <font>
+                                                            <Font name="System Bold" size="18.0" />
+                                                         </font></Label>
                                                    </children>
                                                 </VBox>
                                              </children>
@@ -965,7 +992,10 @@
                                                             <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" />
                                                          </children>
                                                       </HBox>
-                                                      <Label prefHeight="80.0" prefWidth="378.0" text="Label" />
+                                                      <Label prefHeight="80.0" prefWidth="378.0" text="Label">
+                                                         <font>
+                                                            <Font name="System Bold" size="18.0" />
+                                                         </font></Label>
                                                    </children>
                                                 </VBox>
                                              </children>
@@ -988,7 +1018,10 @@
                                                             <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" />
                                                          </children>
                                                       </HBox>
-                                                      <Label prefHeight="80.0" prefWidth="378.0" text="Label" />
+                                                      <Label prefHeight="80.0" prefWidth="378.0" text="Label">
+                                                         <font>
+                                                            <Font name="System Bold" size="18.0" />
+                                                         </font></Label>
                                                    </children>
                                                 </VBox>
                                              </children>
@@ -1011,7 +1044,10 @@
                                                             <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" />
                                                          </children>
                                                       </HBox>
-                                                      <Label prefHeight="80.0" prefWidth="378.0" text="Label" />
+                                                      <Label prefHeight="80.0" prefWidth="378.0" text="Label">
+                                                         <font>
+                                                            <Font name="System Bold" size="18.0" />
+                                                         </font></Label>
                                                    </children>
                                                 </VBox>
                                              </children>
@@ -1034,7 +1070,10 @@
                                                             <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" />
                                                          </children>
                                                       </HBox>
-                                                      <Label prefHeight="80.0" prefWidth="378.0" text="Label" />
+                                                      <Label prefHeight="80.0" prefWidth="378.0" text="Label">
+                                                         <font>
+                                                            <Font size="18.0" />
+                                                         </font></Label>
                                                    </children>
                                                 </VBox>
                                              </children>
@@ -1057,7 +1096,10 @@
                                                             <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" />
                                                          </children>
                                                       </HBox>
-                                                      <Label prefHeight="80.0" prefWidth="378.0" text="Label" />
+                                                      <Label prefHeight="80.0" prefWidth="378.0" text="Label">
+                                                         <font>
+                                                            <Font size="18.0" />
+                                                         </font></Label>
                                                    </children>
                                                 </VBox>
                                              </children>
@@ -1080,7 +1122,10 @@
                                                             <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" />
                                                          </children>
                                                       </HBox>
-                                                      <Label prefHeight="80.0" prefWidth="378.0" text="Label" />
+                                                      <Label prefHeight="80.0" prefWidth="378.0" text="Label">
+                                                         <font>
+                                                            <Font size="18.0" />
+                                                         </font></Label>
                                                    </children>
                                                 </VBox>
                                              </children>
@@ -1103,7 +1148,10 @@
                                                             <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" />
                                                          </children>
                                                       </HBox>
-                                                      <Label prefHeight="80.0" prefWidth="378.0" text="Label" />
+                                                      <Label prefHeight="80.0" prefWidth="378.0" text="Label">
+                                                         <font>
+                                                            <Font size="18.0" />
+                                                         </font></Label>
                                                    </children>
                                                 </VBox>
                                              </children>
@@ -1126,7 +1174,10 @@
                                                             <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" />
                                                          </children>
                                                       </HBox>
-                                                      <Label prefHeight="80.0" prefWidth="378.0" text="Label" />
+                                                      <Label prefHeight="80.0" prefWidth="378.0" text="Label">
+                                                         <font>
+                                                            <Font size="18.0" />
+                                                         </font></Label>
                                                    </children>
                                                 </VBox>
                                              </children>
@@ -1165,7 +1216,10 @@
                                                             <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" />
                                                          </children>
                                                       </HBox>
-                                                      <Label prefHeight="80.0" prefWidth="378.0" text="Label" />
+                                                      <Label prefHeight="80.0" prefWidth="378.0" text="Label">
+                                                         <font>
+                                                            <Font size="18.0" />
+                                                         </font></Label>
                                                    </children>
                                                 </VBox>
                                              </children>
@@ -1188,7 +1242,10 @@
                                                             <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" />
                                                          </children>
                                                       </HBox>
-                                                      <Label prefHeight="80.0" prefWidth="378.0" text="Label" />
+                                                      <Label prefHeight="80.0" prefWidth="378.0" text="Label">
+                                                         <font>
+                                                            <Font size="18.0" />
+                                                         </font></Label>
                                                    </children>
                                                 </VBox>
                                              </children>
@@ -1211,7 +1268,10 @@
                                                             <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" />
                                                          </children>
                                                       </HBox>
-                                                      <Label prefHeight="80.0" prefWidth="378.0" text="Label" />
+                                                      <Label prefHeight="80.0" prefWidth="378.0" text="Label">
+                                                         <font>
+                                                            <Font size="18.0" />
+                                                         </font></Label>
                                                    </children>
                                                 </VBox>
                                              </children>
@@ -1234,7 +1294,10 @@
                                                             <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" />
                                                          </children>
                                                       </HBox>
-                                                      <Label prefHeight="80.0" prefWidth="378.0" text="Label" />
+                                                      <Label prefHeight="80.0" prefWidth="378.0" text="Label">
+                                                         <font>
+                                                            <Font size="18.0" />
+                                                         </font></Label>
                                                    </children>
                                                 </VBox>
                                              </children>
@@ -1257,7 +1320,10 @@
                                                             <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" />
                                                          </children>
                                                       </HBox>
-                                                      <Label prefHeight="80.0" prefWidth="378.0" text="Label" />
+                                                      <Label prefHeight="80.0" prefWidth="378.0" text="Label">
+                                                         <font>
+                                                            <Font size="18.0" />
+                                                         </font></Label>
                                                    </children>
                                                 </VBox>
                                              </children>
@@ -1280,7 +1346,10 @@
                                                             <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" />
                                                          </children>
                                                       </HBox>
-                                                      <Label prefHeight="80.0" prefWidth="378.0" text="Label" />
+                                                      <Label prefHeight="80.0" prefWidth="378.0" text="Label">
+                                                         <font>
+                                                            <Font size="18.0" />
+                                                         </font></Label>
                                                    </children>
                                                 </VBox>
                                              </children>
@@ -1303,7 +1372,10 @@
                                                             <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" />
                                                          </children>
                                                       </HBox>
-                                                      <Label prefHeight="80.0" prefWidth="378.0" text="Label" />
+                                                      <Label prefHeight="80.0" prefWidth="378.0" text="Label">
+                                                         <font>
+                                                            <Font size="18.0" />
+                                                         </font></Label>
                                                    </children>
                                                 </VBox>
                                              </children>
@@ -1326,7 +1398,10 @@
                                                             <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" />
                                                          </children>
                                                       </HBox>
-                                                      <Label prefHeight="80.0" prefWidth="378.0" text="Label" />
+                                                      <Label prefHeight="80.0" prefWidth="378.0" text="Label">
+                                                         <font>
+                                                            <Font size="18.0" />
+                                                         </font></Label>
                                                    </children>
                                                 </VBox>
                                              </children>
@@ -1349,7 +1424,10 @@
                                                             <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" />
                                                          </children>
                                                       </HBox>
-                                                      <Label prefHeight="80.0" prefWidth="378.0" text="Label" />
+                                                      <Label prefHeight="80.0" prefWidth="378.0" text="Label">
+                                                         <font>
+                                                            <Font size="18.0" />
+                                                         </font></Label>
                                                    </children>
                                                 </VBox>
                                              </children>
@@ -1388,7 +1466,10 @@
                                                             <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" />
                                                          </children>
                                                       </HBox>
-                                                      <Label prefHeight="80.0" prefWidth="378.0" text="Label" />
+                                                      <Label prefHeight="80.0" prefWidth="378.0" text="Label">
+                                                         <font>
+                                                            <Font size="18.0" />
+                                                         </font></Label>
                                                    </children>
                                                 </VBox>
                                              </children>
@@ -1411,7 +1492,10 @@
                                                             <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" />
                                                          </children>
                                                       </HBox>
-                                                      <Label prefHeight="80.0" prefWidth="378.0" text="Label" />
+                                                      <Label prefHeight="80.0" prefWidth="378.0" text="Label">
+                                                         <font>
+                                                            <Font size="18.0" />
+                                                         </font></Label>
                                                    </children>
                                                 </VBox>
                                              </children>
@@ -1434,7 +1518,10 @@
                                                             <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" />
                                                          </children>
                                                       </HBox>
-                                                      <Label prefHeight="80.0" prefWidth="378.0" text="Label" />
+                                                      <Label prefHeight="80.0" prefWidth="378.0" text="Label">
+                                                         <font>
+                                                            <Font size="18.0" />
+                                                         </font></Label>
                                                    </children>
                                                 </VBox>
                                              </children>
@@ -1457,7 +1544,10 @@
                                                             <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" />
                                                          </children>
                                                       </HBox>
-                                                      <Label prefHeight="80.0" prefWidth="378.0" text="Label" />
+                                                      <Label prefHeight="80.0" prefWidth="378.0" text="Label">
+                                                         <font>
+                                                            <Font size="18.0" />
+                                                         </font></Label>
                                                    </children>
                                                 </VBox>
                                              </children>
@@ -1480,7 +1570,10 @@
                                                             <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" />
                                                          </children>
                                                       </HBox>
-                                                      <Label prefHeight="80.0" prefWidth="378.0" text="Label" />
+                                                      <Label prefHeight="80.0" prefWidth="378.0" text="Label">
+                                                         <font>
+                                                            <Font size="18.0" />
+                                                         </font></Label>
                                                    </children>
                                                 </VBox>
                                              </children>
@@ -1503,7 +1596,10 @@
                                                             <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" />
                                                          </children>
                                                       </HBox>
-                                                      <Label prefHeight="80.0" prefWidth="378.0" text="Label" />
+                                                      <Label prefHeight="80.0" prefWidth="378.0" text="Label">
+                                                         <font>
+                                                            <Font size="18.0" />
+                                                         </font></Label>
                                                    </children>
                                                 </VBox>
                                              </children>
@@ -1526,7 +1622,10 @@
                                                             <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" />
                                                          </children>
                                                       </HBox>
-                                                      <Label prefHeight="80.0" prefWidth="378.0" text="Label" />
+                                                      <Label prefHeight="80.0" prefWidth="378.0" text="Label">
+                                                         <font>
+                                                            <Font size="18.0" />
+                                                         </font></Label>
                                                    </children>
                                                 </VBox>
                                              </children>
@@ -1549,7 +1648,10 @@
                                                             <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" />
                                                          </children>
                                                       </HBox>
-                                                      <Label prefHeight="80.0" prefWidth="378.0" text="Label" />
+                                                      <Label prefHeight="80.0" prefWidth="378.0" text="Label">
+                                                         <font>
+                                                            <Font size="18.0" />
+                                                         </font></Label>
                                                    </children>
                                                 </VBox>
                                              </children>

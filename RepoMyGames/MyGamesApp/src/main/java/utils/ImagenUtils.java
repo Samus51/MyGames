@@ -10,6 +10,8 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import models.JuegoHome;
 
 public class ImagenUtils {
@@ -161,7 +163,12 @@ public class ImagenUtils {
 
 									// Asignar el título del juego
 									tituloLabel.setText(juego.getTitulo());
+
+									// Aplicar tamaño 18 y negrita
+									tituloLabel
+											.setFont(Font.font(tituloLabel.getFont().getFamily(), FontWeight.BOLD, 18));
 								}
+
 							}
 						}
 					}

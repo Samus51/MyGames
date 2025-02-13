@@ -5,13 +5,14 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Arrays;
+
+import org.mindrot.jbcrypt.BCrypt;
 
 import javafx.animation.ScaleTransition;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
-import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -21,246 +22,191 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.Pane;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 import javafx.util.Duration;
 import jdbc.Conector;
+import models.Usuario;
+import utils.VentanaUtil;
 
 /**
  * Controlador de Login
  */
 public class LoginController {
 
-  // Constantes
-  // SQL
-  private static final String SQL_USUARIO = "Select * from usuarios where nombre = ? and contrasena = ?";
-  // Styles
-  private static final String STYLES = "/styles.css";
-  // Pantallas
-  private static final String REGISTRO = "/views/Registro.fxml";
-  private static final String RECUPERAR_CONTRASENA = "/views/RecuperarContrasena.fxml";
-  private static final String HOME = "/views/Home.fxml";
-  // Fotos
-  private static final String OJO_NEGRO = "/ojoNegro.png";
-  private static final String OJO_NEGRO_TACHADO = "/ojoNegroTachado.png";
+	// Constantes
+	// SQL
+	private static final String SQL_USUARIO = "Select * from usuarios where nombre = ?";
+	// Styles
+	private static final String STYLES = "/styles.css";
+	// Pantallas
+	private static final String REGISTRO = "/views/Registro.fxml";
+	private static final String RECUPERAR_CONTRASENA = "/views/RecuperarContrasena.fxml";
+	private static final String HOME = "/views/Home.fxml";
+	// Fotos
+	private static final String OJO_NEGRO = "/ojoNegro.png";
+	private static final String OJO_NEGRO_TACHADO = "/ojoNegroTachado.png";
 
-  @FXML
-  private BorderPane VentanaPrincipal;
+	@FXML
+	private BorderPane VentanaPrincipal, panelLogo;
 
-  @FXML
-  private Button btnLogin;
+	@FXML
+	private Button btnLogin, btnOjoPassword;
 
-  @FXML
-  private Button btnOjoPassword;
+	@FXML
+	private ImageView imgClose, imgLogo, imgMinimizar, imgOjoPassword, cargando;
 
-  @FXML
-  private ImageView imgClose;
+	@FXML
+	private Label lblCrearCuenta, lblUser, lblUser1;
 
-  @FXML
-  private ImageView imgLogo;
+	@FXML
+	private Circle logoClip;
 
-  @FXML
-  private ImageView imgMinimizar;
+	@FXML
+	private TextField txtPassword, txtPasswordLimpio, txtUsuario;
 
-  @FXML
-  private ImageView imgOjoPassword;
+	@FXML
+	private PasswordField txtPasswordOculto;
 
-  @FXML
-  private Label lblCrearCuenta;
+	private boolean esPasswordVisible = false;
 
-  @FXML
-  private Label lblUser;
+	@FXML
+	void initialize() {
+		addZoomEffect(imgLogo);
+		cargando.setVisible(false);
+	}
 
-  @FXML
-  private Label lblUser1;
+	@FXML
+	void btnLoginPressed(MouseEvent event) {
+		String user = txtUsuario.getText();
+		String password = txtPassword.getText().isEmpty() ? txtPasswordOculto.getText() : txtPassword.getText();
 
-  @FXML
-  private Circle logoClip;
+		Connection cone = Conector.conectar();
+		try (PreparedStatement st = cone.prepareStatement(SQL_USUARIO)) {
+			st.setString(1, user);
 
-  @FXML
-  private BorderPane panelLogo;
+			ResultSet rs = st.executeQuery();
 
-  @FXML
-  private ImageView cargando;
+			if (rs.next()) {
+				String storedHash = rs.getString("contrasena");
 
-  @FXML
-  private TextField txtPassword;
+				// Comparar la contraseña ingresada con el hash almacenado
+				if (BCrypt.checkpw(password, storedHash)) {
+					int id = rs.getInt("id_usuario");
+					Usuario usuario = new Usuario(rs.getInt("id_usuario"), rs.getString("nombre"),
+							rs.getString("email"), storedHash, Arrays.asList(rs.getString("generos").split(",")));
 
-  @FXML
-  private TextField txtPasswordLimpio;
+					btnLogin.setText("");
+					cargando.setVisible(true);
+					btnLogin.setDisable(true);
 
-  @FXML
-  private PasswordField txtPasswordOculto;
+					Task<Void> task = new Task<Void>() {
+						protected Void call() throws Exception {
+							Thread.sleep(5000);
+							return null;
+						}
 
-  @FXML
-  private TextField txtUsuario;
+						protected void succeeded() {
+							try {
+								VentanaUtil.abrirVentanaHome(HOME, "Home", STYLES, usuario, event);
+								String insertBibliotecaSQL = "INSERT INTO biblioteca (id_usuario) VALUES (?)";
+								try (PreparedStatement st2 = cone.prepareStatement(insertBibliotecaSQL)) {
+									st2.setInt(1, id);
+									st2.executeUpdate();
+								} catch (SQLException e) {
+									// TODO Auto-generated catch block
+									e.printStackTrace();
+								}
 
-  private boolean esPasswordVisible = false;
+								System.out.println(usuario.toString());
+							} catch (IOException e) {
+								e.printStackTrace();
+							}
+						}
 
-  @FXML
-  void initialize() {
-    addZoomEffect(imgLogo);
-    cargando.setVisible(false);
-  }
+						protected void failed() {
+							mostrarError("Hubo un error al procesar la solicitud.");
+						}
+					};
+					new Thread(task).start();
+				} else {
+					mostrarError("Usuario o contraseña incorrectos");
+				}
+			} else {
+				mostrarError("Usuario o contraseña incorrectos");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
 
-  @FXML
-  void btnLoginPressed(MouseEvent event) {
-    String user = txtUsuario.getText();
-    String password = txtPassword.getText().isEmpty() ? txtPasswordOculto.getText() : txtPassword.getText();
+	@FXML
+	private void mostrarPassword() {
+		// Cambiar la visibilidad de los campos
+		esPasswordVisible = !esPasswordVisible;
 
-    Connection cone = Conector.conectar();
-    try (PreparedStatement st = cone.prepareStatement(SQL_USUARIO)) {
-      st.setString(1, user);
-      st.setString(2, password);
+		if (esPasswordVisible) {
+			txtPasswordOculto.setVisible(false);
+			txtPassword.setVisible(true);
+			txtPassword.setText(txtPasswordOculto.getText());
+			imgOjoPassword.setImage(new Image(getClass().getResourceAsStream(OJO_NEGRO_TACHADO)));
+		} else {
+			txtPasswordOculto.setVisible(true);
+			txtPassword.setVisible(false);
+			txtPasswordOculto.setText(txtPassword.getText());
+			imgOjoPassword.setImage(new Image(getClass().getResourceAsStream(OJO_NEGRO)));
+		}
+	}
 
-      ResultSet rs = st.executeQuery();
+	@FXML
+	void crearCuentaPressed(MouseEvent event) throws IOException {
+		VentanaUtil.abrirVentana(REGISTRO, "Registro", STYLES, null, event);
+	}
 
-      if (rs.next()) {
-        // Ocultar el texto del botón y mostrar el GIF de carga
-        btnLogin.setText("");
-        cargando.setVisible(true);
-        btnLogin.setDisable(true);
+	@FXML
+	void minimizarPressed(MouseEvent event) {
+		Stage ventanaPrincipal = (Stage) ((Node) event.getSource()).getScene().getWindow();
+		ventanaPrincipal.setIconified(true);
+	}
 
-        // Usamos un Task para hacer el proceso en un hilo secundario y evitar congelar
-        // la UI
-        Task<Void> task = new Task<Void>() {
-          protected Void call() throws Exception {
-            Thread.sleep(5000);
-            return null;
-          }
+	@FXML
+	void cerrarPressed(MouseEvent event) {
+		Stage ventanaPrincipal = (Stage) ((Node) event.getSource()).getScene().getWindow();
+		ventanaPrincipal.close();
+	}
 
-          protected void succeeded() {
-            // Llamamos a este método cuando el Task se complete con éxito
-            abrirNuevaVentana(HOME);
-          }
+	@FXML
+	void lblRecuperarContrasenaPressed(MouseEvent event) throws IOException {
+		VentanaUtil.abrirVentana(RECUPERAR_CONTRASENA, "Recuperar Contraseña", STYLES, null, event);
+	}
 
-          protected void failed() {
-            // Si ocurre algún error durante el Task, restablecer la UI
-            Alert alerta = new Alert(Alert.AlertType.ERROR);
-            alerta.setTitle("Login");
-            alerta.setContentText("Hubo un error al procesar la solicitud.");
-            alerta.setHeaderText("Error de Login");
-            alerta.showAndWait();
+	// Método para agregar efecto de zoom a un ImageView
+	private void addZoomEffect(ImageView imageView) {
+		imageView.setOnMouseEntered(event -> {
+			ScaleTransition zoomIn = new ScaleTransition(Duration.millis(200), imageView);
+			zoomIn.setToX(1.2);
+			zoomIn.setToY(1.2);
+			zoomIn.play();
+		});
 
-            // Restaurar la UI
-            btnLogin.setText("Iniciar sesión");
-            cargando.setVisible(false);
-            btnLogin.setDisable(false);
-          }
-        };
-        // Ejecutar el Task en un hilo secundario
-        new Thread(task).start();
-      } else {
-        // Si el login es incorrecto, mostrar un mensaje de error
-        Alert alerta = new Alert(Alert.AlertType.ERROR);
-        alerta.setTitle("Login");
-        alerta.setContentText("Usuario o contraseña incorrectos");
-        alerta.setHeaderText("Error de Login");
-        alerta.showAndWait();
+		imageView.setOnMouseExited(event -> {
+			ScaleTransition zoomOut = new ScaleTransition(Duration.millis(200), imageView);
+			zoomOut.setToX(1.0);
+			zoomOut.setToY(1.0);
+			zoomOut.play();
+		});
+	}
 
-        // Restaurar la UI en caso de error
-        btnLogin.setText("Iniciar sesión");
-        cargando.setVisible(false);
-        btnLogin.setDisable(false);
-      }
-    } catch (SQLException e) {
-      e.printStackTrace();
-    }
-  }
+	private void mostrarError(String mensaje) {
+		Alert alerta = new Alert(Alert.AlertType.ERROR);
+		alerta.setTitle("Login");
+		alerta.setContentText(mensaje);
+		alerta.setHeaderText("Error de Login");
+		alerta.showAndWait();
 
-  @FXML
-  private void mostrarPassword() {
-    // Cambiar la visibilidad de los campos
-    esPasswordVisible = !esPasswordVisible;
+		btnLogin.setText("Iniciar sesión");
+		cargando.setVisible(false);
+		btnLogin.setDisable(false);
+	}
 
-    if (esPasswordVisible) {
-      txtPasswordOculto.setVisible(false);
-      txtPassword.setVisible(true);
-      txtPassword.setText(txtPasswordOculto.getText());
-      imgOjoPassword.setImage(new Image(getClass().getResourceAsStream(OJO_NEGRO_TACHADO)));
-    } else {
-      txtPasswordOculto.setVisible(true);
-      txtPassword.setVisible(false);
-      txtPasswordOculto.setText(txtPassword.getText());
-      imgOjoPassword.setImage(new Image(getClass().getResourceAsStream(OJO_NEGRO)));
-    }
-  }
-
-  @FXML
-  void crearCuentaPressed(MouseEvent event) {
-    abrirNuevaVentana(REGISTRO);
-  }
-
-  @FXML
-  void minimizarPressed(MouseEvent event) {
-    Stage ventanaPrincipal = (Stage) ((Node) event.getSource()).getScene().getWindow();
-    ventanaPrincipal.setIconified(true);
-  }
-
-  @FXML
-  void cerrarPressed(MouseEvent event) {
-    Stage ventanaPrincipal = (Stage) ((Node) event.getSource()).getScene().getWindow();
-    ventanaPrincipal.close();
-  }
-
-  @FXML
-  void lblRecuperarContrasenaPressed(MouseEvent event) {
-    abrirNuevaVentana(RECUPERAR_CONTRASENA);
-  }
-
-  // Método para agregar efecto de zoom a un ImageView
-  private void addZoomEffect(ImageView imageView) {
-    imageView.setOnMouseEntered(event -> {
-      ScaleTransition zoomIn = new ScaleTransition(Duration.millis(200), imageView);
-      zoomIn.setToX(1.2);
-      zoomIn.setToY(1.2);
-      zoomIn.play();
-    });
-
-    imageView.setOnMouseExited(event -> {
-      ScaleTransition zoomOut = new ScaleTransition(Duration.millis(200), imageView);
-      zoomOut.setToX(1.0);
-      zoomOut.setToY(1.0);
-      zoomOut.play();
-    });
-  }
-
-  /**
-   * Metodo para abrir una nueva ventana y cerrar la actual
-   * 
-   * @param fxml Ventana fxml
-   */
-  private void abrirNuevaVentana(String fxml) {
-    try {
-      // Obtener el Stage de la ventana principal
-      Stage ventanaPrincipal = (Stage) VentanaPrincipal.getScene().getWindow();
-
-      // Cargar el archivo FXML de la nueva ventana
-      FXMLLoader loader = new FXMLLoader(getClass().getResource(fxml));
-      Pane root = loader.load();
-
-      // Crear una nueva escena con el root cargado
-      Scene scene = new Scene(root);
-      scene.getStylesheets().add(getClass().getResource(STYLES).toExternalForm());
-
-      // Crear un nuevo Stage
-      Stage nuevaVentana = new Stage();
-      nuevaVentana.setScene(scene);
-
-      // Maximizar la ventana
-      nuevaVentana.setMaximized(true);
-      nuevaVentana.setResizable(false);
-      nuevaVentana.initStyle(StageStyle.UNDECORATED);
-
-      // Mostrar la nueva ventana
-      nuevaVentana.show();
-
-      // Cerrar la ventana principal
-      ventanaPrincipal.close();
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
-  }
 }

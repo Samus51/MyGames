@@ -46,7 +46,8 @@ public class RegistroController {
 	// Constantes
 	// SQL
 	private static final String SQL_USUARIO_COMPROBACION = "Select * from usuarios where email = ?";
-	private static final String SQL_USUARIO_INSERT = "INSERT INTO usuarios (nombre,email,fecha_registro,contrasena) values (?,?,?,?)";
+	private static final String SQL_USUARIO_INSERT = "INSERT INTO usuarios (nombre, email, fecha_registro, contrasena, codigo_seguridad, generos) "
+			+ "VALUES (?, ?, ?, ?, ?, ?)";
 	// Correo
 	private static final String EMAIL_FROM = "soportemygames@gmail.com";
 	private static String PASSWORD_FROM = "cmol lytj vnub uanm";
@@ -122,6 +123,42 @@ public class RegistroController {
 		}
 	}
 
+	private boolean crearUsuario(String userName, String email, String contrasena, List<String> generosPreferidos) {
+		Connection cone = Conector.conectar();
+		try (PreparedStatement st = cone.prepareStatement(SQL_USUARIO_COMPROBACION);
+				PreparedStatement st2 = cone.prepareStatement(SQL_USUARIO_INSERT,
+						PreparedStatement.RETURN_GENERATED_KEYS)) {
+
+			// Comprobar si el usuario ya existe
+			st.setString(1, email);
+			ResultSet rs = st.executeQuery();
+			if (rs.next()) {
+				return false; // Usuario ya existe
+			}
+
+			// Insertar el usuario
+			st2.setString(1, userName);
+			st2.setString(2, email);
+			st2.setDate(3, new Date(System.currentTimeMillis()));
+			st2.setString(4, contrasena);
+			st2.setString(5, "");
+
+			// Concatenar géneros en una sola cadena
+			String generosStr = String.join(",", generosPreferidos);
+			st2.setString(6, generosStr);
+
+			int result = st2.executeUpdate();
+			if (result == 1) {
+				return true; // Usuario creado con éxito
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return false; // En caso de error
+	}
+
 	@FXML
 	public void initialize() {
 		// Crear la lista de géneros
@@ -137,136 +174,38 @@ public class RegistroController {
 	}
 
 	@FXML
-	/**
-	 * Método para cuando se pulse crear cuenta
-	 * 
-	 * @param event
-	 */
-	void btnCrearCuentaPressed(MouseEvent event) throws IOException {
+	void btnCrearCuentaPressed(MouseEvent event) throws IOException, MessagingException {
 		String userName = txtUser.getText();
 		String email = txtEmail.getText();
-		String contrasena;
-		String contrasenaConfirmacion;
+		String contrasena = txtPassword.getText();
+		String contrasenaConfirmacion = txtConfirmarPassword.getText();
 
-		if (!email.matches("^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$")) {
-			Alert alert = new Alert(AlertType.WARNING);
-			alert.setTitle("Creacion de usuario");
-			alert.setHeaderText("Error de formato de email");
-			alert.setContentText("El formato de email no es válido. Email válido (email@example.com)");
-			alert.showAndWait();
+		if (VentanaUtil.validarDatos(email, contrasena, contrasenaConfirmacion, getListGeneros())) {
+			List<String> generosPreferidos = getListGeneros();
 
-		}
-
-		if (txtPassword.getText().isEmpty()) {
-			contrasena = txtPasswordOculto.getText();
-		} else {
-			contrasena = txtPassword.getText();
-		}
-
-		if (txtConfirmarPassword.getText().isEmpty()) {
-			contrasenaConfirmacion = txtConfirmarPasswordOculto.getText();
-		} else {
-			contrasenaConfirmacion = txtConfirmarPassword.getText();
-		}
-
-		if (!contrasena.equals(contrasenaConfirmacion)) {
-			Alert alert = new Alert(AlertType.WARNING);
-			alert.setTitle("Creación de usuario");
-			alert.setHeaderText("Error de contraseña");
-			alert.setContentText("La contraseña no coincide con la de confirmacion.");
-			alert.showAndWait();
-			return;
-		}
-
-		if (!contrasena.matches("^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)(?=.*[@$!%*?&_])[A-Za-z\\d@$!%*?&_]{8,}$")) {
-			Alert alert = new Alert(AlertType.WARNING);
-			alert.setTitle("Creación de usuario");
-			alert.setHeaderText("Error de formato de contraseña");
-			alert.setContentText(
-					"La contraseña debe tener al menos 8 caracteres, incluir una letra mayúscula, una minúscula, un número y un carácter especial.");
-			alert.showAndWait();
-			return;
-		}
-
-		List<String> generosPreferidos = getListGeneros();
-
-		if (generosPreferidos == null || generosPreferidos.size() == 0) {
-			Alert alert = new Alert(AlertType.WARNING);
-			alert.setTitle("Selección de géneros favoritos");
-			alert.setHeaderText("Ningun genero fue seleccionado");
-			alert.setContentText("Debe seleccionar al menos 1 genero favorito.");
-			alert.showAndWait();
-			return;
-		}
-		List<Integer> generosIds = getGenerosIdsByNames(generosPreferidos);
-
-		Connection cone = Conector.conectar();
-		try (PreparedStatement st = cone.prepareStatement(SQL_USUARIO_COMPROBACION);
-				PreparedStatement st2 = cone.prepareStatement(SQL_USUARIO_INSERT,
-						PreparedStatement.RETURN_GENERATED_KEYS)) {
-			st.setString(1, email);
-			ResultSet rs = st.executeQuery();
-
-			if (rs.next()) {
-				Alert alert = new Alert(AlertType.ERROR);
-				alert.setTitle("Error al crear usuario");
-				alert.setHeaderText("Creación de Usuario errónea");
-				alert.setContentText("El usuario que quiere crear ya existe.");
-				alert.showAndWait();
+			// Hash de la contraseña
+			String contrasenaHash = null;
+			try {
+				contrasenaHash = VentanaUtil.hashPassword(contrasena);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
 
-			st2.setString(1, userName);
-			st2.setString(2, email);
-			st2.setDate(3, new Date(System.currentTimeMillis()));
-			st2.setString(4, contrasena);
+			// Crear el usuario con el hash de la contraseña
+			crearUsuario(userName, email, contrasenaHash, generosPreferidos);
 
-			int rs2 = st2.executeUpdate();
-			if (rs2 == 1) {
-				ResultSet rsId = st2.getGeneratedKeys();
-				int idUsuario = -1;
-				if (rsId.next()) {
-					idUsuario = rsId.getInt(1);
-				}
+			Alert alert = new Alert(AlertType.INFORMATION);
+			alert.setTitle("Usuario Creado");
+			alert.setHeaderText("Creación de Usuario con éxito");
+			alert.setContentText("El usuario ha sido creado correctamente.");
+			alert.showAndWait();
+			flechaAtrasPressed(event);
+			String subject = "Creación de Cuenta";
 
-				String sqlInsertGeneroFavorito = "INSERT INTO generos_favoritos (id_usuario, id_genero) VALUES (?, ?)";
-				try (PreparedStatement stGenero = cone.prepareStatement(sqlInsertGeneroFavorito)) {
-					for (Integer generoId : generosIds) {
-						stGenero.setInt(1, idUsuario);
-						stGenero.setInt(2, generoId);
-						stGenero.executeUpdate();
-					}
-				}
-
-				Alert alert = new Alert(AlertType.INFORMATION);
-				alert.setTitle("Usuario Creado");
-				alert.setHeaderText("Creación de Usuario con éxito");
-				alert.setContentText("El usuario ha sido creado correctamente.");
-				alert.showAndWait();
-				flechaAtrasPressed(event);
-				String subject = "Creación de Cuenta";
-				// Construir el mensaje HTML
-				String content = "<html>"
-						+ "<body style='font-family: Arial, sans-serif; background-color: #f4f7fc; text-align: center; padding: 30px;'>"
-						+ "<div style='background-color: #ffffff; padding: 40px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); max-width: 600px; margin: 0 auto;'>"
-						+ "<h1 style='color: #333; font-size: 26px; margin-bottom: 20px;'>¡Bienvenido a MyGames!</h1>"
-						+ "<img src='https://raw.githubusercontent.com/Samus51/MyGames/main/LogoMyGames.png' "
-						+ "alt='Logo MyGames' style='width: 250px; height: auto; margin: 20px auto; display: block;'>"
-						+ "<p style='font-size: 18px; color: #555; margin-top: 20px;'>Hola <strong style='color: #4CAF50;'>"
-						+ userName + "</strong>,</p>"
-						+ "<p style='font-size: 16px; color: #555;'>Tu cuenta ha sido creada exitosamente. Ahora puedes acceder y disfrutar de todo lo que MyGames tiene para ofrecerte.</p>"
-						+ "<p style='font-size: 16px; color: #555; margin-top: 20px;'>¡Estamos emocionados de tenerte en nuestra comunidad de jugadores!</p>"
-						+ "<p style='font-size: 14px; color: #888; margin-top: 20px;'>Si tienes alguna pregunta, no dudes en contactarnos. ¡Gracias por unirte a nuestra comunidad!</p>"
-						+ "<hr style='border: 0; border-top: 1px solid #eee; margin: 30px 0;'>"
-						+ "<p style='font-size: 14px; color: #888;'>Equipo MyGames</p>" + "</div>" + "</body>"
-						+ "</html>";
-
-				EnviarCorreo enviarCorreo = new EnviarCorreo();
-				enviarCorreo.enviarCorreo(EMAIL_FROM, PASSWORD_FROM, email, subject, content);
-			}
-		} catch (SQLException | MessagingException e) {
-			e.printStackTrace();
+			EnviarCorreo enviarCorreo = new EnviarCorreo();
+			enviarCorreo.enviarCorreo(EMAIL_FROM, PASSWORD_FROM, email, subject, VentanaUtil.getContent(userName));
 		}
-		System.out.println("Cuenta creada con éxito");
 	}
 
 	@FXML
@@ -276,7 +215,7 @@ public class RegistroController {
 	 * @param event
 	 */
 	void flechaAtrasPressed(MouseEvent event) throws IOException {
-		VentanaUtil.abrirVentana(LOGIN, "Login", STYLES, null, null);
+		VentanaUtil.abrirVentana(LOGIN, "Login", STYLES, null, event);
 	}
 
 	@FXML

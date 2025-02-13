@@ -4,6 +4,7 @@
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
@@ -12,7 +13,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane fx:id="VentanaPrincipal" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" stylesheets="@../../resources/styles.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.CreadosUsuarioController">
+<BorderPane fx:id="VentanaPrincipal" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" stylesheets="@../../resources/styles.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.PlataformasController">
    <center>
       <HBox prefHeight="100.0" prefWidth="200.0" spacing="25.0" BorderPane.alignment="CENTER">
          <children>
@@ -63,7 +64,7 @@
                                           <Cursor fx:constant="HAND" />
                                        </cursor>
                                     </Label>
-                                    <Label prefHeight="51.0" prefWidth="267.0" text="Creados por usuario">
+                                    <Label prefHeight="51.0" prefWidth="267.0" text="Nuevos Juegos">
                                        <font>
                                           <Font size="35.0" />
                                        </font>
@@ -100,9 +101,9 @@
                                     <Insets left="35.0" top="75.0" />
                                  </StackPane.margin>
                               </VBox>
-                              <VBox fx:id="menuGeneros" prefHeight="19.0" prefWidth="284.0" spacing="55.0" visible="false">
+                              <VBox fx:id="menuGeneros" prefHeight="19.0" prefWidth="284.0" spacing="55.0">
                                  <children>
-                                    <Label fx:id="btnGeneroSalida" onMouseClicked="#btnGenerosSalidaPressed" text="Géneros &lt;-" textFill="WHITE">
+                                    <Label fx:id="btnGeneroSalida" onMouseClicked="#btnGenerosSalidaPressed" text="Genres &lt;-" textFill="WHITE">
                                        <font>
                                           <Font name="System Bold" size="35.0" />
                                        </font>
@@ -113,7 +114,7 @@
                                           <Insets />
                                        </VBox.margin>
                                     </Label>
-                                    <Label prefHeight="51.0" prefWidth="273.0" text="Acción">
+                                    <Label fx:id="action" onMouseClicked="#lblGenerosPressed" prefHeight="51.0" prefWidth="273.0" text="Action">
                                        <font>
                                           <Font size="30.0" />
                                        </font>
@@ -124,7 +125,7 @@
                                           <Insets left="50.0" />
                                        </VBox.margin>
                                     </Label>
-                                    <Label prefHeight="51.0" prefWidth="267.0" text="Indie">
+                                    <Label fx:id="indie" onMouseClicked="#lblGenerosPressed" prefHeight="51.0" prefWidth="267.0" text="Indie">
                                        <font>
                                           <Font size="30.0" />
                                        </font>
@@ -135,7 +136,7 @@
                                           <Insets left="50.0" />
                                        </VBox.margin>
                                     </Label>
-                                    <Label text="Aventura">
+                                    <Label onMouseClicked="#lblGenerosPressed" text="Adventure">
                                        <font>
                                           <Font size="30.0" />
                                        </font>
@@ -146,7 +147,7 @@
                                           <Insets left="50.0" />
                                        </VBox.margin>
                                     </Label>
-                                    <Label text="RPG">
+                                    <Label onMouseClicked="#lblGenerosPressed" text="RPG">
                                        <font>
                                           <Font size="30.0" />
                                        </font>
@@ -157,7 +158,7 @@
                                           <Insets left="50.0" />
                                        </VBox.margin>
                                     </Label>
-                                    <Label prefHeight="51.0" prefWidth="281.0" text="Estrategia">
+                                    <Label onMouseClicked="#lblGenerosPressed" prefHeight="51.0" prefWidth="281.0" text="Strategy">
                                        <font>
                                           <Font size="30.0" />
                                        </font>
@@ -168,7 +169,7 @@
                                           <Insets left="50.0" />
                                        </VBox.margin>
                                     </Label>
-                                    <Label text="Shooter">
+                                    <Label onMouseClicked="#lblGenerosPressed" text="Shooter">
                                        <font>
                                           <Font size="30.0" />
                                        </font>
@@ -176,7 +177,7 @@
                                           <Insets left="50.0" />
                                        </VBox.margin>
                                     </Label>
-                                    <Label text="Casual">
+                                    <Label onMouseClicked="#lblGenerosPressed" text="Casual">
                                        <opaqueInsets>
                                           <Insets />
                                        </opaqueInsets>
@@ -187,7 +188,7 @@
                                           <Font size="30.0" />
                                        </font>
                                     </Label>
-                                    <Label text="Simulación">
+                                    <Label onMouseClicked="#lblGenerosPressed" text="Simulation">
                                        <opaqueInsets>
                                           <Insets />
                                        </opaqueInsets>
@@ -198,7 +199,7 @@
                                           <Font size="30.0" />
                                        </font>
                                     </Label>
-                                    <Label text="Puzzle">
+                                    <Label onMouseClicked="#lblGenerosPressed" text="Puzzle">
                                        <opaqueInsets>
                                           <Insets />
                                        </opaqueInsets>
@@ -209,7 +210,7 @@
                                           <Font size="30.0" />
                                        </font>
                                     </Label>
-                                    <Label text="Arcade">
+                                    <Label onMouseClicked="#lblGenerosPressed" text="Arcade">
                                        <opaqueInsets>
                                           <Insets />
                                        </opaqueInsets>
@@ -220,7 +221,7 @@
                                           <Font size="30.0" />
                                        </font>
                                     </Label>
-                                    <Label text="Plataformas">
+                                    <Label onMouseClicked="#lblGenerosPressed" text="Platformer">
                                        <opaqueInsets>
                                           <Insets />
                                        </opaqueInsets>
@@ -231,7 +232,7 @@
                                           <Font size="30.0" />
                                        </font>
                                     </Label>
-                                    <Label text="Multijugador Masivo">
+                                    <Label onMouseClicked="#lblGenerosPressed" text="Massively Multiplayer">
                                        <opaqueInsets>
                                           <Insets />
                                        </opaqueInsets>
@@ -242,7 +243,7 @@
                                           <Font size="30.0" />
                                        </font>
                                     </Label>
-                                    <Label text="Carreras">
+                                    <Label onMouseClicked="#lblGenerosPressed" text="Racing">
                                        <opaqueInsets>
                                           <Insets />
                                        </opaqueInsets>
@@ -253,7 +254,7 @@
                                           <Font size="30.0" />
                                        </font>
                                     </Label>
-                                    <Label text="Deportes">
+                                    <Label onMouseClicked="#lblGenerosPressed" text="Sports">
                                        <opaqueInsets>
                                           <Insets />
                                        </opaqueInsets>
@@ -264,7 +265,7 @@
                                           <Font size="30.0" />
                                        </font>
                                     </Label>
-                                    <Label text="Lucha">
+                                    <Label onMouseClicked="#lblGenerosPressed" text="Fighting">
                                        <opaqueInsets>
                                           <Insets />
                                        </opaqueInsets>
@@ -275,7 +276,7 @@
                                           <Font size="30.0" />
                                        </font>
                                     </Label>
-                                    <Label text="Familiar">
+                                    <Label onMouseClicked="#lblGenerosPressed" text="Family">
                                        <opaqueInsets>
                                           <Insets />
                                        </opaqueInsets>
@@ -286,7 +287,7 @@
                                           <Font size="30.0" />
                                        </font>
                                     </Label>
-                                    <Label text="Juegos de Mesa">
+                                    <Label onMouseClicked="#lblGenerosPressed" text="Board Games">
                                        <opaqueInsets>
                                           <Insets />
                                        </opaqueInsets>
@@ -297,7 +298,7 @@
                                           <Font size="30.0" />
                                        </font>
                                     </Label>
-                                    <Label text="Educativo">
+                                    <Label onMouseClicked="#lblGenerosPressed" text="Educational">
                                        <opaqueInsets>
                                           <Insets />
                                        </opaqueInsets>
@@ -308,7 +309,7 @@
                                           <Font size="30.0" />
                                        </font>
                                     </Label>
-                                    <Label text="Cartas">
+                                    <Label onMouseClicked="#lblGenerosPressed" text="Card">
                                        <opaqueInsets>
                                           <Insets />
                                        </opaqueInsets>
@@ -329,7 +330,7 @@
                                           <Font size="35.0" />
                                        </font>
                                     </Label>
-                                    <Label graphicTextGap="25.0" prefHeight="51.0" prefWidth="267.0" text="Creados por usuario">
+                                    <Label graphicTextGap="25.0" prefHeight="51.0" prefWidth="267.0" text="Nuevos Juegos">
                                        <font>
                                           <Font size="35.0" />
                                        </font>
@@ -380,7 +381,7 @@
                                           <Cursor fx:constant="HAND" />
                                        </cursor>
                                     </Label>
-                                    <Label prefHeight="51.0" prefWidth="267.0" text="Creados por usuario">
+                                    <Label prefHeight="51.0" prefWidth="267.0" text="Nuevos Juegos">
                                        <font>
                                           <Font size="35.0" />
                                        </font>
@@ -404,7 +405,7 @@
                                           <Cursor fx:constant="HAND" />
                                        </cursor>
                                     </Label>
-                                    <Label fx:id="btnPlataformasSalida" onMouseClicked="#btnPlataformasSalidaPressed" text="Plataformas" textFill="WHITE">
+                                    <Label fx:id="btnPlataformasSalida" onMouseClicked="#btnPlataformasSalidaPressed" text="Plataformas --&gt;" textFill="WHITE">
                                        <font>
                                           <Font name="System Bold" size="35.0" />
                                        </font>
@@ -412,7 +413,7 @@
                                           <Cursor fx:constant="HAND" />
                                        </cursor>
                                     </Label>
-                                    <Label text="PC &lt;-">
+                                    <Label onMouseClicked="#lblPlataformasPressed" text="PC">
                                        <padding>
                                           <Insets left="50.0" />
                                        </padding>
@@ -423,7 +424,7 @@
                                           <Cursor fx:constant="HAND" />
                                        </cursor>
                                     </Label>
-                                    <Label text="PlayStation">
+                                    <Label onMouseClicked="#lblPlataformasPressed" text="PlayStation">
                                        <padding>
                                           <Insets left="50.0" />
                                        </padding>
@@ -434,7 +435,7 @@
                                           <Cursor fx:constant="HAND" />
                                        </cursor>
                                     </Label>
-                                    <Label text="Xbox">
+                                    <Label onMouseClicked="#lblPlataformasPressed" text="Xbox">
                                        <padding>
                                           <Insets left="50.0" />
                                        </padding>
@@ -445,7 +446,7 @@
                                           <Cursor fx:constant="HAND" />
                                        </cursor>
                                     </Label>
-                                    <Label text="Nintendo">
+                                    <Label onMouseClicked="#lblPlataformasPressed" text="Nintendo">
                                        <padding>
                                           <Insets left="50.0" />
                                        </padding>
@@ -456,7 +457,7 @@
                                           <Cursor fx:constant="HAND" />
                                        </cursor>
                                     </Label>
-                                    <Label text="Retro">
+                                    <Label onMouseClicked="#lblPlataformasPressed" text="Retro">
                                        <padding>
                                           <Insets left="50.0" />
                                        </padding>
@@ -487,7 +488,27 @@
                      <children>
                         <HBox fx:id="contBusqueda" prefHeight="69.0" prefWidth="1820.0" stylesheets="@../../resources/styles.css">
                            <children>
-                              <HBox fx:id="buscador" alignment="TOP_RIGHT" prefHeight="119.0" prefWidth="680.0">
+                              <HBox fx:id="buscador" alignment="TOP_RIGHT" prefHeight="119.0" prefWidth="680.0" styleClass="search_container">
+                                 <children>
+                                    <ImageView fx:id="imgLupa" fitHeight="50.0" fitWidth="50.0" onMouseClicked="#imgLupaPressed" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@/Lupa.png" />
+                                       </image>
+                                       <HBox.margin>
+                                          <Insets top="5.0" />
+                                       </HBox.margin>
+                                    </ImageView>
+                                    <TextField fx:id="txtBusqueda" prefHeight="50.0" prefWidth="445.0" promptText="Search" style="-fx-background-color: white; -fx-text-fill: black;">
+                                       <font>
+                                          <Font size="24.0" />
+                                       </font>
+                                    </TextField>
+                                    <ImageView fx:id="imgCerrar" fitHeight="50.0" fitWidth="50.0" onMouseClicked="#imgCerrarPressed" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@/limpiarBusqueda.png" />
+                                       </image>
+                                    </ImageView>
+                                 </children>
                                  <HBox.margin>
                                     <Insets left="500.0" top="20.0" />
                                  </HBox.margin>
@@ -541,7 +562,7 @@
                                  <content>
                                     <HBox fx:id="contJuegos1" prefHeight="437.0" prefWidth="3666.0" spacing="70.0" style="-fx-background: transparent; -fx-background-color: transparent;">
                                        <children>
-                                          <VBox fx:id="juegoSolo1" onMouseClicked="#juegoSoloPressed" prefHeight="287.0" prefWidth="379.0" style="-fx-background-radius: 50;">
+                                          <VBox fx:id="juegoSolo71" onMouseClicked="#juegoSoloPressed" prefHeight="287.0" prefWidth="379.0" style="-fx-background-radius: 50;">
                                              <children>
                                                 <ImageView fitHeight="191.0" fitWidth="378.0" pickOnBounds="true" styleClass="img_videojuegos" VBox.vgrow="ALWAYS">
                                                    <image>
@@ -564,7 +585,7 @@
                                                 </VBox>
                                              </children>
                                           </VBox>
-                                          <VBox fx:id="juegoSolo2" onMouseClicked="#juegoSoloPressed" prefHeight="287.0" prefWidth="379.0" style="-fx-background-radius: 50;">
+                                          <VBox fx:id="juegoSolo311" onMouseClicked="#juegoSoloPressed" prefHeight="287.0" prefWidth="379.0" style="-fx-background-radius: 50;">
                                              <children>
                                                 <ImageView fitHeight="191.0" fitWidth="378.0" pickOnBounds="true" styleClass="img_videojuegos" VBox.vgrow="ALWAYS">
                                                    <image>
@@ -587,7 +608,7 @@
                                                 </VBox>
                                              </children>
                                           </VBox>
-                                          <VBox fx:id="juegoSolo3" onMouseClicked="#juegoSoloPressed" prefHeight="287.0" prefWidth="379.0" style="-fx-background-radius: 50;">
+                                          <VBox fx:id="juegoSolo411" onMouseClicked="#juegoSoloPressed" prefHeight="287.0" prefWidth="379.0" style="-fx-background-radius: 50;">
                                              <children>
                                                 <ImageView fitHeight="191.0" fitWidth="378.0" pickOnBounds="true" styleClass="img_videojuegos" VBox.vgrow="ALWAYS">
                                                    <image>
@@ -618,7 +639,7 @@
                                  <content>
                                     <HBox fx:id="contJuegos2" prefHeight="437.0" prefWidth="3666.0" spacing="70.0" style="-fx-background: transparent; -fx-background-color: transparent;">
                                        <children>
-                                          <VBox fx:id="juegoSolo4" onMouseClicked="#juegoSoloPressed" prefHeight="287.0" prefWidth="379.0" style="-fx-background-radius: 50;">
+                                          <VBox fx:id="juegoSolo7" onMouseClicked="#juegoSoloPressed" prefHeight="287.0" prefWidth="379.0" style="-fx-background-radius: 50;">
                                              <children>
                                                 <ImageView fitHeight="191.0" fitWidth="378.0" pickOnBounds="true" styleClass="img_videojuegos" VBox.vgrow="ALWAYS">
                                                    <image>
@@ -641,7 +662,7 @@
                                                 </VBox>
                                              </children>
                                           </VBox>
-                                          <VBox fx:id="juegoSolo5" onMouseClicked="#juegoSoloPressed" prefHeight="287.0" prefWidth="379.0" style="-fx-background-radius: 50;">
+                                          <VBox fx:id="juegoSolo31" onMouseClicked="#juegoSoloPressed" prefHeight="287.0" prefWidth="379.0" style="-fx-background-radius: 50;">
                                              <children>
                                                 <ImageView fitHeight="191.0" fitWidth="378.0" pickOnBounds="true" styleClass="img_videojuegos" VBox.vgrow="ALWAYS">
                                                    <image>
@@ -664,7 +685,7 @@
                                                 </VBox>
                                              </children>
                                           </VBox>
-                                          <VBox fx:id="juegoSolo6" onMouseClicked="#juegoSoloPressed" prefHeight="287.0" prefWidth="379.0" style="-fx-background-radius: 50;">
+                                          <VBox fx:id="juegoSolo41" onMouseClicked="#juegoSoloPressed" prefHeight="287.0" prefWidth="379.0" style="-fx-background-radius: 50;">
                                              <children>
                                                 <ImageView fitHeight="191.0" fitWidth="378.0" pickOnBounds="true" styleClass="img_videojuegos" VBox.vgrow="ALWAYS">
                                                    <image>
@@ -695,7 +716,7 @@
                                  <content>
                                     <HBox fx:id="contJuegos3" prefHeight="437.0" prefWidth="3666.0" spacing="70.0" style="-fx-background: transparent; -fx-background-color: transparent;">
                                        <children>
-                                          <VBox fx:id="juegoSolo7" onMouseClicked="#juegoSoloPressed" prefHeight="287.0" prefWidth="379.0" style="-fx-background-radius: 50;">
+                                          <VBox fx:id="juegoSolo2" onMouseClicked="#juegoSoloPressed" prefHeight="287.0" prefWidth="379.0" style="-fx-background-radius: 50;">
                                              <children>
                                                 <ImageView fitHeight="191.0" fitWidth="378.0" pickOnBounds="true" styleClass="img_videojuegos" VBox.vgrow="ALWAYS">
                                                    <image>
@@ -718,7 +739,7 @@
                                                 </VBox>
                                              </children>
                                           </VBox>
-                                          <VBox fx:id="juegoSolo8" onMouseClicked="#juegoSoloPressed" prefHeight="287.0" prefWidth="379.0" style="-fx-background-radius: 50;">
+                                          <VBox fx:id="juegoSolo32" onMouseClicked="#juegoSoloPressed" prefHeight="287.0" prefWidth="379.0" style="-fx-background-radius: 50;">
                                              <children>
                                                 <ImageView fitHeight="191.0" fitWidth="378.0" pickOnBounds="true" styleClass="img_videojuegos" VBox.vgrow="ALWAYS">
                                                    <image>
@@ -741,7 +762,7 @@
                                                 </VBox>
                                              </children>
                                           </VBox>
-                                          <VBox fx:id="juegoSolo9" onMouseClicked="#juegoSoloPressed" prefHeight="287.0" prefWidth="379.0" style="-fx-background-radius: 50;">
+                                          <VBox fx:id="juegoSolo42" onMouseClicked="#juegoSoloPressed" prefHeight="287.0" prefWidth="379.0" style="-fx-background-radius: 50;">
                                              <children>
                                                 <ImageView fitHeight="191.0" fitWidth="378.0" pickOnBounds="true" styleClass="img_videojuegos" VBox.vgrow="ALWAYS">
                                                    <image>
@@ -772,7 +793,7 @@
                                  <content>
                                     <HBox fx:id="contJuegos4" prefHeight="437.0" prefWidth="3666.0" spacing="70.0" style="-fx-background: transparent; -fx-background-color: transparent;">
                                        <children>
-                                          <VBox fx:id="juegoSolo10" onMouseClicked="#juegoSoloPressed" prefHeight="287.0" prefWidth="379.0" style="-fx-background-radius: 50;">
+                                          <VBox fx:id="juegoSolo1" onMouseClicked="#juegoSoloPressed" prefHeight="287.0" prefWidth="379.0" style="-fx-background-radius: 50;">
                                              <children>
                                                 <ImageView fitHeight="191.0" fitWidth="378.0" pickOnBounds="true" styleClass="img_videojuegos" VBox.vgrow="ALWAYS">
                                                    <image>
@@ -795,7 +816,7 @@
                                                 </VBox>
                                              </children>
                                           </VBox>
-                                          <VBox fx:id="juegoSolo11" onMouseClicked="#juegoSoloPressed" prefHeight="287.0" prefWidth="379.0" style="-fx-background-radius: 50;">
+                                          <VBox fx:id="juegoSolo33" onMouseClicked="#juegoSoloPressed" prefHeight="287.0" prefWidth="379.0" style="-fx-background-radius: 50;">
                                              <children>
                                                 <ImageView fitHeight="191.0" fitWidth="378.0" pickOnBounds="true" styleClass="img_videojuegos" VBox.vgrow="ALWAYS">
                                                    <image>
@@ -818,7 +839,7 @@
                                                 </VBox>
                                              </children>
                                           </VBox>
-                                          <VBox fx:id="juegoSolo12" onMouseClicked="#juegoSoloPressed" prefHeight="287.0" prefWidth="379.0" style="-fx-background-radius: 50;">
+                                          <VBox fx:id="juegoSolo43" onMouseClicked="#juegoSoloPressed" prefHeight="287.0" prefWidth="379.0" style="-fx-background-radius: 50;">
                                              <children>
                                                 <ImageView fitHeight="191.0" fitWidth="378.0" pickOnBounds="true" styleClass="img_videojuegos" VBox.vgrow="ALWAYS">
                                                    <image>
@@ -847,12 +868,12 @@
                               </ScrollPane>
                               <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="20.0">
                                  <children>
-                                    <ImageView fx:id="imgCargarJuegosAtras" fitHeight="150.0" fitWidth="200.0" onMouseClicked="#imgCargarJuegosAtrasPressed" pickOnBounds="true" preserveRatio="true">
+                                    <ImageView fx:id="imgCargarJuegoAtras" fitHeight="150.0" fitWidth="200.0" onMouseClicked="#imgCargarJuegoAtrasPressed" pickOnBounds="true" preserveRatio="true">
                                        <image>
                                           <Image url="@/flechaAtras.png" />
                                        </image>
                                     </ImageView>
-                                    <ImageView fx:id="imgCargarJuegosAdelante" fitHeight="150.0" fitWidth="200.0" onMouseClicked="#imgCargarJuegosAdelantePressed" pickOnBounds="true" preserveRatio="true">
+                                    <ImageView fx:id="imgCargarJuegos" fitHeight="150.0" fitWidth="200.0" onMouseClicked="#imgCargarJuegosPressed" pickOnBounds="true" preserveRatio="true">
                                        <image>
                                           <Image url="@/flechaDerecha.png" />
                                        </image>

@@ -65,6 +65,9 @@ public class CreadosUsuarioController {
   private ImageView btnUser;
 
   @FXML
+  private HBox buscador;
+
+  @FXML
   private HBox contBusqueda;
 
   @FXML
@@ -155,46 +158,46 @@ public class CreadosUsuarioController {
   private HBox contPlataformas7;
 
   @FXML
-  private ImageView imgCargarJuegosAtras;
+  private ImageView imgCargarJuegosAdelante;
 
   @FXML
-  private ImageView imgCargarJuegosAdelante;
+  private ImageView imgCargarJuegosAtras;
 
   @FXML
   private VBox juegoSolo1;
 
   @FXML
+  private VBox juegoSolo10;
+
+  @FXML
+  private VBox juegoSolo11;
+
+  @FXML
+  private VBox juegoSolo12;
+
+  @FXML
   private VBox juegoSolo2;
 
   @FXML
-  private VBox juegoSolo31;
+  private VBox juegoSolo3;
 
   @FXML
-  private VBox juegoSolo311;
+  private VBox juegoSolo4;
 
   @FXML
-  private VBox juegoSolo32;
+  private VBox juegoSolo5;
 
   @FXML
-  private VBox juegoSolo33;
-
-  @FXML
-  private VBox juegoSolo41;
-
-  @FXML
-  private VBox juegoSolo411;
-
-  @FXML
-  private VBox juegoSolo42;
-
-  @FXML
-  private VBox juegoSolo43;
+  private VBox juegoSolo6;
 
   @FXML
   private VBox juegoSolo7;
 
   @FXML
-  private VBox juegoSolo71;
+  private VBox juegoSolo8;
+
+  @FXML
+  private VBox juegoSolo9;
 
   @FXML
   private VBox menuFondito;
@@ -209,6 +212,18 @@ public class CreadosUsuarioController {
   private VBox menuPlataformas;
 
   @FXML
+  private ScrollPane scrollHorizontalJuego;
+
+  @FXML
+  private ScrollPane scrollHorizontalJuego1;
+
+  @FXML
+  private ScrollPane scrollHorizontalJuego2;
+
+  @FXML
+  private ScrollPane scrollHorizontalJuego3;
+
+  @FXML
   private ScrollPane scrollJuegosVertical;
 
   @FXML
@@ -216,19 +231,28 @@ public class CreadosUsuarioController {
 
   @FXML
   public void initialize() {
-    List<JuegoBD> capturasPlataformas = cargarJuegos("Popular");
-    List<JuegoBD> capturasPlataformas2 = cargarJuegos("Nuevos");
+    // Cargar los juegos desde la base de datos
+    List<JuegoBD> capturasPlataformas = cargarJuegos();
+    int totalJuegos = capturasPlataformas.size();
 
-    ImagenBDUtils.asignarImagenes(contJuegos1, capturasPlataformas);
-    ImagenBDUtils.asignarImagenes(contJuegos2, capturasPlataformas2);
+    // Crear un arreglo de VBox para los juegos
+    VBox[] juegosVbox = { juegoSolo1, juegoSolo2, juegoSolo3, juegoSolo4, juegoSolo5, juegoSolo6, juegoSolo7,
+        juegoSolo8, juegoSolo9, juegoSolo10, juegoSolo11, juegoSolo12 };
+
+    // Asignar imágenes a los contenedores correspondientes, solo si hay juegos
+    for (int i = 0; i < totalJuegos && i < juegosVbox.length; i++) {
+      JuegoBD juego = capturasPlataformas.get(i);
+      ImagenBDUtils.asignarImagenes(juegosVbox[i], List.of(juego));
+      juegosVbox[i].setVisible(true);
+    }
+
+    // Ocultar los VBox restantes si hay menos de 12 juegos
+    for (int i = totalJuegos; i < juegosVbox.length; i++) {
+      juegosVbox[i].setVisible(false);
+    }
   }
 
   @FXML
-  /**
-   * Método para cuando se pulse el botón de cerrar
-   * 
-   * @param event
-   */
   void btnCerrarPressed(MouseEvent event) {
     Stage ventanaPrincipal = (Stage) ((Node) event.getSource()).getScene().getWindow();
     ventanaPrincipal.close();
@@ -257,11 +281,6 @@ public class CreadosUsuarioController {
   }
 
   @FXML
-  /**
-   * Método para cuando se pulse el botón minimizar
-   * 
-   * @param event
-   */
   void btnMinimizarPressed(MouseEvent event) {
     Stage ventanaPrincipal = (Stage) ((Node) event.getSource()).getScene().getWindow();
     ventanaPrincipal.setIconified(true);
@@ -285,7 +304,6 @@ public class CreadosUsuarioController {
   @FXML
   void btnUserPressed(MouseEvent event) {
     try {
-      // Usando VentanaUtil para abrir la ventana de usuario
       VentanaUtil.abrirVentana(PANEL_USER, "Usuario", STYLES, null, event);
     } catch (IOException e) {
       e.printStackTrace();
@@ -294,40 +312,66 @@ public class CreadosUsuarioController {
 
   @FXML
   void imgCargarJuegosAtrasPressed(MouseEvent event) {
-
-  }
-
-  @FXML
-  void imgCargarJuegosAdelantePressed(MouseEvent event) {
-
-  }
-
-  @FXML
-  void juegoSoloPressed(MouseEvent event) throws IOException {
-    VBox vbox = (VBox) event.getSource();
-
-    for (Node childNode : vbox.getChildren()) {
-      if (childNode instanceof VBox innerVBox) {
-        for (Node innerNode : innerVBox.getChildren()) {
-          if (innerNode instanceof Label tituloLabel) {
-            String tituloJuego = tituloLabel.getText();
-            System.out.println("Título del juego: " + tituloJuego);
-
-            VentanaUtil.abrirVentana(PANEL_JUEGO_INFO_BD, "Juego Info", STYLES, controller -> {
-              ((JuegoInfoBDController) controller).setTituloJuego(tituloJuego);
-            }, event);
-          }
-        }
+    // Desplazar el ScrollPane hacia la izquierda
+    ScrollPane[] scrolls = { scrollHorizontalJuego, scrollHorizontalJuego1, scrollHorizontalJuego2,
+        scrollHorizontalJuego3 };
+    for (ScrollPane scroll : scrolls) {
+      if (scroll.getHvalue() > 0) {
+        scroll.setHvalue(scroll.getHvalue() - 0.1); // Desplazamiento hacia atrás
       }
     }
   }
 
-  private List<JuegoBD> cargarJuegos(String modo) {
-    List<JuegoBD> juegos = new ArrayList<>();
+  @FXML
+  void imgCargarJuegosAdelantePressed(MouseEvent event) {
+    // Desplazar el ScrollPane hacia la derecha
+    ScrollPane[] scrolls = { scrollHorizontalJuego, scrollHorizontalJuego1, scrollHorizontalJuego2,
+        scrollHorizontalJuego3 };
+    for (ScrollPane scroll : scrolls) {
+      if (scroll.getHvalue() < 1) {
+        scroll.setHvalue(scroll.getHvalue() + 0.1); // Desplazamiento hacia adelante
+      }
+    }
+  }
 
-    // Consulta para cargar los juegos desde la base de datos
-    String query = "SELECT id_juego, titulo, plataformas, imagen_principal, imagen_secundaria, imagen_tercera, imagen_cuarta, imagen_quinta "
-        + "FROM juegos WHERE creado_por_usuario = 1";
+  @FXML
+  void juegoSoloPressed(MouseEvent event) {
+    VBox juegoSeleccionadoVBox = (VBox) event.getSource();
+
+    // Obtener el índice del VBox de juegos
+    int index = -1;
+    VBox[] juegosVbox = { juegoSolo1, juegoSolo2, juegoSolo3, juegoSolo4, juegoSolo5, juegoSolo6, juegoSolo7,
+        juegoSolo8, juegoSolo9, juegoSolo10, juegoSolo11, juegoSolo12 };
+    for (int i = 0; i < juegosVbox.length; i++) {
+      if (juegosVbox[i] == juegoSeleccionadoVBox) {
+        index = i;
+        break;
+      }
+    }
+
+    if (index != -1) {
+      JuegoBD juegoSeleccionado = cargarJuegos().get(index); // Obtener el juego seleccionado de la lista
+
+      // Abrir la ventana de información del juego (panel de información)
+      try {
+        VentanaUtil.abrirVentana(PANEL_JUEGO_INFO_BD, "Información del Juego", STYLES, controller -> {
+          if (controller instanceof JuegoInfoBDController) {
+            JuegoInfoBDController juegoInfoController = (JuegoInfoBDController) controller;
+            // Establecer el juego seleccionado en el controlador de la nueva ventana
+            juegoInfoController.setJuegoSeleccionado(juegoSeleccionado);
+          }
+        }, event);
+      } catch (IOException e) {
+        e.printStackTrace();
+      }
+    }
+  }
+
+  private List<JuegoBD> cargarJuegos() {
+    List<JuegoBD> juegos = new ArrayList<>();
+    String query = "SELECT id_juego, titulo, plataformas, generos, tiempo_jugado, descripcion, imagen_principal, "
+        + "imagen_secundaria, imagen_tercera, imagen_cuarta, imagen_quinta, pegi, fecha_lanzamiento, creado_por_usuario, id_usuario, desarrolladores "
+        + "FROM juegos WHERE creado_por_usuario = 1"; // Agregamos la columna "desarrolladores"
 
     try (Connection conn = Conector.conectar();
         PreparedStatement stmt = conn.prepareStatement(query);
@@ -336,17 +380,44 @@ public class CreadosUsuarioController {
       while (rs.next()) {
         int idJuego = rs.getInt("id_juego");
         String titulo = rs.getString("titulo");
-        String plataformas = rs.getString("plataformas");
+        String plataformasStr = rs.getString("plataformas");
+        String generos = rs.getString("generos");
+        String descripcion = rs.getString("descripcion");
+        String fechaLanzamiento = rs.getString("fecha_lanzamiento");
+        int creadoPorUsuario = rs.getInt("creado_por_usuario");
+        int idUsuario = rs.getInt("id_usuario");
 
-        // Cargando las imágenes desde la base de datos (en formato BLOB)
+        // Manejo de tiempos jugados (puede ser nulo, en tal caso asignamos un valor por
+        // defecto)
+        int tiempoJugado = rs.getInt("tiempo_jugado"); // Puede ser 0 si no está establecido.
+
+        // Manejo de PEGI (puede ser nulo)
+        int pegi = rs.getInt("pegi");
+        if (rs.wasNull()) { // Verifica si el valor es NULL en la base de datos
+          pegi = -1; // Asignar un valor por defecto si es NULL
+        }
+
+        // Obtener los desarrolladores (nuevamente puede ser nulo)
+        String desarrolladores = rs.getString("desarrolladores");
+        if (desarrolladores == null) {
+          desarrolladores = "Desarrollador desconocido"; // Valor por defecto si no hay información
+        }
+
+        List<String> plataformas = parsePlataformas(plataformasStr);
+
+        // Obtener las imágenes como bytes
         byte[] imagenPrincipal = rs.getBytes("imagen_principal");
         byte[] imagenSecundaria = rs.getBytes("imagen_secundaria");
-        byte[] imagenTerciaria = rs.getBytes("imagen_tercera");
+        byte[] imagenTercera = rs.getBytes("imagen_tercera");
         byte[] imagenCuarta = rs.getBytes("imagen_cuarta");
         byte[] imagenQuinta = rs.getBytes("imagen_quinta");
 
-        JuegoBD juego = new JuegoBD(null, titulo, idJuego, parsePlataformas(plataformas), imagenPrincipal,
-            imagenSecundaria, imagenTerciaria, imagenCuarta, imagenQuinta);
+        // Crear una nueva instancia de JuegoBD con los datos obtenidos
+        JuegoBD juego = new JuegoBD(idJuego, titulo, descripcion, fechaLanzamiento, creadoPorUsuario == 1, idUsuario,
+            tiempoJugado, desarrolladores,
+            imagenPrincipal, imagenSecundaria, imagenTercera, imagenCuarta, imagenQuinta, pegi, generos, plataformas);
+
+        // Agregar el juego a la lista
         juegos.add(juego);
       }
     } catch (SQLException e) {
@@ -359,25 +430,23 @@ public class CreadosUsuarioController {
   private List<String> parsePlataformas(String plataformasStr) {
     List<String> plataformas = new ArrayList<>();
     if (plataformasStr != null && !plataformasStr.isEmpty()) {
-      for (String plataforma : plataformasStr.split(",")) {
+      String[] plataformasArray = plataformasStr.split(",");
+      for (String plataforma : plataformasArray) {
         plataformas.add(plataforma.trim());
       }
     }
     return plataformas;
   }
 
-  private void cambiarMenu(Region mostrar, Region ocultar1, Region ocultar2, boolean resetScroll) {
-    menuGeneral.setVisible(mostrar == menuGeneral);
-    menuGeneros.setVisible(mostrar == menuGeneros);
-    menuPlataformas.setVisible(mostrar == menuPlataformas);
-
-    menuGeneros.setMinHeight(mostrar == menuGeneros ? Region.USE_COMPUTED_SIZE : 0);
-    menuPlataformas.setMinHeight(mostrar == menuPlataformas ? Region.USE_COMPUTED_SIZE : 0);
-    menuGeneral.setMinHeight(mostrar == menuGeneral ? Region.USE_COMPUTED_SIZE : 0);
-
-    if (resetScroll) {
-      scrollMenu.setHvalue(0);
-      scrollMenu.setVvalue(0);
+  private void cambiarMenu(VBox menuActivo, VBox menuInactivo1, VBox menuInactivo2, boolean activar) {
+    if (activar) {
+      menuActivo.setVisible(true);
+      menuInactivo1.setVisible(false);
+      menuInactivo2.setVisible(false);
+    } else {
+      menuActivo.setVisible(false);
+      menuInactivo1.setVisible(true);
+      menuInactivo2.setVisible(true);
     }
   }
 }

@@ -20,6 +20,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import models.JuegoHome;
+import models.Usuario;
 import utils.ExtractorAPI;
 import utils.ExtractorApi2;
 import utils.ImagenUtils;
@@ -79,6 +80,16 @@ public class HomeController {
 	private double mousePressedX;
 	private double mousePressedY;
 	private HBox contenedorActivo = null;
+
+	private Usuario usuario;
+
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
+	}
+
+	public Usuario getUsuario() {
+		return usuario;
+	}
 
 	@FXML
 	public void initialize() {
@@ -295,8 +306,11 @@ public class HomeController {
 						String tituloJuego = tituloLabel.getText();
 						System.out.println("Título del juego: " + tituloJuego);
 
+						// Aquí se pasa el usuario al controlador
 						VentanaUtil.abrirVentana(PANEL_JUEGO_INFO, "Juego Info", STYLES, controller -> {
-							((JuegoInfoController) controller).setTituloJuego(tituloJuego);
+							JuegoInfoController juegoInfoController = (JuegoInfoController) controller;
+							juegoInfoController.setTituloJuego(tituloJuego);
+							juegoInfoController.setUsuario(usuario); // Se pasa el usuario aquí
 						}, event);
 					}
 				}

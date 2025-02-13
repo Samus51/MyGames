@@ -2,6 +2,7 @@ package controllers;
 
 import java.io.IOException;
 import java.util.List;
+import java.io.ByteArrayInputStream;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -22,6 +23,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.util.Duration;
+import models.JuegoBD;
 import models.JuegoPachorra;
 import utils.ExtractorAPI;
 import utils.ExtractorApi2;
@@ -31,284 +33,311 @@ import utils.VentanaUtil;
  * Controlador de JuegoInfo
  */
 public class JuegoInfoBDController {
-	String tituloJuego;
+  String tituloJuego;
 
-	/**
-	 * @return the tituloJuego
-	 */
-	public String getTituloJuego() {
-		return tituloJuego;
-	}
+  private JuegoBD juegoSeleccionado;
 
-	public void setTituloJuego(String tituloJuego) {
-		this.tituloJuego = tituloJuego;
-		if (lblTitulo != null) {
-			lblTitulo.setText(tituloJuego);
-		}
-		System.out.println("Juego de Info: " + tituloJuego);
-		cargarJuegoInfo();
+  // Constantes
+  // Styles
+  private static final String STYLES = "/styles.css";
+  // Pantallas
+  private static final String HOME = "/views/Home.fxml";
 
-	}
+  @FXML
+  private BorderPane VentanaPrincipal;
 
-	// Constantes
-	// Styles
-	private static final String STYLES = "/styles.css";
-	// Pantallas
-	private static final String HOME = "/views/Home.fxml";
+  @FXML
+  private Button btnAnadirJuego;
 
-	@FXML
-	private BorderPane VentanaPrincipal;
+  @FXML
+  private Button btnAnadirJuegoAnadirListaNoJugado;
 
-	@FXML
-	private Button btnAnadirJuego;
+  @FXML
+  private Button btnAnadirJuegoJugadoAnanidoLista;
 
-	@FXML
-	private Button btnAnadirJuegoAnadirListaNoJugado;
+  @FXML
+  private Button btnAnadirJuegoJugadoSinAnadir;
 
-	@FXML
-	private Button btnAnadirJuegoJugadoAnanidoLista;
+  @FXML
+  private Button btnAnadirListaDeseos;
 
-	@FXML
-	private Button btnAnadirJuegoJugadoSinAnadir;
+  @FXML
+  private Button btnAnadirListaDeseosAnadirListaNoJugado;
 
-	@FXML
-	private Button btnAnadirListaDeseos;
+  @FXML
+  private Button btnAnadirListaDeseosJugadoSinAnadir;
 
-	@FXML
-	private Button btnAnadirListaDeseosAnadirListaNoJugado;
+  @FXML
+  private Button btnEliminarJuegoAnadirJuego;
 
-	@FXML
-	private Button btnAnadirListaDeseosJugadoSinAnadir;
+  @FXML
+  private Button btnEliminarJuegoAnadirJuegoJugado;
 
-	@FXML
-	private Button btnEliminarJuegoAnadirJuego;
+  @FXML
+  private Button btnEliminarListaDeseosJugadoAnanidoLista;
 
-	@FXML
-	private Button btnEliminarJuegoAnadirJuegoJugado;
+  @FXML
+  private Button btnJugadoAnadirJuegoJugado;
 
-	@FXML
-	private Button btnEliminarListaDeseosJugadoAnanidoLista;
+  @FXML
+  private Button btnJugadoJugadoAnanidoLista;
 
-	@FXML
-	private Button btnJugadoAnadirJuegoJugado;
+  @FXML
+  private Button btnJugadoJugadoSinAnadir;
 
-	@FXML
-	private Button btnJugadoJugadoAnanidoLista;
+  @FXML
+  private Button btnNoJugado;
 
-	@FXML
-	private Button btnJugadoJugadoSinAnadir;
+  @FXML
+  private Button btnNoJugadoAnadirJuego;
 
-	@FXML
-	private Button btnNoJugado;
+  @FXML
+  private Button btnNoJugadoAnadirListaNoJugado;
 
-	@FXML
-	private Button btnNoJugadoAnadirJuego;
+  @FXML
+  private ImageView imgCerrar;
 
-	@FXML
-	private Button btnNoJugadoAnadirListaNoJugado;
+  @FXML
+  private ImageView imgFlechaAtras;
 
-	@FXML
-	private ImageView imgCerrar;
+  @FXML
+  private ImageView imgJuego;
 
-	@FXML
-	private ImageView imgFlechaAtras;
+  @FXML
+  private ImageView imgJuego2;
 
-	@FXML
-	private ImageView imgJuego;
+  @FXML
+  private ImageView imgJuego3;
 
-	@FXML
-	private ImageView imgJuego2;
+  @FXML
+  private ImageView imgJuego4;
 
-	@FXML
-	private ImageView imgJuego3;
+  @FXML
+  private ImageView imgJuego5;
 
-	@FXML
-	private ImageView imgJuego4;
+  @FXML
+  private ImageView imgJuego6;
 
-	@FXML
-	private ImageView imgJuego5;
+  @FXML
+  private ImageView imgMinimizar;
 
-	@FXML
-	private ImageView imgJuego6;
+  @FXML
+  private ImageView imgPegi;
 
-	@FXML
-	private ImageView imgMinimizar;
-
-	@FXML
-	private ImageView imgPegi;
-
-	@FXML
-	private Label lblDesarrolladoresVacio;
-
-	@FXML
-	private Label lblDescripcionVacio;
-
-	@FXML
-	private Label lblFechaLanzamientoVacio;
-
-	@FXML
-	private Label lblGenerosVacio;
-
-	@FXML
-	private Label lblMetaScoreVacio;
-
-	@FXML
-	private Label lblPlataformasVacio;
-
-	@FXML
-	private Label lblTiempoJugadoVacio;
-
-	@FXML
-	private Label lblTitulo;
-
-	@FXML
-	private VBox menuAnadirJuego;
-
-	@FXML
-	private VBox menuAnadirJuegoJugado;
-
-	@FXML
-	private VBox menuAnadirListaNoJugado;
-
-	@FXML
-	private VBox menuGeneral;
-
-	@FXML
-	private VBox menuJugadoAnanidoLista;
-
-	@FXML
-	private VBox menuJugadoSinAnadir;
-
-	@FXML
-	private TextField txtComentarios;
-
-	@FXML
-	private VBox vboxPrincipal;
-
-	private void cargarJuegoInfo() {
-		// Simula la carga del juego
-		JuegoPachorra juegoACargar = ExtractorApi2.buscarJuegoPorNombre(this.tituloJuego);
-
-		if (juegoACargar != null) {
-			// Actualiza la interfaz con la información del juego, solo si los datos no son
-			// nulos
-
-			if (juegoACargar.getPegi() != null) {
-				switch (juegoACargar.getPegi()) {
-				case "Mature":
-					imgPegi.setImage(new Image("imgPegi/pegi16.png"));
-					break;
-				case "Adult Only":
-					imgPegi.setImage(new Image("imgPegi/pegi19.png"));
-					break;
-				case "Everyone":
-					imgPegi.setImage(new Image("imgPegi/pegi3.png"));
-					break;
-				case "Teen":
-					imgPegi.setImage(new Image("imgPegi/pegi12.png"));
-					break;
-				case "Everyone 10+":
-					imgPegi.setImage(new Image("imgPegi/pegi7.png"));
-					break;
-				default:
-					// Código por defecto si no coincide con ningún caso
-					break;
-				}
-			}
-
-		}
-
-		if (juegoACargar.getImagenPrincipal() != null) {
-			imgJuego.setImage(new Image(juegoACargar.getImagenPrincipal()));
-		}
-		if (juegoACargar.getDescripcion() != null) {
-			lblDescripcionVacio.setText(juegoACargar.getDescripcion());
-		}
-		if (juegoACargar.getDevs() != null) {
-			lblDesarrolladoresVacio.setText(juegoACargar.getDevs().toString());
-		}
-		if (juegoACargar.getPlataformas() != null) {
-			lblPlataformasVacio.setText(juegoACargar.getPlataformas().toString());
-		}
-		if (juegoACargar.getFechaLanzamiento() != null) {
-			lblFechaLanzamientoVacio.setText(juegoACargar.getFechaLanzamiento());
-		}
-		if (juegoACargar.getGeneros() != null) {
-			lblGenerosVacio.setText(juegoACargar.getGeneros().toString());
-		}
-		if (juegoACargar.getMetacriticScore() >= 0) {
-			lblMetaScoreVacio.setText(String.valueOf(juegoACargar.getMetacriticScore()));
-		}
-		if (juegoACargar.getTiempo_jugado() >= 0) {
-			lblTiempoJugadoVacio.setText(juegoACargar.getTiempo_jugado() + " Horas");
-		}
-
-		List<String> imagenes = juegoACargar.getCapturasImagenes();
-		if (imagenes != null && imagenes.size() >= 5) {
-			imgJuego2.setImage(new Image(imagenes.get(1)));
-			imgJuego3.setImage(new Image(imagenes.get(2)));
-			imgJuego4.setImage(new Image(imagenes.get(3)));
-			imgJuego5.setImage(new Image(imagenes.get(4)));
-		}
-
-		{
-			// Si no se encuentra el juego, muestra un mensaje de error
-			System.out.println("Juego no encontrado");
-		}
-	}
-
-	@FXML
-	void btnAnadirJuegoPressed(MouseEvent event) {
-
-	}
-
-	@FXML
-	void btnAnadirListaPressed(MouseEvent event) {
-
-	}
-
-	@FXML
-	void btnEliminarJuegoPressed(MouseEvent event) {
-
-	}
-
-	@FXML
-	void btnEliminarListaPressed(MouseEvent event) {
-
-	}
-
-	@FXML
-	void btnJugadoPressed(MouseEvent event) {
-
-	}
-
-	@FXML
-	void btnNoJugadoPressed(MouseEvent event) {
-
-	}
-
-	@FXML
-	void cerrarPressed(MouseEvent event) {
-		Stage ventanaPrincipal = (Stage) ((Node) event.getSource()).getScene().getWindow();
-		ventanaPrincipal.close();
-	}
-
-	@FXML
-	void flechaAtrasPressed(MouseEvent event) throws IOException {
-		VentanaUtil.abrirVentana(HOME, "Juego Info", STYLES, null, event);
-
-	}
-
-	@FXML
-	void minimizarPressed(MouseEvent event) {
-		Stage ventanaPrincipal = (Stage) ((Node) event.getSource()).getScene().getWindow();
-		ventanaPrincipal.setIconified(true);
-	}
-
-	/**
-	 * Metodo para abrir una nueva ventana y cerrar la actual
-	 * 
-	 * @param fxml Ventana fxml
-	 */
+  @FXML
+  private Label lblDesarrolladoresVacio;
+
+  @FXML
+  private Label lblDescripcionVacio;
+
+  @FXML
+  private Label lblFechaLanzamientoVacio;
+
+  @FXML
+  private Label lblGenerosVacio;
+
+  @FXML
+  private Label lblMetaScoreVacio;
+
+  @FXML
+  private Label lblPlataformasVacio;
+
+  @FXML
+  private Label lblTiempoJugadoVacio;
+
+  @FXML
+  private Label lblTitulo;
+
+  @FXML
+  private VBox menuAnadirJuego;
+
+  @FXML
+  private VBox menuAnadirJuegoJugado;
+
+  @FXML
+  private VBox menuAnadirListaNoJugado;
+
+  @FXML
+  private VBox menuGeneral;
+
+  @FXML
+  private VBox menuJugadoAnanidoLista;
+
+  @FXML
+  private VBox menuJugadoSinAnadir;
+
+  @FXML
+  private TextField txtComentarios;
+
+  @FXML
+  private VBox vboxPrincipal;
+
+  private void cargarJuegoInfo() {
+    if (juegoSeleccionado != null) {
+      // Mostrar datos del juego en los controles correspondientes
+      if (juegoSeleccionado.getDescripcion() != null) {
+        lblDescripcionVacio.setText(juegoSeleccionado.getDescripcion());
+      }
+      if (juegoSeleccionado.getDesarrolladores() != null) {
+        lblDesarrolladoresVacio.setText(juegoSeleccionado.getDesarrolladores());
+      }
+      if (juegoSeleccionado.getPlataformas() != null) {
+        lblPlataformasVacio.setText(juegoSeleccionado.getPlataformas().toString());
+      }
+      if (juegoSeleccionado.getFechaLanzamiento() != null) {
+        lblFechaLanzamientoVacio.setText(juegoSeleccionado.getFechaLanzamiento());
+      }
+      if (juegoSeleccionado.getGeneros() != null) {
+        lblGenerosVacio.setText(juegoSeleccionado.getGeneros());
+      }
+
+      if (juegoSeleccionado.getTiempoJugado() >= 0) {
+        lblTiempoJugadoVacio.setText(juegoSeleccionado.getTiempoJugado() + " Horas");
+      }
+
+      // Para las imágenes
+      if (juegoSeleccionado.getImagenSecundaria() != null) {
+        Image imgSecundaria = new Image(new ByteArrayInputStream(juegoSeleccionado.getImagenSecundaria()));
+        imgJuego2.setImage(imgSecundaria);
+      }
+      if (juegoSeleccionado.getImagenTerciaria() != null) {
+        Image imgTerciaria = new Image(new ByteArrayInputStream(juegoSeleccionado.getImagenTerciaria()));
+        imgJuego3.setImage(imgTerciaria);
+      }
+      if (juegoSeleccionado.getImagenCuarta() != null) {
+        Image imgCuarta = new Image(new ByteArrayInputStream(juegoSeleccionado.getImagenCuarta()));
+        imgJuego4.setImage(imgCuarta);
+      }
+      if (juegoSeleccionado.getImagenQuinta() != null) {
+        Image imgQuinta = new Image(new ByteArrayInputStream(juegoSeleccionado.getImagenQuinta()));
+        imgJuego5.setImage(imgQuinta);
+      }
+    }
+  }
+
+  @FXML
+  void btnAnadirJuegoPressed(MouseEvent event) {
+
+  }
+
+  @FXML
+  void btnAnadirListaPressed(MouseEvent event) {
+
+  }
+
+  @FXML
+  void btnEliminarJuegoPressed(MouseEvent event) {
+
+  }
+
+  @FXML
+  void btnEliminarListaPressed(MouseEvent event) {
+
+  }
+
+  @FXML
+  void btnJugadoPressed(MouseEvent event) {
+
+  }
+
+  @FXML
+  void btnNoJugadoPressed(MouseEvent event) {
+
+  }
+
+  @FXML
+  void cerrarPressed(MouseEvent event) {
+    Stage ventanaPrincipal = (Stage) ((Node) event.getSource()).getScene().getWindow();
+    ventanaPrincipal.close();
+  }
+
+  @FXML
+  void flechaAtrasPressed(MouseEvent event) throws IOException {
+    VentanaUtil.abrirVentana(HOME, "Juego Info", STYLES, null, event);
+
+  }
+
+  @FXML
+  void minimizarPressed(MouseEvent event) {
+    Stage ventanaPrincipal = (Stage) ((Node) event.getSource()).getScene().getWindow();
+    ventanaPrincipal.setIconified(true);
+  }
+
+  public void setJuegoSeleccionado(JuegoBD juego) {
+    this.juegoSeleccionado = juego;
+
+    // Actualizar la interfaz con los datos del juego
+    if (juego != null) {
+      // Mostrar el título
+      lblTitulo.setText(juego.getTitulo());
+
+      // Mostrar la imagen principal si está disponible
+      if (juego.getImagenPrincipal() != null) {
+        Image img = new Image(new ByteArrayInputStream(juego.getImagenPrincipal()));
+        imgJuego.setImage(img);
+      }
+
+      // Mostrar la descripción del juego
+      if (juego.getDescripcion() != null) {
+        lblDescripcionVacio.setText(juego.getDescripcion());
+      }
+
+      // Mostrar los desarrolladores si están disponibles
+      if (juego.getDesarrolladores() != null) {
+        lblDesarrolladoresVacio.setText(juego.getDesarrolladores());
+      }
+
+      // Mostrar las plataformas si están disponibles
+      if (juego.getPlataformas() != null && !juego.getPlataformas().isEmpty()) {
+        lblPlataformasVacio.setText(String.join(", ", juego.getPlataformas()));
+      }
+
+      // Mostrar la fecha de lanzamiento si está disponible
+      if (juego.getFechaLanzamiento() != null) {
+        lblFechaLanzamientoVacio.setText(juego.getFechaLanzamiento());
+      }
+
+      // Mostrar los géneros si están disponibles
+      if (juego.getGeneros() != null) {
+        lblGenerosVacio.setText(juego.getGeneros());
+      }
+
+      // Mostrar el tiempo jugado si es mayor o igual a 0
+      if (juego.getTiempoJugado() >= 0) {
+        lblTiempoJugadoVacio.setText(juego.getTiempoJugado() + " Horas");
+      }
+
+      // Mostrar las imágenes adicionales (secundarias, terciarias, etc.)
+      if (juego.getImagenSecundaria() != null) {
+        imgJuego2.setImage(new Image(new ByteArrayInputStream(juego.getImagenSecundaria())));
+      }
+      if (juego.getImagenTerciaria() != null) {
+        imgJuego3.setImage(new Image(new ByteArrayInputStream(juego.getImagenTerciaria())));
+      }
+      if (juego.getImagenCuarta() != null) {
+        imgJuego4.setImage(new Image(new ByteArrayInputStream(juego.getImagenCuarta())));
+      }
+      if (juego.getImagenQuinta() != null) {
+        imgJuego5.setImage(new Image(new ByteArrayInputStream(juego.getImagenQuinta())));
+      }
+    }
+  }
+
+  /**
+   * @return the tituloJuego
+   */
+  public String getTituloJuego() {
+    return tituloJuego;
+  }
+
+  public void setTituloJuego(String tituloJuego) {
+    this.tituloJuego = tituloJuego;
+    if (lblTitulo != null) {
+      lblTitulo.setText(tituloJuego);
+    }
+    System.out.println("Juego de Info: " + tituloJuego);
+    cargarJuegoInfo();
+
+  }
 
 }
