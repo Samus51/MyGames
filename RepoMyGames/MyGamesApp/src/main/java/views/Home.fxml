@@ -64,7 +64,7 @@
                                           <Cursor fx:constant="HAND" />
                                        </cursor>
                                     </Label>
-                                    <Label prefHeight="51.0" prefWidth="267.0" text="Nuevos Juegos">
+                                    <Label prefHeight="51.0" prefWidth="267.0" text="Creados por usuario">
                                        <font>
                                           <Font size="35.0" />
                                        </font>
@@ -393,7 +393,7 @@
                                           <Cursor fx:constant="HAND" />
                                        </cursor>
                                     </Label>
-                                    <Label graphicTextGap="25.0" prefHeight="51.0" prefWidth="267.0" text="Nuevos Juegos">
+                                    <Label graphicTextGap="25.0" prefHeight="51.0" prefWidth="267.0" text="Creados por usuario">
                                        <font>
                                           <Font size="35.0" />
                                        </font>
@@ -456,7 +456,7 @@
                                           <Cursor fx:constant="HAND" />
                                        </cursor>
                                     </Label>
-                                    <Label prefHeight="51.0" prefWidth="267.0" text="Nuevos Juegos">
+                                    <Label prefHeight="51.0" prefWidth="267.0" text="Creados por usuario">
                                        <font>
                                           <Font size="35.0" />
                                        </font>

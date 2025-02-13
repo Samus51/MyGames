@@ -64,7 +64,7 @@
                                           <Cursor fx:constant="HAND" />
                                        </cursor>
                                     </Label>
-                                    <Label prefHeight="51.0" prefWidth="267.0" text="Nuevos Juegos">
+                                    <Label prefHeight="51.0" prefWidth="267.0" text="Creados por usuario">
                                        <font>
                                           <Font size="35.0" />
                                        </font>
@@ -330,7 +330,7 @@
                                           <Font size="35.0" />
                                        </font>
                                     </Label>
-                                    <Label graphicTextGap="25.0" prefHeight="51.0" prefWidth="267.0" text="Nuevos Juegos">
+                                    <Label graphicTextGap="25.0" prefHeight="51.0" prefWidth="267.0" text="Creados por usuario">
                                        <font>
                                           <Font size="35.0" />
                                        </font>
@@ -381,7 +381,7 @@
                                           <Cursor fx:constant="HAND" />
                                        </cursor>
                                     </Label>
-                                    <Label prefHeight="51.0" prefWidth="267.0" text="Nuevos Juegos">
+                                    <Label prefHeight="51.0" prefWidth="267.0" text="Creados por usuario">
                                        <font>
                                           <Font size="35.0" />
                                        </font>
@@ -515,16 +515,6 @@
                               </HBox>
                               <HBox alignment="TOP_RIGHT" prefHeight="64.0" prefWidth="644.0" spacing="40.0">
                                  <children>
-                                    <ImageView fx:id="imgCargarJuegos" fitHeight="50.0" fitWidth="50.0" onMouseClicked="#imgCargarJuegosPressed" pickOnBounds="true" preserveRatio="true">
-                                       <image>
-                                          <Image url="@/flechaAtras.png" />
-                                       </image>
-                                    </ImageView>
-                                    <ImageView fx:id="imgCargarJuegoAtras" fitHeight="50.0" fitWidth="50.0" onMouseClicked="#imgCargarJuegoAtrasPressed" pickOnBounds="true" preserveRatio="true">
-                                       <image>
-                                          <Image url="@/flechaDerecha.png" />
-                                       </image>
-                                    </ImageView>
                                     <ImageView fx:id="btnUser" fitHeight="50.0" fitWidth="50.0" onMouseClicked="#btnUserPressed" pickOnBounds="true" preserveRatio="true">
                                        <image>
                                           <Image url="@/User.Png" />
@@ -876,6 +866,20 @@
                                     </HBox>
                                  </content>
                               </ScrollPane>
+                              <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="20.0">
+                                 <children>
+                                    <ImageView fx:id="imgCargarJuegoAtras" fitHeight="150.0" fitWidth="200.0" onMouseClicked="#imgCargarJuegoAtrasPressed" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@/flechaAtras.png" />
+                                       </image>
+                                    </ImageView>
+                                    <ImageView fx:id="imgCargarJuegos" fitHeight="150.0" fitWidth="200.0" onMouseClicked="#imgCargarJuegosPressed" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@/flechaDerecha.png" />
+                                       </image>
+                                    </ImageView>
+                                 </children>
+                              </HBox>
                            </children>
                         </VBox>
                      </content>
