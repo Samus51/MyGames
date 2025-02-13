@@ -114,7 +114,7 @@
                                           <Insets />
                                        </VBox.margin>
                                     </Label>
-                                    <Label prefHeight="51.0" prefWidth="273.0" text="Acción">
+                                    <Label onMouseClicked="#lblGenerosPressed" prefHeight="51.0" prefWidth="273.0" text="Acción">
                                        <font>
                                           <Font size="30.0" />
                                        </font>
@@ -125,7 +125,7 @@
                                           <Insets left="50.0" />
                                        </VBox.margin>
                                     </Label>
-                                    <Label prefHeight="51.0" prefWidth="267.0" text="Indie">
+                                    <Label onMouseClicked="#lblGenerosPressed" prefHeight="51.0" prefWidth="267.0" text="Indie">
                                        <font>
                                           <Font size="30.0" />
                                        </font>
@@ -136,7 +136,7 @@
                                           <Insets left="50.0" />
                                        </VBox.margin>
                                     </Label>
-                                    <Label text="Aventura">
+                                    <Label onMouseClicked="#lblGenerosPressed" text="Aventura">
                                        <font>
                                           <Font size="30.0" />
                                        </font>
@@ -147,7 +147,7 @@
                                           <Insets left="50.0" />
                                        </VBox.margin>
                                     </Label>
-                                    <Label text="RPG">
+                                    <Label onMouseClicked="#lblGenerosPressed" text="RPG">
                                        <font>
                                           <Font size="30.0" />
                                        </font>
@@ -158,7 +158,7 @@
                                           <Insets left="50.0" />
                                        </VBox.margin>
                                     </Label>
-                                    <Label prefHeight="51.0" prefWidth="281.0" text="Estrategia">
+                                    <Label onMouseClicked="#lblGenerosPressed" prefHeight="51.0" prefWidth="281.0" text="Estrategia">
                                        <font>
                                           <Font size="30.0" />
                                        </font>
@@ -169,7 +169,7 @@
                                           <Insets left="50.0" />
                                        </VBox.margin>
                                     </Label>
-                                    <Label text="Shooter">
+                                    <Label onMouseClicked="#lblGenerosPressed" text="Shooter">
                                        <font>
                                           <Font size="30.0" />
                                        </font>
@@ -177,7 +177,7 @@
                                           <Insets left="50.0" />
                                        </VBox.margin>
                                     </Label>
-                                    <Label text="Casual">
+                                    <Label onMouseClicked="#lblGenerosPressed" text="Casual">
                                        <opaqueInsets>
                                           <Insets />
                                        </opaqueInsets>
@@ -188,7 +188,7 @@
                                           <Font size="30.0" />
                                        </font>
                                     </Label>
-                                    <Label text="Simulación">
+                                    <Label onMouseClicked="#lblGenerosPressed" text="Simulación">
                                        <opaqueInsets>
                                           <Insets />
                                        </opaqueInsets>
@@ -199,7 +199,7 @@
                                           <Font size="30.0" />
                                        </font>
                                     </Label>
-                                    <Label text="Puzzle">
+                                    <Label onMouseClicked="#lblGenerosPressed" text="Puzzle">
                                        <opaqueInsets>
                                           <Insets />
                                        </opaqueInsets>
@@ -210,7 +210,7 @@
                                           <Font size="30.0" />
                                        </font>
                                     </Label>
-                                    <Label text="Arcade">
+                                    <Label onMouseClicked="#lblGenerosPressed" text="Arcade">
                                        <opaqueInsets>
                                           <Insets />
                                        </opaqueInsets>
@@ -221,7 +221,7 @@
                                           <Font size="30.0" />
                                        </font>
                                     </Label>
-                                    <Label text="Plataformas">
+                                    <Label onMouseClicked="#lblGenerosPressed" text="Plataformas">
                                        <opaqueInsets>
                                           <Insets />
                                        </opaqueInsets>
@@ -232,7 +232,7 @@
                                           <Font size="30.0" />
                                        </font>
                                     </Label>
-                                    <Label text="Multijugador Masivo">
+                                    <Label onMouseClicked="#lblGenerosPressed" text="Multijugador Masivo">
                                        <opaqueInsets>
                                           <Insets />
                                        </opaqueInsets>
@@ -243,7 +243,7 @@
                                           <Font size="30.0" />
                                        </font>
                                     </Label>
-                                    <Label text="Carreras">
+                                    <Label onMouseClicked="#lblGenerosPressed" text="Carreras">
                                        <opaqueInsets>
                                           <Insets />
                                        </opaqueInsets>
@@ -254,7 +254,7 @@
                                           <Font size="30.0" />
                                        </font>
                                     </Label>
-                                    <Label text="Deportes">
+                                    <Label onMouseClicked="#lblGenerosPressed" text="Deportes">
                                        <opaqueInsets>
                                           <Insets />
                                        </opaqueInsets>
@@ -265,7 +265,7 @@
                                           <Font size="30.0" />
                                        </font>
                                     </Label>
-                                    <Label text="Lucha">
+                                    <Label onMouseClicked="#lblGenerosPressed" text="Lucha">
                                        <opaqueInsets>
                                           <Insets />
                                        </opaqueInsets>
@@ -276,7 +276,7 @@
                                           <Font size="30.0" />
                                        </font>
                                     </Label>
-                                    <Label text="Familiar">
+                                    <Label onMouseClicked="#lblGenerosPressed" text="Familiar">
                                        <opaqueInsets>
                                           <Insets />
                                        </opaqueInsets>
@@ -287,7 +287,7 @@
                                           <Font size="30.0" />
                                        </font>
                                     </Label>
-                                    <Label text="Juegos de Mesa">
+                                    <Label onMouseClicked="#lblGenerosPressed" text="Juegos de Mesa">
                                        <opaqueInsets>
                                           <Insets />
                                        </opaqueInsets>
@@ -298,7 +298,7 @@
                                           <Font size="30.0" />
                                        </font>
                                     </Label>
-                                    <Label text="Educativo">
+                                    <Label onMouseClicked="#lblGenerosPressed" text="Educativo">
                                        <opaqueInsets>
                                           <Insets />
                                        </opaqueInsets>
@@ -309,7 +309,7 @@
                                           <Font size="30.0" />
                                        </font>
                                     </Label>
-                                    <Label text="Cartas">
+                                    <Label onMouseClicked="#lblGenerosPressed" text="Cartas">
                                        <opaqueInsets>
                                           <Insets />
                                        </opaqueInsets>
@@ -320,27 +320,27 @@
                                           <Font size="30.0" />
                                        </font>
                                     </Label>
-                                    <Label graphicTextGap="25.0" prefHeight="51.0" prefWidth="256.0" text="Tus Juegos">
+                                    <Label graphicTextGap="25.0" onMouseClicked="#lblGenerosPressed" prefHeight="51.0" prefWidth="256.0" text="Tus Juegos">
                                        <font>
                                           <Font size="35.0" />
                                        </font>
                                     </Label>
-                                    <Label graphicTextGap="25.0" prefHeight="51.0" prefWidth="273.0" text="Recomendados">
+                                    <Label graphicTextGap="25.0" onMouseClicked="#lblGenerosPressed" prefHeight="51.0" prefWidth="273.0" text="Recomendados">
                                        <font>
                                           <Font size="35.0" />
                                        </font>
                                     </Label>
-                                    <Label graphicTextGap="25.0" prefHeight="51.0" prefWidth="267.0" text="Creados por usuario">
+                                    <Label graphicTextGap="25.0" onMouseClicked="#lblGenerosPressed" prefHeight="51.0" prefWidth="267.0" text="Creados por usuario">
                                        <font>
                                           <Font size="35.0" />
                                        </font>
                                     </Label>
-                                    <Label graphicTextGap="25.0" prefHeight="51.0" prefWidth="255.0" text="Añadir Juego">
+                                    <Label graphicTextGap="25.0" onMouseClicked="#lblGenerosPressed" prefHeight="51.0" prefWidth="255.0" text="Añadir Juego">
                                        <font>
                                           <Font size="35.0" />
                                        </font>
                                     </Label>
-                                    <Label graphicTextGap="25.0" text="Lista de Deseados">
+                                    <Label graphicTextGap="25.0" onMouseClicked="#lblGenerosPressed" text="Lista de Deseados">
                                        <font>
                                           <Font size="35.0" />
                                        </font>
@@ -405,7 +405,7 @@
                                           <Cursor fx:constant="HAND" />
                                        </cursor>
                                     </Label>
-                                    <Label fx:id="btnPlataformasSalida" onMouseClicked="#btnPlataformasSalidaPressed" text="Plataformas" textFill="WHITE">
+                                    <Label fx:id="btnPlataformasSalida" onMouseClicked="#btnPlataformasSalidaPressed" text="Plataformas &lt;--" textFill="WHITE">
                                        <font>
                                           <Font name="System Bold" size="35.0" />
                                        </font>
@@ -413,7 +413,7 @@
                                           <Cursor fx:constant="HAND" />
                                        </cursor>
                                     </Label>
-                                    <Label text="PC &lt;-">
+                                    <Label onMouseClicked="#lblPlataformasPressed" text="PC">
                                        <padding>
                                           <Insets left="50.0" />
                                        </padding>
@@ -424,7 +424,7 @@
                                           <Cursor fx:constant="HAND" />
                                        </cursor>
                                     </Label>
-                                    <Label text="PlayStation">
+                                    <Label onMouseClicked="#lblPlataformasPressed" text="PlayStation">
                                        <padding>
                                           <Insets left="50.0" />
                                        </padding>
@@ -435,7 +435,7 @@
                                           <Cursor fx:constant="HAND" />
                                        </cursor>
                                     </Label>
-                                    <Label text="Xbox">
+                                    <Label onMouseClicked="#lblPlataformasPressed" text="Xbox">
                                        <padding>
                                           <Insets left="50.0" />
                                        </padding>
@@ -446,7 +446,7 @@
                                           <Cursor fx:constant="HAND" />
                                        </cursor>
                                     </Label>
-                                    <Label text="Nintendo">
+                                    <Label onMouseClicked="#lblPlataformasPressed" text="Nintendo">
                                        <padding>
                                           <Insets left="50.0" />
                                        </padding>
@@ -457,7 +457,7 @@
                                           <Cursor fx:constant="HAND" />
                                        </cursor>
                                     </Label>
-                                    <Label text="Retro">
+                                    <Label onMouseClicked="#lblPlataformasPressed" text="Retro">
                                        <padding>
                                           <Insets left="50.0" />
                                        </padding>

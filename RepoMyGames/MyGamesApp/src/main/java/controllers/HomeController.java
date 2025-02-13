@@ -35,7 +35,9 @@ public class HomeController {
 
 	private static final String PANEL_HOME_BUSQUEDA = "/views/HomeBusqueda.fxml";
 
-	private static final String PANEL_GENEROS = "/views/GenerosYPlataformas.fxml";
+	private static final String PANEL_GENEROS = "/views/Generos.fxml";
+
+	private static final String PANEL_PLATAFORMAS = "/views/Plataformas.fxml";
 
 	private static final String PANEL_ADD_JUEGO = "/views/JuegoAnadir.fxml";
 
@@ -309,18 +311,18 @@ public class HomeController {
 
 	@FXML
 	void imgLupaPressed(MouseEvent event) throws IOException {
-	    String texto = txtBusqueda.getText();
-	    System.out.println(texto + " -------");
+		String texto = txtBusqueda.getText();
+		System.out.println(texto + " -------");
 
-	    // Obtén el controlador de la ventana y pasa el texto
-	    VentanaUtil.abrirVentana(PANEL_HOME_BUSQUEDA, "Búsqueda", STYLES, controller -> {
-	        HomeBusquedaController homeController = (HomeBusquedaController) controller;
-	        HomeBusquedaController.setUltimoTextoBusqueda(texto);
-	        
-	        List<JuegoHome> juegosCargar = ExtractorAPI.buscarJuegoPorNombreBarra(texto, 0);
-	        System.out.println("JUEGOS CARGADOS:" + juegosCargar.size());
-	        homeController.setJuegosBuscados(juegosCargar);
-	    }, event);
+		// Obtén el controlador de la ventana y pasa el texto
+		VentanaUtil.abrirVentana(PANEL_HOME_BUSQUEDA, "Búsqueda", STYLES, controller -> {
+			HomeBusquedaController homeController = (HomeBusquedaController) controller;
+			HomeBusquedaController.setUltimoTextoBusqueda(texto);
+
+			List<JuegoHome> juegosCargar = ExtractorAPI.buscarJuegoPorNombreBarra(texto, 0);
+			System.out.println("JUEGOS CARGADOS:" + juegosCargar.size());
+			homeController.setJuegosBuscados(juegosCargar);
+		}, event);
 	}
 
 	@FXML
@@ -329,12 +331,15 @@ public class HomeController {
 		String genero = labelClicado.getText().toLowerCase().replace(" ", "-");
 		System.out.println(genero + " -------");
 
-		List<JuegoHome> juegosCargar = ExtractorAPI.buscarJuegosPorGenero(genero);
+		List<JuegoHome> juegosCargar = ExtractorAPI.buscarJuegosPorGenero(genero, 0);
 		System.out.println("JUEGOS CARGADOS: " + juegosCargar.size());
 
 		VentanaUtil.abrirVentana(PANEL_GENEROS, "Géneros", STYLES, controller -> {
-			((GenerosYPlataformasController) controller).setJuegosBuscados(juegosCargar);
+			GenerosController genController = (GenerosController) controller;
+			GenerosController.setUltimoGeneroBuscado(genero);
+			genController.setJuegosBuscados(juegosCargar);
 		}, event);
+
 	}
 
 	@FXML
@@ -344,14 +349,16 @@ public class HomeController {
 		String plataformaPadre = labelClicado.getText().toLowerCase().replace(" ", "-");
 		System.out.println(plataformaPadre + " -------");
 
-		List<JuegoHome> juegosCargar = ExtractorApi2.buscarJuegosPorPlataformaPadre(plataformaPadre);
+		List<JuegoHome> juegosCargar = ExtractorApi2.buscarJuegosPorPlataformaPadre(plataformaPadre, 0);
 		System.out.println("JUEGOS CARGADOS: " + juegosCargar.size());
 
-		VentanaUtil.abrirVentana(PANEL_GENEROS, "Plataformas", STYLES, controller -> {
-			((GenerosYPlataformasController) controller).setJuegosBuscados(juegosCargar);
+		VentanaUtil.abrirVentana(PANEL_PLATAFORMAS, "Plataformas", STYLES, controller -> {
+			PlataformasController platController = (PlataformasController) controller;
+			PlataformasController.setUltimaPlataformaBuscada(plataformaPadre);
+			platController.setJuegosBuscados(juegosCargar);
 		}, event);
+		System.out.println(PlataformasController.getUltimaPlataformaBuscada());
 
-		
 	}
 
 }

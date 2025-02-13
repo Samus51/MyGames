@@ -30,11 +30,11 @@ public class ExtractorAPI {
 
 	private static final String API_URL_TEMPLATE_SEARCH = "https://api.rawg.io/api/games?key=fcc27fd8089c4a42a452702e7f522258&search=%s";
 
-	public static List<JuegoHome> buscarJuegoPorNombreBarra(String nombreJuego, int offset) {
+	public static List<JuegoHome> buscarJuegoPorNombreBarra(String nombreJuego, int indice) {
 		List<JuegoHome> juegos = new ArrayList<>();
 		try {
 			String apiUrl = String.format(API_URL_SEARCH_BUSQUEDA, URLEncoder.encode(nombreJuego, "UTF-8")) + "&page="
-					+ (offset / 12 + 1);
+					+ (indice / 12 + 1);
 			HttpURLConnection connection = (HttpURLConnection) new URL(apiUrl).openConnection();
 			connection.setRequestMethod("GET");
 
@@ -83,7 +83,7 @@ public class ExtractorAPI {
 		return juegos;
 	}
 
-	public static List<JuegoHome> buscarJuegosPorGenero(String genero) {
+	public static List<JuegoHome> buscarJuegosPorGenero(String genero, int indice) {
 		if (genero.equals("rpg")) {
 			genero = "5";
 		}
@@ -91,7 +91,7 @@ public class ExtractorAPI {
 
 		try {
 
-			String apiUrl = String.format(API_URL_GENRE, URLEncoder.encode(genero, "UTF-8"));
+			String apiUrl = String.format(API_URL_GENRE, URLEncoder.encode(genero, "UTF-8")) + "&page=" + (indice / 12 + 1);
 			HttpURLConnection connection = (HttpURLConnection) new URL(apiUrl).openConnection();
 			connection.setRequestMethod("GET");
 
@@ -188,8 +188,7 @@ public class ExtractorAPI {
 							if (platformsArray != null) {
 								for (int k = 0; k < platformsArray.length(); k++) {
 									JSONObject platformObj = platformsArray.getJSONObject(k);
-									String platformName = platformObj.optJSONObject("platform").optString("name",
-											"Desconocido");
+									String platformName = platformObj.optJSONObject("platform").optString("name", "Desconocido");
 									platforms.add(platformName);
 								}
 							}
@@ -363,8 +362,7 @@ public class ExtractorAPI {
 					if (platformsArray != null) {
 						for (int i = 0; i < platformsArray.length(); i++) {
 							JSONObject platformObj = platformsArray.getJSONObject(i);
-							String platformName = platformObj.optJSONObject("platform").optString("name",
-									"Desconocido");
+							String platformName = platformObj.optJSONObject("platform").optString("name", "Desconocido");
 							plataformas.add(platformName);
 						}
 					}
@@ -374,8 +372,8 @@ public class ExtractorAPI {
 					juegosConImagenes.add(new JuegoHome(foto, title, gameId, plataformas));
 
 				} else {
-					System.out.println("Error al conectar con la API para el juego con ID " + gameId + ": "
-							+ connection.getResponseCode());
+					System.out.println(
+							"Error al conectar con la API para el juego con ID " + gameId + ": " + connection.getResponseCode());
 				}
 			}
 

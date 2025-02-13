@@ -13,7 +13,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane fx:id="VentanaPrincipal" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" stylesheets="@../../resources/styles.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.GenerosYPlataformasController">
+<BorderPane fx:id="VentanaPrincipal" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" stylesheets="@../../resources/styles.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.PlataformasController">
    <center>
       <HBox prefHeight="100.0" prefWidth="200.0" spacing="25.0" BorderPane.alignment="CENTER">
          <children>
@@ -405,7 +405,7 @@
                                           <Cursor fx:constant="HAND" />
                                        </cursor>
                                     </Label>
-                                    <Label fx:id="btnPlataformasSalida" onMouseClicked="#btnPlataformasSalidaPressed" text="Plataformas" textFill="WHITE">
+                                    <Label fx:id="btnPlataformasSalida" onMouseClicked="#btnPlataformasSalidaPressed" text="Plataformas --&gt;" textFill="WHITE">
                                        <font>
                                           <Font name="System Bold" size="35.0" />
                                        </font>
@@ -413,7 +413,7 @@
                                           <Cursor fx:constant="HAND" />
                                        </cursor>
                                     </Label>
-                                    <Label text="PC &lt;-">
+                                    <Label onMouseClicked="#lblPlataformasPressed" text="PC">
                                        <padding>
                                           <Insets left="50.0" />
                                        </padding>
@@ -424,7 +424,7 @@
                                           <Cursor fx:constant="HAND" />
                                        </cursor>
                                     </Label>
-                                    <Label text="PlayStation">
+                                    <Label onMouseClicked="#lblPlataformasPressed" text="PlayStation">
                                        <padding>
                                           <Insets left="50.0" />
                                        </padding>
@@ -435,7 +435,7 @@
                                           <Cursor fx:constant="HAND" />
                                        </cursor>
                                     </Label>
-                                    <Label text="Xbox">
+                                    <Label onMouseClicked="#lblPlataformasPressed" text="Xbox">
                                        <padding>
                                           <Insets left="50.0" />
                                        </padding>
@@ -446,7 +446,7 @@
                                           <Cursor fx:constant="HAND" />
                                        </cursor>
                                     </Label>
-                                    <Label text="Nintendo">
+                                    <Label onMouseClicked="#lblPlataformasPressed" text="Nintendo">
                                        <padding>
                                           <Insets left="50.0" />
                                        </padding>
@@ -457,7 +457,7 @@
                                           <Cursor fx:constant="HAND" />
                                        </cursor>
                                     </Label>
-                                    <Label text="Retro">
+                                    <Label onMouseClicked="#lblPlataformasPressed" text="Retro">
                                        <padding>
                                           <Insets left="50.0" />
                                        </padding>
@@ -866,6 +866,20 @@
                                     </HBox>
                                  </content>
                               </ScrollPane>
+                              <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="20.0">
+                                 <children>
+                                    <ImageView fx:id="imgCargarJuegoAtras" fitHeight="150.0" fitWidth="200.0" onMouseClicked="#imgCargarJuegoAtrasPressed" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@/flechaAtras.png" />
+                                       </image>
+                                    </ImageView>
+                                    <ImageView fx:id="imgCargarJuegos" fitHeight="150.0" fitWidth="200.0" onMouseClicked="#imgCargarJuegosPressed" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@/flechaDerecha.png" />
+                                       </image>
+                                    </ImageView>
+                                 </children>
+                              </HBox>
                            </children>
                         </VBox>
                      </content>

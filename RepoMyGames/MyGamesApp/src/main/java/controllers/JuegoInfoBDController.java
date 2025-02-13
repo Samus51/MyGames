@@ -3,8 +3,12 @@ package controllers;
 import java.io.IOException;
 import java.util.List;
 
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -12,16 +16,21 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
+import javafx.util.Duration;
 import models.JuegoPachorra;
+import utils.ExtractorAPI;
 import utils.ExtractorApi2;
 import utils.VentanaUtil;
 
 /**
  * Controlador de JuegoInfo
  */
-public class JuegoInfoController {
+public class JuegoInfoBDController {
 	String tituloJuego;
 
 	/**
@@ -47,33 +56,134 @@ public class JuegoInfoController {
 	// Pantallas
 	private static final String HOME = "/views/Home.fxml";
 
-//Contenedores principales
 	@FXML
 	private BorderPane VentanaPrincipal;
-	@FXML
-	private VBox vboxPrincipal, menuGeneral, menuAnadirJuego, menuAnadirJuegoJugado, menuAnadirListaNoJugado,
-			menuJugadoAnanidoLista, menuJugadoSinAnadir;
 
-//Botones
 	@FXML
-	private Button btnAnadirJuego, btnAnadirJuegoAnadirListaNoJugado, btnAnadirJuegoJugadoAnanidoLista,
-			btnAnadirJuegoJugadoSinAnadir, btnAnadirListaDeseos, btnAnadirListaDeseosAnadirListaNoJugado,
-			btnAnadirListaDeseosJugadoSinAnadir, btnEliminarJuegoAnadirJuego, btnEliminarJuegoAnadirJuegoJugado,
-			btnEliminarListaDeseosJugadoAnanidoLista, btnJugadoAnadirJuegoJugado, btnJugadoJugadoAnanidoLista,
-			btnJugadoJugadoSinAnadir, btnNoJugado, btnNoJugadoAnadirJuego, btnNoJugadoAnadirListaNoJugado;
+	private Button btnAnadirJuego;
 
-//Imágenes
 	@FXML
-	private ImageView imgCerrar, imgFlechaAtras, imgJuego, imgJuego2, imgJuego3, imgJuego4, imgJuego5, imgJuego6,
-			imgMinimizar, imgPegi;
+	private Button btnAnadirJuegoAnadirListaNoJugado;
 
-//Labels
 	@FXML
-	private Label lblDesarrolladoresVacio, lblDescripcionVacio, lblFechaLanzamientoVacio, lblGenerosVacio,
-			lblMetaScoreVacio, lblPlataformasVacio, lblTiempoJugadoVacio, lblTitulo;
+	private Button btnAnadirJuegoJugadoAnanidoLista;
+
+	@FXML
+	private Button btnAnadirJuegoJugadoSinAnadir;
+
+	@FXML
+	private Button btnAnadirListaDeseos;
+
+	@FXML
+	private Button btnAnadirListaDeseosAnadirListaNoJugado;
+
+	@FXML
+	private Button btnAnadirListaDeseosJugadoSinAnadir;
+
+	@FXML
+	private Button btnEliminarJuegoAnadirJuego;
+
+	@FXML
+	private Button btnEliminarJuegoAnadirJuegoJugado;
+
+	@FXML
+	private Button btnEliminarListaDeseosJugadoAnanidoLista;
+
+	@FXML
+	private Button btnJugadoAnadirJuegoJugado;
+
+	@FXML
+	private Button btnJugadoJugadoAnanidoLista;
+
+	@FXML
+	private Button btnJugadoJugadoSinAnadir;
+
+	@FXML
+	private Button btnNoJugado;
+
+	@FXML
+	private Button btnNoJugadoAnadirJuego;
+
+	@FXML
+	private Button btnNoJugadoAnadirListaNoJugado;
+
+	@FXML
+	private ImageView imgCerrar;
+
+	@FXML
+	private ImageView imgFlechaAtras;
+
+	@FXML
+	private ImageView imgJuego;
+
+	@FXML
+	private ImageView imgJuego2;
+
+	@FXML
+	private ImageView imgJuego3;
+
+	@FXML
+	private ImageView imgJuego4;
+
+	@FXML
+	private ImageView imgJuego5;
+
+	@FXML
+	private ImageView imgJuego6;
+
+	@FXML
+	private ImageView imgMinimizar;
+
+	@FXML
+	private ImageView imgPegi;
+
+	@FXML
+	private Label lblDesarrolladoresVacio;
+
+	@FXML
+	private Label lblDescripcionVacio;
+
+	@FXML
+	private Label lblFechaLanzamientoVacio;
+
+	@FXML
+	private Label lblGenerosVacio;
+
+	@FXML
+	private Label lblMetaScoreVacio;
+
+	@FXML
+	private Label lblPlataformasVacio;
+
+	@FXML
+	private Label lblTiempoJugadoVacio;
+
+	@FXML
+	private Label lblTitulo;
+
+	@FXML
+	private VBox menuAnadirJuego;
+
+	@FXML
+	private VBox menuAnadirJuegoJugado;
+
+	@FXML
+	private VBox menuAnadirListaNoJugado;
+
+	@FXML
+	private VBox menuGeneral;
+
+	@FXML
+	private VBox menuJugadoAnanidoLista;
+
+	@FXML
+	private VBox menuJugadoSinAnadir;
 
 	@FXML
 	private TextField txtComentarios;
+
+	@FXML
+	private VBox vboxPrincipal;
 
 	private void cargarJuegoInfo() {
 		// Simula la carga del juego

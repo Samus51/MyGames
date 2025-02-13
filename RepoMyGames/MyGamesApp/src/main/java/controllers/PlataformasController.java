@@ -24,8 +24,22 @@ import utils.ExtractorApi2;
 import utils.ImagenUtils;
 import utils.VentanaUtil;
 
-public class GenerosYPlataformasController {
-	private static final String PANEL_GENEROS = "/views/GenerosYPlataformas.fxml";
+public class PlataformasController {
+	private static String ultimaPlataformaBuscada = "";
+
+	/**
+	 * @return the ultimaPlataformaBuscada
+	 */
+	public static String getUltimaPlataformaBuscada() {
+		return ultimaPlataformaBuscada;
+	}
+
+	/**
+	 * @param ultimaPlataformaBuscada the ultimaPlataformaBuscada to set
+	 */
+	public static void setUltimaPlataformaBuscada(String ultimaPlataformaBuscada) {
+		PlataformasController.ultimaPlataformaBuscada = ultimaPlataformaBuscada;
+	}
 
 	List<JuegoHome> juegosBuscados = new ArrayList<JuegoHome>();
 
@@ -33,6 +47,7 @@ public class GenerosYPlataformasController {
 	 * @param juegosPasados the juegosBuscados to set
 	 */
 	public void setJuegosBuscados(List<JuegoHome> juegosPasados) {
+		System.out.println("Ultima Plataformas Buscada: " + ultimaPlataformaBuscada);
 		this.juegosBuscados = juegosPasados;
 		System.out.println(juegosPasados.toString());
 
@@ -98,6 +113,10 @@ public class GenerosYPlataformasController {
 	private static final String PANEL_HOME = "/views/Home.fxml";
 
 	private static final String PANEL_HOME_BUSQUEDA = "/views/HomeBusqueda.fxml";
+	private static final String PANEL_PLATAFORMAS = "/views/Plataformas.fxml";
+	private static final String PANEL_GENEROS = "/views/Generos.fxml";
+
+	private static int indice = 0;
 
 	@FXML
 	private BorderPane VentanaPrincipal;
@@ -111,7 +130,8 @@ public class GenerosYPlataformasController {
 	private static Label titulo;
 
 	@FXML
-	private ImageView btnGenerosSalida, imgCerrar, btnMinimizar, btnCerrar, imgLupa, btnMenu, btnUser;
+	private ImageView btnGenerosSalida, imgCerrar, btnMinimizar, btnCerrar, imgLupa, btnMenu, btnUser, imgCargarJuegos,
+			imgCargarJuegosAtras;
 
 	@FXML
 	private TextField txtBusqueda;
@@ -243,7 +263,7 @@ public class GenerosYPlataformasController {
 		String texto = txtBusqueda.getText();
 		System.out.println(texto + " -------");
 
-		List<JuegoHome> juegosCargar = ExtractorAPI.buscarJuegoPorNombreBarra(texto,0);
+		List<JuegoHome> juegosCargar = ExtractorAPI.buscarJuegoPorNombreBarra(texto, 0);
 		System.out.println("JUEGOS CARGADOS:" + juegosCargar.size());
 
 		VentanaUtil.abrirVentana(PANEL_HOME_BUSQUEDA, "Búsqueda", STYLES, controller -> {
@@ -264,12 +284,15 @@ public class GenerosYPlataformasController {
 		String genero = labelClicado.getText().toLowerCase().replace(" ", "-");
 		System.out.println(genero + " -------");
 
-		List<JuegoHome> juegosCargar = ExtractorAPI.buscarJuegosPorGenero(genero);
+		List<JuegoHome> juegosCargar = ExtractorAPI.buscarJuegosPorGenero(genero, 0);
 		System.out.println("JUEGOS CARGADOS: " + juegosCargar.size());
 
 		VentanaUtil.abrirVentana(PANEL_GENEROS, "Géneros", STYLES, controller -> {
-			((GenerosYPlataformasController) controller).setJuegosBuscados(juegosCargar);
+			GenerosController genController = (GenerosController) controller;
+			GenerosController.setUltimoGeneroBuscado(genero);
+			genController.setJuegosBuscados(juegosCargar);
 		}, event);
+		System.out.println(GenerosController.getUltimoGeneroBuscado());
 	}
 
 	@FXML
@@ -279,13 +302,53 @@ public class GenerosYPlataformasController {
 		String plataformaPadre = labelClicado.getText().toLowerCase().replace(" ", "-");
 		System.out.println(plataformaPadre + " -------");
 
-		List<JuegoHome> juegosCargar = ExtractorApi2.buscarJuegosPorPlataformaPadre(plataformaPadre);
+		List<JuegoHome> juegosCargar = ExtractorApi2.buscarJuegosPorPlataformaPadre(plataformaPadre, 0);
 		System.out.println("JUEGOS CARGADOS: " + juegosCargar.size());
 
 		VentanaUtil.abrirVentana(PANEL_GENEROS, "Plataformas", STYLES, controller -> {
-			((GenerosYPlataformasController) controller).setJuegosBuscados(juegosCargar);
+			((PlataformasController) controller).setJuegosBuscados(juegosCargar);
 		}, event);
 
+	}
+
+	@FXML
+	void imgCargarJuegosPressed(MouseEvent event) throws IOException {
+
+		indice += 12;
+		List<JuegoHome> juegosCargar = ExtractorApi2.buscarJuegosPorPlataformaPadre(ultimaPlataformaBuscada, indice);
+		System.out.println("JUEGOS CARGADOS:" + juegosCargar.size());
+
+		if (juegosCargar.size() == 0) {
+			return;
+		}
+
+		VentanaUtil.abrirVentana(PANEL_PLATAFORMAS, "Plataformas", STYLES, controller -> {
+			PlataformasController platController = (PlataformasController) controller;
+			PlataformasController.setUltimaPlataformaBuscada(ultimaPlataformaBuscada);
+			platController.setJuegosBuscados(juegosCargar);
+		}, event);
+		System.out.println(indice);
+
+	}
+
+	@FXML
+	void imgCargarJuegoAtrasPressed(MouseEvent event) throws IOException {
+
+		System.out.println(indice);
+
+		if (indice <= 0) {
+			System.out.println(indice);
+			return;
+		}
+
+		indice -= 12;
+
+		List<JuegoHome> juegosCargar = ExtractorApi2.buscarJuegosPorPlataformaPadre(ultimaPlataformaBuscada, indice);
+		System.out.println("JUEGOS CARGADOS:" + juegosCargar.size());
+
+		VentanaUtil.abrirVentana(PANEL_GENEROS, "Géneros", STYLES, controller -> {
+			((PlataformasController) controller).setJuegosBuscados(juegosCargar);
+		}, event);
 	}
 
 }
