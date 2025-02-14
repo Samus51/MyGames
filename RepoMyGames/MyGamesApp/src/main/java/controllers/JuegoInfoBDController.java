@@ -1,15 +1,16 @@
 package controllers;
 
-import java.io.IOException;
-import java.util.List;
 import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -17,16 +18,12 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
-import javafx.util.Duration;
+import jdbc.Conector;
 import models.JuegoBD;
-import models.JuegoPachorra;
-import utils.ExtractorAPI;
-import utils.ExtractorApi2;
+import models.Usuario;
+import utils.MetodosSQL;
 import utils.VentanaUtil;
 
 /**
@@ -35,7 +32,9 @@ import utils.VentanaUtil;
 public class JuegoInfoBDController {
   String tituloJuego;
 
-  private JuegoBD juegoSeleccionado;
+  private JuegoBD juego;
+  private Usuario usuario;
+  Connection conn;
 
   // Constantes
   // Styles
@@ -173,71 +172,227 @@ public class JuegoInfoBDController {
   private VBox vboxPrincipal;
 
   private void cargarJuegoInfo() {
-    if (juegoSeleccionado != null) {
+    if (juego != null) {
       // Mostrar datos del juego en los controles correspondientes
-      if (juegoSeleccionado.getDescripcion() != null) {
-        lblDescripcionVacio.setText(juegoSeleccionado.getDescripcion());
+      if (juego.getDescripcion() != null) {
+        lblDescripcionVacio.setText(juego.getDescripcion());
       }
-      if (juegoSeleccionado.getDesarrolladores() != null) {
-        lblDesarrolladoresVacio.setText(juegoSeleccionado.getDesarrolladores());
+      if (juego.getDesarrolladores() != null) {
+        lblDesarrolladoresVacio.setText(juego.getDesarrolladores());
       }
-      if (juegoSeleccionado.getPlataformas() != null) {
-        lblPlataformasVacio.setText(juegoSeleccionado.getPlataformas().toString());
+      if (juego.getPlataformas() != null) {
+        lblPlataformasVacio.setText(juego.getPlataformas().toString());
       }
-      if (juegoSeleccionado.getFechaLanzamiento() != null) {
-        lblFechaLanzamientoVacio.setText(juegoSeleccionado.getFechaLanzamiento());
+      if (juego.getFechaLanzamiento() != null) {
+        lblFechaLanzamientoVacio.setText(juego.getFechaLanzamiento());
       }
-      if (juegoSeleccionado.getGeneros() != null) {
-        lblGenerosVacio.setText(juegoSeleccionado.getGeneros());
+      if (juego.getGeneros() != null) {
+        lblGenerosVacio.setText(juego.getGeneros());
       }
 
-      if (juegoSeleccionado.getTiempoJugado() >= 0) {
-        lblTiempoJugadoVacio.setText(juegoSeleccionado.getTiempoJugado() + " Horas");
+      if (juego.getTiempoJugado() >= 0) {
+        lblTiempoJugadoVacio.setText(juego.getTiempoJugado() + " Horas");
       }
 
       // Para las imágenes
-      if (juegoSeleccionado.getImagenSecundaria() != null) {
-        Image imgSecundaria = new Image(new ByteArrayInputStream(juegoSeleccionado.getImagenSecundaria()));
+      if (juego.getImagenSecundaria() != null) {
+        Image imgSecundaria = new Image(new ByteArrayInputStream(juego.getImagenSecundaria()));
         imgJuego2.setImage(imgSecundaria);
       }
-      if (juegoSeleccionado.getImagenTerciaria() != null) {
-        Image imgTerciaria = new Image(new ByteArrayInputStream(juegoSeleccionado.getImagenTerciaria()));
+      if (juego.getImagenTerciaria() != null) {
+        Image imgTerciaria = new Image(new ByteArrayInputStream(juego.getImagenTerciaria()));
         imgJuego3.setImage(imgTerciaria);
       }
-      if (juegoSeleccionado.getImagenCuarta() != null) {
-        Image imgCuarta = new Image(new ByteArrayInputStream(juegoSeleccionado.getImagenCuarta()));
+      if (juego.getImagenCuarta() != null) {
+        Image imgCuarta = new Image(new ByteArrayInputStream(juego.getImagenCuarta()));
         imgJuego4.setImage(imgCuarta);
       }
-      if (juegoSeleccionado.getImagenQuinta() != null) {
-        Image imgQuinta = new Image(new ByteArrayInputStream(juegoSeleccionado.getImagenQuinta()));
+      if (juego.getImagenQuinta() != null) {
+        Image imgQuinta = new Image(new ByteArrayInputStream(juego.getImagenQuinta()));
         imgJuego5.setImage(imgQuinta);
       }
     }
   }
 
   @FXML
-  void btnAnadirJuegoPressed(MouseEvent event) {
+  void btnAnadirJuegoPressed(MouseEvent event) throws ParseException {
+    if (juego == null) {
+      VentanaUtil.mostrarAlerta("Error", "No se ha seleccionado ningún juego.");
+      return;
+    }
 
+    // Recuperar datos del juego
+    String titulo = juego.getTitulo();
+    String descripcion = juego.getDescripcion();
+    String fechaLanzamientoString = juego.getFechaLanzamiento();
+    SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
+
+    java.sql.Date sqlFechaLanzamiento = null;
+    if (fechaLanzamientoString != null && !fechaLanzamientoString.trim().isEmpty()) {
+      try {
+        java.util.Date utilFechaLanzamiento = formato.parse(fechaLanzamientoString);
+        sqlFechaLanzamiento = new java.sql.Date(utilFechaLanzamiento.getTime());
+      } catch (ParseException e) {
+        VentanaUtil.mostrarAlerta("Error de fecha", "Formato de fecha incorrecto.");
+        return;
+      }
+    }
+
+    int idUsuario = HomeController.getUsuario().getIdUsuario();
+    int tiempoJugado = juego.getTiempoJugado();
+    String desarrolladores = juego.getDesarrolladores() != null ? juego.getDesarrolladores() : "Desconocido";
+    String pegi = juego.getPegi() != null ? juego.getPegi() : "Desconocido";
+
+    // Manejo de imágenes
+    byte[] imagenPrincipal = juego.getImagenPrincipal();
+    byte[] imagenSecundaria = juego.getImagenSecundaria();
+    byte[] imagenTercera = juego.getImagenTerciaria();
+    byte[] imagenCuarta = juego.getImagenCuarta();
+    byte[] imagenQuinta = juego.getImagenQuinta();
+
+    String generos = juego.getGeneros() != null ? String.join(",", juego.getGeneros()) : "Desconocido";
+    String plataformas = juego.getPlataformas() != null ? String.join(",", juego.getPlataformas()) : "Desconocido";
+
+    String checkExistenciaJuegoSQL = "SELECT id_juego FROM juegos WHERE titulo = ?";
+    String checkExistenciaBibliotecaSQL = "SELECT 1 FROM biblioteca WHERE id_usuario = ? AND id_juego = ?";
+
+    try (Connection conn = Conector.conectar();
+        PreparedStatement stExistenciaJuego = conn.prepareStatement(checkExistenciaJuegoSQL)) {
+
+      stExistenciaJuego.setString(1, titulo);
+      try (ResultSet rsJuego = stExistenciaJuego.executeQuery()) {
+
+        if (rsJuego.next()) {
+          int idJuegoExistente = rsJuego.getInt("id_juego");
+
+          // Verificar si ya está en la biblioteca
+          try (PreparedStatement stExistenciaBiblioteca = conn.prepareStatement(checkExistenciaBibliotecaSQL)) {
+            stExistenciaBiblioteca.setInt(1, idUsuario);
+            stExistenciaBiblioteca.setInt(2, idJuegoExistente);
+
+            try (ResultSet rsBiblioteca = stExistenciaBiblioteca.executeQuery()) {
+              if (rsBiblioteca.next()) {
+                VentanaUtil.mostrarAlerta("Juego ya en Biblioteca", "Este juego ya está en tu biblioteca.");
+                return;
+              }
+            }
+          }
+
+          // Agregar el juego a la biblioteca
+          String insertBibliotecaSQL = "INSERT INTO biblioteca (id_usuario, id_juego, fecha_adquisicion) VALUES (?, ?, ?)";
+          try (PreparedStatement stInsertBiblioteca = conn.prepareStatement(insertBibliotecaSQL)) {
+            stInsertBiblioteca.setInt(1, idUsuario);
+            stInsertBiblioteca.setInt(2, idJuegoExistente);
+            stInsertBiblioteca.setDate(3, new java.sql.Date(System.currentTimeMillis()));
+
+            stInsertBiblioteca.executeUpdate();
+            VentanaUtil.mostrarAlerta("Juego Añadido", "El juego ha sido añadido a tu biblioteca.");
+          }
+
+        } else {
+          VentanaUtil.mostrarAlerta("Juego no encontrado", "Este juego no está en la base de datos.");
+        }
+      }
+    } catch (SQLException e) {
+      e.printStackTrace();
+      VentanaUtil.mostrarAlerta("Error", "Ocurrió un error al añadir el juego.");
+    }
   }
 
   @FXML
   void btnAnadirListaPressed(MouseEvent event) {
+    int idUsuario = usuario.getIdUsuario();
+    String nombreJuego = tituloJuego;
 
+    if (nombreJuego == null || nombreJuego.trim().isEmpty()) {
+      System.out.println("El nombre del juego no puede estar vacío.");
+      return;
+    }
+
+    try (Connection conn = Conector.conectar()) {
+      int idJuego = MetodosSQL.obtenerIdJuego(conn, nombreJuego);
+
+      if (MetodosSQL.agregarJuegoAUsuario(conn, idUsuario, idJuego)) {
+        System.out.println("Juego agregado correctamente.");
+
+        mostrarMenu(menuAnadirListaNoJugado);
+      } else {
+        System.out.println("Error al agregar el juego a la lista.");
+      }
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
   }
 
   @FXML
   void btnEliminarJuegoPressed(MouseEvent event) {
+    String tituloJuegoBorrar = tituloJuego;
 
+    String selectJuegoSQLBorrado = "SELECT id_juego FROM juegos WHERE titulo = ?";
+    try (Connection cone = Conector.conectar(); PreparedStatement st = cone.prepareStatement(selectJuegoSQLBorrado)) {
+
+      st.setString(1, tituloJuegoBorrar);
+      ResultSet rs = st.executeQuery();
+
+      if (rs.next()) {
+        int idJuego = rs.getInt("id_juego");
+
+        String deleteBibliotecaSQL = "DELETE FROM biblioteca WHERE id_usuario = ? AND id_juego = ?";
+        try (PreparedStatement stDelete = cone.prepareStatement(deleteBibliotecaSQL)) {
+          stDelete.setInt(1, usuario.getIdUsuario());
+          stDelete.setInt(2, idJuego);
+          stDelete.executeUpdate();
+          mostrarMenu(menuGeneral);
+          VentanaUtil.mostrarAlerta("Juego Eliminado", "El juego ha sido eliminado de la biblioteca.");
+        }
+      }
+    } catch (SQLException e) {
+      e.printStackTrace();
+      VentanaUtil.mostrarAlerta("Error al Eliminar Juego", "Ocurrió un error al eliminar el juego de la biblioteca.");
+    }
   }
 
   @FXML
   void btnEliminarListaPressed(MouseEvent event) {
+    try {
+      int juegoId = MetodosSQL.obtenerIdJuego(conn, tituloJuego);
+      boolean eliminado = MetodosSQL.verificarJuegoEnListaDeseos(usuario.getIdUsuario(), juegoId);
 
+      if (eliminado) {
+        VentanaUtil.mostrarAlerta("Mensaje Juego", "Juego eliminado de la lista de deseos.");
+        mostrarMenu(menuGeneral);
+      } else {
+        VentanaUtil.mostrarAlerta("Mensaje Juego", "No se pudo eliminar el juego.");
+      }
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
   }
 
   @FXML
   void btnJugadoPressed(MouseEvent event) {
+    try {
+      int juegoId = MetodosSQL.obtenerIdJuego(conn, tituloJuego);
 
+      // Verificar si ya está marcado como jugado
+      boolean agregado = MetodosSQL.verificarJuegoJugado(usuario.getIdUsuario(), juegoId);
+
+      if (!agregado) {
+        boolean insertado = MetodosSQL.insertarJuegoJugado(usuario.getIdUsuario(), juegoId);
+        if (insertado) {
+          VentanaUtil.mostrarAlerta("Mensaje Juego", "Juego marcado como jugado.");
+          mostrarMenu(menuJugadoSinAnadir);
+        } else {
+          VentanaUtil.mostrarAlerta("Mensaje Juego", "No se pudo marcar como jugado.");
+        }
+      } else {
+        VentanaUtil.mostrarAlerta("Mensaje Juego", "Este juego ya estaba marcado como jugado.");
+        mostrarMenu(menuJugadoAnanidoLista);
+      }
+    } catch (SQLException e) {
+      e.printStackTrace();
+      VentanaUtil.mostrarAlerta("Error", "Ocurrió un error al marcar el juego como jugado.");
+    }
   }
 
   @FXML
@@ -264,7 +419,7 @@ public class JuegoInfoBDController {
   }
 
   public void setJuegoSeleccionado(JuegoBD juego) {
-    this.juegoSeleccionado = juego;
+    this.juego = juego;
 
     // Actualizar la interfaz con los datos del juego
     if (juego != null) {
@@ -307,8 +462,8 @@ public class JuegoInfoBDController {
         lblTiempoJugadoVacio.setText(juego.getTiempoJugado() + " Horas");
       }
 
-      if (juegoSeleccionado.getPegi() != null) {
-        switch (juegoSeleccionado.getPegi()) {
+      if (juego.getPegi() != null) {
+        switch (juego.getPegi()) {
         case "16":
           imgPegi.setImage(new Image("imgPegi/pegi16.png"));
           break;
@@ -328,9 +483,8 @@ public class JuegoInfoBDController {
           break;
         }
       }
-      
-      System.out.println("PEGI del juego: " + juegoSeleccionado.getPegi());
 
+      System.out.println("PEGI del juego: " + juego.getPegi());
 
       // Mostrar las imágenes adicionales (secundarias, terciarias, etc.)
       if (juego.getImagenSecundaria() != null) {
@@ -348,6 +502,25 @@ public class JuegoInfoBDController {
     }
   }
 
+  private void ocultarTodosLosMenus() {
+    VBox[] menus = { menuGeneral, menuAnadirJuego, menuAnadirJuegoJugado, menuAnadirListaNoJugado,
+        menuJugadoAnanidoLista, menuJugadoSinAnadir };
+
+    for (VBox menu : menus) {
+      if (menu != null) {
+        menu.setVisible(false);
+      }
+    }
+  }
+
+  private void mostrarMenu(VBox menu) {
+    ocultarTodosLosMenus();
+    if (menu != null) {
+      menu.setVisible(true);
+      menu.setDisable(false);
+    }
+  }
+
   /**
    * @return the tituloJuego
    */
@@ -362,6 +535,18 @@ public class JuegoInfoBDController {
     }
     System.out.println("Juego de Info: " + tituloJuego);
     cargarJuegoInfo();
+
+  }
+
+  public void setUsuario(Usuario usuario) {
+    if (usuario.equals(null)) {
+      return;
+    }
+    this.usuario = usuario;
+  }
+
+  public Usuario getUsuario() {
+    return usuario;
 
   }
 

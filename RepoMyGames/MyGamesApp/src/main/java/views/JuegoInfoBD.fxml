@@ -166,7 +166,7 @@
                                                 <Font size="18.0" />
                                              </font>
                                           </Button>
-                                          <Button fx:id="btnAnadirListaDeseosAnadirListaNoJugado" mnemonicParsing="false" onMouseClicked="#btnAnadirListaPressed" prefHeight="70.0" prefWidth="353.0" text="Añadir a Lista Deseos">
+                                          <Button fx:id="btnAnadirListaDeseosAnadirListaNoJugado" mnemonicParsing="false" onMouseClicked="#btnAnadirListaPressed" prefHeight="70.0" prefWidth="353.0" text="Eliminar de la Lista">
                                              <font>
                                                 <Font size="18.0" />
                                              </font>

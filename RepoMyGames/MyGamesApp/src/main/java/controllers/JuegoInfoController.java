@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import javafx.fxml.FXML;
@@ -79,7 +80,7 @@ public class JuegoInfoController {
 			btnAnadirJuegoJugadoSinAnadir, btnAnadirListaDeseos, btnAnadirListaDeseosAnadirListaNoJugado,
 			btnAnadirListaDeseosJugadoSinAnadir, btnEliminarJuegoAnadirJuego, btnEliminarJuegoAnadirJuegoJugado,
 			btnEliminarListaDeseosJugadoAnanidoLista, btnJugadoAnadirJuegoJugado, btnJugadoJugadoAnanidoLista,
-			btnJugadoJugadoSinAnadir, btnNoJugado, btnNoJugadoAnadirJuego, btnNoJugadoAnadirListaNoJugado;
+			btnJugadoJugadoSinAnadir, btnNoJugado, btnNoJugadoAnadirJuego, btnNoJugadoAnadirListaNoJugado, btnEnviar;
 
 //Imágenes
 	@FXML
@@ -107,10 +108,7 @@ public class JuegoInfoController {
 				stInsertJuego.setString(1, juego.getTitulo());
 				stInsertJuego.setString(2, juego.getDescripcion());
 				stInsertJuego.setDate(3, java.sql.Date.valueOf(juego.getFechaLanzamiento()));
-				stInsertJuego.setBoolean(4, true); // Suponiendo que lo añade un usuario
-				// stInsertJuego.setInt(5, -1); // Asegúrate de que este campo viene de la API o
-				// lo
-				// defines
+				stInsertJuego.setBoolean(4, true);
 				stInsertJuego.setInt(5, juego.getTiempo_jugado());
 				stInsertJuego.setString(6, juego.getDevs().toString());
 				stInsertJuego.setString(7, juego.getPegi());
@@ -283,7 +281,7 @@ public class JuegoInfoController {
 		String url5 = juego.getCapturasImagenes().get(3);
 		String generos = String.join(",", juego.getGeneros());
 		String plataformas = String.join(",", juego.getPlataformas());
-
+		String comentarios = txtComentarios.getText();
 		String checkExistenciaJuegoSQL = "SELECT id_juego FROM juegos WHERE titulo = ?";
 		String checkExistenciaBibliotecaSQL = "SELECT 1 FROM biblioteca WHERE id_usuario = ? AND id_juego = ?";
 
@@ -560,5 +558,103 @@ public class JuegoInfoController {
 		return usuario;
 
 	}
+
+	@FXML
+	void btnEnviarPressed(MouseEvent event) throws IOException, SQLException {
+
+		// Verificar si el juego ya existe en la base de datos
+		String checkJuegoSQL = "SELECT id_juego FROM juegos WHERE titulo = ?";
+		try (PreparedStatement stCheckJuego = conn.prepareStatement(checkJuegoSQL)) {
+			stCheckJuego.setString(1, tituloJuego);
+			ResultSet rs = stCheckJuego.executeQuery();
+			String fechaLanzamientoStr = juego.getFechaLanzamiento();
+
+			// Definir el formato de la fecha
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+
+			// Convertir el String a java.util.Date
+			Date fechaLanzamientoDate = null;
+			try {
+				fechaLanzamientoDate = sdf.parse(fechaLanzamientoStr);
+			} catch (ParseException e) {
+				e.printStackTrace();
+				// Maneja el error en caso de que el formato no sea válido
+			}
+
+			// Convertir java.util.Date a java.sql.Date
+			java.sql.Date sqlFechaLanzamiento = new java.sql.Date(fechaLanzamientoDate.getTime());
+
+			// Si el juego no existe, lo insertamos con todos los datos
+			if (!rs.next()) {
+				String insertJuegoSQL = "INSERT INTO juegos (titulo, descripcion, fecha_lanzamiento, creado_por_usuario, tiempo_jugado, desarrolladores, pegi, url_1, url_2, url_3, url_4, url_5, generos, plataformas) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+				try (PreparedStatement stInsertJuego = conn.prepareStatement(insertJuegoSQL, Statement.RETURN_GENERATED_KEYS)) {
+					// Aquí debes poner los datos del juego que quieres insertar
+					stInsertJuego.setString(1, tituloJuego);
+					stInsertJuego.setString(2, juego.getDescripcion()); // Asumimos que tienes la descripción
+					stInsertJuego.setDate(3, sqlFechaLanzamiento); // Asumimos que tienes la fecha
+					stInsertJuego.setInt(4, 0); // Esto se puede cambiar si es necesario
+					stInsertJuego.setInt(5, juego.getTiempo_jugado()); // Asumimos que tienes el tiempo jugado
+					stInsertJuego.setString(6, juego.getDevs().toString()); // Asumimos que tienes los desarrolladores
+					stInsertJuego.setString(7, juego.getPegi()); // Asumimos que tienes el pegi
+					stInsertJuego.setString(8, juego.getImagenPrincipal()); // Asumimos que tienes las URLs
+					stInsertJuego.setString(9, juego.getCapturasImagenes().get(1));
+					stInsertJuego.setString(10, juego.getCapturasImagenes().get(2));
+					stInsertJuego.setString(11, juego.getCapturasImagenes().get(3));
+					stInsertJuego.setString(12, juego.getCapturasImagenes().get(4));
+					stInsertJuego.setString(13, juego.getGeneros().toString()); // Asumimos que tienes los géneros
+					stInsertJuego.setString(14, juego.getPlataformas().toString()); // Asumimos que tienes las plataformas
+
+					stInsertJuego.executeUpdate();
+
+					// Obtener el ID del juego recién insertado
+					ResultSet generatedKeys = stInsertJuego.getGeneratedKeys();
+					if (generatedKeys.next()) {
+						int idJuego = generatedKeys.getInt(1);
+						// Ahora podemos insertar el comentario usando el ID del nuevo juego
+						insertarComentario(idJuego);
+					}
+				}
+			} else {
+				// Si el juego ya existe, obtenemos su ID
+				int idJuego = rs.getInt("id_juego");
+				insertarComentario(idJuego);
+			}
+		}
+	}
+
+	private void insertarComentario(int idJuego) throws SQLException {
+    // Verificar si ya existe un comentario para este juego y usuario
+    String checkComentarioSQL = "SELECT id_comentario FROM comentarios_juego WHERE id_usuario = ? AND id_juego = ?";
+    try (PreparedStatement stCheckComentario = conn.prepareStatement(checkComentarioSQL)) {
+        stCheckComentario.setInt(1, usuario.getIdUsuario());
+        stCheckComentario.setInt(2, idJuego);
+        ResultSet rs = stCheckComentario.executeQuery();
+
+        // Si ya existe un comentario, lo actualizamos
+        if (rs.next()) {
+            String updateComentarioSQL = "UPDATE comentarios_juego SET comentarios = ? WHERE id_usuario = ? AND id_juego = ?";
+            try (PreparedStatement stUpdateComentario = conn.prepareStatement(updateComentarioSQL)) {
+                stUpdateComentario.setString(1, txtComentarios.getText());
+                stUpdateComentario.setInt(2, usuario.getIdUsuario());
+                stUpdateComentario.setInt(3, idJuego);
+
+                stUpdateComentario.executeUpdate();
+            }
+        } else {
+            // Si no existe un comentario, lo insertamos
+            String insertComentarioSQL = "INSERT INTO comentarios_juego (id_usuario, id_juego, comentarios) VALUES (?, ?, ?)";
+            try (PreparedStatement stInsertComentario = conn.prepareStatement(insertComentarioSQL)) {
+                stInsertComentario.setInt(1, usuario.getIdUsuario());
+                stInsertComentario.setInt(2, idJuego);
+                stInsertComentario.setString(3, txtComentarios.getText());
+
+                stInsertComentario.executeUpdate();
+            }
+        }
+    }
+}
+
+	// Insertar comentario en la tabla comentarios_juego
 
 }
