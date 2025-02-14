@@ -64,13 +64,17 @@ public class RegistroController {
 
 //TextField y PasswordField
 	@FXML
-	private TextField txtUser, txtEmail, txtPassword, txtConfirmarPassword;
+	private TextField txtUser, txtEmail, txtConfirmarPassword;
 	@FXML
-	private PasswordField txtPasswordOculto, txtConfirmarPasswordOculto;
+	private PasswordField txtConfirmarPasswordOculto;
 
 //Labels
 	@FXML
 	private Label lblUser, lblUser2, lblPassword, lblConfirmarPassword;
+	@FXML
+	public TextField txtPassword;
+	@FXML
+	public PasswordField txtPasswordOculto;
 
 //Buttons
 	@FXML
@@ -90,13 +94,13 @@ public class RegistroController {
 	@FXML
 	private Circle logoClip;
 
-	private boolean esPasswordVisible = false;
+	public boolean esPasswordVisible = false;
 
 	@FXML
 	/**
 	 * Método para cuando se pulse el ojo en la contraseña
 	 */
-	private void mostrarPassword() {
+	public void mostrarPassword() {
 		// Cambiar la visibilidad de los campos
 		esPasswordVisible = !esPasswordVisible;
 
@@ -123,11 +127,10 @@ public class RegistroController {
 		}
 	}
 
-	private boolean crearUsuario(String userName, String email, String contrasena, List<String> generosPreferidos) {
+	public boolean crearUsuario(String userName, String email, String contrasena, List<String> generosPreferidos) {
 		Connection cone = Conector.conectar();
 		try (PreparedStatement st = cone.prepareStatement(SQL_USUARIO_COMPROBACION);
-				PreparedStatement st2 = cone.prepareStatement(SQL_USUARIO_INSERT,
-						PreparedStatement.RETURN_GENERATED_KEYS)) {
+				PreparedStatement st2 = cone.prepareStatement(SQL_USUARIO_INSERT, PreparedStatement.RETURN_GENERATED_KEYS)) {
 
 			// Comprobar si el usuario ya existe
 			st.setString(1, email);
@@ -162,10 +165,10 @@ public class RegistroController {
 	@FXML
 	public void initialize() {
 		// Crear la lista de géneros
-		ObservableList<String> generos = FXCollections.observableArrayList(
-			    "Action", "Adventure", "RPG (Role-Playing Games)", "Casual", "Arcade", "Massively Multiplayer", 
-			    "Family", "Educational", "Indie", "Strategy", "Simulation", "Platform", "Sports", 
-			    "Board Games", "Shooter", "Puzzle", "Racing", "Fighting", "Card Games");
+		ObservableList<String> generos = FXCollections.observableArrayList("Action", "Adventure",
+				"RPG (Role-Playing Games)", "Casual", "Arcade", "Massively Multiplayer", "Family", "Educational", "Indie",
+				"Strategy", "Simulation", "Platform", "Sports", "Board Games", "Shooter", "Puzzle", "Racing", "Fighting",
+				"Card Games");
 
 		// Configurar el CheckComboBox con la lista de géneros
 		lstGeneros.getItems().addAll(generos);

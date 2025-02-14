@@ -44,5 +44,10 @@
 	<classpathentry kind="lib" path="src/main/java/librerias/javax-inject.jar"/>
 	<classpathentry kind="lib" path="src/main/java/librerias/mail.jar"/>
 	<classpathentry kind="lib" path="src/main/java/librerias/sqlite-jdbc-3.41.0.0.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/5">
+		<attributes>
+			<attribute name="module" value="true"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

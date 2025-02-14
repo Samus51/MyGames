@@ -6,7 +6,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -16,7 +18,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -30,6 +31,11 @@ public class CreadosUsuarioController {
   private final static String PANEL_USER = "/views/CambiarInfoPersonal.fxml";
   private static final String PANEL_JUEGO_INFO_BD = "/views/JuegoInfoBD.fxml";
   private static final String STYLES = "/styles.css";
+
+  private int currentPage = 0; // Página actual
+  private final int juegosPorPagina = 12; // Número de juegos por página
+  private int totalJuegos; // Total de juegos disponibles
+  private List<JuegoBD> todosLosJuegos; // Lista de todos los juegos cargados
 
   @FXML
   private BorderPane VentanaPrincipal;
@@ -228,28 +234,15 @@ public class CreadosUsuarioController {
 
   @FXML
   private ScrollPane scrollMenu;
+  private Map<VBox, JuegoBD> vboxToJuegoMap;
 
-  @FXML
   public void initialize() {
     // Cargar los juegos desde la base de datos
-    List<JuegoBD> capturasPlataformas = cargarJuegos();
-    int totalJuegos = capturasPlataformas.size();
+    todosLosJuegos = cargarJuegos();
+    totalJuegos = todosLosJuegos.size();
 
-    // Crear un arreglo de VBox para los juegos
-    VBox[] juegosVbox = { juegoSolo1, juegoSolo2, juegoSolo3, juegoSolo4, juegoSolo5, juegoSolo6, juegoSolo7,
-        juegoSolo8, juegoSolo9, juegoSolo10, juegoSolo11, juegoSolo12 };
-
-    // Asignar imágenes a los contenedores correspondientes, solo si hay juegos
-    for (int i = 0; i < totalJuegos && i < juegosVbox.length; i++) {
-      JuegoBD juego = capturasPlataformas.get(i);
-      ImagenBDUtils.asignarImagenes(juegosVbox[i], List.of(juego));
-      juegosVbox[i].setVisible(true);
-    }
-
-    // Ocultar los VBox restantes si hay menos de 12 juegos
-    for (int i = totalJuegos; i < juegosVbox.length; i++) {
-      juegosVbox[i].setVisible(false);
-    }
+    // Cargar los juegos en la primera página
+    cargarJuegosEnPantalla(currentPage);
   }
 
   @FXML
@@ -312,25 +305,17 @@ public class CreadosUsuarioController {
 
   @FXML
   void imgCargarJuegosAtrasPressed(MouseEvent event) {
-    // Desplazar el ScrollPane hacia la izquierda
-    ScrollPane[] scrolls = { scrollHorizontalJuego, scrollHorizontalJuego1, scrollHorizontalJuego2,
-        scrollHorizontalJuego3 };
-    for (ScrollPane scroll : scrolls) {
-      if (scroll.getHvalue() > 0) {
-        scroll.setHvalue(scroll.getHvalue() - 0.1); // Desplazamiento hacia atrás
-      }
+    if (currentPage > 0) {
+      currentPage--; // Retroceder una página
+      cargarJuegosEnPantalla(currentPage);
     }
   }
 
   @FXML
   void imgCargarJuegosAdelantePressed(MouseEvent event) {
-    // Desplazar el ScrollPane hacia la derecha
-    ScrollPane[] scrolls = { scrollHorizontalJuego, scrollHorizontalJuego1, scrollHorizontalJuego2,
-        scrollHorizontalJuego3 };
-    for (ScrollPane scroll : scrolls) {
-      if (scroll.getHvalue() < 1) {
-        scroll.setHvalue(scroll.getHvalue() + 0.1); // Desplazamiento hacia adelante
-      }
+    if ((currentPage + 1) * juegosPorPagina < totalJuegos) {
+      currentPage++; // Avanzar una página
+      cargarJuegosEnPantalla(currentPage);
     }
   }
 
@@ -338,20 +323,10 @@ public class CreadosUsuarioController {
   void juegoSoloPressed(MouseEvent event) {
     VBox juegoSeleccionadoVBox = (VBox) event.getSource();
 
-    // Obtener el índice del VBox de juegos
-    int index = -1;
-    VBox[] juegosVbox = { juegoSolo1, juegoSolo2, juegoSolo3, juegoSolo4, juegoSolo5, juegoSolo6, juegoSolo7,
-        juegoSolo8, juegoSolo9, juegoSolo10, juegoSolo11, juegoSolo12 };
-    for (int i = 0; i < juegosVbox.length; i++) {
-      if (juegosVbox[i] == juegoSeleccionadoVBox) {
-        index = i;
-        break;
-      }
-    }
+    // Obtener el juego asociado al VBox que se ha clickeado
+    JuegoBD juegoSeleccionado = vboxToJuegoMap.get(juegoSeleccionadoVBox);
 
-    if (index != -1) {
-      JuegoBD juegoSeleccionado = cargarJuegos().get(index); // Obtener el juego seleccionado de la lista
-
+    if (juegoSeleccionado != null) {
       // Abrir la ventana de información del juego (panel de información)
       try {
         VentanaUtil.abrirVentana(PANEL_JUEGO_INFO_BD, "Información del Juego", STYLES, controller -> {
@@ -371,7 +346,7 @@ public class CreadosUsuarioController {
     List<JuegoBD> juegos = new ArrayList<>();
     String query = "SELECT id_juego, titulo, plataformas, generos, tiempo_jugado, descripcion, imagen_principal, "
         + "imagen_secundaria, imagen_tercera, imagen_cuarta, imagen_quinta, pegi, fecha_lanzamiento, creado_por_usuario, id_usuario, desarrolladores "
-        + "FROM juegos WHERE creado_por_usuario = 1"; // Agregamos la columna "desarrolladores"
+        + "FROM juegos WHERE creado_por_usuario = 1";
 
     try (Connection conn = Conector.conectar();
         PreparedStatement stmt = conn.prepareStatement(query);
@@ -389,18 +364,18 @@ public class CreadosUsuarioController {
 
         // Manejo de tiempos jugados (puede ser nulo, en tal caso asignamos un valor por
         // defecto)
-        int tiempoJugado = rs.getInt("tiempo_jugado"); // Puede ser 0 si no está establecido.
+        int tiempoJugado = rs.getInt("tiempo_jugado");
 
         // Manejo de PEGI (puede ser nulo)
         int pegi = rs.getInt("pegi");
-        if (rs.wasNull()) { // Verifica si el valor es NULL en la base de datos
-          pegi = -1; // Asignar un valor por defecto si es NULL
+        if (rs.wasNull()) {
+          pegi = -1;
         }
 
         // Obtener los desarrolladores (nuevamente puede ser nulo)
         String desarrolladores = rs.getString("desarrolladores");
         if (desarrolladores == null) {
-          desarrolladores = "Desarrollador desconocido"; // Valor por defecto si no hay información
+          desarrolladores = "Desarrollador desconocido";
         }
 
         List<String> plataformas = parsePlataformas(plataformasStr);
@@ -414,8 +389,8 @@ public class CreadosUsuarioController {
 
         // Crear una nueva instancia de JuegoBD con los datos obtenidos
         JuegoBD juego = new JuegoBD(idJuego, titulo, descripcion, fechaLanzamiento, creadoPorUsuario == 1, idUsuario,
-            tiempoJugado, desarrolladores,
-            imagenPrincipal, imagenSecundaria, imagenTercera, imagenCuarta, imagenQuinta, pegi, generos, plataformas);
+            tiempoJugado, desarrolladores, imagenPrincipal, imagenSecundaria, imagenTercera, imagenCuarta, imagenQuinta,
+            pegi, generos, plataformas);
 
         // Agregar el juego a la lista
         juegos.add(juego);
@@ -449,4 +424,37 @@ public class CreadosUsuarioController {
       menuInactivo2.setVisible(true);
     }
   }
+
+  private void cargarJuegosEnPantalla(int page) {
+    // Obtener un subconjunto de juegos para la página actual
+    int startIndex = page * juegosPorPagina;
+    int endIndex = Math.min(startIndex + juegosPorPagina, totalJuegos);
+    List<JuegoBD> juegosPagina = todosLosJuegos.subList(startIndex, endIndex);
+
+    // Crear un arreglo de VBox para los juegos
+    VBox[] juegosVbox = { juegoSolo1, juegoSolo2, juegoSolo3, juegoSolo4, juegoSolo5, juegoSolo6, juegoSolo7,
+        juegoSolo8, juegoSolo9, juegoSolo10, juegoSolo11, juegoSolo12 };
+
+    // Crear un mapa para asociar cada VBox con un juego
+    Map<VBox, JuegoBD> vboxToJuegoMap = new HashMap<>();
+
+    // Asignar las imágenes a los VBox y asociarlos con los juegos
+    for (int i = 0; i < juegosPagina.size(); i++) {
+      JuegoBD juego = juegosPagina.get(i);
+      ImagenBDUtils.asignarImagenes(juegosVbox[i], List.of(juego));
+      juegosVbox[i].setVisible(true);
+
+      // Asociar el VBox con el juego
+      vboxToJuegoMap.put(juegosVbox[i], juego);
+    }
+
+    // Ocultar los VBox restantes si hay menos de 12 juegos en la página
+    for (int i = juegosPagina.size(); i < juegosVbox.length; i++) {
+      juegosVbox[i].setVisible(false);
+    }
+
+    // Asignar el mapa de VBox a un campo para usarlo en el evento de clic
+    this.vboxToJuegoMap = vboxToJuegoMap;
+  }
+
 }

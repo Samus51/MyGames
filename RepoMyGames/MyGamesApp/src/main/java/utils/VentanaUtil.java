@@ -7,6 +7,7 @@ import java.util.function.Consumer;
 import org.mindrot.jbcrypt.BCrypt;
 
 import controllers.HomeController;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Scene;
@@ -30,8 +31,8 @@ public class VentanaUtil {
 				+ "<h1 style='color: #333; font-size: 26px; margin-bottom: 20px;'>¡Bienvenido a MyGames!</h1>"
 				+ "<img src='https://raw.githubusercontent.com/Samus51/MyGames/main/LogoMyGames.png' "
 				+ "alt='Logo MyGames' style='width: 250px; height: auto; margin: 20px auto; display: block;'>"
-				+ "<p style='font-size: 18px; color: #555; margin-top: 20px;'>Hola <strong style='color: #4CAF50;'>"
-				+ userName + "</strong>,</p>"
+				+ "<p style='font-size: 18px; color: #555; margin-top: 20px;'>Hola <strong style='color: #4CAF50;'>" + userName
+				+ "</strong>,</p>"
 				+ "<p style='font-size: 16px; color: #555;'>Tu cuenta ha sido creada exitosamente. Ahora puedes acceder y disfrutar de todo lo que MyGames tiene para ofrecerte.</p>"
 				+ "<p style='font-size: 16px; color: #555; margin-top: 20px;'>¡Estamos emocionados de tenerte en nuestra comunidad de jugadores!</p>"
 				+ "<p style='font-size: 14px; color: #888; margin-top: 20px;'>Si tienes alguna pregunta, no dudes en contactarnos. ¡Gracias por unirte a nuestra comunidad!</p>"
@@ -42,6 +43,9 @@ public class VentanaUtil {
 
 	public static void abrirVentana(String fxmlPath, String titulo, String stylesheet,
 			Consumer<Object> controladorConsumer, MouseEvent event) throws IOException {
+// Obtener la ventana actual
+		Stage ventanaActual = (Stage) ((Node) event.getSource()).getScene().getWindow();
+
 		FXMLLoader loader = new FXMLLoader(VentanaUtil.class.getResource(fxmlPath));
 		Pane root = loader.load();
 
@@ -65,7 +69,10 @@ public class VentanaUtil {
 		nuevaVentana.initStyle(StageStyle.UNDECORATED);
 		nuevaVentana.show();
 
-		System.out.println("Ventana cerrada");
+// Cerrar la ventana actual
+		ventanaActual.close();
+
+		System.out.println("Ventana cerrada y nueva ventana abierta");
 	}
 
 	public static void abrirVentanaHome(String fxmlPath, String titulo, String stylesheet, Usuario usuario,
@@ -118,12 +125,14 @@ public class VentanaUtil {
 	}
 
 	public static void mostrarAlerta(String titulo, String mensaje) {
-		Alert alert = new Alert(AlertType.WARNING);
-		alert.setTitle(titulo);
-		alert.setHeaderText(null);
-		alert.setContentText(mensaje);
-
-		alert.showAndWait();
+		// Usamos Platform.runLater() para asegurarnos de que se ejecuta en el hilo de
+		// JavaFX
+		Platform.runLater(() -> {
+			Alert alert = new Alert(AlertType.WARNING);
+			alert.setTitle(titulo);
+			alert.setContentText(mensaje);
+			alert.showAndWait();
+		});
 	}
 
 	public static String hashPassword(String password) {
