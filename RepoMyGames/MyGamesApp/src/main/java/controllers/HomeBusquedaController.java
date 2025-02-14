@@ -400,4 +400,36 @@ public class HomeBusquedaController {
 
 	}
 
+	@FXML
+	void recomendadosPressed(MouseEvent event) throws IOException {
+		System.out.println("Recomendados");
+		VentanaUtil.abrirVentana(PANEL_RECOMENDADOS, "Recomendados", STYLES, null, event);
+
+	}
+
+	@FXML
+	void creadosPorUsuarioPressed(MouseEvent event) throws IOException {
+		VentanaUtil.abrirVentana(PANEL_CREADOS_USUARIO, "Recomendados", STYLES, null, event);
+
+	}
+
+	@FXML
+	void listaDeseadosPressed(MouseEvent event) throws IOException {
+		VentanaUtil.abrirVentana(PANEL_DESEADOS, "Añadir Juego", STYLES, null, event);
+	}
+
+	@FXML
+	void anadirJuegoPressed(MouseEvent event) throws IOException {
+		VentanaUtil.abrirVentana(PANEL_ADD_JUEGO, "Añadir Juego", STYLES, null, event);
+
+	}
+
+	@FXML
+	void tusJuegosPressed(MouseEvent event) throws IOException {
+		VentanaUtil.abrirVentana(PANEL_BIBLIIOTECA, "Biblioteca", STYLES, null, event);
+
+	}
+	
+	
+	
 }

@@ -271,7 +271,7 @@ public class JuegoInfoController {
 		java.util.Date utilFechaLanzamiento = formato.parse(fechaLanzamientoString);
 		java.sql.Date sqlFechaLanzamiento = new java.sql.Date(utilFechaLanzamiento.getTime());
 
-		boolean creadoPorUsuario = false;
+		int creadoPorUsuario = 0;
 		int idUsuario = usuario.getIdUsuario();
 		int tiempoJugado = juego.getTiempo_jugado();
 		String desarrolladores = lblDesarrolladoresVacio.getText();
@@ -297,16 +297,14 @@ public class JuegoInfoController {
 					int idJuegoExistente = rsJuego.getInt("id_juego");
 
 					// Verificar si el juego ya está en la biblioteca del usuario
-					try (PreparedStatement stExistenciaBiblioteca = cone
-							.prepareStatement(checkExistenciaBibliotecaSQL)) {
+					try (PreparedStatement stExistenciaBiblioteca = cone.prepareStatement(checkExistenciaBibliotecaSQL)) {
 						stExistenciaBiblioteca.setInt(1, idUsuario);
 						stExistenciaBiblioteca.setInt(2, idJuegoExistente);
 
 						try (ResultSet rsBiblioteca = stExistenciaBiblioteca.executeQuery()) {
 							if (rsBiblioteca.next()) {
 								mostrarMenu(menuAnadirJuego);
-								VentanaUtil.mostrarAlerta("Juego ya en Biblioteca",
-										"Este juego ya está en tu biblioteca.");
+								VentanaUtil.mostrarAlerta("Juego ya en Biblioteca", "Este juego ya está en tu biblioteca.");
 								return;
 							}
 						}
@@ -320,8 +318,7 @@ public class JuegoInfoController {
 						stInsertBiblioteca.setDate(3, new java.sql.Date(System.currentTimeMillis()));
 
 						stInsertBiblioteca.executeUpdate();
-						VentanaUtil.mostrarAlerta("Juego Añadido a la Biblioteca",
-								"El juego ha sido añadido a tu biblioteca.");
+						VentanaUtil.mostrarAlerta("Juego Añadido a la Biblioteca", "El juego ha sido añadido a tu biblioteca.");
 					}
 
 				} else {
@@ -334,7 +331,7 @@ public class JuegoInfoController {
 						stInsertJuego.setString(1, titulo);
 						stInsertJuego.setString(2, descripcion);
 						stInsertJuego.setDate(3, sqlFechaLanzamiento);
-						stInsertJuego.setBoolean(4, creadoPorUsuario);
+						stInsertJuego.setInt(4, 0);
 						stInsertJuego.setInt(5, tiempoJugado);
 						stInsertJuego.setString(6, desarrolladores);
 						stInsertJuego.setString(7, pegi);
@@ -355,8 +352,7 @@ public class JuegoInfoController {
 
 								// Insertar el juego en la biblioteca
 								String insertBibliotecaSQL = "INSERT INTO biblioteca (id_usuario, id_juego, fecha_adquisicion) VALUES (?, ?, ?)";
-								try (PreparedStatement stInsertBiblioteca = cone
-										.prepareStatement(insertBibliotecaSQL)) {
+								try (PreparedStatement stInsertBiblioteca = cone.prepareStatement(insertBibliotecaSQL)) {
 									stInsertBiblioteca.setInt(1, idUsuario);
 									stInsertBiblioteca.setInt(2, idJuego);
 									stInsertBiblioteca.setDate(3, new java.sql.Date(System.currentTimeMillis()));
@@ -406,8 +402,7 @@ public class JuegoInfoController {
 		String tituloJuegoBorrar = tituloJuego;
 
 		String selectJuegoSQLBorrado = "SELECT id_juego FROM juegos WHERE titulo = ?";
-		try (Connection cone = Conector.conectar();
-				PreparedStatement st = cone.prepareStatement(selectJuegoSQLBorrado)) {
+		try (Connection cone = Conector.conectar(); PreparedStatement st = cone.prepareStatement(selectJuegoSQLBorrado)) {
 
 			st.setString(1, tituloJuegoBorrar);
 			ResultSet rs = st.executeQuery();
@@ -426,8 +421,7 @@ public class JuegoInfoController {
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
-			VentanaUtil.mostrarAlerta("Error al Eliminar Juego",
-					"Ocurrió un error al eliminar el juego de la biblioteca.");
+			VentanaUtil.mostrarAlerta("Error al Eliminar Juego", "Ocurrió un error al eliminar el juego de la biblioteca.");
 		}
 	}
 
@@ -457,8 +451,7 @@ public class JuegoInfoController {
 				// Si el juego no existe, insertarlo en la base de datos
 				String insertJuegoSQL = "INSERT INTO juegos (titulo, descripcion, fecha_lanzamiento, creado_por_usuario, tiempo_jugado, desarrolladores, pegi, url_1, url_2, url_3, url_4, url_5, generos, plataformas) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
-				try (PreparedStatement stInsertJuego = conn.prepareStatement(insertJuegoSQL,
-						Statement.RETURN_GENERATED_KEYS)) {
+				try (PreparedStatement stInsertJuego = conn.prepareStatement(insertJuegoSQL, Statement.RETURN_GENERATED_KEYS)) {
 					String fechaLanzamientoString = juego.getFechaLanzamiento();
 					SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
 					java.util.Date utilFechaLanzamiento = formato.parse(fechaLanzamientoString);
@@ -567,10 +560,5 @@ public class JuegoInfoController {
 		return usuario;
 
 	}
-	/**
-	 * Metodo para abrir una nueva ventana y cerrar la actual
-	 * 
-	 * @param fxml Ventana fxml
-	 */
 
 }

@@ -118,15 +118,14 @@ public class JuegoAnadirController {
 			conn.setAutoCommit(false);
 
 			// Insertar juego en la base de datos
-			String query = "INSERT INTO juegos (titulo, descripcion, fecha_lanzamiento, creado_por_usuario, id_usuario,tiempo_jugado,desarrolladores,imagen_principal, imagen_secundaria, imagen_tercera, imagen_cuarta, imagen_quinta, pegi, generos, plataformas) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+			String query = "INSERT INTO juegos (titulo, descripcion, fecha_lanzamiento, creado_por_usuario,tiempo_jugado,desarrolladores,imagen_principal, imagen_secundaria, imagen_tercera, imagen_cuarta, imagen_quinta, pegi, generos, plataformas) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 			stmt = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
 			stmt.setString(1, titulo);
 			stmt.setString(2, descripcion);
 			stmt.setString(3, fechaLanzamiento);
 			stmt.setInt(4, 1);
-			stmt.setInt(5, idUsuario);
-			stmt.setString(6, tiempoJugado);
-			stmt.setString(7, desarrolladores);
+			stmt.setString(5, tiempoJugado);
+			stmt.setString(6, desarrolladores);
 
 			// Manejo de la imagen principal
 			FileInputStream fis1 = null;
@@ -138,7 +137,7 @@ public class JuegoAnadirController {
 			try {
 				if (archivoImagenPrincipal != null && archivoImagenPrincipal.exists() && archivoImagenPrincipal.isFile()) {
 					fis1 = new FileInputStream(archivoImagenPrincipal);
-					stmt.setBinaryStream(8, fis1, (int) archivoImagenPrincipal.length());
+					stmt.setBinaryStream(7, fis1, (int) archivoImagenPrincipal.length());
 				} else {
 					System.err.println("El archivo de imagen principal no se encuentra o no es válido.");
 					return;
@@ -152,7 +151,7 @@ public class JuegoAnadirController {
 			try {
 				if (archivoImagenSecundaria != null && archivoImagenSecundaria.exists() && archivoImagenSecundaria.isFile()) {
 					fis2 = new FileInputStream(archivoImagenSecundaria);
-					stmt.setBinaryStream(9, fis2, (int) archivoImagenSecundaria.length());
+					stmt.setBinaryStream(8, fis2, (int) archivoImagenSecundaria.length());
 				} else {
 					System.err.println("El archivo de imagen secundaria no se encuentra o no es válido.");
 					return;
@@ -166,7 +165,7 @@ public class JuegoAnadirController {
 			try {
 				if (archivoImagenTercera != null && archivoImagenTercera.exists() && archivoImagenTercera.isFile()) {
 					fis3 = new FileInputStream(archivoImagenTercera);
-					stmt.setBinaryStream(10, fis3, (int) archivoImagenTercera.length());
+					stmt.setBinaryStream(9, fis3, (int) archivoImagenTercera.length());
 				} else {
 					System.err.println("El archivo de imagen tercera no se encuentra o no es válido.");
 					return;
@@ -180,7 +179,7 @@ public class JuegoAnadirController {
 			try {
 				if (archivoImagenCuarta != null && archivoImagenCuarta.exists() && archivoImagenCuarta.isFile()) {
 					fis4 = new FileInputStream(archivoImagenCuarta);
-					stmt.setBinaryStream(11, fis4, (int) archivoImagenCuarta.length());
+					stmt.setBinaryStream(10, fis4, (int) archivoImagenCuarta.length());
 				} else {
 					System.err.println("El archivo de imagen cuarta no se encuentra o no es válido.");
 					return;
@@ -194,7 +193,7 @@ public class JuegoAnadirController {
 			try {
 				if (archivoImagenQuinta != null && archivoImagenQuinta.exists() && archivoImagenQuinta.isFile()) {
 					fis5 = new FileInputStream(archivoImagenQuinta);
-					stmt.setBinaryStream(12, fis5, (int) archivoImagenQuinta.length());
+					stmt.setBinaryStream(11, fis5, (int) archivoImagenQuinta.length());
 				} else {
 					System.err.println("El archivo de imagen quinta no se encuentra o no es válido.");
 					return;
@@ -205,10 +204,10 @@ public class JuegoAnadirController {
 				return;
 			}
 
-			stmt.setInt(13, Integer.parseInt(pegi));
+			stmt.setInt(12, Integer.parseInt(pegi));
 
-			stmt.setString(14, String.join(",", generos));
-			stmt.setString(15, String.join(",", plataformas));
+			stmt.setString(13, String.join(",", generos));
+			stmt.setString(14, String.join(",", plataformas));
 
 			stmt.executeUpdate();
 			rs = stmt.getGeneratedKeys();
@@ -318,6 +317,36 @@ public class JuegoAnadirController {
 		} else {
 			System.out.println("No se seleccionó ninguna imagen.");
 		}
+	}
+
+	@FXML
+	void recomendadosPressed(MouseEvent event) throws IOException {
+		System.out.println("Recomendados");
+		VentanaUtil.abrirVentana(PANEL_RECOMENDADOS, "Recomendados", STYLES, null, event);
+
+	}
+
+	@FXML
+	void creadosPorUsuarioPressed(MouseEvent event) throws IOException {
+		VentanaUtil.abrirVentana(PANEL_CREADOS_USUARIO, "Recomendados", STYLES, null, event);
+
+	}
+
+	@FXML
+	void listaDeseadosPressed(MouseEvent event) throws IOException {
+		VentanaUtil.abrirVentana(PANEL_DESEADOS, "Añadir Juego", STYLES, null, event);
+	}
+
+	@FXML
+	void anadirJuegoPressed(MouseEvent event) throws IOException {
+		VentanaUtil.abrirVentana(PANEL_ADD_JUEGO, "Añadir Juego", STYLES, null, event);
+
+	}
+
+	@FXML
+	void tusJuegosPressed(MouseEvent event) throws IOException {
+		VentanaUtil.abrirVentana(PANEL_BIBLIIOTECA, "Biblioteca", STYLES, null, event);
+
 	}
 
 }

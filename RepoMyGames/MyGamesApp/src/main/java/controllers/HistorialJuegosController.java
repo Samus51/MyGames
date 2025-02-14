@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -33,231 +34,232 @@ import utils.VentanaUtil;
  */
 public class HistorialJuegosController implements Initializable {
 
-	// Constantes
-	// SQL
-	private static final String SQL_ELIMINAR_CUENTA = "DELETE FROM usuarios WHERE id_usuario = ?";
-	// Styles
-	private static final String STYLES = "/styles.css";
-	// Pantallas
-	private static final String LOGIN = "/views/Login.fxml";
-	private static final String JUEGO = "/views/Juego.fxml";
-	private static final String CAMBIAR_INFO_PERSONAL = "/views/CambiarInfoPersonal.fxml";
-	private static final String HOME = "/views/Home.fxml";
+  // Constantes
+  // SQL
+  private static final String SQL_ELIMINAR_CUENTA = "DELETE FROM usuarios WHERE id_usuario = ?";
 
-	@FXML
-	private BorderPane VentanaPrincipal;
+  private static final String SQL_SELECT__CONTADOR_JUEGOS_JUGADOS = "Select count(id_juego_jugado) FROM juegos_jugados WHERE id_usuario = ?";
+  private static final String SQL_SELECT_JUEGOS_JUGADOS = "Select juegos.titulo, juegos.generos, juegos.tiempo_jugado,juegos.imagen_principal FROM juegos_jugados inner join juegos on juegos_jugados.id_juego = juegos.id_juego WHERE juegos_jugados.id_usuario = ?";
 
-	@FXML
-	private ImageView imgCerrar;
+  // Styles
+  private static final String STYLES = "/styles.css";
+  // Pantallas
+  private static final String LOGIN = "/views/Login.fxml";
+  private static final String JUEGO = "/views/Juego.fxml";
+  private static final String CAMBIAR_INFO_PERSONAL = "/views/CambiarInfoPersonal.fxml";
+  private static final String HOME = "/views/Home.fxml";
 
-	@FXML
-	private ImageView imgFlechaAtras;
+  @FXML
+  private BorderPane VentanaPrincipal;
 
-	@FXML
-	private ImageView imgMinimizar;
+  @FXML
+  private ImageView imgCerrar;
 
-	@FXML
-	private Label lblGenero;
+  @FXML
+  private ImageView imgFlechaAtras;
 
-	@FXML
-	private Label lblNombre;
+  @FXML
+  private ImageView imgMinimizar;
 
-	@FXML
-	private Label lblTiempoJuego;
+  @FXML
+  private Label lblGenero;
 
-	@FXML
-	private VBox listaJuegos;
+  @FXML
+  private Label lblNombre;
 
-	@FXML
-	private BorderPane panelLogo;
+  @FXML
+  private Label lblTiempoJuego;
 
-	List<Juego> recentlyPlayed;
+  @FXML
+  private VBox listaJuegos;
 
-	private Usuario usuarioActivo;
+  @FXML
+  private BorderPane panelLogo;
 
-	@Override
-	public void initialize(URL location, ResourceBundle resources) {
-		recentlyPlayed = new ArrayList<>(getRecentlyPlayed());
+  List<Juego> recentlyPlayed;
 
-		try {
-			for (Juego juego : recentlyPlayed) {
-				FXMLLoader fxmlLoader = new FXMLLoader();
-				fxmlLoader.setLocation(getClass().getResource(JUEGO));
+  private Usuario usuarioActivo;
 
-				HBox hBox = fxmlLoader.load();
-				JuegoController juegoController = fxmlLoader.getController();
-				juegoController.setData(juego);
+  @Override
+  public void initialize(URL location, ResourceBundle resources) {
+    recentlyPlayed = new ArrayList<>(getRecentlyPlayed());
 
-				listaJuegos.getChildren().add(hBox);
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
+    try {
+      for (Juego juego : recentlyPlayed) {
+        FXMLLoader fxmlLoader = new FXMLLoader();
+        fxmlLoader.setLocation(getClass().getResource(JUEGO));
 
-	private List<Juego> getRecentlyPlayed() {
-		List<Juego> ls = new ArrayList<>();
+        HBox hBox = fxmlLoader.load();
+        JuegoController juegoController = fxmlLoader.getController();
+        juegoController.setData(juego);
 
-		Juego juego1 = new Juego();
-		juego1.setNombre("Juego 1");
-		juego1.setImagen("/Logo.png");
-		juego1.setGenero("Accion");
-		juego1.setTiempo_jugado("23");
-		ls.add(juego1);
+        listaJuegos.getChildren().add(hBox);
+      }
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+  }
 
-		Juego juego2 = new Juego();
-		juego2.setImagen("/Logo.png");
-		juego2.setNombre("Juego 2");
-		juego2.setGenero("Accion");
-		juego2.setTiempo_jugado("23");
-		ls.add(juego2);
+  private List<Juego> getRecentlyPlayed() {
+    List<Juego> juegos = new ArrayList<>();
 
-		Juego juego3 = new Juego();
-		juego3.setImagen("/Logo.png");
-		juego3.setNombre("Juego 3");
-		juego3.setGenero("Accion");
-		juego3.setTiempo_jugado("23");
-		ls.add(juego3);
+    // Obtener el ID del usuario
+    int idUsuario = obtenerIdUsuario();
 
-		Juego juego4 = new Juego();
-		juego4.setImagen("/Logo.png");
-		juego4.setNombre("Juego 4");
-		juego4.setGenero("Accion");
-		juego4.setTiempo_jugado("23");
-		ls.add(juego4);
+    // Primero contar la cantidad de juegos jugados por el usuario
+    String sqlContador = SQL_SELECT__CONTADOR_JUEGOS_JUGADOS;
+    int contadorJuegos = 0;
 
-		Juego juego5 = new Juego();
-		juego5.setImagen("/Logo.png");
-		juego5.setNombre("Juego 5");
-		juego5.setGenero("Accion");
-		juego5.setTiempo_jugado("23");
-		ls.add(juego5);
+    try (Connection conn = Conector.conectar(); PreparedStatement stmt = conn.prepareStatement(sqlContador)) {
 
-		Juego juego6 = new Juego();
-		juego6.setImagen("/Logo.png");
-		juego6.setNombre("Juego 6");
-		juego6.setGenero("Accion");
-		juego6.setTiempo_jugado("23");
-		ls.add(juego6);
+      // Establecer el parámetro para la consulta de conteo
+      stmt.setInt(1, idUsuario);
 
-		Juego juego7 = new Juego();
-		juego7.setImagen("/Logo.png");
-		juego7.setNombre("Juego 7");
-		juego7.setGenero("Accion");
-		juego7.setTiempo_jugado("23");
-		ls.add(juego7);
+      // Ejecutar la consulta de conteo
+      ResultSet resultSet = stmt.executeQuery();
 
-		return ls;
-	}
+      // Obtener el resultado del conteo
+      if (resultSet.next()) {
+        contadorJuegos = resultSet.getInt(1);
+      }
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
 
-	@FXML
-	void minimizarPressed(MouseEvent event) {
-		Stage ventanaPrincipal = (Stage) ((Node) event.getSource()).getScene().getWindow();
-		ventanaPrincipal.setIconified(true);
-	}
+    // Ahora, si hay juegos jugados, los obtenemos
+    if (contadorJuegos > 0) {
+      String sqlJuegos = SQL_SELECT_JUEGOS_JUGADOS;
 
-	@FXML
-	void cerrarPressed(MouseEvent event) {
-		Stage ventanaPrincipal = (Stage) ((Node) event.getSource()).getScene().getWindow();
-		ventanaPrincipal.close();
-	}
+      try (Connection conn = Conector.conectar(); PreparedStatement stmt = conn.prepareStatement(sqlJuegos)) {
 
-	@FXML
-	void flechaAtrasPressed(MouseEvent event) throws IOException {
-		VentanaUtil.abrirVentana(HOME, "Inicio", STYLES, null, event);
-	}
+        // Establecer el parámetro del id_usuario
+        stmt.setInt(1, idUsuario);
 
-	@FXML
-	void lblCambiarInfoPressed(MouseEvent event) throws IOException {
-		VentanaUtil.abrirVentana(CAMBIAR_INFO_PERSONAL, "Cambiar Información", STYLES, null, event);
-	}
+        // Ejecutar la consulta para obtener los juegos jugados
+        var resultSet = stmt.executeQuery();
 
-	@FXML
-	void lblCerrarSesionPressed(MouseEvent event) throws IOException {
-		// Crear la alerta de tipo confirmación
-		Alert alerta = new Alert(Alert.AlertType.CONFIRMATION);
-		alerta.setTitle("Cerrar sesión");
-		alerta.setHeaderText("¿Estás seguro de que deseas cerrar sesión?");
-		alerta.setContentText("Confirma si deseas salir de tu cuenta actual.");
+        // Recorrer los resultados y crear objetos Juego
+        while (resultSet.next()) {
+          Juego juego = new Juego();
+          juego.setNombre(resultSet.getString("titulo"));
+          juego.setGenero(resultSet.getString("generos"));
+          juego.setTiempo_jugado(resultSet.getString("tiempo_jugado"));
 
-		// Personalizar los botones de la alerta
-		ButtonType botonConfirmar = new ButtonType("Aceptar");
-		ButtonType botonCancelar = new ButtonType("Cancelar");
+          // Cambiar esta línea para obtener la imagen como un arreglo de bytes
+          byte[] imagenBytes = resultSet.getBytes("imagen_principal");
+          juego.setImagen(imagenBytes);
 
-		// Establecer los botones personalizados
-		alerta.getButtonTypes().setAll(botonConfirmar, botonCancelar);
+          juegos.add(juego);
+        }
 
-		// Mostrar la alerta y manejar la respuesta de forma sencilla
-		alerta.showAndWait();
+      } catch (SQLException e) {
+        e.printStackTrace();
+      }
+    }
 
-		// Verificar cuál fue el botón presionado
-		if (alerta.getResult() == botonConfirmar) {
-			VentanaUtil.abrirVentana(LOGIN, "Login", STYLES, null, event);
-		} else {
-			alerta.close();
-		}
-	}
+    return juegos;
+  }
 
-	@FXML
-	void lblEliminarCuentaPressed(MouseEvent event) {
-		// Crear la alerta de tipo confirmación
-		Alert alerta = new Alert(Alert.AlertType.CONFIRMATION);
-		alerta.setTitle("Eliminar Cuenta");
-		alerta.setHeaderText("¿Estás seguro de que deseas eliminar tu cuenta?");
-		alerta.setContentText("Esta acción es irreversible. Si aceptas, perderás todos tus datos.");
+  @FXML
+  void minimizarPressed(MouseEvent event) {
+    Stage ventanaPrincipal = (Stage) ((Node) event.getSource()).getScene().getWindow();
+    ventanaPrincipal.setIconified(true);
+  }
 
-		// Personalizar los botones de la alerta
-		ButtonType botonConfirmar = new ButtonType("Aceptar");
-		ButtonType botonCancelar = new ButtonType("Cancelar");
+  @FXML
+  void cerrarPressed(MouseEvent event) {
+    Stage ventanaPrincipal = (Stage) ((Node) event.getSource()).getScene().getWindow();
+    ventanaPrincipal.close();
+  }
 
-		// Establecer los botones personalizados
-		alerta.getButtonTypes().setAll(botonConfirmar, botonCancelar);
+  @FXML
+  void flechaAtrasPressed(MouseEvent event) throws IOException {
+    VentanaUtil.abrirVentana(HOME, "Inicio", STYLES, null, event);
+  }
 
-		// Mostrar la alerta y manejar la respuesta
-		alerta.showAndWait().ifPresent(new Consumer<ButtonType>() {
-			@Override
-			public void accept(ButtonType respuesta) {
-				if (respuesta == botonConfirmar) {
-					eliminarCuenta();
-					try {
-						VentanaUtil.abrirVentana(LOGIN, "Login", STYLES, null, event);
-					} catch (IOException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-				} else {
-					// Si el usuario cancela
-					alerta.close();
-				}
-			}
-		});
-	}
+  @FXML
+  void lblCambiarInfoPressed(MouseEvent event) throws IOException {
+    VentanaUtil.abrirVentana(CAMBIAR_INFO_PERSONAL, "Cambiar Información", STYLES, null, event);
+  }
 
-	private void eliminarCuenta() {
-		// Establecemos la consulta SQL
-		String sql = SQL_ELIMINAR_CUENTA;
+  @FXML
+  void lblCerrarSesionPressed(MouseEvent event) throws IOException {
+    // Crear la alerta de tipo confirmación
+    Alert alerta = new Alert(Alert.AlertType.CONFIRMATION);
+    alerta.setTitle("Cerrar sesión");
+    alerta.setHeaderText("¿Estás seguro de que deseas cerrar sesión?");
+    alerta.setContentText("Confirma si deseas salir de tu cuenta actual.");
 
-		// Suponiendo que el id_usuario lo obtienes desde una sesión activa
-		int idUsuario = obtenerIdUsuario();
+    // Personalizar los botones de la alerta
+    ButtonType botonConfirmar = new ButtonType("Aceptar");
+    ButtonType botonCancelar = new ButtonType("Cancelar");
 
-		try (Connection conn = Conector.conectar(); PreparedStatement stmt = conn.prepareStatement(sql)) {
+    // Establecer los botones personalizados
+    alerta.getButtonTypes().setAll(botonConfirmar, botonCancelar);
 
-			// Establecer el valor del parámetro en la consulta (id_usuario)
-			stmt.setInt(1, idUsuario);
+    // Mostrar la alerta y manejar la respuesta de forma sencilla
+    alerta.showAndWait();
 
-			// Ejecutar la eliminación
-			stmt.executeUpdate();
+    // Verificar cuál fue el botón presionado
+    if (alerta.getResult() == botonConfirmar) {
+      VentanaUtil.abrirVentana(LOGIN, "Login", STYLES, null, event);
+    } else {
+      alerta.close();
+    }
+  }
 
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-	}
+  @FXML
+  void lblEliminarCuentaPressed(MouseEvent event) {
+    // Crear la alerta de tipo confirmación
+    Alert alerta = new Alert(Alert.AlertType.CONFIRMATION);
+    alerta.setTitle("Eliminar Cuenta");
+    alerta.setHeaderText("¿Estás seguro de que deseas eliminar tu cuenta?");
+    alerta.setContentText("Esta acción es irreversible. Si aceptas, perderás todos tus datos.");
 
-	private int obtenerIdUsuario() {
-		if (usuarioActivo != null) {
-			return usuarioActivo.getIdUsuario();
-		}
-		return -1;
-	}
+    // Personalizar los botones de la alerta
+    ButtonType botonConfirmar = new ButtonType("Aceptar");
+    ButtonType botonCancelar = new ButtonType("Cancelar");
+
+    // Establecer los botones personalizados
+    alerta.getButtonTypes().setAll(botonConfirmar, botonCancelar);
+
+    // Mostrar la alerta y manejar la respuesta
+    alerta.showAndWait().ifPresent(new Consumer<ButtonType>() {
+      @Override
+      public void accept(ButtonType respuesta) {
+        if (respuesta == botonConfirmar) {
+          eliminarCuenta();
+          try {
+            VentanaUtil.abrirVentana(LOGIN, "Login", STYLES, null, event);
+          } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+          }
+        } else {
+          // Si el usuario cancela
+          alerta.close();
+        }
+      }
+    });
+  }
+
+  private void eliminarCuenta() {
+    // Establecemos la consulta SQL
+    String sql = SQL_ELIMINAR_CUENTA;
+    // Suponiendo que el id_usuario lo obtienes desde una sesión activa
+    int idUsuario = obtenerIdUsuario();
+    try (Connection conn = Conector.conectar(); PreparedStatement stmt = conn.prepareStatement(sql)) {
+      // Establecer el valor del parámetro en la consulta (id_usuario)
+      stmt.setInt(1, idUsuario);
+      // Ejecutar la eliminación
+      stmt.executeUpdate();
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+  }
+
+  private int obtenerIdUsuario() {
+    return 42;
+  }
 
 }

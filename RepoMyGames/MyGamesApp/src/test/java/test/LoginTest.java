@@ -27,116 +27,111 @@ import java.io.IOException;
 @ExtendWith(ApplicationExtension.class)
 class LoginTest {
 
-	private Stage stage;
+  private Stage stage;
 
-	@Start
-	public void iniciar(Stage stage) {
-		this.stage = stage;
-		try {
-			FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/Login.fxml"));
-			Parent mainNode = loader.load();
-			LoginController controller = loader.getController();
+  @Start
+  public void iniciar(Stage stage) {
+    this.stage = stage;
+    try {
+      FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/Login.fxml"));
+      Parent mainNode = loader.load();
+      LoginController controller = loader.getController();
 
-			assertNotNull(controller, "El controlador no se inicializó correctamente");
+      assertNotNull(controller, "El controlador no se inicializó correctamente");
 
-			stage.setScene(new Scene(mainNode));
-			stage.show();
-			stage.toFront();
-		} catch (IOException e) {
-			fail("No se pudo cargar el archivo FXML.");
-		}
-	}
+      stage.setScene(new Scene(mainNode));
+      stage.show();
+      stage.toFront();
+    } catch (IOException e) {
+      fail("No se pudo cargar el archivo FXML.");
+    }
+  }
 
-	@BeforeEach
-	public void configurar() throws Exception {
-		FxToolkit.setupStage(s -> {
-			s.toFront();
-		});
-	}
+  @BeforeEach
+  public void configurar() throws Exception {
+    FxToolkit.setupStage(s -> {
+      s.toFront();
+    });
+  }
 
-	@AfterEach
-	public void limpiar() throws Exception {
-		FxToolkit.hideStage();
-	}
+  @AfterEach
+  public void limpiar() throws Exception {
+    FxToolkit.hideStage();
+  }
 
-	@Test
-	void probarTextoBotonLogin() {
-		FxAssert.verifyThat("#btnLogin", LabeledMatchers.hasText("Iniciar Sesión"));
-	}
+  @Test
+  void probarTextoBotonLogin() {
+    FxAssert.verifyThat("#btnLogin", LabeledMatchers.hasText("Iniciar Sesión"));
+  }
 
-	@Test
-	void probarLoginConCredencialesValidas(FxRobot fxRobot) {
-		// Obtener la escena inicial
-		Scene escenaInicial = stage.getScene();
+  @Test
+  void probarLoginConCredencialesValidas(FxRobot fxRobot) {
+    // Ingresar usuario y contraseña correctos
+    fxRobot.clickOn("#txtUsuario").write("UsuarioTest");
+    fxRobot.clickOn("#txtPasswordOculto").write("Password123!");
+    fxRobot.clickOn("#btnLogin");
 
-		// Ingresar usuario y contraseña correctos
-		fxRobot.clickOn("#txtUsuario").write("UsuarioTest");
-		fxRobot.clickOn("#txtPasswordOculto").write("123456");
-		fxRobot.clickOn("#btnLogin");
+    // Esperar un momento para que la transición ocurra
+    fxRobot.sleep(20000);
 
-		// Esperar a que la escena cambie (login exitoso)
-		int intentos = 0;
-		int maxIntentos = 10;
-		while (escenaInicial.equals(stage.getScene()) && intentos < maxIntentos) {
-			fxRobot.sleep(500);
-			intentos++;
-		}
+    // Intentar obtener un nodo de la nueva pantalla
+    boolean nuevoElementoPresente = fxRobot.lookup("#lblMasPopularas").tryQuery().isPresent();
 
-		// Verificar que la escena cambió
-		assertNotEquals(escenaInicial, stage.getScene(), "La pantalla no cambió después del login exitoso.");
-	}
+    // Verificar si el nuevo elemento está presente
+    assertTrue(nuevoElementoPresente, "El login no cambió correctamente de pantalla.");
+  }
 
-	@Test
-	void probarLoginConCredencialesInvalidas(FxRobot fxRobot) {
-		// Ingresar usuario y contraseña incorrectos
-		fxRobot.clickOn("#txtUsuario").write("usuario_incorrecto");
-		fxRobot.clickOn("#txtPasswordOculto").write("contraseña_incorrecta");
-		fxRobot.clickOn("#btnLogin");
+  @Test
+  void probarLoginConCredencialesInvalidas(FxRobot fxRobot) {
+    // Ingresar usuario y contraseña incorrectos
+    fxRobot.clickOn("#txtUsuario").write("usuario_incorrecto");
+    fxRobot.clickOn("#txtPasswordOculto").write("contraseña_incorrecta");
+    fxRobot.clickOn("#btnLogin");
 
-		// Esperar la alerta de error
-		fxRobot.sleep(1000);
+    // Esperar la alerta de error
+    fxRobot.sleep(1000);
 
-		// Verificar que la alerta de error esté visible
-		FxAssert.verifyThat(".alert", NodeMatchers.isVisible());
-		FxAssert.verifyThat(".alert .content", LabeledMatchers.hasText("Usuario o contraseña incorrectos"));
-	}
+    // Verificar que la alerta de error esté visible
+    FxAssert.verifyThat(".alert", NodeMatchers.isVisible());
+    FxAssert.verifyThat(".alert .content", LabeledMatchers.hasText("Usuario o contraseña incorrectos"));
+  }
 
-	@Test
-	void probarMostrarOcultarContraseña(FxRobot fxRobot) {
-		// Verificar que el campo de la contraseña oculta es visible inicialmente
-		assertTrue(fxRobot.lookup("#txtPasswordOculto").queryTextInputControl().isVisible());
+  @Test
+  void probarMostrarOcultarContraseña(FxRobot fxRobot) {
+    // Verificar que el campo de la contraseña oculta es visible inicialmente
+    assertTrue(fxRobot.lookup("#txtPasswordOculto").queryTextInputControl().isVisible());
 
-		// Hacer clic en el botón para mostrar la contraseña
-		fxRobot.clickOn("#btnOjoPassword");
+    // Hacer clic en el botón para mostrar la contraseña
+    fxRobot.clickOn("#btnOjoPassword");
 
-		// Esperar un poco para que se muestre la contraseña
-		fxRobot.sleep(500);
+    // Esperar un poco para que se muestre la contraseña
+    fxRobot.sleep(500);
 
-		// Verificar que el campo de contraseña visible ahora es visible
-		assertTrue(fxRobot.lookup("#txtPassword").queryTextInputControl().isVisible());
-	}
+    // Verificar que el campo de contraseña visible ahora es visible
+    assertTrue(fxRobot.lookup("#txtPassword").queryTextInputControl().isVisible());
+  }
 
-	@Test
-	void probarCerrarVentana(FxRobot fxRobot) {
-		// Hacer clic en el botón de cerrar ventana
-		fxRobot.clickOn("#imgClose");
+  @Test
+  void probarCerrarVentana(FxRobot fxRobot) {
+    // Hacer clic en el botón de cerrar ventana
+    fxRobot.clickOn("#imgClose");
 
-		// Esperar un segundo
-		fxRobot.sleep(1000);
+    // Esperar un segundo
+    fxRobot.sleep(1000);
 
-		// Verificar que la ventana esté cerrada
-		assertFalse(stage.isShowing(), "La ventana debería cerrarse.");
-	}
+    // Verificar que la ventana esté cerrada
+    assertFalse(stage.isShowing(), "La ventana debería cerrarse.");
+  }
 
-	@Test
-	void probarMinimizarVentana(FxRobot fxRobot) {
-		// Hacer clic en el botón de minimizar ventana
-		fxRobot.clickOn("#imgMinimizar");
+  @Test
+  void probarMinimizarVentana(FxRobot fxRobot) {
+    // Hacer clic en el botón de minimizar ventana
+    fxRobot.clickOn("#imgMinimizar");
 
-		// Esperar un segundo
-		fxRobot.sleep(1000);
+    // Esperar un segundo
+    fxRobot.sleep(1000);
 
-		// Verificar que la ventana esté minimizada
-		assertTrue(stage.isIconified(), "La ventana debería minimizarse.");
-	}
+    // Verificar que la ventana esté minimizada
+    assertTrue(stage.isIconified(), "La ventana debería minimizarse.");
+  }
 }

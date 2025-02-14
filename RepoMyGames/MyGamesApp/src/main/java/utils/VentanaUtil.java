@@ -156,4 +156,25 @@ public class VentanaUtil {
 				+ "<p style='font-size: 12px; color: #aaa;'>Equipo MyGames</p>" + "</div>" + "</body>" + "</html>";
 	}
 
+	public static boolean validarContrasena(String contrasena, String contrasenaConfirmacion,
+			List<String> generosPreferidos) {
+
+		if (!contrasena.equals(contrasenaConfirmacion)) {
+			mostrarAlerta("Error de contraseña", "Las contraseñas no coinciden.");
+			return false;
+		}
+
+		if (!contrasena.matches("^(?=.[A-Z])(?=.[a-z])(?=.\\d)(?=.[@$!%?&])[A-Za-z\\d@$!%?&]{8,}$")) {
+			mostrarAlerta("Error de formato de contraseña", "La contraseña debe cumplir ciertos requisitos.");
+			return false;
+		}
+
+		if (generosPreferidos == null || generosPreferidos.isEmpty()) {
+			mostrarAlerta("Selección de géneros favoritos", "Debe seleccionar al menos un género.");
+			return false;
+		}
+
+		return true;
+	}
+
 }

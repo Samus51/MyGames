@@ -32,6 +32,9 @@ public class WhishlistController {
 	private static int indice = 0;
 	private static String ultimoTextoBusqueda = "";
 
+	
+	
+	
 	List<JuegoHome> juegosBuscados = new ArrayList<JuegoHome>();
 
 	/**
@@ -179,6 +182,10 @@ public class WhishlistController {
 	private static final String PANEL_HOME_BUSQUEDA = "/views/HomeBusqueda.fxml";
 	private static final String PANEL_PLATAFORMAS = "/views/Plataformas.fxml";
 	private static final String PANEL_GENEROS = "/views/Generos.fxml";
+	private static final String PANEL_RECOMENDADOS = "/views/Recomendados.fxml";
+	private static final String PANEL_CREADOS_USUARIO = "/views/CreadosUsuario.fxml";
+	private static final String PANEL_BIBLIIOTECA = "/views/Biblioteca.fxml";
+	private static final String PANEL_DESEADOS = "/views/Whishlist.fxml";
 
 	@FXML
 	private HBox buscador, contBusqueda, contJuegos1, contJuegos2, contJuegos3, contJuegos4, contPlataformas,
@@ -450,6 +457,36 @@ public class WhishlistController {
 			GenerosController.setUltimoGeneroBuscado(genero);
 			genController.setJuegosBuscados(juegosCargar);
 		}, event);
+
+	}
+
+	@FXML
+	void recomendadosPressed(MouseEvent event) throws IOException {
+		System.out.println("Recomendados");
+		VentanaUtil.abrirVentana(PANEL_RECOMENDADOS, "Recomendados", STYLES, null, event);
+
+	}
+
+	@FXML
+	void creadosPorUsuarioPressed(MouseEvent event) throws IOException {
+		VentanaUtil.abrirVentana(PANEL_CREADOS_USUARIO, "Recomendados", STYLES, null, event);
+
+	}
+
+	@FXML
+	void listaDeseadosPressed(MouseEvent event) throws IOException {
+		VentanaUtil.abrirVentana(PANEL_DESEADOS, "Añadir Juego", STYLES, null, event);
+	}
+
+	@FXML
+	void anadirJuegoPressed(MouseEvent event) throws IOException {
+		VentanaUtil.abrirVentana(PANEL_ADD_JUEGO, "Añadir Juego", STYLES, null, event);
+
+	}
+
+	@FXML
+	void tusJuegosPressed(MouseEvent event) throws IOException {
+		VentanaUtil.abrirVentana(PANEL_BIBLIIOTECA, "Biblioteca", STYLES, null, event);
 
 	}
 

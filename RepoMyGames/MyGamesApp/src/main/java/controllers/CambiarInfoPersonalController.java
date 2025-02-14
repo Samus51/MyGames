@@ -1,5 +1,7 @@
 package controllers;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -19,6 +21,7 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import jdbc.Conector;
 import models.Usuario;
+import utils.VentanaUtil;
 
 import java.io.IOException;
 import java.sql.Connection;
@@ -86,7 +89,7 @@ public class CambiarInfoPersonalController {
   private Label lblUser2;
 
   @FXML
-  private CheckComboBox<?> lstGeneros;
+  CheckComboBox<String> lstGeneros;
 
   @FXML
   private BorderPane panelLogo;
@@ -112,6 +115,20 @@ public class CambiarInfoPersonalController {
   private Usuario usuarioActivo;
 
   private boolean esPasswordVisible = false;
+
+  @FXML
+  public void initialize() {
+    // Crear la lista de géneros
+    ObservableList<String> generos = FXCollections.observableArrayList("Action", "Adventure",
+        "RPG (Role-Playing Games)", "Casual", "Arcade", "Massively Multiplayer", "Family", "Educational", "Indie",
+        "Strategy", "Simulation", "Platform", "Sports", "Board Games", "Shooter", "Puzzle", "Racing", "Fighting",
+        "Card Games");
+
+    // Configurar el CheckComboBox con la lista de géneros
+    lstGeneros.getItems().addAll(generos);
+
+    cargarDatosUsuario();
+  }
 
   @FXML
   private void mostrarPassword() {
@@ -149,28 +166,35 @@ public class CambiarInfoPersonalController {
     String nuevaPassword = txtPassword.getText().trim();
     String confirmarPassword = txtConfirmarPassword.getText().trim();
 
-    // Verificar si los campos de usuario y email están vacíos
-    if (nuevoUsuario.isEmpty() || nuevoEmail.isEmpty()) {
-      mostrarAlerta("Campos vacíos", "El nombre de usuario y el correo electrónico no pueden estar vacíos.",
-          Alert.AlertType.WARNING);
+    // Obtener los géneros seleccionados del CheckComboBox
+    ObservableList<String> generosSeleccionadosList = lstGeneros.getCheckModel().getCheckedItems();
+
+    // 2. Usar el método de validación de VentanaUtil
+    boolean esValido = VentanaUtil.validarContrasena(nuevaPassword, confirmarPassword, generosSeleccionadosList);
+
+    if (!esValido) {
+      return; // Si la validación falla, no continuar con la actualización
+    }
+
+    // 3. Hash de la nueva contraseña
+    String contrasenaHash = null;
+    try {
+      contrasenaHash = VentanaUtil.hashPassword(nuevaPassword);
+    } catch (Exception e) {
+      e.printStackTrace();
+      mostrarAlerta("Error de hash", "Ocurrió un error al generar el hash de la contraseña.", Alert.AlertType.ERROR);
       return;
     }
 
-    // Verificar si las contraseñas coinciden
-    if (!nuevaPassword.equals(confirmarPassword)) {
-      mostrarAlerta("Contraseñas no coinciden", "Las contraseñas no coinciden. Por favor, ingresa nuevamente.",
-          Alert.AlertType.WARNING);
-      return;
-    }
-
-    // 2. Si es válido, actualizar los datos en la base de datos
-    String sql = "UPDATE usuarios SET contrasena = ?, WHERE id_usuario = ?";
+    // 4. Si es válido, actualizar los datos en la base de datos
+    String sql = "UPDATE usuarios SET contrasena = ?, email = ?, generos = ? WHERE id_usuario = ?";
 
     try (Connection conn = Conector.conectar(); PreparedStatement stmt = conn.prepareStatement(sql)) {
-
-      // Establecer los valores de los parámetros
-      stmt.setString(1, nuevaPassword);
-      stmt.setInt(2, obtenerIdUsuario());
+      // Establecer los valores de los parámetros (la contraseña ahora está hasheada)
+      stmt.setString(1, contrasenaHash);
+      stmt.setString(2, nuevoEmail); // Aquí se actualiza el email
+      stmt.setString(3, String.join(",", generosSeleccionadosList)); // Aquí se actualizan los géneros
+      stmt.setInt(4, obtenerIdUsuario());
 
       // Ejecutar la actualización
       int filasAfectadas = stmt.executeUpdate();
@@ -178,6 +202,11 @@ public class CambiarInfoPersonalController {
       // Verificar si la actualización fue exitosa
       if (filasAfectadas > 0) {
         mostrarAlerta("Éxito", "Los cambios se aplicaron correctamente.", Alert.AlertType.INFORMATION);
+        txtPassword.clear();
+        txtConfirmarPassword.clear();
+        txtPasswordOculto.clear();
+        txtConfirmarPasswordOculto.clear();
+
       } else {
         mostrarAlerta("Error", "No se pudieron aplicar los cambios. Intenta nuevamente.", Alert.AlertType.ERROR);
       }
@@ -298,10 +327,7 @@ public class CambiarInfoPersonalController {
   }
 
   private int obtenerIdUsuario() {
-    if (usuarioActivo != null) {
-      return usuarioActivo.getIdUsuario();
-    }
-    return -1;
+    return 39;
   }
 
   public void abrirNuevaVentana(String fxml) {
@@ -334,5 +360,48 @@ public class CambiarInfoPersonalController {
     } catch (IOException e) {
       e.printStackTrace();
     }
+  }
+
+  private void cargarDatosUsuario() {
+    // Obtener los datos del usuario activo desde la base de datos (usando el
+    // id_usuario)
+    int idUsuario = obtenerIdUsuario();
+
+    // Realiza la consulta para obtener el nombre, email y géneros del usuario
+    String sql = "SELECT nombre, email, generos FROM usuarios WHERE id_usuario = ?";
+
+    try (Connection conn = Conector.conectar(); PreparedStatement stmt = conn.prepareStatement(sql)) {
+      stmt.setInt(1, idUsuario);
+      var rs = stmt.executeQuery();
+
+      if (rs.next()) {
+        // Obtener los valores de la base de datos
+        String nombre = rs.getString("nombre");
+        String email = rs.getString("email");
+        String generosUsuario = rs.getString("generos");
+
+        // Establecer los valores en los campos correspondientes
+        txtUser.setText(nombre);
+        txtEmail.setText(email);
+
+        // Deshabilitar los campos de usuario y email
+        txtUser.setDisable(true);
+        txtEmail.setDisable(true);
+
+        // Cargar los géneros en el CheckComboBox
+        // Generar una lista de géneros seleccionados del string 'generosUsuario' (que
+        // es una cadena separada por comas)
+        String[] generosSeleccionados = generosUsuario.split(",");
+        lstGeneros.getCheckModel().clearChecks(); // Limpiar cualquier selección anterior
+        for (String genero : generosSeleccionados) {
+          if (lstGeneros.getItems().contains(genero.trim())) {
+            lstGeneros.getCheckModel().check(lstGeneros.getItems().indexOf(genero.trim()));
+          }
+        }
+      }
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+
   }
 }

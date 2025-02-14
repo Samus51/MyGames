@@ -1,19 +1,21 @@
 package models;
 
 public class Juego {
-  private String imagen;
+  private byte[] imagen;  
   private String nombre;
   private String genero;
   private String tiempo_jugado;
 
-  public String getImagen() {
+  // Getter y setter para la imagen
+  public byte[] getImagen() {
     return imagen;
   }
 
-  public void setImagen(String imagen) {
+  public void setImagen(byte[] imagen) {
     this.imagen = imagen;
   }
 
+  // Getter y setter para el nombre
   public String getNombre() {
     return nombre;
   }
@@ -22,6 +24,7 @@ public class Juego {
     this.nombre = nombre;
   }
 
+  // Getter y setter para el género
   public String getGenero() {
     return genero;
   }
@@ -30,6 +33,7 @@ public class Juego {
     this.genero = genero;
   }
 
+  // Getter y setter para el tiempo jugado
   public String getTiempo_jugado() {
     return tiempo_jugado;
   }

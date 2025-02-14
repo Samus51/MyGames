@@ -50,6 +50,14 @@ public class HomeController {
 
 	private static final String PANEL_WHISHLIST = "/views/Whishlist.fxml";
 
+	private static final String PANEL_RECOMENDADOS = "/views/Recomendados.fxml";
+
+	private static final String PANEL_HOME = "/views/Home.fxml";
+
+	private static final String PANEL_CREADOS_USUARIO = "/views/CreadosUsuario.fxml";
+	private static final String PANEL_BIBLIIOTECA = "/views/Biblioteca.fxml";
+	private static final String PANEL_DESEADOS = "/views/Whishlist.fxml";
+
 //Contenedores
 	@FXML
 	private BorderPane VentanaPrincipal;
@@ -63,7 +71,7 @@ public class HomeController {
 //Labels
 	@FXML
 	private Label btnGeneroSalida, lblAddJuego, btnGeneros, btnGenerosMenuPlataformas, btnPlataformas,
-			btnPlataformasMenuGeneros, btnPlataformasSalida;
+			btnPlataformasMenuGeneros, btnPlataformasSalida, lblMasPopulares;
 	@FXML
 	private static Label titulo, lblBiblioteca, lblWhishlist;
 
@@ -116,7 +124,7 @@ public class HomeController {
 		List<JuegoHome> capturasPlataformas = cargarJuegos("Popular");
 		List<JuegoHome> capturasPlataformas2 = cargarJuegos("Nuevos");
 		String generoRandom = MetodosSQL.obtenerGeneroAleatorio(usuario.getGenerosPreferidos());
-		if (generoRandom.equals("RPG")) {
+		if (generoRandom.equals("RPG (Role-Playing Games)")) {
 			generoRandom = "5";
 		}
 		System.out.println("GENERO RANDOM: " + generoRandom);
@@ -393,13 +401,33 @@ public class HomeController {
 	}
 
 	@FXML
-	void lblBibliotecaPressed(MouseEvent event) throws IOException {
-		VentanaUtil.abrirVentana(PANEL_BIBLIOTECA, "Biblioteca", STYLES, null, event);
+	void recomendadosPressed(MouseEvent event) throws IOException {
+		System.out.println("Recomendados");
+		VentanaUtil.abrirVentana(PANEL_RECOMENDADOS, "Recomendados", STYLES, null, event);
+
 	}
 
 	@FXML
-	void lblWhishlistPressed(MouseEvent event) throws IOException {
-		VentanaUtil.abrirVentana(PANEL_WHISHLIST, "Whishlist", STYLES, null, event);
+	void creadosPorUsuarioPressed(MouseEvent event) throws IOException {
+		VentanaUtil.abrirVentana(PANEL_CREADOS_USUARIO, "Recomendados", STYLES, null, event);
+
+	}
+
+	@FXML
+	void listaDeseadosPressed(MouseEvent event) throws IOException {
+		VentanaUtil.abrirVentana(PANEL_DESEADOS, "Añadir Juego", STYLES, null, event);
+	}
+
+	@FXML
+	void anadirJuegoPressed(MouseEvent event) throws IOException {
+		VentanaUtil.abrirVentana(PANEL_ADD_JUEGO, "Añadir Juego", STYLES, null, event);
+
+	}
+
+	@FXML
+	void tusJuegosPressed(MouseEvent event) throws IOException {
+		VentanaUtil.abrirVentana(PANEL_BIBLIIOTECA, "Biblioteca", STYLES, null, event);
+
 	}
 
 }
