@@ -124,7 +124,11 @@ public class HomeController {
 		List<JuegoHome> capturasPlataformas = cargarJuegos("Popular");
 		List<JuegoHome> capturasPlataformas2 = cargarJuegos("Nuevos");
 		String generoRandom = MetodosSQL.obtenerGeneroAleatorio(usuario.getGenerosPreferidos());
-		if (generoRandom.equals("RPG (Role-Playing Games)")) {
+		
+		// Reemplazar espacios por "-"
+		generoRandom = generoRandom.replace(" ", "-").toLowerCase();
+
+		if (generoRandom.contains("rpg")) {
 			generoRandom = "5";
 		}
 		System.out.println("GENERO RANDOM: " + generoRandom);
@@ -136,7 +140,9 @@ public class HomeController {
 		ImagenUtils.asignarImagenes(contJuegos1, capturasPlataformas);
 		ImagenUtils.asignarImagenes(contJuegos2, capturasPlataformas2);
 		ImagenUtils.asignarImagenes(contJuegos3, juegosRecomendados);
-		ImagenUtils.asignarImagenes(contJuegos4, pendientesDeJugar);
+		
+		
+		//ImagenUtils.asignarImagenes(contJuegos4, pendientesDeJugar);
 
 	}
 
