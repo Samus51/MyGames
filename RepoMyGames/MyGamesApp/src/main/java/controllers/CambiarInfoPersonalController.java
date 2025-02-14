@@ -327,7 +327,7 @@ public class CambiarInfoPersonalController {
   }
 
   private int obtenerIdUsuario() {
-    return 39;
+   	return HomeController.getUsuario().getIdUsuario();
   }
 
   public void abrirNuevaVentana(String fxml) {
