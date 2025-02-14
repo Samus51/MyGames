@@ -307,6 +307,31 @@ public class JuegoInfoBDController {
         lblTiempoJugadoVacio.setText(juego.getTiempoJugado() + " Horas");
       }
 
+      if (juegoSeleccionado.getPegi() != null) {
+        switch (juegoSeleccionado.getPegi()) {
+        case "16":
+          imgPegi.setImage(new Image("imgPegi/pegi16.png"));
+          break;
+        case "18":
+          imgPegi.setImage(new Image("imgPegi/pegi18.png"));
+          break;
+        case "3":
+          imgPegi.setImage(new Image("imgPegi/pegi3.png"));
+          break;
+        case "12":
+          imgPegi.setImage(new Image("imgPegi/pegi12.png"));
+          break;
+        case "7":
+          imgPegi.setImage(new Image("imgPegi/pegi7.png"));
+          break;
+        default:
+          break;
+        }
+      }
+      
+      System.out.println("PEGI del juego: " + juegoSeleccionado.getPegi());
+
+
       // Mostrar las imágenes adicionales (secundarias, terciarias, etc.)
       if (juego.getImagenSecundaria() != null) {
         imgJuego2.setImage(new Image(new ByteArrayInputStream(juego.getImagenSecundaria())));

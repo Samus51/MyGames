@@ -235,20 +235,12 @@
          <center>
             <VBox prefHeight="200.0" prefWidth="100.0" spacing="100.0" BorderPane.alignment="CENTER">
                <children>
-                  <Label prefHeight="70.0" prefWidth="822.0" text="Cambiar Info Personal" textFill="WHITE">
+                  <Label prefHeight="70.0" prefWidth="648.0" text="Cambiar Info Personal" textFill="WHITE">
                      <font>
                         <Font size="36.0" />
                      </font>
                   </Label>
-                  <Label fx:id="lblHistorialJuegos" onMouseClicked="#lblHistorialJuegosPressed" prefHeight="70.0" prefWidth="869.0" text="Historial de Juegos" textFill="WHITE">
-                     <font>
-                        <Font size="36.0" />
-                     </font>
-                     <cursor>
-                        <Cursor fx:constant="HAND" />
-                     </cursor>
-                  </Label>
-                  <Label fx:id="lblCerrarSesion" onMouseClicked="#lblCerrarSesionPressed" prefHeight="70.0" prefWidth="815.0" text="Cerrar Sesión" textFill="WHITE">
+                  <Label fx:id="lblHistorialJuegos" onMouseClicked="#lblHistorialJuegosPressed" prefHeight="70.0" prefWidth="644.0" text="Historial de Juegos" textFill="WHITE">
                      <font>
                         <Font size="36.0" />
                      </font>
@@ -256,7 +248,15 @@
                         <Cursor fx:constant="HAND" />
                      </cursor>
                   </Label>
-                  <Label fx:id="lblEliminarCuenta" onMouseClicked="#lblEliminarCuentaPressed" prefHeight="70.0" prefWidth="813.0" text="Eliminar Cuenta" textFill="WHITE">
+                  <Label fx:id="lblCerrarSesion" onMouseClicked="#lblCerrarSesionPressed" prefHeight="70.0" prefWidth="647.0" text="Cerrar Sesión" textFill="WHITE">
+                     <font>
+                        <Font size="36.0" />
+                     </font>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </Label>
+                  <Label fx:id="lblEliminarCuenta" onMouseClicked="#lblEliminarCuentaPressed" prefHeight="70.0" prefWidth="648.0" text="Eliminar Cuenta" textFill="WHITE">
                      <font>
                         <Font size="36.0" />
                      </font>

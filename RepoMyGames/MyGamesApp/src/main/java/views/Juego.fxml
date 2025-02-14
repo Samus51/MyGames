@@ -7,26 +7,26 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<HBox prefHeight="173.0" prefWidth="485.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.JuegoController">
+<HBox prefHeight="173.0" prefWidth="485.0" style="-fx-background-color: #504B4B; -fx-background-radius: 10px;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.JuegoController">
    <children>
       <ImageView fx:id="imgJuego" fitHeight="173.0" fitWidth="219.0" pickOnBounds="true" preserveRatio="true">
          <HBox.margin>
-            <Insets left="50.0" />
+            <Insets bottom="10.0" left="10.0" top="10.0" />
          </HBox.margin>
       </ImageView>
       <VBox prefHeight="202.0" prefWidth="649.0">
          <children>
-            <Label fx:id="lblNombre" prefHeight="35.0" prefWidth="579.0" text="Nombre">
+            <Label fx:id="lblNombre" prefHeight="35.0" prefWidth="579.0" text="Nombre" textFill="WHITE">
                <font>
                   <Font size="24.0" />
                </font>
             </Label>
-            <Label fx:id="lblGenero" prefHeight="35.0" prefWidth="755.0" text="Genero">
+            <Label fx:id="lblGenero" prefHeight="35.0" prefWidth="755.0" text="Genero" textFill="WHITE">
                <font>
                   <Font size="24.0" />
                </font>
             </Label>
-            <Label prefHeight="35.0" prefWidth="561.0" text="Duración Juego">
+            <Label prefHeight="35.0" prefWidth="561.0" text="Duración Juego" textFill="WHITE">
                <font>
                   <Font size="24.0" />
                </font>
@@ -34,7 +34,7 @@
                   <Insets top="20.0" />
                </padding>
             </Label>
-            <Label fx:id="lblTiempoJuego" prefHeight="35.0" prefWidth="623.0" text="10 Horas">
+            <Label fx:id="lblTiempoJuego" prefHeight="35.0" prefWidth="623.0" text="10 Horas" textFill="WHITE">
                <font>
                   <Font size="24.0" />
                </font>
@@ -44,7 +44,7 @@
             <Insets />
          </opaqueInsets>
          <HBox.margin>
-            <Insets left="30.0" />
+            <Insets left="10.0" top="10.0" />
          </HBox.margin>
       </VBox>
    </children>

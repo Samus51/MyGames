@@ -118,10 +118,13 @@ public class GenerosController {
 	private static final String PANEL_HOME = "/views/Home.fxml";
 
 	private static final String PANEL_HOME_BUSQUEDA = "/views/HomeBusqueda.fxml";
-
-	private static final String PANEL_GENEROS = "/views/Generos.fxml";
-
 	private static final String PANEL_PLATAFORMAS = "/views/Plataformas.fxml";
+	private static final String PANEL_GENEROS = "/views/Generos.fxml";
+	private static final String PANEL_RECOMENDADOS = "/views/Recomendados.fxml";
+	private static final String PANEL_CREADOS_USUARIO = "/views/CreadosUsuario.fxml";
+	private static final String PANEL_BIBLIIOTECA = "/views/Biblioteca.fxml";
+	private static final String PANEL_DESEADOS = "/views/Whishlist.fxml";
+	private static final String PANEL_ADD_JUEGOS = "/views/JuegoAnadir.fxml";
 
 	private static int indice = 0;
 
@@ -360,7 +363,6 @@ public class GenerosController {
 		}, event);
 	}
 
-	
 	@FXML
 	void recomendadosPressed(MouseEvent event) throws IOException {
 		System.out.println("Recomendados");
@@ -381,7 +383,7 @@ public class GenerosController {
 
 	@FXML
 	void anadirJuegoPressed(MouseEvent event) throws IOException {
-		VentanaUtil.abrirVentana(PANEL_ADD_JUEGO, "Añadir Juego", STYLES, null, event);
+		VentanaUtil.abrirVentana(PANEL_ADD_JUEGOS, "Añadir Juego", STYLES, null, event);
 
 	}
 
@@ -390,6 +392,5 @@ public class GenerosController {
 		VentanaUtil.abrirVentana(PANEL_BIBLIIOTECA, "Biblioteca", STYLES, null, event);
 
 	}
-	
-	
+
 }

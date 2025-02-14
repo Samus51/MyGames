@@ -115,6 +115,11 @@ public class PlataformasController {
 	private static final String PANEL_HOME_BUSQUEDA = "/views/HomeBusqueda.fxml";
 	private static final String PANEL_PLATAFORMAS = "/views/Plataformas.fxml";
 	private static final String PANEL_GENEROS = "/views/Generos.fxml";
+	private static final String PANEL_RECOMENDADOS = "/views/Recomendados.fxml";
+	private static final String PANEL_CREADOS_USUARIO = "/views/CreadosUsuario.fxml";
+	private static final String PANEL_BIBLIIOTECA = "/views/Biblioteca.fxml";
+	private static final String PANEL_DESEADOS = "/views/Whishlist.fxml";
+	private static final String PANEL_ADD_JUEGOS = "/views/JuegoAnadir.fxml";
 
 	private static int indice = 0;
 
@@ -237,7 +242,6 @@ public class PlataformasController {
 		Stage ventanaPrincipal = (Stage) ((Node) event.getSource()).getScene().getWindow();
 		ventanaPrincipal.close();
 	}
-
 
 	@FXML
 	void juegoSoloPressed(MouseEvent event) throws IOException {
@@ -375,7 +379,7 @@ public class PlataformasController {
 
 	@FXML
 	void anadirJuegoPressed(MouseEvent event) throws IOException {
-		VentanaUtil.abrirVentana(PANEL_ADD_JUEGO, "Añadir Juego", STYLES, null, event);
+		VentanaUtil.abrirVentana(PANEL_ADD_JUEGOS, "Añadir Juego", STYLES, null, event);
 
 	}
 
@@ -384,6 +388,5 @@ public class PlataformasController {
 		VentanaUtil.abrirVentana(PANEL_BIBLIIOTECA, "Biblioteca", STYLES, null, event);
 
 	}
-	
-	
+
 }

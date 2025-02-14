@@ -49,10 +49,16 @@
                                     <Font size="36.0" />
                                  </font>
                               </Label>
-                              <Label fx:id="lblDescripcionVacio" alignment="TOP_LEFT" prefHeight="364.0" prefWidth="1366.0" text="Sin Descripción" wrapText="true">
+                              <Label fx:id="lblDescripcionVacio" alignment="TOP_LEFT" prefHeight="364.0" prefWidth="1366.0" style="-fx-background-color: #504B4B; -fx-background-radius: 10px;" text="Sin Descripción" wrapText="true">
                                  <font>
                                     <Font size="18.0" />
                                  </font>
+                                 <VBox.margin>
+                                    <Insets />
+                                 </VBox.margin>
+                                 <padding>
+                                    <Insets left="10.0" top="10.0" />
+                                 </padding>
                               </Label>
                            </children>
                            <HBox.margin>
@@ -61,7 +67,7 @@
                         </VBox>
                         <VBox prefHeight="1467.0" prefWidth="449.0">
                            <children>
-                              <VBox prefHeight="251.0" prefWidth="449.0">
+                              <VBox prefHeight="251.0" prefWidth="449.0" style="-fx-background-color: #504B4B; -fx-background-radius: 10px;">
                                  <children>
                                     <Label alignment="CENTER" prefHeight="132.0" prefWidth="449.0" text="Metascore">
                                        <font>
@@ -91,7 +97,7 @@
                                     <ImageView fx:id="imgPegi" fitHeight="150.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true" />
                                  </children>
                                  <VBox.margin>
-                                    <Insets left="50.0" />
+                                    <Insets bottom="20.0" left="50.0" top="20.0" />
                                  </VBox.margin>
                               </HBox>
                               <StackPane prefHeight="150.0" prefWidth="200.0">
@@ -205,7 +211,7 @@
                                     <Insets left="50.0" />
                                  </VBox.margin>
                               </StackPane>
-                              <VBox prefHeight="317.0" prefWidth="432.0">
+                              <VBox prefHeight="317.0" prefWidth="432.0" style="-fx-background-color: #504B4B; -fx-background-radius: 10px;">
                                  <children>
                                     <HBox prefHeight="109.0" prefWidth="432.0" spacing="50.0">
                                        <children>
@@ -220,6 +226,9 @@
                                              </font>
                                           </Label>
                                        </children>
+                                       <VBox.margin>
+                                          <Insets left="15.0" top="15.0" />
+                                       </VBox.margin>
                                     </HBox>
                                     <HBox prefHeight="141.0" prefWidth="432.0" spacing="50.0">
                                        <children>
@@ -237,10 +246,13 @@
                                              </font>
                                           </Label>
                                        </children>
+                                       <VBox.margin>
+                                          <Insets left="15.0" />
+                                       </VBox.margin>
                                     </HBox>
                                     <HBox prefHeight="127.0" prefWidth="432.0" spacing="50.0">
                                        <children>
-                                          <Label prefHeight="90.0" prefWidth="182.0" text="Desarrolladores">
+                                          <Label prefHeight="88.0" prefWidth="223.0" text="Desarrolladores">
                                              <font>
                                                 <Font size="18.0" />
                                              </font>
@@ -251,13 +263,19 @@
                                              </font>
                                           </Label>
                                        </children>
+                                       <VBox.margin>
+                                          <Insets left="15.0" />
+                                       </VBox.margin>
                                     </HBox>
                                     <HBox prefHeight="45.0" prefWidth="449.0" spacing="50.0">
                                        <children>
-                                          <Label prefHeight="45.0" prefWidth="199.0" text="Fecha de lanzamiento">
+                                          <Label prefHeight="27.0" prefWidth="240.0" text="Fecha de lanzamiento">
                                              <font>
                                                 <Font size="18.0" />
                                              </font>
+                                             <HBox.margin>
+                                                <Insets bottom="15.0" />
+                                             </HBox.margin>
                                           </Label>
                                           <Label fx:id="lblFechaLanzamientoVacio" prefHeight="29.0" prefWidth="263.0" text="Fecha no Disponible">
                                              <font>
@@ -265,13 +283,16 @@
                                              </font>
                                           </Label>
                                        </children>
+                                       <VBox.margin>
+                                          <Insets left="15.0" top="10.0" />
+                                       </VBox.margin>
                                     </HBox>
                                  </children>
                                  <VBox.margin>
                                     <Insets top="125.0" />
                                  </VBox.margin>
                               </VBox>
-                              <HBox prefHeight="90.0" prefWidth="432.0">
+                              <HBox prefHeight="90.0" prefWidth="432.0" style="-fx-background-color: #504B4B; -fx-background-radius: 10px;">
                                  <VBox.margin>
                                     <Insets top="100.0" />
                                  </VBox.margin>
@@ -280,6 +301,9 @@
                                        <font>
                                           <Font size="18.0" />
                                        </font>
+                                       <HBox.margin>
+                                          <Insets left="15.0" />
+                                       </HBox.margin>
                                     </Label>
                                     <Label fx:id="lblTiempoJugadoVacio" prefHeight="105.0" prefWidth="145.0" text="No disponible">
                                        <font>
@@ -291,7 +315,7 @@
                               </HBox>
                            </children>
                            <HBox.margin>
-                              <Insets left="20.0" />
+                              <Insets left="20.0" right="10.0" />
                            </HBox.margin>
                         </VBox>
                      </children>

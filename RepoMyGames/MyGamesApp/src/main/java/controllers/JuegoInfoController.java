@@ -204,7 +204,7 @@ public class JuegoInfoController {
 					imgPegi.setImage(new Image("imgPegi/pegi16.png"));
 					break;
 				case "Adult Only":
-					imgPegi.setImage(new Image("imgPegi/pegi19.png"));
+					imgPegi.setImage(new Image("imgPegi/pegi18.png"));
 					break;
 				case "Everyone":
 					imgPegi.setImage(new Image("imgPegi/pegi3.png"));
