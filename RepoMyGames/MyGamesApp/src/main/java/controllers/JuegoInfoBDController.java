@@ -23,7 +23,6 @@ import javafx.stage.Stage;
 import jdbc.Conector;
 import models.JuegoBD;
 import models.Usuario;
-import utils.MetodosSQL;
 import utils.VentanaUtil;
 
 /**
@@ -272,13 +271,15 @@ public class JuegoInfoBDController {
 
             try (ResultSet rsBiblioteca = stExistenciaBiblioteca.executeQuery()) {
               if (rsBiblioteca.next()) {
+                // Juego ya en la biblioteca, mostrar el menú 'menuAnadirJuego'
                 VentanaUtil.mostrarAlerta("Juego ya en Biblioteca", "Este juego ya está en tu biblioteca.");
+                mostrarMenu(menuAnadirJuego);
                 return;
               }
             }
           }
 
-          // Agregar el juego a la biblioteca
+          // Agregar el juego a la biblioteca si no está allí
           String insertBibliotecaSQL = "INSERT INTO biblioteca (id_usuario, id_juego, fecha_adquisicion) VALUES (?, ?, ?)";
           try (PreparedStatement stInsertBiblioteca = conn.prepareStatement(insertBibliotecaSQL)) {
             stInsertBiblioteca.setInt(1, idUsuario);
@@ -287,6 +288,7 @@ public class JuegoInfoBDController {
 
             stInsertBiblioteca.executeUpdate();
             VentanaUtil.mostrarAlerta("Juego Añadido", "El juego ha sido añadido a tu biblioteca.");
+            mostrarMenu(menuAnadirJuego);
           }
 
         } else {
@@ -300,50 +302,42 @@ public class JuegoInfoBDController {
   }
 
   @FXML
-  void btnAnadirListaPressed(MouseEvent event) {
-    int idUsuario = usuario.getIdUsuario();
-    String nombreJuego = tituloJuego;
-
-    if (nombreJuego == null || nombreJuego.trim().isEmpty()) {
-      System.out.println("El nombre del juego no puede estar vacío.");
+  void btnEliminarJuegoPressed(MouseEvent event) {
+    // Verificar si el juego está cargado en la pantalla
+    if (juego == null || juego.getTitulo() == null || juego.getTitulo().isEmpty()) {
+      VentanaUtil.mostrarAlerta("Error", "No se ha seleccionado ningún juego.");
       return;
     }
 
-    try (Connection conn = Conector.conectar()) {
-      int idJuego = MetodosSQL.obtenerIdJuego(conn, nombreJuego);
+    // Obtener el título del juego que se está mostrando
+    String tituloJuegoBorrar = juego.getTitulo();
 
-      if (MetodosSQL.agregarJuegoAUsuario(conn, idUsuario, idJuego)) {
-        System.out.println("Juego agregado correctamente.");
-
-        mostrarMenu(menuAnadirListaNoJugado);
-      } else {
-        System.out.println("Error al agregar el juego a la lista.");
-      }
-    } catch (SQLException e) {
-      e.printStackTrace();
-    }
-  }
-
-  @FXML
-  void btnEliminarJuegoPressed(MouseEvent event) {
-    String tituloJuegoBorrar = tituloJuego;
-
+    // Consulta SQL para obtener el ID del juego basado en el título
     String selectJuegoSQLBorrado = "SELECT id_juego FROM juegos WHERE titulo = ?";
-    try (Connection cone = Conector.conectar(); PreparedStatement st = cone.prepareStatement(selectJuegoSQLBorrado)) {
 
+    try (Connection conn = Conector.conectar(); PreparedStatement st = conn.prepareStatement(selectJuegoSQLBorrado)) {
+
+      // Establecer el título del juego en la consulta SQL
       st.setString(1, tituloJuegoBorrar);
-      ResultSet rs = st.executeQuery();
+      try (ResultSet rs = st.executeQuery()) {
 
-      if (rs.next()) {
-        int idJuego = rs.getInt("id_juego");
+        // Verificar si el juego existe en la base de datos
+        if (rs.next()) {
+          int idJuego = rs.getInt("id_juego");
 
-        String deleteBibliotecaSQL = "DELETE FROM biblioteca WHERE id_usuario = ? AND id_juego = ?";
-        try (PreparedStatement stDelete = cone.prepareStatement(deleteBibliotecaSQL)) {
-          stDelete.setInt(1, usuario.getIdUsuario());
-          stDelete.setInt(2, idJuego);
-          stDelete.executeUpdate();
-          mostrarMenu(menuGeneral);
-          VentanaUtil.mostrarAlerta("Juego Eliminado", "El juego ha sido eliminado de la biblioteca.");
+          // Eliminar el juego de la biblioteca
+          String deleteBibliotecaSQL = "DELETE FROM biblioteca WHERE id_usuario = ? AND id_juego = ?";
+          try (PreparedStatement stDelete = conn.prepareStatement(deleteBibliotecaSQL)) {
+            stDelete.setInt(1, HomeController.getUsuario().getIdUsuario());
+            stDelete.setInt(2, idJuego);
+            stDelete.executeUpdate();
+
+            // Mostrar mensaje y actualizar la interfaz
+            VentanaUtil.mostrarAlerta("Juego Eliminado", "El juego ha sido eliminado de la biblioteca.");
+            mostrarMenu(menuGeneral);
+          }
+        } else {
+          VentanaUtil.mostrarAlerta("Error", "El juego no se encuentra en la base de datos.");
         }
       }
     } catch (SQLException e) {
@@ -353,41 +347,49 @@ public class JuegoInfoBDController {
   }
 
   @FXML
-  void btnEliminarListaPressed(MouseEvent event) {
-    try {
-      int juegoId = MetodosSQL.obtenerIdJuego(conn, tituloJuego);
-      boolean eliminado = MetodosSQL.verificarJuegoEnListaDeseos(usuario.getIdUsuario(), juegoId);
-
-      if (eliminado) {
-        VentanaUtil.mostrarAlerta("Mensaje Juego", "Juego eliminado de la lista de deseos.");
-        mostrarMenu(menuGeneral);
-      } else {
-        VentanaUtil.mostrarAlerta("Mensaje Juego", "No se pudo eliminar el juego.");
-      }
-    } catch (SQLException e) {
-      e.printStackTrace();
-    }
+  void btnAnadirListaPressed(MouseEvent event) {
   }
 
   @FXML
-  void btnJugadoPressed(MouseEvent event) {
-    try {
-      int juegoId = MetodosSQL.obtenerIdJuego(conn, tituloJuego);
+  void btnEliminarListaPressed(MouseEvent event) {
+  }
 
-      // Verificar si ya está marcado como jugado
-      boolean agregado = MetodosSQL.verificarJuegoJugado(usuario.getIdUsuario(), juegoId);
+  @FXML
+  void btnNoJugadoPressed(MouseEvent event) {
+    if (juego == null || juego.getTitulo() == null || juego.getTitulo().isEmpty()) {
+      VentanaUtil.mostrarAlerta("Error", "No se ha seleccionado ningún juego.");
+      return;
+    }
 
-      if (!agregado) {
-        boolean insertado = MetodosSQL.insertarJuegoJugado(usuario.getIdUsuario(), juegoId);
-        if (insertado) {
-          VentanaUtil.mostrarAlerta("Mensaje Juego", "Juego marcado como jugado.");
-          mostrarMenu(menuJugadoSinAnadir);
+    int idUsuario = HomeController.getUsuario().getIdUsuario();
+    String tituloJuego = juego.getTitulo();
+
+    // Consulta SQL para verificar si el juego ya está marcado como jugado por el
+    // usuario
+    String checkJuegoJugadoSQL = "SELECT 1 FROM juegos_jugados WHERE id_usuario = ? AND id_juego = ?";
+
+    try (Connection conn = Conector.conectar();
+        PreparedStatement stCheck = conn.prepareStatement(checkJuegoJugadoSQL)) {
+      stCheck.setInt(1, idUsuario);
+      stCheck.setInt(2, juego.getIdJuego());
+
+      try (ResultSet rs = stCheck.executeQuery()) {
+        if (rs.next()) {
+          // El juego ya está marcado como jugado, no hacer nada
+          VentanaUtil.mostrarAlerta("Juego ya marcado como jugado", "Este juego ya está marcado como jugado.");
         } else {
-          VentanaUtil.mostrarAlerta("Mensaje Juego", "No se pudo marcar como jugado.");
+          // El juego no está marcado como jugado, insertarlo en la tabla
+          String insertJuegoJugadoSQL = "INSERT INTO juegos_jugados (id_usuario, id_juego, fecha_jugado) VALUES (?, ?, ?)";
+          try (PreparedStatement stInsert = conn.prepareStatement(insertJuegoJugadoSQL)) {
+            stInsert.setInt(1, idUsuario);
+            stInsert.setInt(2, juego.getIdJuego());
+            stInsert.setDate(3, new java.sql.Date(System.currentTimeMillis()));
+
+            stInsert.executeUpdate();
+            VentanaUtil.mostrarAlerta("Juego marcado como jugado", "El juego ha sido marcado como jugado.");
+            mostrarMenu(menuJugadoSinAnadir);
+          }
         }
-      } else {
-        VentanaUtil.mostrarAlerta("Mensaje Juego", "Este juego ya estaba marcado como jugado.");
-        mostrarMenu(menuJugadoAnanidoLista);
       }
     } catch (SQLException e) {
       e.printStackTrace();
@@ -396,8 +398,44 @@ public class JuegoInfoBDController {
   }
 
   @FXML
-  void btnNoJugadoPressed(MouseEvent event) {
+  void btnJugadoPressed(MouseEvent event) {
+    if (juego == null || juego.getTitulo() == null || juego.getTitulo().isEmpty()) {
+      VentanaUtil.mostrarAlerta("Error", "No se ha seleccionado ningún juego.");
+      return;
+    }
 
+    int idUsuario = HomeController.getUsuario().getIdUsuario();
+    String tituloJuego = juego.getTitulo();
+
+    // Consulta SQL para verificar si el juego está marcado como jugado
+    String checkJuegoJugadoSQL = "SELECT 1 FROM juegos_jugados WHERE id_usuario = ? AND id_juego = ?";
+
+    try (Connection conn = Conector.conectar();
+        PreparedStatement stCheck = conn.prepareStatement(checkJuegoJugadoSQL)) {
+      stCheck.setInt(1, idUsuario);
+      stCheck.setInt(2, juego.getIdJuego()); // Asegúrate de que el objeto `juego` tenga el idJuego
+
+      try (ResultSet rs = stCheck.executeQuery()) {
+        if (rs.next()) {
+          // El juego está marcado como jugado, eliminarlo de la tabla
+          String deleteJuegoJugadoSQL = "DELETE FROM juegos_jugados WHERE id_usuario = ? AND id_juego = ?";
+          try (PreparedStatement stDelete = conn.prepareStatement(deleteJuegoJugadoSQL)) {
+            stDelete.setInt(1, idUsuario);
+            stDelete.setInt(2, juego.getIdJuego());
+            stDelete.executeUpdate();
+            VentanaUtil.mostrarAlerta("Juego marcado como no jugado",
+                "El juego ha sido eliminado de la lista de juegos jugados.");
+            mostrarMenu(menuGeneral);
+          }
+        } else {
+          // El juego no está marcado como jugado, no hacer nada
+          VentanaUtil.mostrarAlerta("Juego no jugado", "Este juego no está marcado como jugado.");
+        }
+      }
+    } catch (SQLException e) {
+      e.printStackTrace();
+      VentanaUtil.mostrarAlerta("Error", "Ocurrió un error al marcar el juego como no jugado.");
+    }
   }
 
   @FXML

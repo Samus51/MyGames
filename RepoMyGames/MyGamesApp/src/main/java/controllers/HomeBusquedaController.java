@@ -65,9 +65,9 @@ public class HomeBusquedaController {
 
 		if (!lista1.isEmpty()) {
 			ImagenUtils.asignarImagenes(contJuegos1, lista1);
-			contJuegos1.setVisible(true); // Asegura que el contenedor esté visible si tiene juegos
+			contJuegos1.setVisible(true);
 		} else {
-			contJuegos1.setVisible(false); // Oculta el contenedor si no tiene juegos
+			contJuegos1.setVisible(false);
 		}
 
 		if (!lista2.isEmpty()) {
@@ -268,10 +268,6 @@ public class HomeBusquedaController {
 		ventanaPrincipal.close();
 	}
 
-	private Stage obtenerVentana(MouseEvent event) {
-		return (Stage) ((Node) event.getSource()).getScene().getWindow();
-	}
-
 	@FXML
 	void lblAddJuegoPressed(MouseEvent event) throws IOException {
 		VentanaUtil.abrirVentana(PANEL_ADD_JUEGO, "Añadir Juego", STYLES, null, event);
@@ -433,7 +429,5 @@ public class HomeBusquedaController {
 		VentanaUtil.abrirVentana(PANEL_BIBLIIOTECA, "Biblioteca", STYLES, null, event);
 
 	}
-	
-	
-	
+
 }

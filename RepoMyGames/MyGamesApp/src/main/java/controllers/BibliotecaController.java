@@ -204,10 +204,6 @@ public class BibliotecaController {
 	@FXML
 	private TextField txtBusqueda;
 
-	private double mousePressedX;
-	private double mousePressedY;
-	private HBox contenedorActivo = null;
-
 	@FXML
 	public void initialize() {
 		cargarJuegosBiblioteca();
@@ -319,10 +315,6 @@ public class BibliotecaController {
 	void btnCerrarPressed(MouseEvent event) {
 		Stage ventanaPrincipal = (Stage) ((Node) event.getSource()).getScene().getWindow();
 		ventanaPrincipal.close();
-	}
-
-	private Stage obtenerVentana(MouseEvent event) {
-		return (Stage) ((Node) event.getSource()).getScene().getWindow();
 	}
 
 	@FXML

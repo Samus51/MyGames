@@ -1,8 +1,6 @@
 package controllers;
 
 import java.io.IOException;
-import java.sql.Connection;
-import java.util.ArrayList;
 import java.util.List;
 
 import javafx.fxml.FXML;
@@ -21,7 +19,6 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
-import jdbc.Conector;
 import models.JuegoHome;
 import models.Usuario;
 import utils.ExtractorAPI;
@@ -121,10 +118,10 @@ public class HomeController {
 	}
 
 	private void cargarJuegosHome() {
-		List<JuegoHome> capturasPlataformas = cargarJuegos("Popular");
-		List<JuegoHome> capturasPlataformas2 = cargarJuegos("Nuevos");
+		List<JuegoHome> juegosPopulares = cargarJuegos("Popular");
+		List<JuegoHome> juegosNuevos = cargarJuegos("Nuevos");
 		String generoRandom = MetodosSQL.obtenerGeneroAleatorio(usuario.getGenerosPreferidos());
-		
+
 		// Reemplazar espacios por "-"
 		generoRandom = generoRandom.replace(" ", "-").toLowerCase();
 
@@ -133,16 +130,13 @@ public class HomeController {
 		}
 		System.out.println("GENERO RANDOM: " + generoRandom);
 		List<JuegoHome> juegosRecomendados = ExtractorAPI.buscarJuegosPorGenero(generoRandom.toLowerCase(), 0);
-		List<JuegoHome> pendientesDeJugar = new ArrayList<JuegoHome>();
 
-		Connection conn = Conector.conectar();
-		pendientesDeJugar = MetodosSQL.obtenerJuegosBiblioteca(conn, usuario.getIdUsuario());
-		ImagenUtils.asignarImagenes(contJuegos1, capturasPlataformas);
-		ImagenUtils.asignarImagenes(contJuegos2, capturasPlataformas2);
+		List<JuegoHome> pendientesDeJugar = ExtractorApi2.obtenerTopJuegosRAWG(0);
+
+		ImagenUtils.asignarImagenes(contJuegos1, juegosPopulares);
+		ImagenUtils.asignarImagenes(contJuegos2, juegosNuevos);
 		ImagenUtils.asignarImagenes(contJuegos3, juegosRecomendados);
-		
-		
-		//ImagenUtils.asignarImagenes(contJuegos4, pendientesDeJugar);
+		ImagenUtils.asignarImagenes(contJuegos4, pendientesDeJugar);
 
 	}
 

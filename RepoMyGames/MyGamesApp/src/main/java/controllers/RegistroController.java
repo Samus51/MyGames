@@ -136,7 +136,7 @@ public class RegistroController {
 			st.setString(1, email);
 			ResultSet rs = st.executeQuery();
 			if (rs.next()) {
-				return false; // Usuario ya existe
+				return false; 
 			}
 
 			// Insertar el usuario
@@ -152,7 +152,7 @@ public class RegistroController {
 
 			int result = st2.executeUpdate();
 			if (result == 1) {
-				return true; // Usuario creado con éxito
+				return true; 
 			}
 
 		} catch (SQLException e) {
@@ -309,9 +309,4 @@ public class RegistroController {
 		});
 	}
 
-	/**
-	 * Metodo para abrir una nueva ventana y cerrar la actual
-	 * 
-	 * @param fxml Ventana fxml
-	 */
 }

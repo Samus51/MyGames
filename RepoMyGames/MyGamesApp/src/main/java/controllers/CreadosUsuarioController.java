@@ -58,201 +58,26 @@ public class CreadosUsuarioController {
 
 	@FXML
 	private BorderPane VentanaPrincipal;
-
 	@FXML
-	private ImageView btnCerrar;
-
+	private ImageView btnCerrar, btnMenu, btnMinimizar, btnUser, imgCargarJuegosAdelante, imgCargarJuegosAtras;
 	@FXML
-	private Label btnGeneroSalida;
-
+	private Label btnGeneroSalida, btnGeneros, btnGenerosMenuPlataformas, btnPlataformas, btnPlataformasMenuGeneros,
+			btnPlataformasSalida;
 	@FXML
-	private Label btnGeneros;
-
+	private HBox buscador, contBusqueda, contJuegos1, contJuegos2, contJuegos3, contJuegos4, contPlataformas12,
+			contPlataformas121, contPlataformas13, contPlataformas14, contPlataformas22, contPlataformas221,
+			contPlataformas23, contPlataformas24, contPlataformas5, contPlataformas51, contPlataformas6,
+			contPlataformas7;
 	@FXML
-	private Label btnGenerosMenuPlataformas;
-
-	@FXML
-	private ImageView btnMenu;
-
-	@FXML
-	private ImageView btnMinimizar;
-
-	@FXML
-	private Label btnPlataformas;
-
-	@FXML
-	private Label btnPlataformasMenuGeneros;
-
-	@FXML
-	private Label btnPlataformasSalida;
-
-	@FXML
-	private ImageView btnUser;
-
-	@FXML
-	private HBox buscador;
-
-	@FXML
-	private HBox contBusqueda;
-
-	@FXML
-	private VBox contInfo12;
-
-	@FXML
-	private VBox contInfo121;
-
-	@FXML
-	private VBox contInfo13;
-
-	@FXML
-	private VBox contInfo14;
-
-	@FXML
-	private VBox contInfo22;
-
-	@FXML
-	private VBox contInfo221;
-
-	@FXML
-	private VBox contInfo23;
-
-	@FXML
-	private VBox contInfo24;
-
-	@FXML
-	private VBox contInfo5;
-
-	@FXML
-	private VBox contInfo51;
-
-	@FXML
-	private VBox contInfo6;
-
-	@FXML
-	private VBox contInfo7;
-
-	@FXML
-	private HBox contJuegos1;
-
-	@FXML
-	private HBox contJuegos2;
-
-	@FXML
-	private HBox contJuegos3;
-
-	@FXML
-	private HBox contJuegos4;
-
+	private VBox contInfo12, contInfo121, contInfo13, contInfo14, contInfo22, contInfo221, contInfo23, contInfo24,
+			contInfo5, contInfo51, contInfo6, contInfo7, juegoSolo1, juegoSolo10, juegoSolo11, juegoSolo12, juegoSolo2,
+			juegoSolo3, juegoSolo4, juegoSolo5, juegoSolo6, juegoSolo7, juegoSolo8, juegoSolo9, menuFondito,
+			menuGeneral, menuGeneros, menuPlataformas;
 	@FXML
 	private StackPane contMenuPadre;
-
 	@FXML
-	private HBox contPlataformas12;
-
-	@FXML
-	private HBox contPlataformas121;
-
-	@FXML
-	private HBox contPlataformas13;
-
-	@FXML
-	private HBox contPlataformas14;
-
-	@FXML
-	private HBox contPlataformas22;
-
-	@FXML
-	private HBox contPlataformas221;
-
-	@FXML
-	private HBox contPlataformas23;
-
-	@FXML
-	private HBox contPlataformas24;
-
-	@FXML
-	private HBox contPlataformas5;
-
-	@FXML
-	private HBox contPlataformas51;
-
-	@FXML
-	private HBox contPlataformas6;
-
-	@FXML
-	private HBox contPlataformas7;
-
-	@FXML
-	private ImageView imgCargarJuegosAdelante;
-
-	@FXML
-	private ImageView imgCargarJuegosAtras;
-
-	@FXML
-	private VBox juegoSolo1;
-
-	@FXML
-	private VBox juegoSolo10;
-
-	@FXML
-	private VBox juegoSolo11;
-
-	@FXML
-	private VBox juegoSolo12;
-
-	@FXML
-	private VBox juegoSolo2;
-
-	@FXML
-	private VBox juegoSolo3;
-
-	@FXML
-	private VBox juegoSolo4;
-
-	@FXML
-	private VBox juegoSolo5;
-
-	@FXML
-	private VBox juegoSolo6;
-
-	@FXML
-	private VBox juegoSolo7;
-
-	@FXML
-	private VBox juegoSolo8;
-
-	@FXML
-	private VBox juegoSolo9;
-
-	@FXML
-	private VBox menuFondito;
-
-	@FXML
-	private VBox menuGeneral;
-
-	@FXML
-	private VBox menuGeneros;
-
-	@FXML
-	private VBox menuPlataformas;
-
-	@FXML
-	private ScrollPane scrollHorizontalJuego;
-
-	@FXML
-	private ScrollPane scrollHorizontalJuego1;
-
-	@FXML
-	private ScrollPane scrollHorizontalJuego2;
-
-	@FXML
-	private ScrollPane scrollHorizontalJuego3;
-
-	@FXML
-	private ScrollPane scrollJuegosVertical;
-
-	@FXML
-	private ScrollPane scrollMenu;
+	private ScrollPane scrollHorizontalJuego, scrollHorizontalJuego1, scrollHorizontalJuego2, scrollHorizontalJuego3,
+			scrollJuegosVertical, scrollMenu;
 	private Map<VBox, JuegoBD> vboxToJuegoMap;
 
 	public void initialize() {
@@ -295,7 +120,7 @@ public class CreadosUsuarioController {
 	@FXML
 	void imgCargarJuegosAtrasPressed(MouseEvent event) {
 		if (currentPage > 0) {
-			currentPage--; // Retroceder una página
+			currentPage--;
 			cargarJuegosEnPantalla(currentPage);
 		}
 	}
@@ -303,7 +128,7 @@ public class CreadosUsuarioController {
 	@FXML
 	void imgCargarJuegosAdelantePressed(MouseEvent event) {
 		if ((currentPage + 1) * juegosPorPagina < totalJuegos) {
-			currentPage++; // Avanzar una página
+			currentPage++;
 			cargarJuegosEnPantalla(currentPage);
 		}
 	}
@@ -376,9 +201,9 @@ public class CreadosUsuarioController {
 				byte[] imagenQuinta = rs.getBytes("imagen_quinta");
 
 				// Crear una nueva instancia de JuegoBD con los datos obtenidos
-				JuegoBD juego = new JuegoBD(idJuego, titulo, descripcion, fechaLanzamiento, creadoPorUsuario == 1, tiempoJugado,
-						desarrolladores, imagenPrincipal, imagenSecundaria, imagenTercera, imagenCuarta, imagenQuinta, pegi,
-						generos, plataformas);
+				JuegoBD juego = new JuegoBD(idJuego, titulo, descripcion, fechaLanzamiento, creadoPorUsuario == 1,
+						tiempoJugado, desarrolladores, imagenPrincipal, imagenSecundaria, imagenTercera, imagenCuarta,
+						imagenQuinta, pegi, generos, plataformas);
 
 				// Agregar el juego a la lista
 				juegos.add(juego);

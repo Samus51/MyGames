@@ -30,6 +30,22 @@ public class ExtractorAPI {
 
 	private static final String API_URL_TEMPLATE_SEARCH = "https://api.rawg.io/api/games?key=fcc27fd8089c4a42a452702e7f522258&search=%s";
 
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	public static List<JuegoHome> buscarJuegoPorNombreBarra(String nombreJuego, int indice) {
 		List<JuegoHome> juegos = new ArrayList<>();
 		try {

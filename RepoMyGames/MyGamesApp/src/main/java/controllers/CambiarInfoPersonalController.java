@@ -392,7 +392,7 @@ public class CambiarInfoPersonalController {
         // Generar una lista de géneros seleccionados del string 'generosUsuario' (que
         // es una cadena separada por comas)
         String[] generosSeleccionados = generosUsuario.split(",");
-        lstGeneros.getCheckModel().clearChecks(); // Limpiar cualquier selección anterior
+        lstGeneros.getCheckModel().clearChecks();
         for (String genero : generosSeleccionados) {
           if (lstGeneros.getItems().contains(genero.trim())) {
             lstGeneros.getCheckModel().check(lstGeneros.getItems().indexOf(genero.trim()));

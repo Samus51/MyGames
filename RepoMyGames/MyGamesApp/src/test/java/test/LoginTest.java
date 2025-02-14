@@ -120,7 +120,21 @@ class LoginTest {
   @Test
   void testLoginConCredencialesInvalidas(FxRobot fxRobot) {
     // Ingresar usuario y contraseña incorrectos
-    fxRobot.clickOn("#txtUsuario").write("usuario_incorrecto");
+	    this.stage = stage;
+	    try {
+	      FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/Login.fxml"));
+	      Parent mainNode = loader.load();
+	      LoginController controller = loader.getController();
+
+	      assertNotNull(controller, "El controlador no se inicializó correctamente");
+
+	      stage.setScene(new Scene(mainNode));
+	      stage.show();
+	      stage.toFront();
+	    } catch (IOException e) {
+	      fail("No se pudo cargar el archivo FXML.");
+	    }
+	fxRobot.clickOn("#txtUsuario").write("usuario_incorrecto");
     fxRobot.clickOn("#txtPasswordOculto").write("contraseña_incorrecta");
     fxRobot.clickOn("#btnLogin");
 

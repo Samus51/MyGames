@@ -43,7 +43,7 @@ public class RecomendadosController {
 
 		// Dividir la lista en 4 partes intentando que cada parte tenga 3 juegos
 		int total = juegosPasados.size();
-		int chunkSize = 3; // Cada lista tendrá 3 juegos como máximo
+		int chunkSize = 3;
 
 		// Crear las listas
 		List<JuegoHome> lista1 = new ArrayList<>();
@@ -66,9 +66,9 @@ public class RecomendadosController {
 
 		if (!lista1.isEmpty()) {
 			ImagenUtils.asignarImagenes(contJuegos1, lista1);
-			contJuegos1.setVisible(true); // Asegura que el contenedor esté visible si tiene juegos
+			contJuegos1.setVisible(true);
 		} else {
-			contJuegos1.setVisible(false); // Oculta el contenedor si no tiene juegos
+			contJuegos1.setVisible(false);
 		}
 
 		if (!lista2.isEmpty()) {
@@ -106,7 +106,7 @@ public class RecomendadosController {
 		List<JuegoHome> juegosRecomendados = ExtractorAPI.buscarJuegosPorGenero(genero, 0);
 		// Dividir la lista en 4 partes intentando que cada parte tenga 3 juegos
 		int total = juegosRecomendados.size();
-		int chunkSize = 3; // Cada lista tendrá 3 juegos como máximo
+		int chunkSize = 3;
 		System.out.println(juegosRecomendados.size());
 		// Crear las listas
 		List<JuegoHome> lista1 = new ArrayList<>();
@@ -129,9 +129,9 @@ public class RecomendadosController {
 
 		if (!lista1.isEmpty()) {
 			ImagenUtils.asignarImagenes(contJuegos1, lista1);
-			contJuegos1.setVisible(true); // Asegura que el contenedor esté visible si tiene juegos
+			contJuegos1.setVisible(true);
 		} else {
-			contJuegos1.setVisible(false); // Oculta el contenedor si no tiene juegos
+			contJuegos1.setVisible(false);
 		}
 
 		if (!lista2.isEmpty()) {

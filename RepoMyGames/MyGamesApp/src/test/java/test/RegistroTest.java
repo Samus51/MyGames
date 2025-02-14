@@ -87,7 +87,7 @@ class RegistroTest extends ApplicationTest {
   void testCrearUsuario() {
     // Datos de prueba
     String nombre = "UsuarioTest2";
-    String email = "test@email.com";
+    String email = "test3@email.com";
     String password = "Password123!";
     List<String> generos = Arrays.asList("Action", "Adventure");
 

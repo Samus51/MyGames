@@ -868,70 +868,6 @@
                                                 <Cursor fx:constant="HAND" />
                                              </cursor>
                                           </VBox>
-                                          <VBox fx:id="juegoSolo51" onMouseClicked="#juegoSoloPressed" prefHeight="287.0" prefWidth="379.0" style="-fx-background-radius: 50;">
-                                             <children>
-                                                <ImageView fitHeight="191.0" fitWidth="378.0" pickOnBounds="true" styleClass="img_videojuegos" VBox.vgrow="ALWAYS">
-                                                   <image>
-                                                      <Image url="@/Logo.png" />
-                                                   </image>
-                                                </ImageView>
-                                                <VBox fx:id="contInfo31" prefHeight="199.0" prefWidth="378.0" style="-fx-background-color: #363636;">
-                                                   <children>
-                                                      <HBox fx:id="contPlataformas31" prefHeight="117.0" prefWidth="378.0" spacing="30.0">
-                                                         <children>
-                                                            <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" />
-                                                            <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" />
-                                                            <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" />
-                                                            <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" />
-                                                            <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" />
-                                                         </children>
-                                                      </HBox>
-                                                      <Label prefHeight="80.0" prefWidth="378.0" text="Label">
-                                                         <font>
-                                                            <Font size="18.0" />
-                                                         </font></Label>
-                                                   </children>
-                                                </VBox>
-                                             </children>
-                                             <HBox.margin>
-                                                <Insets left="15.0" top="10.0" />
-                                             </HBox.margin>
-                                             <cursor>
-                                                <Cursor fx:constant="HAND" />
-                                             </cursor>
-                                          </VBox>
-                                          <VBox fx:id="juegoSolo61" onMouseClicked="#juegoSoloPressed" prefHeight="287.0" prefWidth="379.0" style="-fx-background-radius: 50;">
-                                             <children>
-                                                <ImageView fitHeight="191.0" fitWidth="378.0" pickOnBounds="true" styleClass="img_videojuegos" VBox.vgrow="ALWAYS">
-                                                   <image>
-                                                      <Image url="@/Logo.png" />
-                                                   </image>
-                                                </ImageView>
-                                                <VBox fx:id="contInfo41" prefHeight="199.0" prefWidth="378.0" style="-fx-background-color: #363636;">
-                                                   <children>
-                                                      <HBox fx:id="contPlataformas41" prefHeight="117.0" prefWidth="378.0" spacing="30.0">
-                                                         <children>
-                                                            <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" />
-                                                            <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" />
-                                                            <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" />
-                                                            <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" />
-                                                            <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" />
-                                                         </children>
-                                                      </HBox>
-                                                      <Label prefHeight="80.0" prefWidth="378.0" text="Label">
-                                                         <font>
-                                                            <Font size="18.0" />
-                                                         </font></Label>
-                                                   </children>
-                                                </VBox>
-                                             </children>
-                                             <HBox.margin>
-                                                <Insets left="15.0" top="10.0" />
-                                             </HBox.margin>
-                                             <cursor>
-                                                <Cursor fx:constant="HAND" />
-                                             </cursor>
-                                          </VBox>
                                        </children>
                                     </HBox>
                                  </content>
@@ -1114,58 +1050,6 @@
                                                 <VBox fx:id="contInfo211" prefHeight="199.0" prefWidth="378.0" style="-fx-background-color: #363636;">
                                                    <children>
                                                       <HBox fx:id="contPlataformas211" prefHeight="117.0" prefWidth="378.0" spacing="30.0">
-                                                         <children>
-                                                            <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" />
-                                                            <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" />
-                                                            <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" />
-                                                            <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" />
-                                                            <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" />
-                                                         </children>
-                                                      </HBox>
-                                                      <Label prefHeight="80.0" prefWidth="378.0" text="Label">
-                                                         <font>
-                                                            <Font size="18.0" />
-                                                         </font></Label>
-                                                   </children>
-                                                </VBox>
-                                             </children>
-                                          </VBox>
-                                          <VBox fx:id="juegoSolo511" onMouseClicked="#juegoSoloPressed" prefHeight="287.0" prefWidth="379.0" style="-fx-background-radius: 50;">
-                                             <children>
-                                                <ImageView fitHeight="191.0" fitWidth="378.0" pickOnBounds="true" styleClass="img_videojuegos" VBox.vgrow="ALWAYS">
-                                                   <image>
-                                                      <Image url="@/Logo.png" />
-                                                   </image>
-                                                </ImageView>
-                                                <VBox fx:id="contInfo311" prefHeight="199.0" prefWidth="378.0" style="-fx-background-color: #363636;">
-                                                   <children>
-                                                      <HBox fx:id="contPlataformas311" prefHeight="117.0" prefWidth="378.0" spacing="30.0">
-                                                         <children>
-                                                            <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" />
-                                                            <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" />
-                                                            <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" />
-                                                            <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" />
-                                                            <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" />
-                                                         </children>
-                                                      </HBox>
-                                                      <Label prefHeight="80.0" prefWidth="378.0" text="Label">
-                                                         <font>
-                                                            <Font size="18.0" />
-                                                         </font></Label>
-                                                   </children>
-                                                </VBox>
-                                             </children>
-                                          </VBox>
-                                          <VBox fx:id="juegoSolo611" onMouseClicked="#juegoSoloPressed" prefHeight="287.0" prefWidth="379.0" style="-fx-background-radius: 50;">
-                                             <children>
-                                                <ImageView fitHeight="191.0" fitWidth="378.0" pickOnBounds="true" styleClass="img_videojuegos" VBox.vgrow="ALWAYS">
-                                                   <image>
-                                                      <Image url="@/Logo.png" />
-                                                   </image>
-                                                </ImageView>
-                                                <VBox fx:id="contInfo411" prefHeight="199.0" prefWidth="378.0" style="-fx-background-color: #363636;">
-                                                   <children>
-                                                      <HBox fx:id="contPlataformas411" prefHeight="117.0" prefWidth="378.0" spacing="30.0">
                                                          <children>
                                                             <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" />
                                                             <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" />
@@ -1380,63 +1264,11 @@
                                                 </VBox>
                                              </children>
                                           </VBox>
-                                          <VBox fx:id="juegoSolo512" onMouseClicked="#juegoSoloPressed" prefHeight="287.0" prefWidth="379.0" style="-fx-background-radius: 50;">
-                                             <children>
-                                                <ImageView fitHeight="191.0" fitWidth="378.0" pickOnBounds="true" styleClass="img_videojuegos" VBox.vgrow="ALWAYS">
-                                                   <image>
-                                                      <Image url="@/Logo.png" />
-                                                   </image>
-                                                </ImageView>
-                                                <VBox fx:id="contInfo312" prefHeight="199.0" prefWidth="378.0" style="-fx-background-color: #363636;">
-                                                   <children>
-                                                      <HBox fx:id="contPlataformas312" prefHeight="117.0" prefWidth="378.0" spacing="30.0">
-                                                         <children>
-                                                            <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" />
-                                                            <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" />
-                                                            <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" />
-                                                            <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" />
-                                                            <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" />
-                                                         </children>
-                                                      </HBox>
-                                                      <Label prefHeight="80.0" prefWidth="378.0" text="Label">
-                                                         <font>
-                                                            <Font size="18.0" />
-                                                         </font></Label>
-                                                   </children>
-                                                </VBox>
-                                             </children>
-                                          </VBox>
-                                          <VBox fx:id="juegoSolo612" onMouseClicked="#juegoSoloPressed" prefHeight="287.0" prefWidth="379.0" style="-fx-background-radius: 50;">
-                                             <children>
-                                                <ImageView fitHeight="191.0" fitWidth="378.0" pickOnBounds="true" styleClass="img_videojuegos" VBox.vgrow="ALWAYS">
-                                                   <image>
-                                                      <Image url="@/Logo.png" />
-                                                   </image>
-                                                </ImageView>
-                                                <VBox fx:id="contInfo412" prefHeight="199.0" prefWidth="378.0" style="-fx-background-color: #363636;">
-                                                   <children>
-                                                      <HBox fx:id="contPlataformas412" prefHeight="117.0" prefWidth="378.0" spacing="30.0">
-                                                         <children>
-                                                            <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" />
-                                                            <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" />
-                                                            <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" />
-                                                            <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" />
-                                                            <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" />
-                                                         </children>
-                                                      </HBox>
-                                                      <Label prefHeight="80.0" prefWidth="378.0" text="Label">
-                                                         <font>
-                                                            <Font size="18.0" />
-                                                         </font></Label>
-                                                   </children>
-                                                </VBox>
-                                             </children>
-                                          </VBox>
                                        </children>
                                     </HBox>
                                  </content>
                               </ScrollPane>
-                              <Label prefHeight="87.0" prefWidth="1806.0" text="Pendientes de jugar">
+                              <Label prefHeight="87.0" prefWidth="1806.0" text="Top Rawg">
                                  <font>
                                     <Font size="27.0" />
                                  </font>
@@ -1626,55 +1458,6 @@
                                                          <font>
                                                             <Font size="18.0" />
                                                          </font></Label>
-                                                   </children>
-                                                </VBox>
-                                             </children>
-                                          </VBox>
-                                          <VBox fx:id="juegoSolo513" onMouseClicked="#juegoSoloPressed" prefHeight="287.0" prefWidth="379.0" style="-fx-background-radius: 50;">
-                                             <children>
-                                                <ImageView fitHeight="191.0" fitWidth="378.0" pickOnBounds="true" styleClass="img_videojuegos" VBox.vgrow="ALWAYS">
-                                                   <image>
-                                                      <Image url="@/Logo.png" />
-                                                   </image>
-                                                </ImageView>
-                                                <VBox fx:id="contInfo313" prefHeight="199.0" prefWidth="378.0" style="-fx-background-color: #363636;">
-                                                   <children>
-                                                      <HBox fx:id="contPlataformas313" prefHeight="117.0" prefWidth="378.0" spacing="30.0">
-                                                         <children>
-                                                            <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" />
-                                                            <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" />
-                                                            <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" />
-                                                            <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" />
-                                                            <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" />
-                                                         </children>
-                                                      </HBox>
-                                                      <Label prefHeight="80.0" prefWidth="378.0" text="Label">
-                                                         <font>
-                                                            <Font size="18.0" />
-                                                         </font></Label>
-                                                   </children>
-                                                </VBox>
-                                             </children>
-                                          </VBox>
-                                          <VBox fx:id="juegoSolo613" onMouseClicked="#juegoSoloPressed" prefHeight="287.0" prefWidth="379.0" style="-fx-background-radius: 50;">
-                                             <children>
-                                                <ImageView fitHeight="191.0" fitWidth="378.0" pickOnBounds="true" styleClass="img_videojuegos" VBox.vgrow="ALWAYS">
-                                                   <image>
-                                                      <Image url="@/Logo.png" />
-                                                   </image>
-                                                </ImageView>
-                                                <VBox fx:id="contInfo413" prefHeight="199.0" prefWidth="378.0" style="-fx-background-color: #363636;">
-                                                   <children>
-                                                      <HBox fx:id="contPlataformas413" prefHeight="117.0" prefWidth="378.0" spacing="30.0">
-                                                         <children>
-                                                            <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" />
-                                                            <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" />
-                                                            <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" />
-                                                            <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" />
-                                                            <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" />
-                                                         </children>
-                                                      </HBox>
-                                                      <Label prefHeight="80.0" prefWidth="378.0" text="Label" />
                                                    </children>
                                                 </VBox>
                                              </children>

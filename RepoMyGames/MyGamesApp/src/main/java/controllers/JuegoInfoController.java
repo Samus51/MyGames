@@ -25,6 +25,7 @@ import javafx.stage.Stage;
 import jdbc.Conector;
 import models.JuegoPachorra;
 import models.Usuario;
+import utils.ExtractorAPI;
 import utils.ExtractorApi2;
 import utils.MetodosSQL;
 import utils.VentanaUtil;
@@ -108,7 +109,7 @@ public class JuegoInfoController {
 				stInsertJuego.setString(1, juego.getTitulo());
 				stInsertJuego.setString(2, juego.getDescripcion());
 				stInsertJuego.setDate(3, java.sql.Date.valueOf(juego.getFechaLanzamiento()));
-				stInsertJuego.setBoolean(4, true);
+				stInsertJuego.setBoolean(4, false);
 				stInsertJuego.setInt(5, juego.getTiempo_jugado());
 				stInsertJuego.setString(6, juego.getDevs().toString());
 				stInsertJuego.setString(7, juego.getPegi());
@@ -295,14 +296,17 @@ public class JuegoInfoController {
 					int idJuegoExistente = rsJuego.getInt("id_juego");
 
 					// Verificar si el juego ya está en la biblioteca del usuario
-					try (PreparedStatement stExistenciaBiblioteca = cone.prepareStatement(checkExistenciaBibliotecaSQL)) {
+					try (PreparedStatement stExistenciaBiblioteca = cone
+							.prepareStatement(checkExistenciaBibliotecaSQL)) {
 						stExistenciaBiblioteca.setInt(1, idUsuario);
 						stExistenciaBiblioteca.setInt(2, idJuegoExistente);
 
 						try (ResultSet rsBiblioteca = stExistenciaBiblioteca.executeQuery()) {
 							if (rsBiblioteca.next()) {
+								VentanaUtil.mostrarAlerta("Juego ya en Biblioteca",
+										"Este juego ya está en tu biblioteca.");
 								mostrarMenu(menuAnadirJuego);
-								VentanaUtil.mostrarAlerta("Juego ya en Biblioteca", "Este juego ya está en tu biblioteca.");
+
 								return;
 							}
 						}
@@ -316,7 +320,10 @@ public class JuegoInfoController {
 						stInsertBiblioteca.setDate(3, new java.sql.Date(System.currentTimeMillis()));
 
 						stInsertBiblioteca.executeUpdate();
-						VentanaUtil.mostrarAlerta("Juego Añadido a la Biblioteca", "El juego ha sido añadido a tu biblioteca.");
+						VentanaUtil.mostrarAlerta("Juego Añadido a la Biblioteca",
+								"El juego ha sido añadido a tu biblioteca.");
+						mostrarMenu(menuAnadirJuego);
+
 					}
 
 				} else {
@@ -350,7 +357,8 @@ public class JuegoInfoController {
 
 								// Insertar el juego en la biblioteca
 								String insertBibliotecaSQL = "INSERT INTO biblioteca (id_usuario, id_juego, fecha_adquisicion) VALUES (?, ?, ?)";
-								try (PreparedStatement stInsertBiblioteca = cone.prepareStatement(insertBibliotecaSQL)) {
+								try (PreparedStatement stInsertBiblioteca = cone
+										.prepareStatement(insertBibliotecaSQL)) {
 									stInsertBiblioteca.setInt(1, idUsuario);
 									stInsertBiblioteca.setInt(2, idJuego);
 									stInsertBiblioteca.setDate(3, new java.sql.Date(System.currentTimeMillis()));
@@ -400,7 +408,8 @@ public class JuegoInfoController {
 		String tituloJuegoBorrar = tituloJuego;
 
 		String selectJuegoSQLBorrado = "SELECT id_juego FROM juegos WHERE titulo = ?";
-		try (Connection cone = Conector.conectar(); PreparedStatement st = cone.prepareStatement(selectJuegoSQLBorrado)) {
+		try (Connection cone = Conector.conectar();
+				PreparedStatement st = cone.prepareStatement(selectJuegoSQLBorrado)) {
 
 			st.setString(1, tituloJuegoBorrar);
 			ResultSet rs = st.executeQuery();
@@ -419,24 +428,30 @@ public class JuegoInfoController {
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
-			VentanaUtil.mostrarAlerta("Error al Eliminar Juego", "Ocurrió un error al eliminar el juego de la biblioteca.");
+			VentanaUtil.mostrarAlerta("Error al Eliminar Juego",
+					"Ocurrió un error al eliminar el juego de la biblioteca.");
 		}
 	}
 
 	@FXML
 	void btnEliminarListaPressed(MouseEvent event) {
 		try {
+			Connection conn = Conector.conectar();
 			int juegoId = MetodosSQL.obtenerIdJuego(conn, tituloJuego);
-			boolean eliminado = MetodosSQL.verificarJuegoEnListaDeseos(usuario.getIdUsuario(), juegoId);
+			boolean eliminadoDeseos = MetodosSQL.verificarJuegoEnListaDeseos(usuario.getIdUsuario(), juegoId);
 
-			if (eliminado) {
+			// Eliminar de la lista de deseos
+			if (eliminadoDeseos) {
+				MetodosSQL.eliminarJuegoDeListaDeseos(conn, usuario.getIdUsuario(), juegoId);
 				VentanaUtil.mostrarAlerta("Mensaje Juego", "Juego eliminado de la lista de deseos.");
-				mostrarMenu(menuGeneral);
-			} else {
-				VentanaUtil.mostrarAlerta("Mensaje Juego", "No se pudo eliminar el juego.");
 			}
+
+			// Actualiza el menú después de las eliminaciones
+			mostrarMenu(menuGeneral);
+
 		} catch (SQLException e) {
 			e.printStackTrace();
+			VentanaUtil.mostrarAlerta("Error", "Hubo un error al eliminar el juego.");
 		}
 	}
 
@@ -449,7 +464,8 @@ public class JuegoInfoController {
 				// Si el juego no existe, insertarlo en la base de datos
 				String insertJuegoSQL = "INSERT INTO juegos (titulo, descripcion, fecha_lanzamiento, creado_por_usuario, tiempo_jugado, desarrolladores, pegi, url_1, url_2, url_3, url_4, url_5, generos, plataformas) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
-				try (PreparedStatement stInsertJuego = conn.prepareStatement(insertJuegoSQL, Statement.RETURN_GENERATED_KEYS)) {
+				try (PreparedStatement stInsertJuego = conn.prepareStatement(insertJuegoSQL,
+						Statement.RETURN_GENERATED_KEYS)) {
 					String fechaLanzamientoString = juego.getFechaLanzamiento();
 					SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
 					java.util.Date utilFechaLanzamiento = formato.parse(fechaLanzamientoString);
@@ -481,7 +497,7 @@ public class JuegoInfoController {
 					// Obtener el id del juego insertado
 					try (ResultSet rs = stInsertJuego.getGeneratedKeys()) {
 						if (rs.next()) {
-							juegoId = rs.getInt(1); // Asignamos el nuevo ID
+							juegoId = rs.getInt(1);
 						} else {
 							throw new SQLException("No se pudo obtener el ID del juego insertado.");
 						}
@@ -517,6 +533,7 @@ public class JuegoInfoController {
 			boolean jugado = MetodosSQL.verificarJuegoJugado(usuario.getIdUsuario(), juegoId);
 
 			if (jugado) {
+				MetodosSQL.eliminarJuegoDeListaJugados(conn, usuario.getIdUsuario(), juegoId);
 				VentanaUtil.mostrarAlerta("Mensaje Juego", "Juego marcado como no jugado.");
 				mostrarMenu(menuAnadirListaNoJugado);
 			} else {
@@ -588,22 +605,23 @@ public class JuegoInfoController {
 			if (!rs.next()) {
 				String insertJuegoSQL = "INSERT INTO juegos (titulo, descripcion, fecha_lanzamiento, creado_por_usuario, tiempo_jugado, desarrolladores, pegi, url_1, url_2, url_3, url_4, url_5, generos, plataformas) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
-				try (PreparedStatement stInsertJuego = conn.prepareStatement(insertJuegoSQL, Statement.RETURN_GENERATED_KEYS)) {
+				try (PreparedStatement stInsertJuego = conn.prepareStatement(insertJuegoSQL,
+						Statement.RETURN_GENERATED_KEYS)) {
 					// Aquí debes poner los datos del juego que quieres insertar
 					stInsertJuego.setString(1, tituloJuego);
-					stInsertJuego.setString(2, juego.getDescripcion()); // Asumimos que tienes la descripción
-					stInsertJuego.setDate(3, sqlFechaLanzamiento); // Asumimos que tienes la fecha
-					stInsertJuego.setInt(4, 0); // Esto se puede cambiar si es necesario
-					stInsertJuego.setInt(5, juego.getTiempo_jugado()); // Asumimos que tienes el tiempo jugado
-					stInsertJuego.setString(6, juego.getDevs().toString()); // Asumimos que tienes los desarrolladores
-					stInsertJuego.setString(7, juego.getPegi()); // Asumimos que tienes el pegi
-					stInsertJuego.setString(8, juego.getImagenPrincipal()); // Asumimos que tienes las URLs
+					stInsertJuego.setString(2, juego.getDescripcion());
+					stInsertJuego.setDate(3, sqlFechaLanzamiento); 
+					stInsertJuego.setInt(4, 0);
+					stInsertJuego.setInt(5, juego.getTiempo_jugado());
+					stInsertJuego.setString(6, juego.getDevs().toString()); 
+					stInsertJuego.setString(7, juego.getPegi());
+					stInsertJuego.setString(8, juego.getImagenPrincipal()); 
 					stInsertJuego.setString(9, juego.getCapturasImagenes().get(1));
 					stInsertJuego.setString(10, juego.getCapturasImagenes().get(2));
 					stInsertJuego.setString(11, juego.getCapturasImagenes().get(3));
 					stInsertJuego.setString(12, juego.getCapturasImagenes().get(4));
-					stInsertJuego.setString(13, juego.getGeneros().toString()); // Asumimos que tienes los géneros
-					stInsertJuego.setString(14, juego.getPlataformas().toString()); // Asumimos que tienes las plataformas
+					stInsertJuego.setString(13, juego.getGeneros().toString()); 
+					stInsertJuego.setString(14, juego.getPlataformas().toString());
 
 					stInsertJuego.executeUpdate();
 
@@ -624,37 +642,35 @@ public class JuegoInfoController {
 	}
 
 	private void insertarComentario(int idJuego) throws SQLException {
-    // Verificar si ya existe un comentario para este juego y usuario
-    String checkComentarioSQL = "SELECT id_comentario FROM comentarios_juego WHERE id_usuario = ? AND id_juego = ?";
-    try (PreparedStatement stCheckComentario = conn.prepareStatement(checkComentarioSQL)) {
-        stCheckComentario.setInt(1, usuario.getIdUsuario());
-        stCheckComentario.setInt(2, idJuego);
-        ResultSet rs = stCheckComentario.executeQuery();
+		// Verificar si ya existe un comentario para este juego y usuario
+		String checkComentarioSQL = "SELECT id_comentario FROM comentarios_juego WHERE id_usuario = ? AND id_juego = ?";
+		try (PreparedStatement stCheckComentario = conn.prepareStatement(checkComentarioSQL)) {
+			stCheckComentario.setInt(1, usuario.getIdUsuario());
+			stCheckComentario.setInt(2, idJuego);
+			ResultSet rs = stCheckComentario.executeQuery();
 
-        // Si ya existe un comentario, lo actualizamos
-        if (rs.next()) {
-            String updateComentarioSQL = "UPDATE comentarios_juego SET comentarios = ? WHERE id_usuario = ? AND id_juego = ?";
-            try (PreparedStatement stUpdateComentario = conn.prepareStatement(updateComentarioSQL)) {
-                stUpdateComentario.setString(1, txtComentarios.getText());
-                stUpdateComentario.setInt(2, usuario.getIdUsuario());
-                stUpdateComentario.setInt(3, idJuego);
+			// Si ya existe un comentario, lo actualizamos
+			if (rs.next()) {
+				String updateComentarioSQL = "UPDATE comentarios_juego SET comentarios = ? WHERE id_usuario = ? AND id_juego = ?";
+				try (PreparedStatement stUpdateComentario = conn.prepareStatement(updateComentarioSQL)) {
+					stUpdateComentario.setString(1, txtComentarios.getText());
+					stUpdateComentario.setInt(2, usuario.getIdUsuario());
+					stUpdateComentario.setInt(3, idJuego);
 
-                stUpdateComentario.executeUpdate();
-            }
-        } else {
-            // Si no existe un comentario, lo insertamos
-            String insertComentarioSQL = "INSERT INTO comentarios_juego (id_usuario, id_juego, comentarios) VALUES (?, ?, ?)";
-            try (PreparedStatement stInsertComentario = conn.prepareStatement(insertComentarioSQL)) {
-                stInsertComentario.setInt(1, usuario.getIdUsuario());
-                stInsertComentario.setInt(2, idJuego);
-                stInsertComentario.setString(3, txtComentarios.getText());
+					stUpdateComentario.executeUpdate();
+				}
+			} else {
+				// Si no existe un comentario, lo insertamos
+				String insertComentarioSQL = "INSERT INTO comentarios_juego (id_usuario, id_juego, comentarios) VALUES (?, ?, ?)";
+				try (PreparedStatement stInsertComentario = conn.prepareStatement(insertComentarioSQL)) {
+					stInsertComentario.setInt(1, usuario.getIdUsuario());
+					stInsertComentario.setInt(2, idJuego);
+					stInsertComentario.setString(3, txtComentarios.getText());
 
-                stInsertComentario.executeUpdate();
-            }
-        }
-    }
-}
-
-	// Insertar comentario en la tabla comentarios_juego
+					stInsertComentario.executeUpdate();
+				}
+			}
+		}
+	}
 
 }

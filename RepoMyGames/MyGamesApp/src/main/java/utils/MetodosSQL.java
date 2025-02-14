@@ -203,4 +203,22 @@ public class MetodosSQL {
 		return juegos;
 	}
 
+	public static void eliminarJuegoDeListaJugados(Connection conn, int usuarioId, int juegoId) throws SQLException {
+		String query = "DELETE FROM juegos_jugados WHERE id_usuario = ? AND id_juego = ?";
+		try (PreparedStatement stmt = conn.prepareStatement(query)) {
+			stmt.setInt(1, usuarioId);
+			stmt.setInt(2, juegoId);
+			stmt.executeUpdate();
+		}
+	}
+
+	public static void eliminarJuegoDeListaDeseos(Connection conn, int usuarioId, int juegoId) throws SQLException {
+		String query = "DELETE FROM wishlist WHERE id_usuario = ? AND id_juego = ?";
+		try (PreparedStatement stmt = conn.prepareStatement(query)) {
+			stmt.setInt(1, usuarioId);
+			stmt.setInt(2, juegoId);
+			stmt.executeUpdate();
+		}
+	}
+
 }

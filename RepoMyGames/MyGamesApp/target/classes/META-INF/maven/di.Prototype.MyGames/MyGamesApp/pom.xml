@@ -8,8 +8,6 @@
     <version>0.0.1-SNAPSHOT</version>
 
     <dependencies>
-        <!-- Dependencia de Hibernate -->
-
         <!-- Dependencia para JavaFX -->
         <dependency>
             <groupId>org.openjfx</groupId>
@@ -23,39 +21,39 @@
         </dependency>
 
         <!-- Dependencia para CheckComboBox -->
-
         <dependency>
             <groupId>org.controlsfx</groupId>
             <artifactId>controlsfx</artifactId>
             <version>11.1.0</version>
         </dependency>
 
+        <!-- Dependencia de MySQL Connector -->
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
             <version>8.0.32</version> <!-- Usa la última versión disponible -->
         </dependency>
-        
-        
-<dependency>
-    <groupId>org.mindrot</groupId>
-    <artifactId>jbcrypt</artifactId>
-    <version>0.4</version>
-</dependency>
 
-
+        <!-- Dependencia para JSON (org.json) -->
         <dependency>
             <groupId>org.json</groupId>
             <artifactId>json</artifactId>
             <version>20210307</version>
         </dependency>
-        
-      <dependency>
-          <groupId>org.testfx</groupId>
-          <artifactId>testfx-junit5</artifactId>
-          <version>4.0.17</version>
-      </dependency>
 
+        <!-- Dependencia para bcrypt -->
+        <dependency>
+            <groupId>org.mindrot</groupId>
+            <artifactId>jbcrypt</artifactId>
+            <version>0.4</version>
+        </dependency>
+
+        <!-- Dependencia para pruebas con TestFX -->
+        <dependency>
+            <groupId>org.testfx</groupId>
+            <artifactId>testfx-junit5</artifactId>
+            <version>4.0.17</version>
+        </dependency>
     </dependencies>
 
     <build>

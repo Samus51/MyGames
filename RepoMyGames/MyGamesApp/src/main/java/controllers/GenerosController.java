@@ -58,7 +58,7 @@ public class GenerosController {
 
 		// Dividir la lista en 4 partes intentando que cada parte tenga 3 juegos
 		int total = juegosPasados.size();
-		int chunkSize = 3; // Cada lista tendrá 3 juegos como máximo
+		int chunkSize = 3; 
 
 		// Crear las listas
 		List<JuegoHome> lista1 = new ArrayList<>();
