@@ -2,7 +2,6 @@ package test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.testfx.framework.junit5.ApplicationExtension;
@@ -21,12 +20,21 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * Clase de prueba para verificar el comportamiento del registro de usuario.
+ */
 @ExtendWith(ApplicationExtension.class)
 class RegistroTest extends ApplicationTest {
 
   private RegistroController controller;
   private Stage stage;
 
+  /**
+   * Método que se ejecuta antes de cada prueba para cargar la interfaz de
+   * registro y asociar el controlador.
+   *
+   * @param stage La ventana principal de la aplicación.
+   */
   @Start
   public void iniciar(Stage stage) {
     this.stage = stage;
@@ -43,11 +51,11 @@ class RegistroTest extends ApplicationTest {
     }
   }
 
-  @BeforeEach
-  void setUp() {
-    // Inicializar cosas que se necesiten antes de cada test
-  }
-
+  /**
+   * Prueba para validar los datos introducidos en el formulario de registro. Se
+   * verifican casos con email inválido, contraseñas no coincidentes y lista de
+   * géneros vacía.
+   */
   @Test
   void testValidarDatos() {
     // Email inválido
@@ -71,12 +79,16 @@ class RegistroTest extends ApplicationTest {
     assertTrue(resultadoValido, "Debe pasar si los datos son correctos");
   }
 
+  /**
+   * Prueba para crear un usuario con datos válidos, validando la contraseña y
+   * verificando la creación del usuario.
+   */
   @Test
   void testCrearUsuario() {
     // Datos de prueba
-    String nombre = "UsuarioTest";
+    String nombre = "UsuarioTest2";
     String email = "test@email.com";
-    String password = "Password123!"; // Contraseña de ejemplo
+    String password = "Password123!";
     List<String> generos = Arrays.asList("Action", "Adventure");
 
     // Validar la contraseña
@@ -87,7 +99,8 @@ class RegistroTest extends ApplicationTest {
     String contrasenaHash = null;
     if (esValida) {
       try {
-        contrasenaHash = VentanaUtil.hashPassword(password); // Hashear la contraseña
+        // Hashear la contraseña
+        contrasenaHash = VentanaUtil.hashPassword(password);
         assertNotNull(contrasenaHash, "La contraseña debería ser correctamente hasheada.");
       } catch (Exception e) {
         fail("Error al hashear la contraseña: " + e.getMessage());
@@ -103,6 +116,10 @@ class RegistroTest extends ApplicationTest {
     }
   }
 
+  /**
+   * Prueba para obtener los IDs de los géneros basados en sus nombres. Se
+   * verifica que la lista de IDs no sea nula ni vacía.
+   */
   @Test
   void testGetGenerosIdsByNames() {
     // Simulación de nombres de géneros
@@ -114,6 +131,11 @@ class RegistroTest extends ApplicationTest {
     assertFalse(ids.isEmpty(), "Debe haber al menos un ID en la lista");
   }
 
+  /**
+   * Prueba para verificar la visibilidad de la contraseña en el formulario de
+   * registro. Se comprueba que al cambiar la visibilidad, el campo de contraseña
+   * cambia correctamente.
+   */
   @Test
   void testMostrarPassword() {
     // Verificar que los controles no son nulos
@@ -148,24 +170,32 @@ class RegistroTest extends ApplicationTest {
         "El campo de la contraseña visible debe estar oculto después de ocultar la contraseña");
   }
 
+  /**
+   * Prueba para simular el cierre de la ventana. Se verifica que la ventana se
+   * cierre correctamente.
+   *
+   * @param fxRobot Un objeto FxRobot para simular las acciones del usuario.
+   */
   @Test
   void testCerrarVentana(FxRobot fxRobot) {
     // Simula un clic en el botón de cerrar ventana
     fxRobot.clickOn("#imgCerrar");
-
-    // Espera un poco para asegurarte de que la acción de cierre se complete
     fxRobot.sleep(1000);
-
+    
     // Verifica que la ventana esté cerrada
     assertFalse(stage.isShowing(), "La ventana debería cerrarse.");
   }
 
+  /**
+   * Prueba para simular la minimización de la ventana. Se verifica que la ventana
+   * se minimice correctamente.
+   *
+   * @param fxRobot Un objeto FxRobot para simular las acciones del usuario.
+   */
   @Test
   void testMinimizarVentana(FxRobot fxRobot) {
     // Simula un clic en el botón de minimizar ventana
     fxRobot.clickOn("#imgMinimizar");
-
-    // Espera un poco para asegurarte de que la acción de minimizar se complete
     fxRobot.sleep(1000);
 
     // Verifica que la ventana esté minimizada

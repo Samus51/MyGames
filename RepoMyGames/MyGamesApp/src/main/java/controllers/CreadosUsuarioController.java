@@ -23,14 +23,33 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import jdbc.Conector;
 import models.JuegoBD;
+import models.JuegoHome;
+import utils.ExtractorAPI;
+import utils.ExtractorApi2;
 import utils.ImagenBDUtils;
 import utils.VentanaUtil;
 
 public class CreadosUsuarioController {
 
-	private final static String PANEL_USER = "/views/CambiarInfoPersonal.fxml";
 	private static final String PANEL_JUEGO_INFO_BD = "/views/JuegoInfoBD.fxml";
+
+	private final static String PANEL_USER = "/views/CambiarInfoPersonal.fxml";
+
+	private static final String PANEL_JUEGO_INFO = "/views/JuegoInfo.fxml";
+
 	private static final String STYLES = "/styles.css";
+
+	private static final String PANEL_HOME = "/views/Home.fxml";
+
+	private static final String PANEL_HOME_BUSQUEDA = "/views/HomeBusqueda.fxml";
+	private static final String PANEL_PLATAFORMAS = "/views/Plataformas.fxml";
+	private static final String PANEL_GENEROS = "/views/Generos.fxml";
+	private static final String PANEL_RECOMENDADOS = "/views/Recomendados.fxml";
+	private static final String PANEL_CREADOS_USUARIO = "/views/CreadosUsuario.fxml";
+	private static final String PANEL_BIBLIIOTECA = "/views/Biblioteca.fxml";
+	private static final String PANEL_DESEADOS = "/views/Whishlist.fxml";
+
+	private static final String PANEL_ADD_JUEGO = "/views/JuegoAnadir.fxml";
 
 	private int currentPage = 0; // Página actual
 	private final int juegosPorPagina = 12; // Número de juegos por página
@@ -252,21 +271,6 @@ public class CreadosUsuarioController {
 	}
 
 	@FXML
-	void btnGenerosMenuPlataformasPressed(MouseEvent event) {
-		cambiarMenu(menuGeneros, menuPlataformas, menuGeneral, true);
-	}
-
-	@FXML
-	void btnGenerosPressed(MouseEvent event) {
-		cambiarMenu(menuGeneros, menuPlataformas, menuGeneral, false);
-	}
-
-	@FXML
-	void btnGenerosSalidaPressed(MouseEvent event) {
-		cambiarMenu(menuGeneral, menuGeneros, null, false);
-	}
-
-	@FXML
 	void btnMenuPressed(MouseEvent event) {
 		menuGeneral.setVisible(!menuGeneral.isVisible());
 		menuGeneros.setVisible(false);
@@ -277,21 +281,6 @@ public class CreadosUsuarioController {
 	void btnMinimizarPressed(MouseEvent event) {
 		Stage ventanaPrincipal = (Stage) ((Node) event.getSource()).getScene().getWindow();
 		ventanaPrincipal.setIconified(true);
-	}
-
-	@FXML
-	void btnPlataformasMenuGenerosPressed(MouseEvent event) {
-		cambiarMenu(menuPlataformas, menuGeneros, menuGeneral, true);
-	}
-
-	@FXML
-	void btnPlataformasPressed(MouseEvent event) {
-		cambiarMenu(menuPlataformas, menuGeneros, menuGeneral, false);
-	}
-
-	@FXML
-	void btnPlataformasSalidaPressed(MouseEvent event) {
-		cambiarMenu(menuGeneral, menuPlataformas, menuGeneros, false);
 	}
 
 	@FXML
@@ -412,18 +401,6 @@ public class CreadosUsuarioController {
 		return plataformas;
 	}
 
-	private void cambiarMenu(VBox menuActivo, VBox menuInactivo1, VBox menuInactivo2, boolean activar) {
-		if (activar) {
-			menuActivo.setVisible(true);
-			menuInactivo1.setVisible(false);
-			menuInactivo2.setVisible(false);
-		} else {
-			menuActivo.setVisible(false);
-			menuInactivo1.setVisible(true);
-			menuInactivo2.setVisible(true);
-		}
-	}
-
 	private void cargarJuegosEnPantalla(int page) {
 		// Obtener un subconjunto de juegos para la página actual
 		int startIndex = page * juegosPorPagina;
@@ -456,4 +433,8 @@ public class CreadosUsuarioController {
 		this.vboxToJuegoMap = vboxToJuegoMap;
 	}
 
+	@FXML
+	void flechaAtrasPressed(MouseEvent event) throws IOException {
+		VentanaUtil.abrirVentana(PANEL_HOME, "Inicio", STYLES, null, event);
+	}
 }

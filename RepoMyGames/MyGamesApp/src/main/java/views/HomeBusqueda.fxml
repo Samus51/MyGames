@@ -48,7 +48,7 @@
                                           <Cursor fx:constant="HAND" />
                                        </cursor>
                                     </Label>
-                                    <Label prefHeight="51.0" prefWidth="256.0" text="Tus Juegos">
+                                    <Label onMouseClicked="#tusJuegosPressed" prefHeight="51.0" prefWidth="256.0" text="Tus Juegos">
                                        <font>
                                           <Font size="35.0" />
                                        </font>
@@ -56,7 +56,7 @@
                                           <Cursor fx:constant="HAND" />
                                        </cursor>
                                     </Label>
-                                    <Label prefHeight="51.0" prefWidth="273.0" text="Recomendados">
+                                    <Label onMouseClicked="#recomendadosPressed" prefHeight="51.0" prefWidth="273.0" text="Recomendados">
                                        <font>
                                           <Font size="35.0" />
                                        </font>
@@ -64,7 +64,7 @@
                                           <Cursor fx:constant="HAND" />
                                        </cursor>
                                     </Label>
-                                    <Label prefHeight="51.0" prefWidth="267.0" text="Creados por usuario">
+                                    <Label onMouseClicked="#creadosPorUsuarioPressed" prefHeight="51.0" prefWidth="267.0" text="Creados por usuario">
                                        <font>
                                           <Font size="35.0" />
                                        </font>
@@ -72,7 +72,7 @@
                                           <Cursor fx:constant="HAND" />
                                        </cursor>
                                     </Label>
-                                    <Label prefHeight="51.0" prefWidth="255.0" text="Añadir Juego">
+                                    <Label onMouseClicked="#anadirJuegoPressed" prefHeight="51.0" prefWidth="255.0" text="Añadir Juego">
                                        <font>
                                           <Font size="35.0" />
                                        </font>
@@ -80,7 +80,7 @@
                                           <Cursor fx:constant="HAND" />
                                        </cursor>
                                     </Label>
-                                    <Label text="Lista de Deseados">
+                                    <Label onMouseClicked="#listaDeseadosPressed" text="Lista de Deseados">
                                        <font>
                                           <Font size="35.0" />
                                        </font>
@@ -320,27 +320,27 @@
                                           <Font size="30.0" />
                                        </font>
                                     </Label>
-                                    <Label graphicTextGap="25.0" onMouseClicked="#lblGenerosPressed" prefHeight="51.0" prefWidth="256.0" text="Tus Juegos">
+                                    <Label graphicTextGap="25.0" onMouseClicked="#tusJuegosPressed" prefHeight="51.0" prefWidth="256.0" text="Tus Juegos">
                                        <font>
                                           <Font size="35.0" />
                                        </font>
                                     </Label>
-                                    <Label graphicTextGap="25.0" onMouseClicked="#lblGenerosPressed" prefHeight="51.0" prefWidth="273.0" text="Recomendados">
+                                    <Label graphicTextGap="25.0" onMouseClicked="#recomendadosPressed" prefHeight="51.0" prefWidth="273.0" text="Recomendados">
                                        <font>
                                           <Font size="35.0" />
                                        </font>
                                     </Label>
-                                    <Label graphicTextGap="25.0" onMouseClicked="#lblGenerosPressed" prefHeight="51.0" prefWidth="267.0" text="Creados por usuario">
+                                    <Label graphicTextGap="25.0" onMouseClicked="#creadosPorUsuarioPressed" prefHeight="51.0" prefWidth="267.0" text="Creados por usuario">
                                        <font>
                                           <Font size="35.0" />
                                        </font>
                                     </Label>
-                                    <Label graphicTextGap="25.0" onMouseClicked="#lblGenerosPressed" prefHeight="51.0" prefWidth="255.0" text="Añadir Juego">
+                                    <Label graphicTextGap="25.0" onMouseClicked="#anadirJuegoPressed" prefHeight="51.0" prefWidth="255.0" text="Añadir Juego">
                                        <font>
                                           <Font size="35.0" />
                                        </font>
                                     </Label>
-                                    <Label graphicTextGap="25.0" onMouseClicked="#lblGenerosPressed" text="Lista de Deseados">
+                                    <Label graphicTextGap="25.0" onMouseClicked="#listaDeseadosPressed" text="Lista de Deseados">
                                        <font>
                                           <Font size="35.0" />
                                        </font>
@@ -365,7 +365,7 @@
                                           <Cursor fx:constant="HAND" />
                                        </cursor>
                                     </Label>
-                                    <Label prefHeight="51.0" prefWidth="256.0" text="Tus Juegos">
+                                    <Label onMouseClicked="#tusJuegosPressed" prefHeight="51.0" prefWidth="256.0" text="Tus Juegos">
                                        <font>
                                           <Font size="35.0" />
                                        </font>
@@ -373,7 +373,7 @@
                                           <Cursor fx:constant="HAND" />
                                        </cursor>
                                     </Label>
-                                    <Label prefHeight="51.0" prefWidth="273.0" text="Recomendados">
+                                    <Label onMouseClicked="#recomendadosPressed" prefHeight="51.0" prefWidth="273.0" text="Recomendados">
                                        <font>
                                           <Font size="35.0" />
                                        </font>
@@ -381,7 +381,7 @@
                                           <Cursor fx:constant="HAND" />
                                        </cursor>
                                     </Label>
-                                    <Label prefHeight="51.0" prefWidth="267.0" text="Creados por usuario">
+                                    <Label onMouseClicked="#creadosPorUsuarioPressed" prefHeight="51.0" prefWidth="267.0" text="Creados por usuario">
                                        <font>
                                           <Font size="35.0" />
                                        </font>
@@ -389,7 +389,7 @@
                                           <Cursor fx:constant="HAND" />
                                        </cursor>
                                     </Label>
-                                    <Label prefHeight="51.0" prefWidth="255.0" text="Añadir Juego">
+                                    <Label onMouseClicked="#anadirJuegoPressed" prefHeight="51.0" prefWidth="255.0" text="Añadir Juego">
                                        <font>
                                           <Font size="35.0" />
                                        </font>
@@ -397,7 +397,7 @@
                                           <Cursor fx:constant="HAND" />
                                        </cursor>
                                     </Label>
-                                    <Label text="Lista de Deseados">
+                                    <Label onMouseClicked="#listaDeseadosPressed" text="Lista de Deseados">
                                        <font>
                                           <Font size="35.0" />
                                        </font>

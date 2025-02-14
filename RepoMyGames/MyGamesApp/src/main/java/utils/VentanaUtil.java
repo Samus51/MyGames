@@ -164,7 +164,7 @@ public class VentanaUtil {
 			return false;
 		}
 
-		if (!contrasena.matches("^(?=.[A-Z])(?=.[a-z])(?=.\\d)(?=.[@$!%?&])[A-Za-z\\d@$!%?&]{8,}$")) {
+		if (!contrasena.matches("^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$")) {
 			mostrarAlerta("Error de formato de contraseña", "La contraseña debe cumplir ciertos requisitos.");
 			return false;
 		}
@@ -176,5 +176,4 @@ public class VentanaUtil {
 
 		return true;
 	}
-
 }
