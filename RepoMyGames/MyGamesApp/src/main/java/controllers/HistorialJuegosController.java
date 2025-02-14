@@ -39,7 +39,7 @@ public class HistorialJuegosController implements Initializable {
 	private static final String SQL_ELIMINAR_CUENTA = "DELETE FROM usuarios WHERE id_usuario = ?";
 
 	private static final String SQL_SELECT__CONTADOR_JUEGOS_JUGADOS = "Select count(id_juego_jugado) FROM juegos_jugados WHERE id_usuario = ?";
-	private static final String SQL_SELECT_JUEGOS_JUGADOS = "Select juegos.titulo, juegos.generos, juegos.tiempo_jugado,juegos.imagen_principal FROM juegos_jugados inner join juegos on juegos_jugados.id_juego = juegos.id_juego WHERE juegos_jugados.id_usuario = ?";
+	private static final String SQL_SELECT_JUEGOS_JUGADOS = "Select juegos.titulo, juegos.generos, juegos.tiempo_jugado,juegos.imagen_principal FROM juegos_jugados inner join juegos on juegos_jugados.id_juego = juegos.id_juego WHERE juegos_jugados.id_usuario = ? and juegos.creado_por_usuario = 1";
 
 	// Styles
 	private static final String STYLES = "/styles.css";
