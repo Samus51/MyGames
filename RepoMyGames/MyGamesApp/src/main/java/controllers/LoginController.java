@@ -108,15 +108,21 @@ public class LoginController {
 
 						protected void succeeded() {
 							try {
-								VentanaUtil.abrirVentanaHome(HOME, "Home", STYLES, usuario, event);
+
+								// Insertar en la biblioteca
 								String insertBibliotecaSQL = "INSERT INTO biblioteca (id_usuario) VALUES (?)";
 								try (PreparedStatement st2 = cone.prepareStatement(insertBibliotecaSQL)) {
 									st2.setInt(1, id);
 									st2.executeUpdate();
 								} catch (SQLException e) {
-									// TODO Auto-generated catch block
 									e.printStackTrace();
 								}
+
+								// Abrir la ventana home
+								VentanaUtil.abrirVentana(HOME, "Home", STYLES, controller -> {
+									HomeController homeController = (HomeController) controller;
+									homeController.setUsuario(usuario);
+								}, event);
 
 								System.out.println(usuario.toString());
 							} catch (IOException e) {

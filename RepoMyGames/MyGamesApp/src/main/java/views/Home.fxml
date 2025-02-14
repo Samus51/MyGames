@@ -48,7 +48,7 @@
                                           <Cursor fx:constant="HAND" />
                                        </cursor>
                                     </Label>
-                                    <Label prefHeight="51.0" prefWidth="256.0" text="Tus Juegos">
+                                    <Label fx:id="lblBiblioteca" onMouseClicked="#lblBibliotecaPressed" prefHeight="51.0" prefWidth="256.0" text="Tus Juegos">
                                        <font>
                                           <Font size="35.0" />
                                        </font>
@@ -80,7 +80,7 @@
                                           <Cursor fx:constant="HAND" />
                                        </cursor>
                                     </Label>
-                                    <Label text="Lista de Deseados">
+                                    <Label fx:id="lblWhishlist" onMouseClicked="#lblWhishlistPressed" text="Lista de Deseados">
                                        <font>
                                           <Font size="35.0" />
                                        </font>

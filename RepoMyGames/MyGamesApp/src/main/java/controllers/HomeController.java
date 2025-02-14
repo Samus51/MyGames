@@ -1,6 +1,8 @@
 package controllers;
 
 import java.io.IOException;
+import java.sql.Connection;
+import java.util.ArrayList;
 import java.util.List;
 
 import javafx.fxml.FXML;
@@ -19,11 +21,13 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
+import jdbc.Conector;
 import models.JuegoHome;
 import models.Usuario;
 import utils.ExtractorAPI;
 import utils.ExtractorApi2;
 import utils.ImagenUtils;
+import utils.MetodosSQL;
 import utils.VentanaUtil;
 
 public class HomeController {
@@ -42,6 +46,10 @@ public class HomeController {
 
 	private static final String PANEL_ADD_JUEGO = "/views/JuegoAnadir.fxml";
 
+	private static final String PANEL_BIBLIOTECA = "/views/Biblioteca.fxml";
+
+	private static final String PANEL_WHISHLIST = "/views/Whishlist.fxml";
+
 //Contenedores
 	@FXML
 	private BorderPane VentanaPrincipal;
@@ -57,7 +65,7 @@ public class HomeController {
 	private Label btnGeneroSalida, lblAddJuego, btnGeneros, btnGenerosMenuPlataformas, btnPlataformas,
 			btnPlataformasMenuGeneros, btnPlataformasSalida;
 	@FXML
-	private static Label titulo;
+	private static Label titulo, lblBiblioteca, lblWhishlist;
 
 //TextField
 	@FXML
@@ -81,57 +89,66 @@ public class HomeController {
 	private double mousePressedY;
 	private HBox contenedorActivo = null;
 
-	private Usuario usuario;
+	private static Usuario usuario;
 
-	public void setUsuario(Usuario usuario) {
-		this.usuario = usuario;
-	}
-
-	public Usuario getUsuario() {
+	public static Usuario getUsuario() {
 		return usuario;
 	}
 
 	@FXML
 	public void initialize() {
-		scrollHorizontalJuego.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
-		scrollHorizontalJuego.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+		configurarScrolls();
+		configurarEventosMouse();
 
-		scrollHorizontalJuego.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+		// Si el usuario ya se ha asignado antes de initialize(), carga los datos
+		if (usuario != null) {
+			cargarJuegosHome();
+		}
+	}
 
-		// Manejar el arrastre horizontal
-		contJuegos1.setOnMousePressed(this::onMousePressed);
-		contJuegos1.setOnMouseDragged(this::onMouseDragged);
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
+		// Si initialize() ya se ejecutó, carga los juegos ahora
+		cargarJuegosHome();
+	}
 
-		contJuegos2.setOnMousePressed(this::onMousePressed);
-		contJuegos2.setOnMouseDragged(this::onMouseDragged);
-
-		contJuegos3.setOnMousePressed(this::onMousePressed);
-		contJuegos3.setOnMouseDragged(this::onMouseDragged);
-
-		contJuegos4.setOnMousePressed(this::onMousePressed);
-		contJuegos4.setOnMouseDragged(this::onMouseDragged);
-
-		contJuegos4.setOnMousePressed(this::onMousePressed);
-		contJuegos4.setOnMouseDragged(this::onMouseDragged);
-
-		scrollJuegosVertical.setOnMousePressed(this::onMousePressed);
-		scrollJuegosVertical.setOnMousePressed(this::onMousePressed);
-
-		scrollMenu.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
-		scrollMenu.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
-
-		scrollHorizontalJuego.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
-
-		menuGeneros.setMinHeight(0);
-		menuPlataformas.setMinHeight(0);
-		menuGeneral.setMinHeight(Region.USE_COMPUTED_SIZE);
-
+	private void cargarJuegosHome() {
 		List<JuegoHome> capturasPlataformas = cargarJuegos("Popular");
 		List<JuegoHome> capturasPlataformas2 = cargarJuegos("Nuevos");
+		String generoRandom = MetodosSQL.obtenerGeneroAleatorio(usuario.getGenerosPreferidos());
+		if (generoRandom.equals("RPG")) {
+			generoRandom = "5";
+		}
+		System.out.println("GENERO RANDOM: " + generoRandom);
+		List<JuegoHome> juegosRecomendados = ExtractorAPI.buscarJuegosPorGenero(generoRandom.toLowerCase(), 0);
+		List<JuegoHome> pendientesDeJugar = new ArrayList<JuegoHome>();
 
+		Connection conn = Conector.conectar();
+		pendientesDeJugar = MetodosSQL.obtenerJuegosBiblioteca(conn, usuario.getIdUsuario());
 		ImagenUtils.asignarImagenes(contJuegos1, capturasPlataformas);
 		ImagenUtils.asignarImagenes(contJuegos2, capturasPlataformas2);
+		ImagenUtils.asignarImagenes(contJuegos3, juegosRecomendados);
+		ImagenUtils.asignarImagenes(contJuegos4, pendientesDeJugar);
 
+	}
+
+	private void configurarScrolls() {
+		scrollHorizontalJuego.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+		scrollHorizontalJuego.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+		scrollMenu.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+		scrollMenu.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+	}
+
+	private void configurarEventosMouse() {
+		contJuegos1.setOnMousePressed(this::onMousePressed);
+		contJuegos1.setOnMouseDragged(this::onMouseDragged);
+		contJuegos2.setOnMousePressed(this::onMousePressed);
+		contJuegos2.setOnMouseDragged(this::onMouseDragged);
+		contJuegos3.setOnMousePressed(this::onMousePressed);
+		contJuegos3.setOnMouseDragged(this::onMouseDragged);
+		contJuegos4.setOnMousePressed(this::onMousePressed);
+		contJuegos4.setOnMouseDragged(this::onMouseDragged);
+		scrollJuegosVertical.setOnMousePressed(this::onMousePressed);
 	}
 
 	private static List<JuegoHome> cargarJuegos(String modo) {
@@ -309,8 +326,8 @@ public class HomeController {
 						// Aquí se pasa el usuario al controlador
 						VentanaUtil.abrirVentana(PANEL_JUEGO_INFO, "Juego Info", STYLES, controller -> {
 							JuegoInfoController juegoInfoController = (JuegoInfoController) controller;
+							juegoInfoController.setUsuario(usuario);
 							juegoInfoController.setTituloJuego(tituloJuego);
-							juegoInfoController.setUsuario(usuario); // Se pasa el usuario aquí
 						}, event);
 					}
 				}
@@ -373,6 +390,16 @@ public class HomeController {
 		}, event);
 		System.out.println(PlataformasController.getUltimaPlataformaBuscada());
 
+	}
+
+	@FXML
+	void lblBibliotecaPressed(MouseEvent event) throws IOException {
+		VentanaUtil.abrirVentana(PANEL_BIBLIOTECA, "Biblioteca", STYLES, null, event);
+	}
+
+	@FXML
+	void lblWhishlistPressed(MouseEvent event) throws IOException {
+		VentanaUtil.abrirVentana(PANEL_WHISHLIST, "Whishlist", STYLES, null, event);
 	}
 
 }

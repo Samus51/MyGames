@@ -12,11 +12,13 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.DialogPane;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import mainApp.Main;
 import models.Usuario;
 
 public class VentanaUtil {
@@ -118,7 +120,9 @@ public class VentanaUtil {
 	public static void mostrarAlerta(String titulo, String mensaje) {
 		Alert alert = new Alert(AlertType.WARNING);
 		alert.setTitle(titulo);
+		alert.setHeaderText(null);
 		alert.setContentText(mensaje);
+
 		alert.showAndWait();
 	}
 

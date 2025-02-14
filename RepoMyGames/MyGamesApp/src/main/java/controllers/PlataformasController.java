@@ -238,6 +238,7 @@ public class PlataformasController {
 		ventanaPrincipal.close();
 	}
 
+
 	@FXML
 	void juegoSoloPressed(MouseEvent event) throws IOException {
 		VBox vbox = (VBox) event.getSource();
@@ -249,8 +250,11 @@ public class PlataformasController {
 						String tituloJuego = tituloLabel.getText();
 						System.out.println("Título del juego: " + tituloJuego);
 
+						// Aquí se pasa el usuario al controlador
 						VentanaUtil.abrirVentana(PANEL_JUEGO_INFO, "Juego Info", STYLES, controller -> {
-							((JuegoInfoController) controller).setTituloJuego(tituloJuego);
+							JuegoInfoController juegoInfoController = (JuegoInfoController) controller;
+							juegoInfoController.setUsuario(HomeController.getUsuario());
+							juegoInfoController.setTituloJuego(tituloJuego);
 						}, event);
 					}
 				}

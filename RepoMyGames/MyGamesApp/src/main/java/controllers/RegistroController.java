@@ -162,9 +162,10 @@ public class RegistroController {
 	@FXML
 	public void initialize() {
 		// Crear la lista de géneros
-		ObservableList<String> generos = FXCollections.observableArrayList("Acción", "Aventura", "RPG (Juegos de rol)",
-				"Casual", "Arcade", "Multijugador masivo", "Familiar", "Educativo", "Indie", "Estrategia", "Simulación",
-				"Plataforma", "Deportes", "Juegos de mesa", "Disparos", "Rompecabezas", "Carreras", "Lucha", "Cartas");
+		ObservableList<String> generos = FXCollections.observableArrayList(
+			    "Action", "Adventure", "RPG (Role-Playing Games)", "Casual", "Arcade", "Massively Multiplayer", 
+			    "Family", "Educational", "Indie", "Strategy", "Simulation", "Platform", "Sports", 
+			    "Board Games", "Shooter", "Puzzle", "Racing", "Fighting", "Card Games");
 
 		// Configurar el CheckComboBox con la lista de géneros
 		lstGeneros.getItems().addAll(generos);

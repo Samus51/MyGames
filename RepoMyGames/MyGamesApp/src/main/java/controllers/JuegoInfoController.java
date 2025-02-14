@@ -5,6 +5,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.List;
@@ -24,6 +25,7 @@ import jdbc.Conector;
 import models.JuegoPachorra;
 import models.Usuario;
 import utils.ExtractorApi2;
+import utils.MetodosSQL;
 import utils.VentanaUtil;
 
 /**
@@ -32,6 +34,8 @@ import utils.VentanaUtil;
 public class JuegoInfoController {
 	String tituloJuego;
 	JuegoPachorra juego;
+	Connection conn;
+	private Usuario usuario;
 
 	/**
 	 * @return the tituloJuego
@@ -41,13 +45,19 @@ public class JuegoInfoController {
 	}
 
 	public void setTituloJuego(String tituloJuego) {
+		System.out.println(usuario.toString());
 		this.tituloJuego = tituloJuego;
 		if (lblTitulo != null) {
 			lblTitulo.setText(tituloJuego);
 		}
 		System.out.println("Juego de Info: " + tituloJuego);
 		cargarJuegoInfo();
-
+		try {
+			cargarMenus();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	// Constantes
@@ -83,7 +93,102 @@ public class JuegoInfoController {
 
 	@FXML
 	private TextField txtComentarios;
-	private Usuario usuario;
+
+	@FXML
+	void cargarMenus() throws SQLException {
+		System.out.println(tituloJuego);
+		conn = Conector.conectar();
+		juego = ExtractorApi2.buscarJuegoPorNombre(tituloJuego);
+
+		if (!MetodosSQL.comprobarJuego(conn, tituloJuego)) {
+			String insertJuegoSQL = "INSERT INTO juegos (titulo, descripcion, fecha_lanzamiento, creado_por_usuario, tiempo_jugado, desarrolladores, pegi, url_1, url_2, url_3, url_4, url_5, generos, plataformas) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+			try (PreparedStatement stInsertJuego = conn.prepareStatement(insertJuegoSQL)) {
+				stInsertJuego.setString(1, juego.getTitulo());
+				stInsertJuego.setString(2, juego.getDescripcion());
+				stInsertJuego.setDate(3, java.sql.Date.valueOf(juego.getFechaLanzamiento()));
+				stInsertJuego.setBoolean(4, true); // Suponiendo que lo añade un usuario
+				// stInsertJuego.setInt(5, -1); // Asegúrate de que este campo viene de la API o
+				// lo
+				// defines
+				stInsertJuego.setInt(5, juego.getTiempo_jugado());
+				stInsertJuego.setString(6, juego.getDevs().toString());
+				stInsertJuego.setString(7, juego.getPegi());
+				stInsertJuego.setString(8, juego.getImagenPrincipal());
+				stInsertJuego.setString(9, juego.getCapturasImagenes().get(1));
+				stInsertJuego.setString(10, juego.getCapturasImagenes().get(2));
+				stInsertJuego.setString(11, juego.getCapturasImagenes().get(3));
+				stInsertJuego.setString(12, juego.getCapturasImagenes().get(4));
+				stInsertJuego.setString(13, juego.getGeneros().toString());
+				stInsertJuego.setString(14, juego.getPlataformas().toString());
+
+				int filasInsertadas = stInsertJuego.executeUpdate();
+				if (filasInsertadas > 0) {
+					System.out.println("Juego insertado correctamente.");
+				} else {
+					System.out.println("No se pudo insertar el juego.");
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		} else {
+			System.out.println("El juego ya existe en la base de datos.");
+		}
+
+		try {
+			int juegoId = MetodosSQL.obtenerIdJuego(conn, tituloJuego);
+			boolean enBiblioteca = MetodosSQL.verificarJuegoEnBiblioteca(usuario.getIdUsuario(), juegoId);
+			boolean enListaDeseos = MetodosSQL.verificarJuegoEnListaDeseos(usuario.getIdUsuario(), juegoId);
+			boolean jugado = MetodosSQL.verificarJuegoJugado(usuario.getIdUsuario(), juegoId);
+
+			if (!enBiblioteca && !enListaDeseos && !jugado) {
+				mostrarMenu(menuGeneral);
+				return;
+			}
+
+			if (enBiblioteca) {
+				mostrarMenu(jugado ? menuAnadirJuegoJugado : menuJugadoSinAnadir);
+				return;
+			}
+
+			if (enListaDeseos) {
+				mostrarMenu(jugado ? menuJugadoAnanidoLista : menuAnadirListaNoJugado);
+				return;
+			}
+
+			if (jugado) {
+				mostrarMenu(menuJugadoSinAnadir);
+			}
+
+			if (jugado && enListaDeseos) {
+				mostrarMenu(menuJugadoAnanidoLista);
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+
+		}
+	}
+
+	private void ocultarTodosLosMenus() {
+		VBox[] menus = { menuGeneral, menuAnadirJuego, menuAnadirJuegoJugado, menuAnadirListaNoJugado,
+				menuJugadoAnanidoLista, menuJugadoSinAnadir };
+
+		for (VBox menu : menus) {
+			if (menu != null) {
+				menu.setVisible(false);
+			}
+		}
+	}
+
+	private void mostrarMenu(VBox menu) {
+		ocultarTodosLosMenus();
+		if (menu != null) {
+			menu.setVisible(true);
+			menu.setDisable(false);
+		}
+	}
 
 	private void cargarJuegoInfo() {
 		// Simula la carga del juego
@@ -180,82 +285,89 @@ public class JuegoInfoController {
 		String plataformas = String.join(",", juego.getPlataformas());
 
 		String checkExistenciaJuegoSQL = "SELECT id_juego FROM juegos WHERE titulo = ?";
-		String checkExistenciaBibliotecaSQL = "SELECT id_biblioteca FROM biblioteca WHERE id_usuario = ? AND id_juego = ?";
+		String checkExistenciaBibliotecaSQL = "SELECT 1 FROM biblioteca WHERE id_usuario = ? AND id_juego = ?";
 
 		try (Connection cone = Conector.conectar();
 				PreparedStatement stExistenciaJuego = cone.prepareStatement(checkExistenciaJuegoSQL)) {
+
 			stExistenciaJuego.setString(1, titulo);
-			ResultSet rsJuego = stExistenciaJuego.executeQuery();
+			try (ResultSet rsJuego = stExistenciaJuego.executeQuery()) {
 
-			if (rsJuego.next()) {
-				int idJuegoExistente = rsJuego.getInt("id_juego");
+				if (rsJuego.next()) {
+					int idJuegoExistente = rsJuego.getInt("id_juego");
 
-				// Verificar si el juego ya está en la biblioteca del usuario
-				try (PreparedStatement stExistenciaBiblioteca = cone.prepareStatement(checkExistenciaBibliotecaSQL)) {
-					stExistenciaBiblioteca.setInt(1, idUsuario);
-					stExistenciaBiblioteca.setInt(2, idJuegoExistente);
-					ResultSet rsBiblioteca = stExistenciaBiblioteca.executeQuery();
+					// Verificar si el juego ya está en la biblioteca del usuario
+					try (PreparedStatement stExistenciaBiblioteca = cone
+							.prepareStatement(checkExistenciaBibliotecaSQL)) {
+						stExistenciaBiblioteca.setInt(1, idUsuario);
+						stExistenciaBiblioteca.setInt(2, idJuegoExistente);
 
-					if (rsBiblioteca.next()) {
-						// El juego ya existe en la biblioteca
-						VentanaUtil.mostrarAlerta("Juego ya en Biblioteca", "Este juego ya está en tu biblioteca.");
-					} else {
-						// Agregar el juego a la biblioteca
-						String insertBibliotecaSQL = "INSERT INTO biblioteca (id_usuario, id_juego, fecha_adquisicion) VALUES (?, ?, ?)";
-						try (PreparedStatement stInsertBiblioteca = cone.prepareStatement(insertBibliotecaSQL)) {
-							stInsertBiblioteca.setInt(1, idUsuario);
-							stInsertBiblioteca.setInt(2, idJuegoExistente);
-							stInsertBiblioteca.setDate(3, new java.sql.Date(System.currentTimeMillis()));
-
-							stInsertBiblioteca.executeUpdate();
-							VentanaUtil.mostrarAlerta("Juego Añadido a la Biblioteca",
-									"El juego ha sido añadido a tu biblioteca.");
-						}
-					}
-				}
-			} else {
-				// Si el juego no existe, insertarlo en la base de datos
-				String insertJuegoSQL = "INSERT INTO juegos (titulo, descripcion, fecha_lanzamiento, creado_por_usuario, id_usuario, tiempo_jugado, desarrolladores, pegi, url_1, url_2, url_3, url_4, url_5, generos, plataformas) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-				try (PreparedStatement stInsertJuego = cone.prepareStatement(insertJuegoSQL)) {
-					stInsertJuego.setString(1, titulo);
-					stInsertJuego.setString(2, descripcion);
-					stInsertJuego.setDate(3, sqlFechaLanzamiento);
-					stInsertJuego.setBoolean(4, creadoPorUsuario);
-					stInsertJuego.setInt(5, idUsuario);
-					stInsertJuego.setInt(6, tiempoJugado);
-					stInsertJuego.setString(7, desarrolladores);
-					stInsertJuego.setString(8, pegi);
-					stInsertJuego.setString(9, url1);
-					stInsertJuego.setString(10, url2);
-					stInsertJuego.setString(11, url3);
-					stInsertJuego.setString(12, url4);
-					stInsertJuego.setString(13, url5);
-					stInsertJuego.setString(14, generos);
-					stInsertJuego.setString(15, plataformas);
-
-					stInsertJuego.executeUpdate();
-
-					// Obtener el id del juego insertado
-					String selectIdJuegoSQL = "SELECT LAST_INSERT_ID()";
-					try (PreparedStatement stSelect = cone.prepareStatement(selectIdJuegoSQL);
-							ResultSet rs = stSelect.executeQuery()) {
-
-						if (rs.next()) {
-							int idJuego = rs.getInt(1);
-
-							// Insertar el juego en la biblioteca
-							String insertBibliotecaSQL = "INSERT INTO biblioteca (id_usuario, id_juego, fecha_adquisicion) VALUES (?, ?, ?)";
-							try (PreparedStatement stInsertBiblioteca = cone.prepareStatement(insertBibliotecaSQL)) {
-								stInsertBiblioteca.setInt(1, idUsuario);
-								stInsertBiblioteca.setInt(2, idJuego);
-								stInsertBiblioteca.setDate(3, new java.sql.Date(System.currentTimeMillis()));
-
-								stInsertBiblioteca.executeUpdate();
+						try (ResultSet rsBiblioteca = stExistenciaBiblioteca.executeQuery()) {
+							if (rsBiblioteca.next()) {
+								mostrarMenu(menuAnadirJuego);
+								VentanaUtil.mostrarAlerta("Juego ya en Biblioteca",
+										"Este juego ya está en tu biblioteca.");
+								return;
 							}
 						}
 					}
+
+					// Agregar el juego a la biblioteca
+					String insertBibliotecaSQL = "INSERT INTO biblioteca (id_usuario, id_juego, fecha_adquisicion) VALUES (?, ?, ?)";
+					try (PreparedStatement stInsertBiblioteca = cone.prepareStatement(insertBibliotecaSQL)) {
+						stInsertBiblioteca.setInt(1, idUsuario);
+						stInsertBiblioteca.setInt(2, idJuegoExistente);
+						stInsertBiblioteca.setDate(3, new java.sql.Date(System.currentTimeMillis()));
+
+						stInsertBiblioteca.executeUpdate();
+						VentanaUtil.mostrarAlerta("Juego Añadido a la Biblioteca",
+								"El juego ha sido añadido a tu biblioteca.");
+					}
+
+				} else {
+					// Si el juego no existe, insertarlo en la base de datos
+					String insertJuegoSQL = "INSERT INTO juegos (titulo, descripcion, fecha_lanzamiento, creado_por_usuario, tiempo_jugado, desarrolladores, pegi, url_1, url_2, url_3, url_4, url_5, generos, plataformas) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+					try (PreparedStatement stInsertJuego = cone.prepareStatement(insertJuegoSQL,
+							Statement.RETURN_GENERATED_KEYS)) {
+
+						stInsertJuego.setString(1, titulo);
+						stInsertJuego.setString(2, descripcion);
+						stInsertJuego.setDate(3, sqlFechaLanzamiento);
+						stInsertJuego.setBoolean(4, creadoPorUsuario);
+						stInsertJuego.setInt(5, tiempoJugado);
+						stInsertJuego.setString(6, desarrolladores);
+						stInsertJuego.setString(7, pegi);
+						stInsertJuego.setString(8, url1);
+						stInsertJuego.setString(9, url2);
+						stInsertJuego.setString(10, url3);
+						stInsertJuego.setString(11, url4);
+						stInsertJuego.setString(12, url5);
+						stInsertJuego.setString(13, generos);
+						stInsertJuego.setString(14, plataformas);
+
+						stInsertJuego.executeUpdate();
+
+						// Obtener el id del juego insertado
+						try (ResultSet rs = stInsertJuego.getGeneratedKeys()) {
+							if (rs.next()) {
+								int idJuego = rs.getInt(1);
+
+								// Insertar el juego en la biblioteca
+								String insertBibliotecaSQL = "INSERT INTO biblioteca (id_usuario, id_juego, fecha_adquisicion) VALUES (?, ?, ?)";
+								try (PreparedStatement stInsertBiblioteca = cone
+										.prepareStatement(insertBibliotecaSQL)) {
+									stInsertBiblioteca.setInt(1, idUsuario);
+									stInsertBiblioteca.setInt(2, idJuego);
+									stInsertBiblioteca.setDate(3, new java.sql.Date(System.currentTimeMillis()));
+
+									stInsertBiblioteca.executeUpdate();
+								}
+							}
+						}
+					}
+					mostrarMenu(menuAnadirJuego);
 					VentanaUtil.mostrarAlerta("Juego Añadido", "El juego ha sido añadido correctamente.");
-					btnAnadirJuego.setText("Juego ya añadido");
 				}
 			}
 		} catch (SQLException e) {
@@ -266,7 +378,27 @@ public class JuegoInfoController {
 
 	@FXML
 	void btnAnadirListaPressed(MouseEvent event) {
+		int idUsuario = usuario.getIdUsuario();
+		String nombreJuego = tituloJuego;
 
+		if (nombreJuego == null || nombreJuego.trim().isEmpty()) {
+			System.out.println("El nombre del juego no puede estar vacío.");
+			return;
+		}
+
+		try (Connection conn = Conector.conectar()) {
+			int idJuego = MetodosSQL.obtenerIdJuego(conn, nombreJuego);
+
+			if (MetodosSQL.agregarJuegoAUsuario(conn, idUsuario, idJuego)) {
+				System.out.println("Juego agregado correctamente.");
+
+				mostrarMenu(menuAnadirListaNoJugado);
+			} else {
+				System.out.println("Error al agregar el juego a la lista.");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 
 	@FXML
@@ -288,6 +420,7 @@ public class JuegoInfoController {
 					stDelete.setInt(1, usuario.getIdUsuario());
 					stDelete.setInt(2, idJuego);
 					stDelete.executeUpdate();
+					mostrarMenu(menuGeneral);
 					VentanaUtil.mostrarAlerta("Juego Eliminado", "El juego ha sido eliminado de la biblioteca.");
 				}
 			}
@@ -300,17 +433,108 @@ public class JuegoInfoController {
 
 	@FXML
 	void btnEliminarListaPressed(MouseEvent event) {
+		try {
+			int juegoId = MetodosSQL.obtenerIdJuego(conn, tituloJuego);
+			boolean eliminado = MetodosSQL.verificarJuegoEnListaDeseos(usuario.getIdUsuario(), juegoId);
 
+			if (eliminado) {
+				VentanaUtil.mostrarAlerta("Mensaje Juego", "Juego eliminado de la lista de deseos.");
+				mostrarMenu(menuGeneral);
+			} else {
+				VentanaUtil.mostrarAlerta("Mensaje Juego", "No se pudo eliminar el juego.");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 
 	@FXML
 	void btnJugadoPressed(MouseEvent event) {
+		try {
+			int juegoId = MetodosSQL.obtenerIdJuego(conn, tituloJuego);
 
+			if (juegoId == -1) {
+				// Si el juego no existe, insertarlo en la base de datos
+				String insertJuegoSQL = "INSERT INTO juegos (titulo, descripcion, fecha_lanzamiento, creado_por_usuario, tiempo_jugado, desarrolladores, pegi, url_1, url_2, url_3, url_4, url_5, generos, plataformas) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+				try (PreparedStatement stInsertJuego = conn.prepareStatement(insertJuegoSQL,
+						Statement.RETURN_GENERATED_KEYS)) {
+					String fechaLanzamientoString = juego.getFechaLanzamiento();
+					SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
+					java.util.Date utilFechaLanzamiento = formato.parse(fechaLanzamientoString);
+					java.sql.Date sqlFechaLanzamiento = new java.sql.Date(utilFechaLanzamiento.getTime());
+
+					stInsertJuego.setString(1, juego.getTitulo());
+					stInsertJuego.setString(2, juego.getDescripcion());
+					stInsertJuego.setDate(3, sqlFechaLanzamiento);
+					stInsertJuego.setBoolean(4, false);
+					stInsertJuego.setInt(5, juego.getTiempo_jugado());
+					stInsertJuego.setString(6, juego.getDevs().toString());
+					stInsertJuego.setString(7, juego.getPegi());
+					stInsertJuego.setString(8, juego.getImagenPrincipal());
+
+					// Manejo seguro de capturas de pantalla (evita IndexOutOfBoundsException)
+					for (int i = 0; i < 4; i++) {
+						if (i < juego.getCapturasImagenes().size()) {
+							stInsertJuego.setString(9 + i, juego.getCapturasImagenes().get(i));
+						} else {
+							stInsertJuego.setString(9 + i, null);
+						}
+					}
+
+					stInsertJuego.setString(13, juego.getGeneros().toString());
+					stInsertJuego.setString(14, juego.getPlataformas().toString());
+
+					stInsertJuego.executeUpdate();
+
+					// Obtener el id del juego insertado
+					try (ResultSet rs = stInsertJuego.getGeneratedKeys()) {
+						if (rs.next()) {
+							juegoId = rs.getInt(1); // Asignamos el nuevo ID
+						} else {
+							throw new SQLException("No se pudo obtener el ID del juego insertado.");
+						}
+					}
+				}
+			}
+
+			// Verificar si ya está marcado como jugado
+			boolean agregado = MetodosSQL.verificarJuegoJugado(usuario.getIdUsuario(), juegoId);
+
+			if (!agregado) {
+				boolean insertado = MetodosSQL.insertarJuegoJugado(usuario.getIdUsuario(), juegoId);
+				if (insertado) {
+					VentanaUtil.mostrarAlerta("Mensaje Juego", "Juego marcado como jugado.");
+					mostrarMenu(menuJugadoSinAnadir);
+				} else {
+					VentanaUtil.mostrarAlerta("Mensaje Juego", "No se pudo marcar como jugado.");
+				}
+			} else {
+				VentanaUtil.mostrarAlerta("Mensaje Juego", "Este juego ya estaba marcado como jugado.");
+				mostrarMenu(menuJugadoAnanidoLista);
+			}
+		} catch (SQLException | ParseException e) {
+			e.printStackTrace();
+			VentanaUtil.mostrarAlerta("Error", "Ocurrió un error al marcar el juego como jugado.");
+		}
 	}
 
 	@FXML
 	void btnNoJugadoPressed(MouseEvent event) {
+		try {
+			int juegoId = MetodosSQL.obtenerIdJuego(conn, tituloJuego);
+			boolean jugado = MetodosSQL.verificarJuegoJugado(usuario.getIdUsuario(), juegoId);
 
+			if (jugado) {
+				VentanaUtil.mostrarAlerta("Mensaje Juego", "Juego marcado como no jugado.");
+				mostrarMenu(menuAnadirListaNoJugado);
+			} else {
+				MetodosSQL.insertarJuegoJugado(usuario.getIdUsuario(), juegoId);
+				VentanaUtil.mostrarAlerta("Mensaje Juego", "Juego Marcado como jugado.");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 
 	@FXML
@@ -332,6 +556,10 @@ public class JuegoInfoController {
 	}
 
 	public void setUsuario(Usuario usuario) {
+		if (usuario.equals(null)) {
+			return;
+		}
+
 		this.usuario = usuario;
 	}
 
